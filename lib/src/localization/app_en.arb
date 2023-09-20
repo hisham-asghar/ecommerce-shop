@@ -1,0 +1,6 @@
+{
+  "appTitle": "my_shop_ecommerce_flutter",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
