@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_ecommerce_flutter/src/home/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/product_list/product_list.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,10 +8,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // TODO: custom app bar
-        title: Text('MyShop'),
-      ),
+      appBar: HomeAppBar(),
       // TODO: Carousel
       body: ProductList(),
     );

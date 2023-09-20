@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/product_list/product_data.dart';
+import 'package:my_shop_ecommerce_flutter/src/home/home_app_bar.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/product_page/add_to_cart_box.dart';
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({Key? key, required this.data}) : super(key: key);
-  final ProductData data;
+  const ProductPage({Key? key, required this.product}) : super(key: key);
+  final Product product;
 
   // TODO: named routes
-  static Route route(ProductData data) {
+  static Route route(Product product) {
     return MaterialPageRoute(
-      builder: (_) => ProductPage(data: data),
+      builder: (_) => ProductPage(product: product),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: ProductPageContents(data: data),
+      appBar: HomeAppBar(),
+      body: ProductPageContents(product: product),
     );
   }
 }
 
 class ProductPageContents extends StatelessWidget {
-  const ProductPageContents({Key? key, required this.data}) : super(key: key);
-  final ProductData data;
+  const ProductPageContents({Key? key, required this.product})
+      : super(key: key);
+  final Product product;
   @override
   Widget build(BuildContext context) {
     // TODO: Responsive layout
@@ -36,7 +38,7 @@ class ProductPageContents extends StatelessWidget {
         children: [
           Flexible(
             flex: 1,
-            child: Image.network(data.imageUrl),
+            child: Image.network(product.imageUrl),
           ),
           SizedBox(width: Sizes.p24),
           Flexible(
@@ -44,14 +46,15 @@ class ProductPageContents extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(data.title, style: Theme.of(context).textTheme.headline5),
+                Text(product.title,
+                    style: Theme.of(context).textTheme.headline5),
                 SizedBox(height: Sizes.p24),
-                Text('Price: ${data.price}',
+                Text('Price: ${product.price}',
                     style: Theme.of(context).textTheme.subtitle1),
                 SizedBox(height: Sizes.p24),
-                Text(data.description),
+                Text(product.description),
                 SizedBox(height: Sizes.p24),
-                AddToCartBox(),
+                AddToCartBox(product: product),
               ],
             ),
           ),

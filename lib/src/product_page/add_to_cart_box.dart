@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart_item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 
-class AddToCartBox extends StatefulWidget {
-  const AddToCartBox({Key? key}) : super(key: key);
+class AddToCartBox extends ConsumerStatefulWidget {
+  const AddToCartBox({Key? key, required this.product}) : super(key: key);
+  final Product product;
 
   @override
-  State<AddToCartBox> createState() => _AddToCartBoxState();
+  ConsumerState<AddToCartBox> createState() => _AddToCartBoxState();
 }
 
-class _AddToCartBoxState extends State<AddToCartBox> {
+class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
   var _quantity = 1;
+
+  void _addToCart() {
+    final item = CartItem(
+      productId: widget.product.id,
+      quantity: _quantity,
+    );
+    ref.read(cartProvider.notifier).addItem(item);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +55,9 @@ class _AddToCartBoxState extends State<AddToCartBox> {
                 ),
               ],
             ),
-            SizedBox(
-              height: Sizes.p64,
-              child: ElevatedButton(
-                onPressed: () => print('pressed'),
-                child: Text(
-                  'Add to Cart',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      // TODO: Do not hardcode
-                      .copyWith(color: Colors.white),
-                ),
-              ),
+            PrimaryButton(
+              onPressed: _addToCart,
+              text: 'Add to Cart',
             ),
           ],
         ),

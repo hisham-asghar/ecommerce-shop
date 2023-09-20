@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/product_list/product_data.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key, required this.data, this.onPressed})
+  const ProductCard({Key? key, required this.product, this.onPressed})
       : super(key: key);
-  final ProductData data;
+  final Product product;
   final VoidCallback? onPressed;
 
   @override
@@ -19,13 +19,13 @@ class ProductCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(data.imageUrl),
+              Image.network(product.imageUrl),
               const SizedBox(height: 8.0),
-              Text(data.title),
+              Text(product.title),
               const SizedBox(height: 8.0),
               // TODO: Add reviews
               // TODO: Format with intl
-              Text(data.price.toString()),
+              Text(product.price.toString()),
             ],
           ),
         ),
