@@ -23,7 +23,14 @@ class MyApp extends StatelessWidget {
       ],
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appTitle,
-      theme: ThemeData(),
+      theme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.black, // background (button) color
+            onPrimary: Colors.white, // foreground (text) color
+          ),
+        ),
+      ),
       home: HomePage(),
     );
   }

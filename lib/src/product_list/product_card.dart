@@ -10,9 +10,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Card(
+    return Card(
+      child: InkWell(
+        // TODO: Tweak splash effect
+        onTap: onPressed,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
           child: Column(

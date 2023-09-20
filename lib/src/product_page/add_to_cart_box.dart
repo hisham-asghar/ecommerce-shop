@@ -42,14 +42,19 @@ class _AddToCartBoxState extends State<AddToCartBox> {
                 ),
               ],
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                // TODO: Do not hardcode, use theming
-                primary: Colors.black,
-                onPrimary: Colors.white,
+            SizedBox(
+              height: Sizes.p64,
+              child: ElevatedButton(
+                onPressed: () => print('pressed'),
+                child: Text(
+                  'Add to Cart',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      // TODO: Do not hardcode
+                      .copyWith(color: Colors.white),
+                ),
               ),
-              onPressed: () => print('pressed'),
-              child: const Text('Add to Cart'),
             ),
           ],
         ),

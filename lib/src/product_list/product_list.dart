@@ -39,32 +39,40 @@ class ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Make it all scrollable inside a sliver
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Latest Products', style: Theme.of(context).textTheme.headline4),
-        SizedBox(height: Sizes.p32),
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 400,
-              childAspectRatio: 0.8,
-              mainAxisSpacing: Sizes.p32,
-              crossAxisSpacing: Sizes.p32,
-            ),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final data = products[index];
-              return ProductCard(
-                data: data,
-                onPressed: () => Navigator.of(context).push(
-                  ProductPage.route(data),
-                ),
-              );
-            },
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.all(Sizes.p16),
+          sliver: SliverToBoxAdapter(
+            child: Text('Latest Products',
+                style: Theme.of(context).textTheme.headline4),
           ),
-        )
+        ),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: Sizes.p16),
+        ),
+        SliverPadding(
+            padding: const EdgeInsets.all(Sizes.p16),
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final data = products[index];
+                  return ProductCard(
+                    data: data,
+                    onPressed: () => Navigator.of(context).push(
+                      ProductPage.route(data),
+                    ),
+                  );
+                },
+                childCount: products.length,
+              ),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 400,
+                childAspectRatio: 0.8,
+                mainAxisSpacing: Sizes.p32,
+                crossAxisSpacing: Sizes.p32,
+              ),
+            )),
       ],
     );
   }
