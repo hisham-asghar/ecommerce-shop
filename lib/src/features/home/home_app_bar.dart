@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_ecommerce_flutter/src/shopping_cart/shopping_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart.dart';
 
 class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
   const HomeAppBar({Key? key}) : super(key: key);

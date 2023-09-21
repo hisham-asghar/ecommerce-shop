@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/product_list/product_card.dart';
-import 'package:my_shop_ecommerce_flutter/src/product_page/product_page.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({Key? key}) : super(key: key);

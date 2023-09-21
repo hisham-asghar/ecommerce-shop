@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/home/home_app_bar.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/home/home_app_bar.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/product_page/add_to_cart_box.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);
