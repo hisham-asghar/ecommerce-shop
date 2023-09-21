@@ -88,6 +88,7 @@ class ShoppingCartCheckout extends StatelessWidget {
         const SizedBox(height: Sizes.p24),
         PrimaryButton(
           text: 'Checkout',
+          // TODO: Implement
           onPressed: () => print('Implement me'),
         ),
       ],

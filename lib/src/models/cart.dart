@@ -5,7 +5,6 @@ import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 class Cart extends StateNotifier<List<CartItem>> {
   Cart() : super([]);
 
-  // TODO: Unit tests
   void addItem(CartItem item) {
     final itemIndex = state.indexOf(item);
     // if item already exists, update quantity
@@ -27,6 +26,18 @@ class Cart extends StateNotifier<List<CartItem>> {
     final list = List<CartItem>.from(state);
     list.remove(item);
     state = list;
+  }
+
+  bool updateItemIfExists(CartItem item) {
+    final itemIndex = state.indexOf(item);
+    if (itemIndex >= 0) {
+      final list = List<CartItem>.from(state);
+      list[itemIndex] = item;
+      state = list;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   static double total(List<CartItem> items) => items

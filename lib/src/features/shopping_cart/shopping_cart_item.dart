@@ -16,6 +16,12 @@ class ShoppingCartItem extends ConsumerWidget {
     cart.removeItem(item);
   }
 
+  void updateQuantity(WidgetRef ref, int quantity) {
+    final cart = ref.read(cartProvider.notifier);
+    final updated = CartItem(productId: item.productId, quantity: quantity);
+    cart.updateItemIfExists(updated);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = findProduct(item.productId);
