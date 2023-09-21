@@ -6,21 +6,27 @@ class Cart extends StateNotifier<List<CartItem>> {
   Cart() : super([]);
 
   // TODO: Unit tests
-  void addItem(CartItem newItem) {
-    final itemIndex = state.indexOf(newItem);
+  void addItem(CartItem item) {
+    final itemIndex = state.indexOf(item);
     // if item already exists, update quantity
     if (itemIndex >= 0) {
       final list = List<CartItem>.from(state);
       list[itemIndex] = CartItem(
-          productId: newItem.productId,
-          quantity: newItem.quantity + state[itemIndex].quantity);
+          productId: item.productId,
+          quantity: item.quantity + state[itemIndex].quantity);
       state = list;
       // else insert as new item
     } else {
       final list = List<CartItem>.from(state);
-      list.add(newItem);
+      list.add(item);
       state = list;
     }
+  }
+
+  void removeItem(CartItem item) {
+    final list = List<CartItem>.from(state);
+    list.remove(item);
+    state = list;
   }
 
   static double total(List<CartItem> items) => items

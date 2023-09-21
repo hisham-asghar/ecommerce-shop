@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/secondary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 
-class ShoppingCartItem extends StatelessWidget {
+class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({Key? key, required this.item}) : super(key: key);
   final CartItem item;
 
+  void deleteItem(WidgetRef ref) {
+    final cart = ref.read(cartProvider.notifier);
+    cart.removeItem(item);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final product = findProduct(item.productId);
     // TODO: Row on large layouts, column on mobile
     return Card(
@@ -23,7 +30,7 @@ class ShoppingCartItem extends StatelessWidget {
               flex: 1,
               child: Image.network(product.imageUrl),
             ),
-            SizedBox(width: Sizes.p24),
+            const SizedBox(width: Sizes.p24),
             Flexible(
               flex: 1,
               child: Column(
@@ -31,16 +38,16 @@ class ShoppingCartItem extends StatelessWidget {
                 children: [
                   Text(product.title,
                       style: Theme.of(context).textTheme.headline5),
-                  SizedBox(height: Sizes.p24),
+                  const SizedBox(height: Sizes.p24),
                   Text('Price: ${product.price}',
                       style: Theme.of(context).textTheme.subtitle1),
-                  SizedBox(height: Sizes.p24),
+                  const SizedBox(height: Sizes.p24),
                   Text(product.description),
                   const SizedBox(height: 8.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Quantity: '),
+                      const Text('Quantity: '),
                       ItemQuantityDropdown(
                         value: item.quantity,
                         // TODO: Implement
@@ -48,10 +55,8 @@ class ShoppingCartItem extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // TODO: Delete
                   SecondaryButton(
-                    // TODO: Implement
-                    onPressed: () => print('implement me'),
+                    onPressed: () => deleteItem(ref),
                     text: 'Delete',
                     color: Colors.red,
                   ),

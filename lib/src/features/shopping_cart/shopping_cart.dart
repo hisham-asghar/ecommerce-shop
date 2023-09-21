@@ -31,15 +31,6 @@ class ShoppingCartContents extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(cartProvider);
     final total = Cart.total(items);
-    // TODO: List of items
-    // Each item:
-    // - image
-    // - name
-    // - price
-    // - quantity dropdown
-    // - delete button
-
-    // Then show summary with checkout button
     return CustomScrollView(
       slivers: [
         SliverPadding(
