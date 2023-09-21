@@ -10,7 +10,7 @@ class ShoppingCartPage extends StatelessWidget {
 
   static Route route() {
     return MaterialPageRoute(
-      builder: (_) => ShoppingCartPage(),
+      builder: (_) => const ShoppingCartPage(),
       fullscreenDialog: true,
     );
   }
@@ -19,7 +19,7 @@ class ShoppingCartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: ShoppingCartContents(),
+      body: const ShoppingCartContents(),
     );
   }
 }

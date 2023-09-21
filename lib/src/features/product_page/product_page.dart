@@ -18,7 +18,7 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeAppBar(),
+      appBar: const HomeAppBar(),
       body: ProductPageContents(product: product),
     );
   }
@@ -40,7 +40,7 @@ class ProductPageContents extends StatelessWidget {
             flex: 1,
             child: Image.network(product.imageUrl),
           ),
-          SizedBox(width: Sizes.p24),
+          const SizedBox(width: Sizes.p24),
           Flexible(
             flex: 1,
             child: Column(
@@ -48,12 +48,12 @@ class ProductPageContents extends StatelessWidget {
               children: [
                 Text(product.title,
                     style: Theme.of(context).textTheme.headline5),
-                SizedBox(height: Sizes.p24),
+                const SizedBox(height: Sizes.p24),
                 Text('Price: ${product.price}',
                     style: Theme.of(context).textTheme.subtitle1),
-                SizedBox(height: Sizes.p24),
+                const SizedBox(height: Sizes.p24),
                 Text(product.description),
-                SizedBox(height: Sizes.p24),
+                const SizedBox(height: Sizes.p24),
                 AddToCartBox(product: product),
               ],
             ),

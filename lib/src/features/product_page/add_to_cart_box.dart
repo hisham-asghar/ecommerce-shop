@@ -23,6 +23,8 @@ class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
       quantity: _quantity,
     );
     ref.read(cartProvider.notifier).addItem(item);
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Added to cart')));
   }
 
   @override
@@ -34,7 +36,7 @@ class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
           color: Colors.black54,
           width: 1,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(Sizes.p4)),
+        borderRadius: const BorderRadius.all(Radius.circular(Sizes.p4)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -45,7 +47,7 @@ class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Quantity:'),
+                const Text('Quantity:'),
                 ItemQuantityDropdown(
                   value: _quantity,
                   onChanged: (quantity) {
