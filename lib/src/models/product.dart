@@ -18,6 +18,10 @@ class Product {
   final double price;
   // TODO: Add reviews
 
+  @override
+  String toString() {
+    return 'Product(title: $title, price: $price)';
+  }
 }
 
 final faker = Faker();

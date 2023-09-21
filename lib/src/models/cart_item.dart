@@ -6,16 +6,41 @@ class CartItem {
       : assert(quantity > 0);
   final String productId;
   final int quantity;
+
+  @override
+  int get hashCode => productId.hashCode;
+
+  @override
+  bool operator ==(covariant CartItem other) {
+    return other.productId == productId;
+  }
+
+  @override
+  String toString() {
+    final product = findProduct(productId);
+    return 'CartItem(product: $product, quantity: $quantity)';
+  }
 }
 
 class Cart extends StateNotifier<List<CartItem>> {
   Cart() : super([]);
 
-  void addItem(CartItem item) {
-    // TODO: Implement properly
-    final newState = List<CartItem>.from(state);
-    newState.add(item);
-    state = newState;
+  // TODO: Unit tests
+  void addItem(CartItem newItem) {
+    final itemIndex = state.indexOf(newItem);
+    // if item already exists, update quantity
+    if (itemIndex >= 0) {
+      final list = List<CartItem>.from(state);
+      list[itemIndex] = CartItem(
+          productId: newItem.productId,
+          quantity: newItem.quantity + state[itemIndex].quantity);
+      state = list;
+      // else insert as new item
+    } else {
+      final list = List<CartItem>.from(state);
+      list.add(newItem);
+      state = list;
+    }
   }
 
   static double total(List<CartItem> items) => items
