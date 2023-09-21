@@ -30,6 +30,14 @@ class ShoppingCartContents extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(cartProvider);
+    if (items.isEmpty) {
+      return Center(
+        child: Text(
+          'Shopping Cart is empty',
+          style: Theme.of(context).textTheme.headline3,
+        ),
+      );
+    }
     final total = Cart.total(items);
     return CustomScrollView(
       slivers: [
