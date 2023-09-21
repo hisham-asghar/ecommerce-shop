@@ -42,7 +42,6 @@ class ShoppingCartContents extends ConsumerWidget {
     // Then show summary with checkout button
     return CustomScrollView(
       slivers: [
-        // TODO: Carousel?
         SliverPadding(
           padding: const EdgeInsets.all(Sizes.p16),
           sliver: SliverToBoxAdapter(

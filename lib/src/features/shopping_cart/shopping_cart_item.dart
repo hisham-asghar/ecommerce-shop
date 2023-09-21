@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/secondary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart_item.dart';
@@ -42,9 +43,17 @@ class ShoppingCartItem extends StatelessWidget {
                       Text('Quantity: '),
                       ItemQuantityDropdown(
                         value: item.quantity,
+                        // TODO: Implement
                         onChanged: (_) => print('implement me'),
                       ),
                     ],
+                  ),
+                  // TODO: Delete
+                  SecondaryButton(
+                    // TODO: Implement
+                    onPressed: () => print('implement me'),
+                    text: 'Delete',
+                    color: Colors.red,
                   ),
                 ],
               ),
