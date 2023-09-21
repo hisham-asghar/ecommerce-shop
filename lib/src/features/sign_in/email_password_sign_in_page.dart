@@ -6,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/mock_auth_service.dart';
 
 class EmailPasswordSignInPage extends StatefulWidget {
   const EmailPasswordSignInPage(
@@ -16,9 +17,11 @@ class EmailPasswordSignInPage extends StatefulWidget {
 
   static Route route() {
     return MaterialPageRoute(
-      builder: (_) => EmailPasswordSignInPage(
-        model: EmailPasswordSignInModel(),
-        //onSignedIn: () => Navigator.of(context).pop(),
+      builder: (context) => EmailPasswordSignInPage(
+        model: EmailPasswordSignInModel(
+          authService: MockAuthService(),
+        ),
+        onSignedIn: () => Navigator.of(context).pop(),
       ),
       fullscreenDialog: true,
     );
@@ -42,13 +45,6 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   EmailPasswordSignInModel get model => widget.model;
-
-  @override
-  void initState() {
-    super.initState();
-    // Temporary workaround to update state until a replacement for ChangeNotifierProvider is found
-    model.addListener(() => setState(() {}));
-  }
 
   @override
   void dispose() {

@@ -81,6 +81,15 @@ class ShoppingCartCheckout extends StatelessWidget {
   const ShoppingCartCheckout({Key? key, required this.total}) : super(key: key);
   final double total;
 
+  Future<void> _checkout(BuildContext context) async {
+    // TODO: Check signed-in state
+    await Navigator.of(context).push(
+      EmailPasswordSignInPage.route(),
+    );
+    // TODO: Shipping/billing address...
+    print('signed in');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -89,9 +98,7 @@ class ShoppingCartCheckout extends StatelessWidget {
         const SizedBox(height: Sizes.p24),
         PrimaryButton(
           text: 'Checkout',
-          onPressed: () => Navigator.of(context).push(
-            EmailPasswordSignInPage.route(),
-          ),
+          onPressed: () => _checkout(context),
         ),
       ],
     );

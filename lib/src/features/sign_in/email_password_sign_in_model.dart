@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
 
@@ -17,14 +18,14 @@ class EmailAndPasswordValidators {
 
 class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
   EmailPasswordSignInModel({
-    //required this.firebaseAuth,
+    required this.authService,
     this.email = '',
     this.password = '',
     this.formType = EmailPasswordSignInFormType.signIn,
     this.isLoading = false,
     this.submitted = false,
   });
-  //final FirebaseAuth firebaseAuth;
+  final AuthService authService;
 
   String email;
   String password;
@@ -41,15 +42,13 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
       updateWith(isLoading: true);
       switch (formType) {
         case EmailPasswordSignInFormType.signIn:
-          // await firebaseAuth.signInWithCredential(
-          //     EmailAuthProvider.credential(email: email, password: password));
+          await authService.signInWithEmailAndPassword(email, password);
           break;
         case EmailPasswordSignInFormType.register:
-          // await firebaseAuth.createUserWithEmailAndPassword(
-          //     email: email, password: password);
+          await authService.createUserWithEmailAndPassword(email, password);
           break;
         case EmailPasswordSignInFormType.forgotPassword:
-          // await firebaseAuth.sendPasswordResetEmail(email: email);
+          await authService.sendPasswordResetEmail(email);
           updateWith(isLoading: false);
           break;
       }
