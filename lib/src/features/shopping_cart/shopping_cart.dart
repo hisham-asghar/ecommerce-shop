@@ -5,6 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 class ShoppingCartPage extends StatelessWidget {
   const ShoppingCartPage({Key? key}) : super(key: key);
@@ -77,28 +78,35 @@ class ShoppingCartContents extends ConsumerWidget {
   }
 }
 
-class ShoppingCartCheckout extends StatelessWidget {
+class ShoppingCartCheckout extends ConsumerWidget {
   const ShoppingCartCheckout({Key? key, required this.total}) : super(key: key);
   final double total;
 
-  Future<void> _checkout(BuildContext context) async {
-    // TODO: Check signed-in state
-    await Navigator.of(context).push(
-      EmailPasswordSignInPage.route(),
-    );
-    // TODO: Shipping/billing address...
-    print('signed in');
+  Future<void> _checkout(BuildContext context, WidgetRef ref) async {
+    // TODO: Move this logic outside widget
+    final authService = ref.read(authServiceProvider);
+    if (authService.isSignedIn) {
+      print('Enter shipping address');
+    } else {
+      final success = await Navigator.of(context).push(
+        EmailPasswordSignInPage.route(authService),
+      );
+      if (success) {
+        // TODO: Shipping/billing address...
+        print('signed in');
+      }
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         Text('Total: $total', style: Theme.of(context).textTheme.headline5),
         const SizedBox(height: Sizes.p24),
         PrimaryButton(
           text: 'Checkout',
-          onPressed: () => _checkout(context),
+          onPressed: () => _checkout(context, ref),
         ),
       ],
     );

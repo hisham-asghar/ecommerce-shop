@@ -2,11 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/mock_auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 class EmailPasswordSignInPage extends StatefulWidget {
   const EmailPasswordSignInPage(
@@ -15,24 +16,17 @@ class EmailPasswordSignInPage extends StatefulWidget {
   final EmailPasswordSignInModel model;
   final VoidCallback? onSignedIn;
 
-  static Route route() {
+  static Route route(AuthService authService) {
     return MaterialPageRoute(
       builder: (context) => EmailPasswordSignInPage(
         model: EmailPasswordSignInModel(
-          authService: MockAuthService(),
+          authService: authService,
         ),
-        onSignedIn: () => Navigator.of(context).pop(),
+        onSignedIn: () => Navigator.of(context).pop(true),
       ),
       fullscreenDialog: true,
     );
   }
-  // factory EmailPasswordSignInPage.withFirebaseAuth(FirebaseAuth firebaseAuth,
-  //     {required VoidCallback onSignedIn}) {
-  //   return EmailPasswordSignInPage(
-  //     model: EmailPasswordSignInModel(firebaseAuth: firebaseAuth),
-  //     onSignedIn: onSignedIn,
-  //   );
-  // }
 
   @override
   _EmailPasswordSignInPageState createState() =>
@@ -56,11 +50,11 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
   }
 
   void _showSignInError(EmailPasswordSignInModel model, dynamic exception) {
-    // showExceptionAlertDialog(
-    //   context: context,
-    //   title: model.errorAlertTitle,
-    //   exception: exception,
-    // );
+    showExceptionAlertDialog(
+      context: context,
+      title: model.errorAlertTitle,
+      exception: exception,
+    );
   }
 
   Future<void> _submit() async {
@@ -68,12 +62,12 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
       final bool success = await model.submit();
       if (success) {
         if (model.formType == EmailPasswordSignInFormType.forgotPassword) {
-          // await showAlertDialog(
-          //   context: context,
-          //   title: EmailPasswordSignInStrings.resetLinkSentTitle,
-          //   content: EmailPasswordSignInStrings.resetLinkSentMessage,
-          //   defaultActionText: EmailPasswordSignInStrings.ok,
-          // );
+          await showAlertDialog(
+            context: context,
+            title: EmailPasswordSignInStrings.resetLinkSentTitle,
+            content: EmailPasswordSignInStrings.resetLinkSentMessage,
+            defaultActionText: EmailPasswordSignInStrings.ok,
+          );
         } else {
           widget.onSignedIn?.call();
         }
