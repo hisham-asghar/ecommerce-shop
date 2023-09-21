@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_outlined_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/secondary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
@@ -53,7 +53,7 @@ class ShoppingCartItem extends ConsumerWidget {
                   ),
                 ],
               ),
-              SecondaryButton(
+              CustomOutlinedButton(
                 onPressed: () => deleteItem(ref),
                 text: 'Delete',
                 color: Colors.red,

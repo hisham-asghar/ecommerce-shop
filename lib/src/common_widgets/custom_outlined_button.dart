@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
-class SecondaryButton extends StatelessWidget {
-  const SecondaryButton(
+class CustomOutlinedButton extends StatelessWidget {
+  const CustomOutlinedButton(
       {Key? key, required this.text, required this.color, this.onPressed})
       : super(key: key);
   final String text;

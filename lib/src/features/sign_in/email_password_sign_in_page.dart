@@ -155,8 +155,7 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
             PrimaryButton(
               key: const Key('primary-button'),
               text: model.primaryButtonText,
-              // TODO: Loading state
-              //loading: model.isLoading,
+              isLoading: model.isLoading,
               onPressed: model.isLoading ? null : _submit,
             ),
             const SizedBox(height: 8.0),
