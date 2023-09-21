@@ -12,8 +12,9 @@ class Cart extends StateNotifier<List<CartItem>> {
 
   void addItem(CartItem item) {
     // TODO: Implement properly
-
-    state.add(item);
+    final newState = List<CartItem>.from(state);
+    newState.add(item);
+    state = newState;
   }
 }
 
