@@ -27,37 +27,39 @@ class ShoppingCartItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final product = findProduct(item.productId);
     return Card(
-      child: ResponsiveTwoColumnLayout(
+      child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),
-        startContent: Image.network(product.imageUrl),
-        spacing: Sizes.p24,
-        endContent: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(product.title, style: Theme.of(context).textTheme.headline5),
-            const SizedBox(height: Sizes.p24),
-            Text('Price: ${product.price}',
-                style: Theme.of(context).textTheme.subtitle1),
-            const SizedBox(height: Sizes.p24),
-            Text(product.description),
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Quantity: '),
-                ItemQuantityDropdown(
-                  value: item.quantity,
-                  // TODO: Implement
-                  onChanged: (_) => print('implement me'),
-                ),
-              ],
-            ),
-            SecondaryButton(
-              onPressed: () => deleteItem(ref),
-              text: 'Delete',
-              color: Colors.red,
-            ),
-          ],
+        child: ResponsiveTwoColumnLayout(
+          startContent: Image.network(product.imageUrl),
+          spacing: Sizes.p24,
+          endContent: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(product.title, style: Theme.of(context).textTheme.headline5),
+              const SizedBox(height: Sizes.p24),
+              Text('Price: ${product.price}',
+                  style: Theme.of(context).textTheme.subtitle1),
+              const SizedBox(height: Sizes.p24),
+              Text(product.description),
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Quantity: '),
+                  ItemQuantityDropdown(
+                    value: item.quantity,
+                    // TODO: Implement
+                    onChanged: (_) => print('implement me'),
+                  ),
+                ],
+              ),
+              SecondaryButton(
+                onPressed: () => deleteItem(ref),
+                text: 'Delete',
+                color: Colors.red,
+              ),
+            ],
+          ),
         ),
       ),
     );
