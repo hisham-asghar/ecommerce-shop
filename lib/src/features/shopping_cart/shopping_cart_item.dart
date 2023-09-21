@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/secondary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
@@ -25,68 +26,39 @@ class ShoppingCartItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = findProduct(item.productId);
-    // TODO: Row on large layouts, column on mobile
     return Card(
-      child: Padding(
+      child: ResponsiveTwoColumnLayout(
         padding: const EdgeInsets.all(Sizes.p16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        startContent: Image.network(product.imageUrl),
+        spacing: Sizes.p24,
+        endContent: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Flexible(
-              flex: 1,
-              child: Image.network(product.imageUrl),
+            Text(product.title, style: Theme.of(context).textTheme.headline5),
+            const SizedBox(height: Sizes.p24),
+            Text('Price: ${product.price}',
+                style: Theme.of(context).textTheme.subtitle1),
+            const SizedBox(height: Sizes.p24),
+            Text(product.description),
+            const SizedBox(height: 8.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Quantity: '),
+                ItemQuantityDropdown(
+                  value: item.quantity,
+                  // TODO: Implement
+                  onChanged: (_) => print('implement me'),
+                ),
+              ],
             ),
-            const SizedBox(width: Sizes.p24),
-            Flexible(
-              flex: 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(product.title,
-                      style: Theme.of(context).textTheme.headline5),
-                  const SizedBox(height: Sizes.p24),
-                  Text('Price: ${product.price}',
-                      style: Theme.of(context).textTheme.subtitle1),
-                  const SizedBox(height: Sizes.p24),
-                  Text(product.description),
-                  const SizedBox(height: 8.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Quantity: '),
-                      ItemQuantityDropdown(
-                        value: item.quantity,
-                        // TODO: Implement
-                        onChanged: (_) => print('implement me'),
-                      ),
-                    ],
-                  ),
-                  SecondaryButton(
-                    onPressed: () => deleteItem(ref),
-                    text: 'Delete',
-                    color: Colors.red,
-                  ),
-                ],
-              ),
+            SecondaryButton(
+              onPressed: () => deleteItem(ref),
+              text: 'Delete',
+              color: Colors.red,
             ),
           ],
         ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     Image.network(product.imageUrl),
-        //     const SizedBox(height: 8.0),
-        //     Text(product.title),
-        //     const SizedBox(height: 8.0),
-        //     // TODO: Format with intl
-        //     Text(product.price.toString()),
-        // const SizedBox(height: 8.0),
-        // ItemQuantityDropdown(
-        //   value: item.quantity,
-        //   onChanged: (_) => print('implement me'),
-        // ),
-        //   ],
-        // ),
       ),
     );
   }
