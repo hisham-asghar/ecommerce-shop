@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart_item.dart';
@@ -29,7 +30,7 @@ class ShoppingCartContents extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(cartProvider);
-
+    final total = Cart.total(items);
     // TODO: List of items
     // Each item:
     // - image
@@ -64,7 +65,33 @@ class ShoppingCartContents extends ConsumerWidget {
             ),
           ),
         ),
-        // TODO: Checkout section
+        SliverPadding(
+          padding: const EdgeInsets.all(Sizes.p16),
+          sliver: SliverToBoxAdapter(
+            child: ShoppingCartCheckout(
+              total: total,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ShoppingCartCheckout extends StatelessWidget {
+  const ShoppingCartCheckout({Key? key, required this.total}) : super(key: key);
+  final double total;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text('Total: $total', style: Theme.of(context).textTheme.headline5),
+        const SizedBox(height: Sizes.p24),
+        PrimaryButton(
+          text: 'Checkout',
+          onPressed: () => print('Implement me'),
+        ),
       ],
     );
   }

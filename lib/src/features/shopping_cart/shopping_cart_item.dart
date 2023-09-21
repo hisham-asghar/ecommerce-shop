@@ -15,22 +15,58 @@ class ShoppingCartItem extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(product.imageUrl),
-            const SizedBox(height: 8.0),
-            Text(product.title),
-            const SizedBox(height: 8.0),
-            // TODO: Format with intl
-            Text(product.price.toString()),
-            const SizedBox(height: 8.0),
-            ItemQuantityDropdown(
-              value: item.quantity,
-              onChanged: (_) => print('implement me'),
+            Flexible(
+              flex: 1,
+              child: Image.network(product.imageUrl),
+            ),
+            SizedBox(width: Sizes.p24),
+            Flexible(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(product.title,
+                      style: Theme.of(context).textTheme.headline5),
+                  SizedBox(height: Sizes.p24),
+                  Text('Price: ${product.price}',
+                      style: Theme.of(context).textTheme.subtitle1),
+                  SizedBox(height: Sizes.p24),
+                  Text(product.description),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Quantity: '),
+                      ItemQuantityDropdown(
+                        value: item.quantity,
+                        onChanged: (_) => print('implement me'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     Image.network(product.imageUrl),
+        //     const SizedBox(height: 8.0),
+        //     Text(product.title),
+        //     const SizedBox(height: 8.0),
+        //     // TODO: Format with intl
+        //     Text(product.price.toString()),
+        // const SizedBox(height: 8.0),
+        // ItemQuantityDropdown(
+        //   value: item.quantity,
+        //   onChanged: (_) => print('implement me'),
+        // ),
+        //   ],
+        // ),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:my_shop_ecommerce_flutter/src/home/home_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/home/home_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({
