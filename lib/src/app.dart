@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           AppLocalizations.of(context)!.appTitle,
       theme: ThemeData(
         // TODO: Figure out swatch
+        primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black87,
           foregroundColor: Colors.white,

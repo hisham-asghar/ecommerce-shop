@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 
 class ShoppingCartPage extends StatelessWidget {
@@ -88,8 +89,9 @@ class ShoppingCartCheckout extends StatelessWidget {
         const SizedBox(height: Sizes.p24),
         PrimaryButton(
           text: 'Checkout',
-          // TODO: Implement
-          onPressed: () => print('Implement me'),
+          onPressed: () => Navigator.of(context).push(
+            EmailPasswordSignInPage.route(),
+          ),
         ),
       ],
     );

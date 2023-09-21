@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
@@ -13,6 +14,15 @@ class EmailPasswordSignInPage extends StatefulWidget {
   final EmailPasswordSignInModel model;
   final VoidCallback? onSignedIn;
 
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (_) => EmailPasswordSignInPage(
+        model: EmailPasswordSignInModel(),
+        //onSignedIn: () => Navigator.of(context).pop(),
+      ),
+      fullscreenDialog: true,
+    );
+  }
   // factory EmailPasswordSignInPage.withFirebaseAuth(FirebaseAuth firebaseAuth,
   //     {required VoidCallback onSignedIn}) {
   //   return EmailPasswordSignInPage(
@@ -69,9 +79,7 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
           //   defaultActionText: EmailPasswordSignInStrings.ok,
           // );
         } else {
-          if (widget.onSignedIn != null) {
-            widget.onSignedIn?.call();
-          }
+          widget.onSignedIn?.call();
         }
       }
     } catch (e) {
@@ -162,18 +170,17 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
               onPressed: model.isLoading ? null : _submit,
             ),
             const SizedBox(height: 8.0),
-            TextButton(
+            CustomTextButton(
               key: const Key('secondary-button'),
-              child: Text(model.secondaryButtonText),
+              text: model.secondaryButtonText,
               onPressed: model.isLoading
                   ? null
                   : () => _updateFormType(model.secondaryActionFormType),
             ),
             if (model.formType == EmailPasswordSignInFormType.signIn)
-              TextButton(
+              CustomTextButton(
                 key: const Key('tertiary-button'),
-                child: const Text(
-                    EmailPasswordSignInStrings.forgotPasswordQuestion),
+                text: EmailPasswordSignInStrings.forgotPasswordQuestion,
                 onPressed: model.isLoading
                     ? null
                     : () => _updateFormType(
@@ -202,7 +209,10 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: _buildContent(),
+                  child: AnimatedBuilder(
+                    animation: model,
+                    builder: (context, _) => _buildContent(),
+                  ),
                 ),
               ),
             );
