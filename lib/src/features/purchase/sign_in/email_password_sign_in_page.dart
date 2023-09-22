@@ -1,12 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_strings.dart';
 //import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 class EmailPasswordSignInPage extends StatefulWidget {
@@ -183,23 +182,10 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: LayoutBuilder(builder: (context, constraints) {
-          return Container(
-            width: min(constraints.maxWidth, 600),
-            padding: const EdgeInsets.all(16.0),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: AnimatedBuilder(
-                  animation: model,
-                  builder: (context, _) => _buildContent(),
-                ),
-              ),
-            ),
-          );
-        }),
+    return ScrollablePage(
+      child: AnimatedBuilder(
+        animation: model,
+        builder: (context, _) => _buildContent(),
       ),
     );
   }

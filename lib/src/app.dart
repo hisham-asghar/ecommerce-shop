@@ -38,6 +38,10 @@ class MyApp extends StatelessWidget {
             onPrimary: Colors.white, // foreground (text) color
           ),
         ),
+        tabBarTheme: const TabBarTheme(
+          // TODO: Figure out properties
+          labelColor: Colors.white,
+        ),
       ),
       home: const HomePage(),
     );
