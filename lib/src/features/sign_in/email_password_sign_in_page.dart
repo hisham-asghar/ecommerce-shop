@@ -7,7 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+//import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 class EmailPasswordSignInPage extends StatefulWidget {
   const EmailPasswordSignInPage(
@@ -16,17 +16,17 @@ class EmailPasswordSignInPage extends StatefulWidget {
   final EmailPasswordSignInModel model;
   final VoidCallback? onSignedIn;
 
-  static Route route(AuthService authService) {
-    return MaterialPageRoute(
-      builder: (context) => EmailPasswordSignInPage(
-        model: EmailPasswordSignInModel(
-          authService: authService,
-        ),
-        onSignedIn: () => Navigator.of(context).pop(true),
-      ),
-      fullscreenDialog: true,
-    );
-  }
+  // static Route route(AuthService authService) {
+  //   return MaterialPageRoute(
+  //     builder: (context) => EmailPasswordSignInPage(
+  //       model: EmailPasswordSignInModel(
+  //         authService: authService,
+  //       ),
+  //       onSignedIn: () => Navigator.of(context).pop(true),
+  //     ),
+  //     fullscreenDialog: true,
+  //   );
+  // }
 
   @override
   _EmailPasswordSignInPageState createState() =>
@@ -183,30 +183,23 @@ class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 2.0,
-        title: Text(model.title),
-      ),
-      backgroundColor: Colors.grey[200],
-      body: SingleChildScrollView(
-        child: Center(
-          child: LayoutBuilder(builder: (context, constraints) {
-            return Container(
-              width: min(constraints.maxWidth, 600),
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: AnimatedBuilder(
-                    animation: model,
-                    builder: (context, _) => _buildContent(),
-                  ),
+    return SingleChildScrollView(
+      child: Center(
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Container(
+            width: min(constraints.maxWidth, 600),
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: AnimatedBuilder(
+                  animation: model,
+                  builder: (context, _) => _buildContent(),
                 ),
               ),
-            );
-          }),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

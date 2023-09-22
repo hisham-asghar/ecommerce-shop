@@ -23,8 +23,9 @@ class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
       quantity: _quantity,
     );
     ref.read(cartProvider.notifier).addItem(item);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Added to cart')));
+    // TODO: Restore
+    //ScaffoldMessenger.of(context)
+    //    .showSnackBar(const SnackBar(content: Text('Added to cart')));
   }
 
   @override

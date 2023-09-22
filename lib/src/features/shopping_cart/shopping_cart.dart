@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/purchase/purchase_sequence.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 class ShoppingCartPage extends StatelessWidget {
   const ShoppingCartPage({Key? key}) : super(key: key);
@@ -83,19 +82,22 @@ class ShoppingCartCheckout extends ConsumerWidget {
   final double total;
 
   Future<void> _checkout(BuildContext context, WidgetRef ref) async {
+    await Navigator.of(context).push(
+      PurchaseSequence.route(),
+    );
     // TODO: Move this logic outside widget
-    final authService = ref.read(authServiceProvider);
-    if (authService.isSignedIn) {
-      print('Enter shipping address');
-    } else {
-      final success = await Navigator.of(context).push(
-        EmailPasswordSignInPage.route(authService),
-      );
-      if (success) {
-        // TODO: Shipping/billing address...
-        print('signed in');
-      }
-    }
+    // final authService = ref.read(authServiceProvider);
+    // if (authService.isSignedIn) {
+    //   print('Enter shipping address');
+    // } else {
+    //   final success = await Navigator.of(context).push(
+    //     EmailPasswordSignInPage.route(authService),
+    //   );
+    //   if (success) {
+    //     // TODO: Shipping/billing address...
+    //     print('signed in');
+    //   }
+    // }
   }
 
   @override
