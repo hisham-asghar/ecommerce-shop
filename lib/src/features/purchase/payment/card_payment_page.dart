@@ -1,16 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 
 /// Borrowed from flutter_stripe example app
-class NoWebhookPaymentCardFormScreen extends StatefulWidget {
+class CardPaymentPage extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute(
+      builder: (context) => CardPaymentPage(),
+      fullscreenDialog: true,
+    );
+  }
+
   @override
-  _NoWebhookPaymentCardFormScreenState createState() =>
-      _NoWebhookPaymentCardFormScreenState();
+  _CardPaymentPageState createState() => _CardPaymentPageState();
 }
 
-class _NoWebhookPaymentCardFormScreenState
-    extends State<NoWebhookPaymentCardFormScreen> {
+class _CardPaymentPageState extends State<CardPaymentPage> {
   final controller = CardFormEditController();
 
   @override
@@ -29,43 +37,50 @@ class _NoWebhookPaymentCardFormScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          CardFormField(
-            controller: controller,
-          ),
-          PrimaryButton(
-            onPressed: controller.details.complete == true
-                ? () => print('Implement payment')
-                : null,
-            text: 'Pay',
-          ),
-          Divider(),
-          Padding(
-            padding: EdgeInsets.all(8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                OutlinedButton(
-                  onPressed: () => controller.focus(),
-                  child: Text('Focus'),
-                ),
-                SizedBox(width: 12),
-                OutlinedButton(
-                  onPressed: () => controller.blur(),
-                  child: Text('Blur'),
-                ),
-              ],
+    return Scaffold(
+      appBar: AppBar(),
+      body: ScrollablePage(
+        //padding: EdgeInsets.symmetric(horizontal: Sizes.p16),
+        child: Column(
+          children: [
+            // TODO: Make this testable
+            // TODO: Figure out how to support web
+            Platform.isIOS || Platform.isAndroid
+                ? CardFormField(
+                    controller: controller,
+                  )
+                : const Text('Card payment not supported on platform'),
+            PrimaryButton(
+              onPressed: controller.details.complete == true
+                  ? () => print('Implement payment')
+                  : null,
+              text: 'Pay',
             ),
-          ),
-          // Divider(),
-          // SizedBox(height: 20),
-          // ResponseCard(
-          //   response: controller.details.toJson().toPrettyString(),
-          // )
-        ],
+            // Divider(),
+            // Padding(
+            //   padding: EdgeInsets.all(8),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       OutlinedButton(
+            //         onPressed: () => controller.focus(),
+            //         child: Text('Focus'),
+            //       ),
+            //       SizedBox(width: 12),
+            //       OutlinedButton(
+            //         onPressed: () => controller.blur(),
+            //         child: Text('Blur'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Divider(),
+            // SizedBox(height: 20),
+            // ResponseCard(
+            //   response: controller.details.toJson().toPrettyString(),
+            // )
+          ],
+        ),
       ),
     );
   }
