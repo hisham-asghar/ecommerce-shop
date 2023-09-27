@@ -13,7 +13,7 @@ class ScrollablePage extends StatelessWidget {
       child: Center(
         child: LayoutBuilder(builder: (context, constraints) {
           return Container(
-            width: min(constraints.maxWidth, 600),
+            width: min(constraints.maxWidth, FormFactor.tablet),
             padding: const EdgeInsets.all(Sizes.p16),
             child: Card(
               child: Padding(

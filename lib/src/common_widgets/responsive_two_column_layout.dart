@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
 class ResponsiveTwoColumnLayout extends StatelessWidget {
   const ResponsiveTwoColumnLayout({
@@ -7,7 +8,7 @@ class ResponsiveTwoColumnLayout extends StatelessWidget {
     required this.endContent,
     this.startFlex = 1,
     this.endFlex = 1,
-    this.breakpoint = 500,
+    this.breakpoint = FormFactor.tablet,
     required this.spacing,
   }) : super(key: key);
   final Widget startContent;

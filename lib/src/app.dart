@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appTitle,
       theme: ThemeData(
+        visualDensity: const VisualDensity(),
         // TODO: Figure out swatch
         primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(
