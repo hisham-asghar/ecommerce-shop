@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/card_payment_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 
 class PaymentPage extends ConsumerWidget {
@@ -13,11 +13,43 @@ class PaymentPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(cartProvider);
     final total = Cart.total(items);
-    return ScrollablePage(
+    return CustomScrollView(
+      slivers: [
+        const SliverToBoxAdapter(
+          child: SizedBox(height: Sizes.p16),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.all(Sizes.p16),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final item = items[index];
+                // TODO: Should these be editable??
+                return ShoppingCartItem(item: item);
+              },
+              childCount: items.length,
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: OrderPaymentOptions(total: total),
+        ),
+      ],
+    );
+  }
+}
+
+class OrderPaymentOptions extends StatelessWidget {
+  const OrderPaymentOptions({Key? key, required this.total}) : super(key: key);
+  final double total;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Sizes.p16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // TODO: Order summary
           Text(
             'Order total: \$$total',
             style: Theme.of(context).textTheme.headline5,
@@ -41,7 +73,7 @@ class PaymentPage extends ConsumerWidget {
           PrimaryButton(
             text: 'Google Pay',
             onPressed: () => print('Implement ME!'),
-          ),
+          )
         ],
       ),
     );
