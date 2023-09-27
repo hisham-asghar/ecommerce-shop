@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/payment_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
@@ -69,10 +70,7 @@ class _PurchaseSequenceState extends ConsumerState<PurchaseSequence>
               _tabController.index = 2;
             },
           ),
-          // TODO: Payment
-          Center(
-            child: Text("It's sunny here"),
-          ),
+          const PaymentPage(),
         ],
       ),
     );
