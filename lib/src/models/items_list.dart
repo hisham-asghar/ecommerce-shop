@@ -12,4 +12,17 @@ class ItemsList {
           .map((item) => item.quantity * findProduct(item.productId).price)
           // then add them up
           .reduce((value, element) => value + element);
+
+  @override
+  int get hashCode => items.hashCode;
+
+  @override
+  bool operator ==(covariant ItemsList other) {
+    return items == other.items;
+  }
+
+  @override
+  String toString() {
+    return 'ItemsList($items)';
+  }
 }

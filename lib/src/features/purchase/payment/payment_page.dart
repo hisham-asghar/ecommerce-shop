@@ -16,6 +16,7 @@ class PaymentPage extends ConsumerStatefulWidget {
 
 class _PaymentPageState extends ConsumerState<PaymentPage> {
   // Order returned when the payment is complete
+  // It's ok to store this as local state as we expect the user to dismiss the page afterwards
   Order? _order;
   bool get didCompleteOrder => _order != null;
 
@@ -37,7 +38,6 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final item = itemsList.items[index];
-                // TODO: Should these be editable?
                 return ShoppingCartItem(
                   item: item,
                   isEditable: !didCompleteOrder,
@@ -48,7 +48,6 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
           ),
         ),
         SliverToBoxAdapter(
-          // TODO: Show order confirmation if order is complete
           child: didCompleteOrder
               ? OrderConfirmationDetails(order: _order!)
               : OrderPaymentOptions(

@@ -39,6 +39,10 @@ class Cart extends StateNotifier<ItemsList> {
       return false;
     }
   }
+
+  void removeAll() {
+    state = ItemsList([]);
+  }
 }
 
 final cartProvider = StateNotifierProvider<Cart, ItemsList>((ref) {

@@ -33,6 +33,8 @@ class CardPaymentPage extends ConsumerStatefulWidget {
 class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
   final controller = CardFormEditController();
 
+  var _isLoading = false;
+
   // TODO: Review
   @override
   void initState() {
@@ -50,6 +52,7 @@ class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
 
   // TODO: Move this to more appropriate place
   void _placeOrder() async {
+    final cart = ref.read(cartProvider.notifier);
     final itemsList = ref.read(cartProvider);
     final auth = ref.read(authServiceProvider);
     final ordersManager = ref.read(ordersProvider);
@@ -61,9 +64,17 @@ class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
       paymentStatus: PaymentStatus.paid,
       deliveryStatus: DeliveryStatus.notDelivered,
     );
-    // TODO: Try catch...
-    await ordersManager.placeOrder(order);
-    widget.onOrderCompleted?.call(order);
+    try {
+      setState(() => _isLoading = true);
+      await ordersManager.placeOrder(order);
+      cart.removeAll();
+      setState(() => _isLoading = false);
+      widget.onOrderCompleted?.call(order);
+    } catch (e) {
+      setState(() => _isLoading = false);
+      // TODO: Proper error handling
+      print(e.toString());
+    }
   }
 
   @override
@@ -85,6 +96,7 @@ class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
                       !Platform.isIOS && !Platform.isAndroid
                   ? _placeOrder
                   : null,
+              isLoading: _isLoading,
               text: 'Pay',
             ),
             // Divider(),
