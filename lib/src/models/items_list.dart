@@ -17,8 +17,11 @@ class ItemsList {
   int get hashCode => items.hashCode;
 
   @override
-  bool operator ==(covariant ItemsList other) {
-    return items == other.items;
+  bool operator ==(Object other) {
+    if (other is ItemsList) {
+      return items == other.items;
+    }
+    return false;
   }
 
   @override

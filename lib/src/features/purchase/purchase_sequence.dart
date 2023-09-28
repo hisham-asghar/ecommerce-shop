@@ -4,6 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/payment_
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/purchase_sequence_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
@@ -34,11 +35,33 @@ class _PurchaseSequenceState extends ConsumerState<PurchaseSequence>
 
   static const titles = ['Sign In', 'Address', 'Payment'];
 
+  // Order returned when the payment is complete
+  // It's ok to store this as local state as we expect the user to dismiss the page afterwards
+  Order? _order;
+  bool get didCompleteOrder => _order != null;
+
+  Future<void> _handleOrderCompleted(Order order) async {
+    setState(() => _order = order);
+  }
+
+  void _onClose() {
+    if (_order != null) {
+      // TODO: Choose based on route name (only dismiss up to shopping bag)
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } else {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authService = ref.watch(authServiceProvider);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: _onClose,
+        ),
         // Use an animated builder to ensure the title updates on page transition
         title: AnimatedBuilder(
           animation: _purchaseSequenceController,
@@ -77,7 +100,10 @@ class _PurchaseSequenceState extends ConsumerState<PurchaseSequence>
           AddressPage(
             onDataSubmitted: () => _purchaseSequenceController.updateIndex(),
           ),
-          const PaymentPage(),
+          PaymentPage(
+            order: _order,
+            onOrderCompleted: _handleOrderCompleted,
+          ),
         ],
       ),
     );

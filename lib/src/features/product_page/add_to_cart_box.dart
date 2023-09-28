@@ -91,7 +91,7 @@ class ItemQuantityDropdown extends StatelessWidget {
       ),
       onChanged: onChanged,
       items: [
-        for (var i in [1, 2, 3, 4])
+        for (var i in [1, 2, 3, 4, 5, 6, 7, 8, 9])
           DropdownMenuItem<int>(
             value: i,
             child: Text('$i'),

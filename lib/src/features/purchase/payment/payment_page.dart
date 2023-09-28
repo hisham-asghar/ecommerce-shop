@@ -7,26 +7,19 @@ import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_ca
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 
-class PaymentPage extends ConsumerStatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+class PaymentPage extends ConsumerWidget {
+  const PaymentPage({Key? key, this.order, this.onOrderCompleted})
+      : super(key: key);
+  final Order? order;
+  final void Function(Order order)? onOrderCompleted;
+
+  bool get didCompleteOrder => order != null;
 
   @override
-  ConsumerState<PaymentPage> createState() => _PaymentPageState();
-}
-
-class _PaymentPageState extends ConsumerState<PaymentPage> {
-  // Order returned when the payment is complete
-  // It's ok to store this as local state as we expect the user to dismiss the page afterwards
-  Order? _order;
-  bool get didCompleteOrder => _order != null;
-
-  Future<void> _handleOrderCompleted(Order order) async {
-    setState(() => _order = order);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final itemsList = ref.watch(cartProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Show items list or order list
+    final itemsList =
+        order != null ? order!.itemsList : ref.watch(cartProvider);
     return CustomScrollView(
       slivers: [
         const SliverToBoxAdapter(
@@ -49,10 +42,10 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
         ),
         SliverToBoxAdapter(
           child: didCompleteOrder
-              ? OrderConfirmationDetails(order: _order!)
+              ? OrderConfirmationDetails(order: order!)
               : OrderPaymentOptions(
                   total: itemsList.total(),
-                  onOrderCompleted: _handleOrderCompleted,
+                  onOrderCompleted: onOrderCompleted,
                 ),
         ),
       ],
