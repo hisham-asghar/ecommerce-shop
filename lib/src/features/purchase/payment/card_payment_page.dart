@@ -50,13 +50,13 @@ class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
 
   // TODO: Move this to more appropriate place
   void _placeOrder() async {
-    final items = ref.read(cartProvider);
+    final itemsList = ref.read(cartProvider);
     final auth = ref.read(authServiceProvider);
     final ordersManager = ref.read(ordersProvider);
     final order = Order(
       id: Uuid().v1(),
       userId: auth.uid!, // safe to use ! as we must be logged in if we get here
-      items: List.from(items),
+      itemsList: itemsList,
       // TODO: Update with real payment status
       paymentStatus: PaymentStatus.paid,
       deliveryStatus: DeliveryStatus.notDelivered,

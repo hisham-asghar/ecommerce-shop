@@ -1,54 +1,46 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/items_list.dart';
 
-class Cart extends StateNotifier<List<Item>> {
-  Cart() : super([]);
+class Cart extends StateNotifier<ItemsList> {
+  Cart() : super(ItemsList([]));
 
   void addItem(Item item) {
-    final itemIndex = state.indexOf(item);
+    final itemIndex = state.items.indexOf(item);
     // if item already exists, update quantity
     if (itemIndex >= 0) {
-      final list = List<Item>.from(state);
+      final list = List<Item>.from(state.items);
       list[itemIndex] = Item(
           productId: item.productId,
-          quantity: item.quantity + state[itemIndex].quantity);
-      state = list;
+          quantity: item.quantity + state.items[itemIndex].quantity);
+      state = ItemsList(list);
       // else insert as new item
     } else {
-      final list = List<Item>.from(state);
+      final list = List<Item>.from(state.items);
       list.add(item);
-      state = list;
+      state = ItemsList(list);
     }
   }
 
   void removeItem(Item item) {
-    final list = List<Item>.from(state);
+    final list = List<Item>.from(state.items);
     list.remove(item);
-    state = list;
+    state = ItemsList(list);
   }
 
   bool updateItemIfExists(Item item) {
-    final itemIndex = state.indexOf(item);
+    final itemIndex = state.items.indexOf(item);
     if (itemIndex >= 0) {
-      final list = List<Item>.from(state);
+      final list = List<Item>.from(state.items);
       list[itemIndex] = item;
-      state = list;
+      state = ItemsList(list);
       return true;
     } else {
       return false;
     }
   }
-
-  static double total(List<Item> items) => items.isEmpty
-      ? 0.0
-      : items
-          // first extract quantity * price for each item
-          .map((item) => item.quantity * findProduct(item.productId).price)
-          // then add them up
-          .reduce((value, element) => value + element);
 }
 
-final cartProvider = StateNotifierProvider<Cart, List<Item>>((ref) {
+final cartProvider = StateNotifierProvider<Cart, ItemsList>((ref) {
   return Cart();
 });

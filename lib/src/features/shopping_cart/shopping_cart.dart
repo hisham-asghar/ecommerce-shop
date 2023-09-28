@@ -30,8 +30,8 @@ class ShoppingCartContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(cartProvider);
-    if (items.isEmpty) {
+    final itemsList = ref.watch(cartProvider);
+    if (itemsList.items.isEmpty) {
       return Center(
         child: Text(
           'Shopping Cart is empty',
@@ -39,7 +39,6 @@ class ShoppingCartContents extends ConsumerWidget {
         ),
       );
     }
-    final total = Cart.total(items);
     return CustomScrollView(
       slivers: [
         SliverPadding(
@@ -57,10 +56,10 @@ class ShoppingCartContents extends ConsumerWidget {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                final item = items[index];
+                final item = itemsList.items[index];
                 return ShoppingCartItem(item: item);
               },
-              childCount: items.length,
+              childCount: itemsList.items.length,
             ),
           ),
         ),
@@ -68,7 +67,7 @@ class ShoppingCartContents extends ConsumerWidget {
           padding: const EdgeInsets.all(Sizes.p16),
           sliver: SliverToBoxAdapter(
             child: ShoppingCartCheckout(
-              total: total,
+              total: itemsList.total(),
             ),
           ),
         ),

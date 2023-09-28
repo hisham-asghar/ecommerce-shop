@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/items_list.dart';
 
 enum PaymentStatus { notPaid, paid }
 
@@ -8,7 +8,7 @@ class Order {
   Order({
     required this.id,
     required this.userId,
-    required this.items,
+    required this.itemsList,
     required this.paymentStatus,
     required this.deliveryStatus,
   });
@@ -20,7 +20,7 @@ class Order {
   final String userId;
 
   /// List of items in that order
-  final List<Item> items;
+  final ItemsList itemsList;
   final PaymentStatus paymentStatus;
   final DeliveryStatus deliveryStatus;
 

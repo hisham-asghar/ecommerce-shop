@@ -23,8 +23,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final items = ref.watch(cartProvider);
-    final total = Cart.total(items);
+    final itemsList = ref.watch(cartProvider);
     return CustomScrollView(
       slivers: [
         const SliverToBoxAdapter(
@@ -35,21 +34,21 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                final item = items[index];
+                final item = itemsList.items[index];
                 // TODO: Should these be editable?
                 return ShoppingCartItem(
                   item: item,
                   isEditable: _order == null,
                 );
               },
-              childCount: items.length,
+              childCount: itemsList.items.length,
             ),
           ),
         ),
         SliverToBoxAdapter(
           // TODO: Show order confirmation if order is complete
           child: OrderPaymentOptions(
-            total: total,
+            total: itemsList.total(),
             onOrderCompleted: _handleOrderCompleted,
           ),
         ),
