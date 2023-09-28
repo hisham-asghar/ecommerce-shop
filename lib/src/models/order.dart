@@ -2,7 +2,29 @@ import 'package:my_shop_ecommerce_flutter/src/models/items_list.dart';
 
 enum PaymentStatus { notPaid, paid }
 
+extension PaymentStatusString on PaymentStatus {
+  String status() {
+    switch (this) {
+      case PaymentStatus.notPaid:
+        return 'Not Paid';
+      case PaymentStatus.paid:
+        return 'Completed';
+    }
+  }
+}
+
 enum DeliveryStatus { notDelivered, delivered }
+
+extension DeliveryStatusString on DeliveryStatus {
+  String status() {
+    switch (this) {
+      case DeliveryStatus.notDelivered:
+        return 'Not Delivered';
+      case DeliveryStatus.delivered:
+        return 'Delivered';
+    }
+  }
+}
 
 class Order {
   Order({

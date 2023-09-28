@@ -34,6 +34,8 @@ class ShoppingCartItem extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),
         child: ResponsiveTwoColumnLayout(
+          startFlex: 1,
+          endFlex: 2,
           startContent: Image.network(product.imageUrl),
           spacing: Sizes.p24,
           endContent: Column(

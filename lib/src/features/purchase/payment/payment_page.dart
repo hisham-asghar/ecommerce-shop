@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/order_confirmation_details.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/order_payment_options.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
@@ -16,6 +17,7 @@ class PaymentPage extends ConsumerStatefulWidget {
 class _PaymentPageState extends ConsumerState<PaymentPage> {
   // Order returned when the payment is complete
   Order? _order;
+  bool get didCompleteOrder => _order != null;
 
   Future<void> _handleOrderCompleted(Order order) async {
     setState(() => _order = order);
@@ -38,7 +40,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
                 // TODO: Should these be editable?
                 return ShoppingCartItem(
                   item: item,
-                  isEditable: _order == null,
+                  isEditable: !didCompleteOrder,
                 );
               },
               childCount: itemsList.items.length,
@@ -47,10 +49,12 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
         ),
         SliverToBoxAdapter(
           // TODO: Show order confirmation if order is complete
-          child: OrderPaymentOptions(
-            total: itemsList.total(),
-            onOrderCompleted: _handleOrderCompleted,
-          ),
+          child: didCompleteOrder
+              ? OrderConfirmationDetails(order: _order!)
+              : OrderPaymentOptions(
+                  total: itemsList.total(),
+                  onOrderCompleted: _handleOrderCompleted,
+                ),
         ),
       ],
     );
