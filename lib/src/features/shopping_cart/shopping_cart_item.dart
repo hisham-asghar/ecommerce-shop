@@ -4,13 +4,15 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_colu
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart_item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 
 class ShoppingCartItem extends ConsumerWidget {
-  const ShoppingCartItem({Key? key, required this.item}) : super(key: key);
-  final CartItem item;
+  const ShoppingCartItem({Key? key, required this.item, this.isEditable = true})
+      : super(key: key);
+  final Item item;
+  final bool isEditable;
 
   void _deleteItem(WidgetRef ref) {
     final cart = ref.read(cartProvider.notifier);
@@ -19,7 +21,7 @@ class ShoppingCartItem extends ConsumerWidget {
 
   void _updateQuantity(WidgetRef ref, int quantity) {
     final cart = ref.read(cartProvider.notifier);
-    final updated = CartItem(productId: item.productId, quantity: quantity);
+    final updated = Item(productId: item.productId, quantity: quantity);
     cart.updateItemIfExists(updated);
   }
 
@@ -44,21 +46,28 @@ class ShoppingCartItem extends ConsumerWidget {
               const SizedBox(height: Sizes.p24),
               Text(product.description),
               const SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Quantity: '),
-                  const Spacer(),
-                  ItemQuantityDropdown(
-                    value: item.quantity,
-                    onChanged: (quantity) => _updateQuantity(ref, quantity!),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete, color: Colors.red[700]),
-                    onPressed: () => _deleteItem(ref),
-                  ),
-                ],
-              ),
+              isEditable
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Quantity: '),
+                        const Spacer(),
+                        // TODO: use isEditable flag
+                        ItemQuantityDropdown(
+                          value: item.quantity,
+                          onChanged: (quantity) =>
+                              _updateQuantity(ref, quantity!),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red[700]),
+                          onPressed: () => _deleteItem(ref),
+                        ),
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+                      child: Text('Quantity: ${item.quantity}'),
+                    ),
             ],
           ),
         ),

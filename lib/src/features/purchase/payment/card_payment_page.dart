@@ -1,15 +1,27 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/orders_manager.dart';
+import 'package:uuid/uuid.dart';
 
 /// Borrowed from flutter_stripe example app
-class CardPaymentPage extends StatefulWidget {
+class CardPaymentPage extends ConsumerStatefulWidget {
+  const CardPaymentPage({Key? key, this.onOrderCompleted}) : super(key: key);
+  final Function(Order order)? onOrderCompleted;
+
   static Route route() {
     return MaterialPageRoute(
-      builder: (context) => CardPaymentPage(),
+      builder: (context) => CardPaymentPage(
+        onOrderCompleted: (order) => Navigator.of(context).pop(order),
+      ),
       fullscreenDialog: true,
     );
   }
@@ -18,9 +30,10 @@ class CardPaymentPage extends StatefulWidget {
   _CardPaymentPageState createState() => _CardPaymentPageState();
 }
 
-class _CardPaymentPageState extends State<CardPaymentPage> {
+class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
   final controller = CardFormEditController();
 
+  // TODO: Review
   @override
   void initState() {
     controller.addListener(update);
@@ -35,6 +48,24 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
     super.dispose();
   }
 
+  // TODO: Move this to more appropriate place
+  void _placeOrder() async {
+    final items = ref.read(cartProvider);
+    final auth = ref.read(authServiceProvider);
+    final ordersManager = ref.read(ordersProvider);
+    final order = Order(
+      id: Uuid().v1(),
+      userId: auth.uid!, // safe to use ! as we must be logged in if we get here
+      items: List.from(items),
+      // TODO: Update with real payment status
+      paymentStatus: PaymentStatus.paid,
+      deliveryStatus: DeliveryStatus.notDelivered,
+    );
+    // TODO: Try catch...
+    await ordersManager.placeOrder(order);
+    widget.onOrderCompleted?.call(order);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,17 +73,17 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
       body: ScrollablePage(
         //padding: EdgeInsets.symmetric(horizontal: Sizes.p16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // TODO: Make this testable
-            // TODO: Figure out how to support web
+            // TODO: Figure out how to support web: https://github.com/flutter-stripe/flutter_stripe/issues/36
             Platform.isIOS || Platform.isAndroid
-                ? CardFormField(
-                    controller: controller,
-                  )
-                : const Text('Card payment not supported on platform'),
+                ? CardFormField(controller: controller)
+                : const UnsupportedPlatformPaymentPlaceholder(),
             PrimaryButton(
-              onPressed: controller.details.complete == true
-                  ? () => print('Implement payment')
+              onPressed: controller.details.complete == true ||
+                      !Platform.isIOS && !Platform.isAndroid
+                  ? _placeOrder
                   : null,
               text: 'Pay',
             ),
@@ -217,4 +248,25 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
   //   );
   //   return json.decode(response.body);
   // }
+}
+
+class UnsupportedPlatformPaymentPlaceholder extends StatelessWidget {
+  const UnsupportedPlatformPaymentPlaceholder({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Sizes.p32),
+      child: Column(children: const [
+        Placeholder(
+          fallbackHeight: 200,
+        ),
+        SizedBox(height: Sizes.p16),
+        Text(
+          'Payment not supported on platform',
+          textAlign: TextAlign.center,
+        ),
+      ]),
+    );
+  }
 }
