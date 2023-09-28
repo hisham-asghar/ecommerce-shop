@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/provider_logger.dart';
 
 import 'src/app.dart';
@@ -14,9 +13,9 @@ void main() async {
   if (Platform.isIOS || Platform.isAndroid) {
     // TODO: Provide key
     //Stripe.publishableKey = stripePublishableKey;
-    Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
-    Stripe.urlScheme = 'flutterstripe';
-    await Stripe.instance.applySettings();
+    // Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+    // Stripe.urlScheme = 'flutterstripe';
+    // await Stripe.instance.applySettings();
   }
 
   runApp(ProviderScope(
