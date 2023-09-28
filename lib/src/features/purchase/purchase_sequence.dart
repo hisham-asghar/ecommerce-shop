@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/payment_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/purchase/purchase_sequence_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 import 'address/address_page.dart';
 
@@ -24,16 +26,26 @@ class PurchaseSequence extends ConsumerStatefulWidget {
 class _PurchaseSequenceState extends ConsumerState<PurchaseSequence>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
+  late final _purchaseSequenceController = PurchaseSequenceController(
+    authService: ref.read(authServiceProvider),
+    dataStore: ref.read(dataStoreProvider),
+    tabController: _tabController,
+  )..updateIndex();
 
   static const titles = ['Sign In', 'Address', 'Payment'];
-  var title = 'Sign In';
 
   @override
   Widget build(BuildContext context) {
     final authService = ref.watch(authServiceProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(titles[_tabController.index]),
+        // Use an animated builder to ensure the title updates on page transition
+        title: AnimatedBuilder(
+          animation: _purchaseSequenceController,
+          builder: (context, _) {
+            return Text(titles[_tabController.index]);
+          },
+        ),
         bottom: ReadOnlyTabBar(
           child: TabBar(
             controller: _tabController,
@@ -60,15 +72,10 @@ class _PurchaseSequenceState extends ConsumerState<PurchaseSequence>
         children: <Widget>[
           EmailPasswordSignInPage(
             model: EmailPasswordSignInModel(authService: authService),
-            onSignedIn: () {
-              // Increment index to show next page in sequence
-              _tabController.index = 1;
-            },
+            onSignedIn: () => _purchaseSequenceController.updateIndex(),
           ),
           AddressPage(
-            onDataSubmitted: () {
-              _tabController.index = 2;
-            },
+            onDataSubmitted: () => _purchaseSequenceController.updateIndex(),
           ),
           const PaymentPage(),
         ],
