@@ -85,19 +85,6 @@ class ShoppingCartCheckout extends ConsumerWidget {
     await Navigator.of(context).push(
       PurchaseSequence.route(),
     );
-    // TODO: Move this logic outside widget
-    // final authService = ref.read(authServiceProvider);
-    // if (authService.isSignedIn) {
-    //   print('Enter shipping address');
-    // } else {
-    //   final success = await Navigator.of(context).push(
-    //     EmailPasswordSignInPage.route(authService),
-    //   );
-    //   if (success) {
-    //     // TODO: Shipping/billing address...
-    //     print('signed in');
-    //   }
-    // }
   }
 
   @override

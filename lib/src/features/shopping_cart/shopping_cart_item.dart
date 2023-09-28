@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_outlined_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
@@ -12,12 +11,12 @@ class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({Key? key, required this.item}) : super(key: key);
   final CartItem item;
 
-  void deleteItem(WidgetRef ref) {
+  void _deleteItem(WidgetRef ref) {
     final cart = ref.read(cartProvider.notifier);
     cart.removeItem(item);
   }
 
-  void updateQuantity(WidgetRef ref, int quantity) {
+  void _updateQuantity(WidgetRef ref, int quantity) {
     final cart = ref.read(cartProvider.notifier);
     final updated = CartItem(productId: item.productId, quantity: quantity);
     cart.updateItemIfExists(updated);
@@ -46,17 +45,16 @@ class ShoppingCartItem extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Quantity: '),
+                  const Spacer(),
                   ItemQuantityDropdown(
                     value: item.quantity,
-                    // TODO: Implement
-                    onChanged: (_) => print('implement me'),
+                    onChanged: (quantity) => _updateQuantity(ref, quantity!),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete, color: Colors.red[700]),
+                    onPressed: () => _deleteItem(ref),
                   ),
                 ],
-              ),
-              CustomOutlinedButton(
-                onPressed: () => deleteItem(ref),
-                text: 'Delete',
-                color: Colors.red,
               ),
             ],
           ),
