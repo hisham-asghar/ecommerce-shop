@@ -7,10 +7,12 @@ class PurchaseSequenceController with ChangeNotifier {
     required this.authService,
     required this.dataStore,
     required this.tabController,
-  });
+    // set this when the object is first created.
+  }) : needsTabView = !authService.isSignedIn && !dataStore.isAddressSet;
   final AuthService authService;
   final DataStore dataStore;
   final TabController tabController;
+  final bool needsTabView;
 
   int tabIndex() {
     var tabIndex = 0;
