@@ -6,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 
 class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({Key? key, required this.item}) : super(key: key);
@@ -25,6 +26,8 @@ class ShoppingCartItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = findProduct(item.productId);
+    final priceFormatted =
+        ref.watch(currentyFormatterProvider).format(product.price);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),
@@ -36,7 +39,7 @@ class ShoppingCartItem extends ConsumerWidget {
             children: [
               Text(product.title, style: Theme.of(context).textTheme.headline5),
               const SizedBox(height: Sizes.p24),
-              Text('Price: ${product.price}',
+              Text('Price: $priceFormatted',
                   style: Theme.of(context).textTheme.subtitle1),
               const SizedBox(height: Sizes.p24),
               Text(product.description),

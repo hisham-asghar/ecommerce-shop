@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({Key? key, required this.product}) : super(key: key);
@@ -25,12 +27,14 @@ class ProductPage extends StatelessWidget {
   }
 }
 
-class ProductPageContents extends StatelessWidget {
+class ProductPageContents extends ConsumerWidget {
   const ProductPageContents({Key? key, required this.product})
       : super(key: key);
   final Product product;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final priceFormatted =
+        ref.watch(currentyFormatterProvider).format(product.price);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),
@@ -42,7 +46,7 @@ class ProductPageContents extends StatelessWidget {
             children: [
               Text(product.title, style: Theme.of(context).textTheme.headline5),
               const SizedBox(height: Sizes.p24),
-              Text('Price: ${product.price}',
+              Text('Price: $priceFormatted',
                   style: Theme.of(context).textTheme.subtitle1),
               const SizedBox(height: Sizes.p24),
               Text(product.description),
