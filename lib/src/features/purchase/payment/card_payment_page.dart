@@ -92,10 +92,11 @@ class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
                 ? CardFormField(controller: controller)
                 : const UnsupportedPlatformPaymentPlaceholder(),
             PrimaryButton(
-              onPressed: controller.details.complete == true ||
-                      !Platform.isIOS && !Platform.isAndroid
-                  ? _placeOrder
-                  : null,
+              onPressed: _placeOrder,
+              // onPressed: controller.details.complete == true ||
+              //         !Platform.isIOS && !Platform.isAndroid
+              //     ? _placeOrder
+              //     : null,
               isLoading: _isLoading,
               text: 'Pay',
             ),
