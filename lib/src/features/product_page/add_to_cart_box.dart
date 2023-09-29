@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
+import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
@@ -29,7 +31,6 @@ class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
 
   @override
   Widget build(BuildContext context) {
-    // Alright let's do it with a dropdown
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -38,51 +39,21 @@ class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text('Quantity:'),
-            ItemQuantityDropdown(
-              value: _quantity,
+            ItemQuantitySelector(
+              quantity: _quantity,
               onChanged: (quantity) {
-                if (quantity != null) {
-                  setState(() => _quantity = quantity);
-                }
+                setState(() => _quantity = quantity);
               },
             ),
           ],
         ),
+        const SizedBox(height: Sizes.p8),
+        const Divider(),
+        const SizedBox(height: Sizes.p8),
         PrimaryButton(
           onPressed: _addToCart,
           text: 'Add to Cart',
         ),
-      ],
-    );
-  }
-}
-
-// TODO: GEEZ this is ugly! Make it better
-class ItemQuantityDropdown extends StatelessWidget {
-  const ItemQuantityDropdown({Key? key, required this.value, this.onChanged})
-      : super(key: key);
-  final int value;
-  final ValueChanged<int?>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<int>(
-      value: value,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: onChanged,
-      items: [
-        for (var i in [1, 2, 3, 4, 5, 6, 7, 8, 9])
-          DropdownMenuItem<int>(
-            value: i,
-            child: Text('$i'),
-          ),
       ],
     );
   }

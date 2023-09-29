@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
@@ -52,11 +52,10 @@ class ShoppingCartItem extends ConsumerWidget {
                       children: [
                         const Text('Quantity: '),
                         const Spacer(),
-                        // TODO: use isEditable flag
-                        ItemQuantityDropdown(
-                          value: item.quantity,
+                        ItemQuantitySelector(
+                          quantity: item.quantity,
                           onChanged: (quantity) =>
-                              _updateQuantity(ref, quantity!),
+                              _updateQuantity(ref, quantity),
                         ),
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.red[700]),
