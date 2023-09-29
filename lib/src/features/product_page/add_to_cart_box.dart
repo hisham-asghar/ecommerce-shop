@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
@@ -31,41 +30,29 @@ class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
   @override
   Widget build(BuildContext context) {
     // Alright let's do it with a dropdown
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black54,
-          width: 1,
-        ),
-        borderRadius: const BorderRadius.all(Radius.circular(Sizes.p4)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Quantity:'),
-                ItemQuantityDropdown(
-                  value: _quantity,
-                  onChanged: (quantity) {
-                    if (quantity != null) {
-                      setState(() => _quantity = quantity);
-                    }
-                  },
-                ),
-              ],
-            ),
-            PrimaryButton(
-              onPressed: _addToCart,
-              text: 'Add to Cart',
+            const Text('Quantity:'),
+            ItemQuantityDropdown(
+              value: _quantity,
+              onChanged: (quantity) {
+                if (quantity != null) {
+                  setState(() => _quantity = quantity);
+                }
+              },
             ),
           ],
         ),
-      ),
+        PrimaryButton(
+          onPressed: _addToCart,
+          text: 'Add to Cart',
+        ),
+      ],
     );
   }
 }

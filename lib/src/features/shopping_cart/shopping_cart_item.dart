@@ -43,11 +43,9 @@ class ShoppingCartItem extends ConsumerWidget {
             children: [
               Text(product.title, style: Theme.of(context).textTheme.headline5),
               const SizedBox(height: Sizes.p24),
-              Text('Price: $priceFormatted',
-                  style: Theme.of(context).textTheme.subtitle1),
+              Text(priceFormatted,
+                  style: Theme.of(context).textTheme.headline5),
               const SizedBox(height: Sizes.p24),
-              Text(product.description),
-              const SizedBox(height: 8.0),
               isEditable
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

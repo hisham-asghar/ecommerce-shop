@@ -24,11 +24,14 @@ class ProductCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.network(product.imageUrl),
-              const SizedBox(height: 8.0),
-              Text(product.title),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: Sizes.p8),
+              const Divider(),
+              const SizedBox(height: Sizes.p8),
+              Text(product.title, style: Theme.of(context).textTheme.headline6),
+              const SizedBox(height: Sizes.p24),
               // TODO: Add reviews
-              Text(priceFormatted),
+              Text(priceFormatted,
+                  style: Theme.of(context).textTheme.headline5),
             ],
           ),
         ),

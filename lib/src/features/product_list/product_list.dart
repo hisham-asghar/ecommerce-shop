@@ -39,6 +39,8 @@ class ProductList extends StatelessWidget {
             ),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 400,
+              // TODO: Aspect ratio / axis extent calculation
+              mainAxisExtent: 450,
               childAspectRatio: 0.8,
               mainAxisSpacing: Sizes.p32,
               crossAxisSpacing: Sizes.p32,
