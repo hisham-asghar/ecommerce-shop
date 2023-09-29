@@ -30,44 +30,47 @@ class ShoppingCartItem extends ConsumerWidget {
     final product = findProduct(item.productId);
     final priceFormatted =
         ref.watch(currentyFormatterProvider).format(product.price);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(Sizes.p16),
-        child: ResponsiveTwoColumnLayout(
-          startFlex: 1,
-          endFlex: 2,
-          startContent: Image.network(product.imageUrl),
-          spacing: Sizes.p24,
-          endContent: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(product.title, style: Theme.of(context).textTheme.headline5),
-              const SizedBox(height: Sizes.p24),
-              Text(priceFormatted,
-                  style: Theme.of(context).textTheme.headline5),
-              const SizedBox(height: Sizes.p24),
-              isEditable
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Quantity: '),
-                        const Spacer(),
-                        ItemQuantitySelector(
-                          quantity: item.quantity,
-                          onChanged: (quantity) =>
-                              _updateQuantity(ref, quantity),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red[700]),
-                          onPressed: () => _deleteItem(ref),
-                        ),
-                      ],
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-                      child: Text('Quantity: ${item.quantity}'),
-                    ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.p16),
+          child: ResponsiveTwoColumnLayout(
+            startFlex: 1,
+            endFlex: 2,
+            startContent: Image.network(product.imageUrl),
+            spacing: Sizes.p24,
+            endContent: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(product.title,
+                    style: Theme.of(context).textTheme.headline5),
+                const SizedBox(height: Sizes.p24),
+                Text(priceFormatted,
+                    style: Theme.of(context).textTheme.headline5),
+                const SizedBox(height: Sizes.p24),
+                isEditable
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ItemQuantitySelector(
+                            quantity: item.quantity,
+                            onChanged: (quantity) =>
+                                _updateQuantity(ref, quantity),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red[700]),
+                            onPressed: () => _deleteItem(ref),
+                          ),
+                          const Spacer(),
+                        ],
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+                        child: Text('Quantity: ${item.quantity}'),
+                      ),
+              ],
+            ),
           ),
         ),
       ),

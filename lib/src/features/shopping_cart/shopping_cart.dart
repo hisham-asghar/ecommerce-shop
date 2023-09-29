@@ -5,6 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/purchase/purchase_sequence.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 
 class ShoppingCartPage extends StatelessWidget {
   const ShoppingCartPage({Key? key}) : super(key: key);
@@ -19,7 +20,9 @@ class ShoppingCartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Shopping Cart'),
+      ),
       body: const ShoppingCartContents(),
     );
   }
@@ -39,40 +42,77 @@ class ShoppingCartContents extends ConsumerWidget {
         ),
       );
     }
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          sliver: SliverToBoxAdapter(
-            child: Text('Shopping Cart',
-                style: Theme.of(context).textTheme.headline4),
-          ),
-        ),
-        const SliverToBoxAdapter(
-          child: SizedBox(height: Sizes.p16),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final item = itemsList.items[index];
-                return ShoppingCartItem(item: item);
-              },
-              childCount: itemsList.items.length,
+    final screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth >= FormFactor.tablet) {
+      return Center(
+        child: SizedBox(
+          width: FormFactor.desktop,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 3,
+                  // TODO: Hide scrollbar
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverPadding(
+                        padding:
+                            const EdgeInsets.symmetric(vertical: Sizes.p16),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final item = itemsList.items[index];
+                              return ShoppingCartItem(item: item);
+                            },
+                            childCount: itemsList.items.length,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: Sizes.p16),
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
+                    child: ShoppingCartCheckout(
+                      total: itemsList.total(),
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          sliver: SliverToBoxAdapter(
-            child: ShoppingCartCheckout(
-              total: itemsList.total(),
+      );
+    } else {
+      return CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.all(Sizes.p16),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final item = itemsList.items[index];
+                  return ShoppingCartItem(item: item);
+                },
+                childCount: itemsList.items.length,
+              ),
             ),
           ),
-        ),
-      ],
-    );
+          SliverPadding(
+            padding: const EdgeInsets.all(Sizes.p16),
+            sliver: SliverToBoxAdapter(
+              child: ShoppingCartCheckout(
+                total: itemsList.total(),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
   }
 }
 
@@ -88,9 +128,16 @@ class ShoppingCartCheckout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final totalFormatted = ref.watch(currentyFormatterProvider).format(total);
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Total: $total', style: Theme.of(context).textTheme.headline5),
+        Text(
+          'Total: $totalFormatted',
+          style: Theme.of(context).textTheme.headline5,
+          textAlign: TextAlign.center,
+        ),
         const SizedBox(height: Sizes.p24),
         PrimaryButton(
           text: 'Checkout',
