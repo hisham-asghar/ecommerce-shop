@@ -241,6 +241,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   // given a configuration, update all the state variables
   @override
   Future<void> setNewRoutePath(AppRoutePath configuration) async {
+    // TODO: Defensive code to prevent navigation to pages that require certain objects to be set
     _appRoute = configuration.appRoute;
     if (configuration.appRoute == AppRoute.productDetails) {
       _selectedProduct = findProduct(configuration.productId!);
