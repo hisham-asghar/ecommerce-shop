@@ -17,6 +17,10 @@ class ShoppingCartItem extends ConsumerWidget {
   void _deleteItem(WidgetRef ref) {
     final cart = ref.read(cartProvider.notifier);
     cart.removeItem(item);
+    final itemsList = ref.read(cartProvider);
+    if (itemsList.items.isEmpty) {
+      // TODO: navigate back?
+    }
   }
 
   void _updateQuantity(WidgetRef ref, int quantity) {

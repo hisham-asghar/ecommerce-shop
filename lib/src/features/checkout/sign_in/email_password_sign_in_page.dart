@@ -4,8 +4,8 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart'
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/purchase/sign_in/email_password_sign_in_strings.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/sign_in/email_password_sign_in_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/sign_in/email_password_sign_in_strings.dart';
 //import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 class EmailPasswordSignInPage extends StatefulWidget {

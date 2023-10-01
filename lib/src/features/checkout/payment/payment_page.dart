@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/order_confirmation_details.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/purchase/payment/order_payment_options.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/order_payment_options.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 
 class PaymentPage extends ConsumerWidget {
-  const PaymentPage({Key? key, this.order, this.onOrderCompleted})
-      : super(key: key);
-  final Order? order;
-  final void Function(Order order)? onOrderCompleted;
-
-  bool get didCompleteOrder => order != null;
+  const PaymentPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Show items list or order list
-    final itemsList =
-        order != null ? order!.itemsList : ref.watch(cartProvider);
+    final itemsList = ref.watch(cartProvider);
     return CustomScrollView(
       slivers: [
         const SliverToBoxAdapter(
@@ -33,7 +24,8 @@ class PaymentPage extends ConsumerWidget {
                 final item = itemsList.items[index];
                 return ShoppingCartItem(
                   item: item,
-                  isEditable: !didCompleteOrder,
+                  // make item non editable so that user can't empty cart completely
+                  isEditable: false,
                 );
               },
               childCount: itemsList.items.length,
@@ -41,12 +33,7 @@ class PaymentPage extends ConsumerWidget {
           ),
         ),
         SliverToBoxAdapter(
-          child: didCompleteOrder
-              ? OrderConfirmationDetails(order: order!)
-              : OrderPaymentOptions(
-                  total: itemsList.total(),
-                  onOrderCompleted: onOrderCompleted,
-                ),
+          child: OrderPaymentOptions(total: itemsList.total()),
         ),
       ],
     );

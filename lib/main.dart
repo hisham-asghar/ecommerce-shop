@@ -20,6 +20,6 @@ void main() async {
 
   runApp(ProviderScope(
     observers: [ProviderLogger()],
-    child: const MyApp(),
+    child: MyApp(),
   ));
 }

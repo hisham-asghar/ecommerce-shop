@@ -8,29 +8,20 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dar
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/orders_manager.dart';
 import 'package:uuid/uuid.dart';
 
 /// Borrowed from flutter_stripe example app
-class CardPaymentPage extends ConsumerStatefulWidget {
-  const CardPaymentPage({Key? key, this.onOrderCompleted}) : super(key: key);
-  final Function(Order order)? onOrderCompleted;
-
-  static Route route() {
-    return MaterialPageRoute(
-      builder: (context) => CardPaymentPage(
-        onOrderCompleted: (order) => Navigator.of(context).pop(order),
-      ),
-      fullscreenDialog: true,
-    );
-  }
+class CardPaymentScreen extends ConsumerStatefulWidget {
+  const CardPaymentScreen({Key? key}) : super(key: key);
 
   @override
-  _CardPaymentPageState createState() => _CardPaymentPageState();
+  _CardPaymentScreenState createState() => _CardPaymentScreenState();
 }
 
-class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
+class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   final controller = CardFormEditController();
 
   var _isLoading = false;
@@ -69,7 +60,7 @@ class _CardPaymentPageState extends ConsumerState<CardPaymentPage> {
       await ordersManager.placeOrder(order);
       cart.removeAll();
       setState(() => _isLoading = false);
-      widget.onOrderCompleted?.call(order);
+      ref.read(routerDelegateProvider).openPaymentComplete(order);
     } catch (e) {
       setState(() => _isLoading = false);
       // TODO: Proper error handling

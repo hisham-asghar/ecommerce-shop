@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/home/home_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({
+class MyApp extends ConsumerWidget {
+  MyApp({
     Key? key,
   }) : super(key: key);
 
+  final _routeInformationParser = AppRouteInformationParser();
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final routerDelegate = ref.watch(routerDelegateProvider);
+    return MaterialApp.router(
+      routerDelegate: routerDelegate,
+      routeInformationParser: _routeInformationParser,
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       localizationsDelegates: const [
@@ -44,7 +50,6 @@ class MyApp extends StatelessWidget {
           labelColor: Colors.white,
         ),
       ),
-      home: const HomePage(),
     );
   }
 }

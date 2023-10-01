@@ -53,4 +53,9 @@ class Order {
   bool operator ==(covariant Order other) {
     return id == other.id && userId == other.userId;
   }
+
+  @override
+  String toString() {
+    return 'Order(id: $id)';
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/purchase/purchase_sequence_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_sequence_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
@@ -13,18 +13,18 @@ class MockTickerProvider extends TickerProvider {
 }
 
 void main() {
-  group('purchase sequence controller', () {
+  group('checkout sequence controller', () {
     test('not signed in - index 0', () {
       final mockAuthService = MockAuthService();
       final mockDataStore = MockDataStore();
       final tabController =
           TabController(length: 3, vsync: MockTickerProvider());
-      final purchaseSequenceController = PurchaseSequenceController(
+      final checkoutSequenceController = CheckoutSequenceController(
         authService: mockAuthService,
         dataStore: mockDataStore,
         tabController: tabController,
       );
-      purchaseSequenceController.updateIndex();
+      checkoutSequenceController.updateIndex();
       expect(tabController.index, 0);
       // TODO: Test notifyListeners is called.
     });
@@ -35,12 +35,12 @@ void main() {
       final mockDataStore = MockDataStore();
       final tabController =
           TabController(length: 3, vsync: MockTickerProvider());
-      final purchaseSequenceController = PurchaseSequenceController(
+      final checkoutSequenceController = CheckoutSequenceController(
         authService: mockAuthService,
         dataStore: mockDataStore,
         tabController: tabController,
       );
-      purchaseSequenceController.updateIndex();
+      checkoutSequenceController.updateIndex();
       expect(tabController.index, 1);
     });
     test('signed in, address - index 2', () {
@@ -50,12 +50,12 @@ void main() {
       mockDataStore.isAddressSet = true;
       final tabController =
           TabController(length: 3, vsync: MockTickerProvider());
-      final purchaseSequenceController = PurchaseSequenceController(
+      final checkoutSequenceController = CheckoutSequenceController(
         authService: mockAuthService,
         dataStore: mockDataStore,
         tabController: tabController,
       );
-      purchaseSequenceController.updateIndex();
+      checkoutSequenceController.updateIndex();
       expect(tabController.index, 2);
     });
   });

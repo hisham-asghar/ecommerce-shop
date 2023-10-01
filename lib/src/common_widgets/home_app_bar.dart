@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 
-class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
+class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
   const HomeAppBar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
       title: const Text('My Shop'),
       actions: [
         IconButton(
+          // TODO: show item count
           icon: const Icon(Icons.shopping_cart),
-          // TODO: Items storage
-          onPressed: () => Navigator.of(context).push(ShoppingCartPage.route()),
+          onPressed: () => ref.read(routerDelegateProvider).openCart(),
         ),
       ],
     );

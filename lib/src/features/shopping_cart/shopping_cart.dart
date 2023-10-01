@@ -2,20 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/purchase/purchase_sequence.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 
-class ShoppingCartPage extends StatelessWidget {
-  const ShoppingCartPage({Key? key}) : super(key: key);
-
-  static Route route() {
-    return MaterialPageRoute(
-      builder: (_) => const ShoppingCartPage(),
-      fullscreenDialog: true,
-    );
-  }
+class ShoppingCartScreen extends StatelessWidget {
+  const ShoppingCartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +70,7 @@ class ShoppingCartContents extends ConsumerWidget {
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
-                    child: ShoppingCartCheckout(
-                      total: itemsList.total(),
-                    ),
+                    child: ShoppingCartCheckout(total: itemsList.total()),
                   ),
                 )
               ],
@@ -105,9 +96,7 @@ class ShoppingCartContents extends ConsumerWidget {
           SliverPadding(
             padding: const EdgeInsets.all(Sizes.p16),
             sliver: SliverToBoxAdapter(
-              child: ShoppingCartCheckout(
-                total: itemsList.total(),
-              ),
+              child: ShoppingCartCheckout(total: itemsList.total()),
             ),
           ),
         ],
@@ -119,12 +108,6 @@ class ShoppingCartContents extends ConsumerWidget {
 class ShoppingCartCheckout extends ConsumerWidget {
   const ShoppingCartCheckout({Key? key, required this.total}) : super(key: key);
   final double total;
-
-  Future<void> _checkout(BuildContext context, WidgetRef ref) async {
-    await Navigator.of(context).push(
-      PurchaseSequence.route(),
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -141,7 +124,7 @@ class ShoppingCartCheckout extends ConsumerWidget {
         const SizedBox(height: Sizes.p24),
         PrimaryButton(
           text: 'Checkout',
-          onPressed: () => _checkout(context, ref),
+          onPressed: () => ref.read(routerDelegateProvider).openCheckout(),
         ),
       ],
     );

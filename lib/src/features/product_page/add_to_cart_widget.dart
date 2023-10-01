@@ -7,15 +7,15 @@ import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 
-class AddToCartBox extends ConsumerStatefulWidget {
-  const AddToCartBox({Key? key, required this.product}) : super(key: key);
+class AddToCartWidget extends ConsumerStatefulWidget {
+  const AddToCartWidget({Key? key, required this.product}) : super(key: key);
   final Product product;
 
   @override
-  ConsumerState<AddToCartBox> createState() => _AddToCartBoxState();
+  ConsumerState<AddToCartWidget> createState() => _AddToCartBoxState();
 }
 
-class _AddToCartBoxState extends ConsumerState<AddToCartBox> {
+class _AddToCartBoxState extends ConsumerState<AddToCartWidget> {
   var _quantity = 1;
 
   void _addToCart() {
