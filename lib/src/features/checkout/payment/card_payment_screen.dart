@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -8,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dar
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/orders_manager.dart';
@@ -79,7 +78,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
           children: [
             // TODO: Make this testable
             // TODO: Figure out how to support web: https://github.com/flutter-stripe/flutter_stripe/issues/36
-            Platform.isIOS || Platform.isAndroid
+            PlatformIs.iOS || PlatformIs.android
                 ? CardFormField(controller: controller)
                 : const UnsupportedPlatformPaymentPlaceholder(),
             PrimaryButton(
