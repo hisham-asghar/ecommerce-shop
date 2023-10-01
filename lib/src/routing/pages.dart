@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_sequence.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment_complete/payment_complete.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/not_found/not_found_screen.dart';
@@ -57,7 +57,7 @@ class CheckoutPage extends Page {
   @override
   Route createRoute(BuildContext context) => MaterialPageRoute(
         settings: this,
-        builder: (_) => const CheckoutSequenceScreen(),
+        builder: (_) => const CheckoutScreen(),
         fullscreenDialog: true,
       );
 }

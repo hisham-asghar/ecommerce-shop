@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
-class CheckoutSequenceController with ChangeNotifier {
-  CheckoutSequenceController({
+class CheckoutTabsController with ChangeNotifier {
+  CheckoutTabsController({
     required this.authService,
     required this.dataStore,
     required this.tabController,
