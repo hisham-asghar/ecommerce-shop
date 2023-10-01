@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
@@ -36,6 +37,7 @@ class ShoppingCartContents extends ConsumerWidget {
       );
     }
     final screenWidth = MediaQuery.of(context).size.width;
+    // wide layouts
     if (screenWidth >= FormFactor.tablet) {
       return Center(
         child: SizedBox(
@@ -79,25 +81,29 @@ class ShoppingCartContents extends ConsumerWidget {
         ),
       );
     } else {
-      return CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.all(Sizes.p16),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final item = itemsList.items[index];
-                  return ShoppingCartItem(item: item);
-                },
-                childCount: itemsList.items.length,
-              ),
+      // narrow layouts
+      return Column(
+        children: [
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.all(Sizes.p16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final item = itemsList.items[index];
+                        return ShoppingCartItem(item: item);
+                      },
+                      childCount: itemsList.items.length,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(Sizes.p16),
-            sliver: SliverToBoxAdapter(
-              child: ShoppingCartCheckout(total: itemsList.total()),
-            ),
+          DecoratedBoxWithShadow(
+            child: ShoppingCartCheckout(total: itemsList.total()),
           ),
         ],
       );
@@ -121,7 +127,7 @@ class ShoppingCartCheckout extends ConsumerWidget {
           style: Theme.of(context).textTheme.headline5,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: Sizes.p24),
+        const SizedBox(height: Sizes.p16),
         PrimaryButton(
           text: 'Checkout',
           onPressed: () => ref.read(routerDelegateProvider).openCheckout(),
