@@ -33,6 +33,7 @@ class ShoppingCartContents extends ConsumerWidget {
         child: Text(
           'Shopping Cart is empty',
           style: Theme.of(context).textTheme.headline3,
+          textAlign: TextAlign.center,
         ),
       );
     }
