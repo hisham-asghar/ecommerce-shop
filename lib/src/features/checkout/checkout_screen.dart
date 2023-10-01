@@ -37,7 +37,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
     } else {
       return Scaffold(
         appBar: AppBar(title: const Text('Payment')),
-        body: const PaymentPage(),
+        body: PaymentPage(),
       );
     }
   }
@@ -98,7 +98,7 @@ class CheckoutWithTabs extends StatelessWidget {
           AddressPage(
             onDataSubmitted: () => checkoutSequenceController.updateIndex(),
           ),
-          const PaymentPage(),
+          PaymentPage(),
         ],
       ),
     );
