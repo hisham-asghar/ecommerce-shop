@@ -42,6 +42,7 @@ class ShoppingCartItem extends ConsumerWidget {
           child: ResponsiveTwoColumnLayout(
             startFlex: 1,
             endFlex: 2,
+            // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
             startContent: Image.network(product.imageUrl),
             spacing: Sizes.p24,
             endContent: Column(

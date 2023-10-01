@@ -27,6 +27,7 @@ class ProductScreen extends ConsumerWidget {
                 startContent: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(Sizes.p16),
+                    // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
                     child: Image.network(product.imageUrl),
                   ),
                 ),
