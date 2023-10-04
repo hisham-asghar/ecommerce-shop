@@ -15,21 +15,26 @@ class OrdersListScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Your Orders'),
       ),
-      body: CustomScrollView(
-        slivers: <Widget>[
-          // TODO: Some summary of orders here?
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) => Padding(
-                padding: const EdgeInsets.all(Sizes.p8),
-                child: OrderCard(
-                  order: orders[index],
+      body: Center(
+        child: SizedBox(
+          width: FormFactor.desktop,
+          child: CustomScrollView(
+            slivers: <Widget>[
+              // TODO: Some summary of orders here?
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) => Padding(
+                    padding: const EdgeInsets.all(Sizes.p8),
+                    child: OrderCard(
+                      order: orders[index],
+                    ),
+                  ),
+                  childCount: orders.length,
                 ),
               ),
-              childCount: orders.length,
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
