@@ -35,23 +35,23 @@ class OrderConfirmationDetails extends ConsumerWidget {
                     text: 'Payment Status: ',
                     style: Theme.of(context).textTheme.bodyText2),
                 TextSpan(
-                    text: order.paymentStatus.status(),
+                    text: PaymentStatus.paid.status(),
                     style: Theme.of(context).textTheme.bodyText2!.copyWith(
                         color: Colors.red, fontWeight: FontWeight.bold)),
               ]),
             ),
-            const SizedBox(height: Sizes.p16),
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: 'Delivery Status: ',
-                    style: Theme.of(context).textTheme.bodyText2),
-                TextSpan(
-                    text: order.deliveryStatus.status(),
-                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        color: Colors.red, fontWeight: FontWeight.bold)),
-              ]),
-            ),
+            // const SizedBox(height: Sizes.p16),
+            // RichText(
+            //   text: TextSpan(children: [
+            //     TextSpan(
+            //         text: 'Delivery Status: ',
+            //         style: Theme.of(context).textTheme.bodyText2),
+            //     TextSpan(
+            //         text: order.deliveryStatus.status(),
+            //         style: Theme.of(context).textTheme.bodyText2!.copyWith(
+            //             color: Colors.red, fontWeight: FontWeight.bold)),
+            //   ]),
+            // ),
             const SizedBox(height: Sizes.p32),
           ],
         ),

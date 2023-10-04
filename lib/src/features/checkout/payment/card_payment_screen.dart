@@ -51,8 +51,10 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
       userId: auth.uid!, // safe to use ! as we must be logged in if we get here
       itemsList: itemsList,
       // TODO: Update with real payment status
-      paymentStatus: PaymentStatus.paid,
-      deliveryStatus: DeliveryStatus.notDelivered,
+      // paymentStatus: PaymentStatus.paid,
+      orderStatus: OrderStatus.confirmed,
+      // TODO: Inject this rather than hardcoding
+      orderDate: DateTime.now(),
     );
     try {
       setState(() => _isLoading = true);

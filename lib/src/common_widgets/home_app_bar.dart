@@ -15,6 +15,10 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
           icon: const Icon(Icons.shopping_cart),
           onPressed: () => ref.read(routerDelegateProvider).openCart(),
         ),
+        IconButton(
+          icon: const Icon(Icons.list),
+          onPressed: () => ref.read(routerDelegateProvider).openOrdersList(),
+        ),
       ],
     );
   }

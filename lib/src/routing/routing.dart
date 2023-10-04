@@ -13,7 +13,8 @@ enum AppRoute {
   cart,
   checkout,
   pay,
-  paymentComplete
+  paymentComplete,
+  ordersList,
 }
 
 // TODO: Replace with sealed union (Freezed?)
@@ -37,6 +38,9 @@ class AppRoutePath {
         productId = null;
   AppRoutePath.paymentComplete()
       : appRoute = AppRoute.paymentComplete,
+        productId = null;
+  AppRoutePath.ordersList()
+      : appRoute = AppRoute.ordersList,
         productId = null;
 
   final AppRoute appRoute;
@@ -103,6 +107,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
   void openCheckout();
   void openPay();
   void openPaymentComplete(Order order);
+  void openOrdersList();
   // nice to call as:
   // context.go(cart)
   // context.go(checkout)
@@ -164,6 +169,12 @@ class AppRouterDelegate extends BaseRouterDelegate
     notifyListeners();
   }
 
+  @override
+  void openOrdersList() {
+    _appRoute = AppRoute.ordersList;
+    notifyListeners();
+  }
+
   // given the state variables, return the current configuration
   @override
   AppRoutePath get currentConfiguration =>
@@ -193,6 +204,7 @@ class AppRouterDelegate extends BaseRouterDelegate
         // note: payment complete removes the previous pages from the stack
         if (_appRoute == AppRoute.paymentComplete)
           PaymentCompletePage(order: _latestOrder!),
+        if (_appRoute == AppRoute.ordersList) const OrdersListPage(),
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
@@ -226,6 +238,12 @@ class AppRouterDelegate extends BaseRouterDelegate
             _appRoute = AppRoute.home;
             _selectedProduct = null;
             _latestOrder = null;
+            notifyListeners();
+            break;
+          case AppRoute.ordersList:
+            _appRoute = _selectedProduct != null
+                ? AppRoute.productDetails
+                : AppRoute.home;
             notifyListeners();
             break;
           case AppRoute.notFound:

@@ -13,14 +13,16 @@ extension PaymentStatusString on PaymentStatus {
   }
 }
 
-enum DeliveryStatus { notDelivered, delivered }
+enum OrderStatus { confirmed, shipped, delivered }
 
-extension DeliveryStatusString on DeliveryStatus {
+extension OrderStatusString on OrderStatus {
   String status() {
     switch (this) {
-      case DeliveryStatus.notDelivered:
-        return 'Not Delivered';
-      case DeliveryStatus.delivered:
+      case OrderStatus.confirmed:
+        return 'Confirmed';
+      case OrderStatus.shipped:
+        return 'Shipped';
+      case OrderStatus.delivered:
         return 'Delivered';
     }
   }
@@ -31,8 +33,10 @@ class Order {
     required this.id,
     required this.userId,
     required this.itemsList,
-    required this.paymentStatus,
-    required this.deliveryStatus,
+    // required this.paymentStatus,
+    required this.orderStatus,
+    required this.orderDate,
+    this.deliveryDate,
   });
 
   /// Order ID generated on payment
@@ -43,8 +47,10 @@ class Order {
 
   /// List of items in that order
   final ItemsList itemsList;
-  final PaymentStatus paymentStatus;
-  final DeliveryStatus deliveryStatus;
+  // final PaymentStatus paymentStatus;
+  final OrderStatus orderStatus;
+  final DateTime orderDate;
+  final DateTime? deliveryDate;
 
   @override
   int get hashCode => id.hashCode & userId.hashCode;
@@ -56,6 +62,6 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(id: $id)';
+    return 'Order(id: $id, orderDate: $orderDate, itemsList: $itemsList)';
   }
 }
