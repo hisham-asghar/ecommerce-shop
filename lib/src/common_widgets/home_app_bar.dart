@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 
+enum PopupMenuOption {
+  orders,
+  account,
+  admin,
+}
+
 class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
   const HomeAppBar({Key? key}) : super(key: key);
 
@@ -15,10 +21,36 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
           icon: const Icon(Icons.shopping_cart),
           onPressed: () => ref.read(routerDelegateProvider).openCart(),
         ),
-        IconButton(
-          icon: const Icon(Icons.list),
-          onPressed: () => ref.read(routerDelegateProvider).openOrdersList(),
-        ),
+        // TODO: Move to separate widget?
+        PopupMenuButton(
+          initialValue: PopupMenuOption.orders,
+          onSelected: (option) {
+            final routerDelegate = ref.read(routerDelegateProvider);
+            if (option == PopupMenuOption.orders) {
+              routerDelegate.openOrdersList();
+            } else {
+              print('Unimplemented');
+            }
+          },
+          itemBuilder: (_) {
+            return <PopupMenuEntry<PopupMenuOption>>[
+              const PopupMenuItem(
+                child: Text('Orders'),
+                value: PopupMenuOption.orders,
+              ),
+              const PopupMenuItem(
+                child: Text('Account'),
+                value: PopupMenuOption.account,
+              ),
+              const PopupMenuItem(
+                child: Text('Admin'),
+                value: PopupMenuOption.admin,
+              ),
+            ];
+          },
+          // TODO: Find right icon
+          icon: const Icon(Icons.more_vert),
+        )
       ],
     );
   }
