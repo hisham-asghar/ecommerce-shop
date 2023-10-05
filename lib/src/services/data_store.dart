@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_data_store.dart';
 
@@ -15,6 +16,13 @@ abstract class DataStore {
   void addProduct(Product product);
 
   Product findProduct(String id);
+
+  // Orders
+  Map<String, Order> get orders;
+
+  Future<void> placeOrder(Order order);
+
+  List<Order> get ordersByDate;
 }
 
 final dataStoreProvider = Provider<DataStore>((ref) {

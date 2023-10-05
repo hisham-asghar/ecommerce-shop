@@ -1,6 +1,7 @@
 import 'package:faker/faker.dart' hide Address;
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
@@ -33,6 +34,25 @@ class MockDataStore implements DataStore {
   @override
   Product findProduct(String id) {
     return _products.firstWhere((product) => product.id == id);
+  }
+
+  // Orders
+  @override
+  Map<String, Order> orders = {};
+
+  @override
+  Future<void> placeOrder(Order order) async {
+    await Future.delayed(const Duration(seconds: 2));
+    orders[order.id] = order;
+  }
+
+  @override
+  List<Order> get ordersByDate {
+    final ordersList = orders.values.toList();
+    ordersList.sort(
+      (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
+    );
+    return ordersList;
   }
 }
 
