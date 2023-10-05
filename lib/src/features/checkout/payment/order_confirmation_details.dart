@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class OrderConfirmationDetails extends ConsumerWidget {
   const OrderConfirmationDetails({Key? key, required this.order})
@@ -13,10 +13,10 @@ class OrderConfirmationDetails extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataStore = ref.watch(dataStoreProvider);
+    final productsRepository = ref.watch(productsRepositoryProvider);
     final totalFormatted = ref
-        .watch(currentyFormatterProvider)
-        .format(order.itemsList.total(dataStore));
+        .watch(currencyFormatterProvider)
+        .format(productsRepository.calculateTotal(order.itemsList.items));
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),

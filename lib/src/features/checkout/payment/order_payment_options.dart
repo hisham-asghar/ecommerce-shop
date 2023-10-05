@@ -12,7 +12,7 @@ class OrderPaymentOptions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalFormatted = ref.watch(currentyFormatterProvider).format(total);
+    final totalFormatted = ref.watch(currencyFormatterProvider).format(total);
     return Padding(
       padding: const EdgeInsets.all(Sizes.p16),
       child: Column(

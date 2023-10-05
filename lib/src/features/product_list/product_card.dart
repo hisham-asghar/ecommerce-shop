@@ -13,7 +13,7 @@ class ProductCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final priceFormatted =
-        ref.watch(currentyFormatterProvider).format(product.price);
+        ref.watch(currencyFormatterProvider).format(product.price);
     return Card(
       child: InkWell(
         // TODO: Tweak splash effect

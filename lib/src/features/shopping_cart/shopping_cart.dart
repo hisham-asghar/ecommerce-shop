@@ -5,9 +5,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class ShoppingCartScreen extends StatelessWidget {
   const ShoppingCartScreen({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class ShoppingCartContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataStore = ref.watch(dataStoreProvider);
+    final productsRepository = ref.watch(productsRepositoryProvider);
     final itemsList = ref.watch(cartProvider);
     if (itemsList.items.isEmpty) {
       return Center(
@@ -75,8 +75,9 @@ class ShoppingCartContents extends ConsumerWidget {
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
-                    child:
-                        ShoppingCartCheckout(total: itemsList.total(dataStore)),
+                    child: ShoppingCartCheckout(
+                        total:
+                            productsRepository.calculateTotal(itemsList.items)),
                   ),
                 )
               ],
@@ -107,7 +108,8 @@ class ShoppingCartContents extends ConsumerWidget {
             ),
           ),
           DecoratedBoxWithShadow(
-            child: ShoppingCartCheckout(total: itemsList.total(dataStore)),
+            child: ShoppingCartCheckout(
+                total: productsRepository.calculateTotal(itemsList.items)),
           ),
         ],
       );
@@ -121,7 +123,7 @@ class ShoppingCartCheckout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalFormatted = ref.watch(currentyFormatterProvider).format(total);
+    final totalFormatted = ref.watch(currencyFormatterProvider).format(total);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

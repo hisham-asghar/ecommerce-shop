@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/order_payment_options.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 
 class PaymentPage extends ConsumerWidget {
   PaymentPage({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class PaymentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataStore = ref.watch(dataStoreProvider);
+    final productsRepository = ref.watch(productsRepositoryProvider);
     final itemsList = ref.watch(cartProvider);
     return CustomScrollView(
       controller: _scrollController,
@@ -40,7 +40,8 @@ class PaymentPage extends ConsumerWidget {
           ),
         ),
         SliverToBoxAdapter(
-          child: OrderPaymentOptions(total: itemsList.total(dataStore)),
+          child: OrderPaymentOptions(
+              total: productsRepository.calculateTotal(itemsList.items)),
         ),
       ],
     );

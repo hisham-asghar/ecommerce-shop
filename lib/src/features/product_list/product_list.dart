@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class ProductListScreen extends ConsumerWidget {
   const ProductListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dataStore = ref.watch(dataStoreProvider);
-    final products = dataStore.getProducts();
+    final productsRepository = ref.watch(productsRepositoryProvider);
+    final products = productsRepository.getProducts();
     return Scaffold(
       appBar: const HomeAppBar(),
       body: Center(

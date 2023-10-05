@@ -14,7 +14,7 @@ class ProductScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final priceFormatted =
-        ref.watch(currentyFormatterProvider).format(product.price);
+        ref.watch(currencyFormatterProvider).format(product.price);
     return Scaffold(
       appBar: const HomeAppBar(),
       body: SingleChildScrollView(

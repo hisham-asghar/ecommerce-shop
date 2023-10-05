@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/pages.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 // Inspired by: https://gist.github.com/johnpryan/5ce79aee5b5f83cfababa97c9cf0a204#gistcomment-3872855
 
@@ -119,13 +119,13 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
 
 class AppRouterDelegate extends BaseRouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoutePath> {
-  AppRouterDelegate({required this.dataStore})
+  AppRouterDelegate({required this.productsRepository})
       : navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   final GlobalKey<NavigatorState> navigatorKey;
 
-  final DataStore dataStore;
+  final ProductsRepository productsRepository;
 
   // These variables keep track of all the state needed to handle navigation
   AppRoute _appRoute = AppRoute.home;
@@ -266,7 +266,8 @@ class AppRouterDelegate extends BaseRouterDelegate
     // TODO: Defensive code to prevent navigation to pages that require certain objects to be set
     _appRoute = configuration.appRoute;
     if (configuration.appRoute == AppRoute.productDetails) {
-      _selectedProduct = dataStore.findProduct(configuration.productId!);
+      _selectedProduct =
+          productsRepository.findProduct(configuration.productId!);
     } else {
       _selectedProduct = null;
     }
@@ -275,6 +276,6 @@ class AppRouterDelegate extends BaseRouterDelegate
 }
 
 final routerDelegateProvider = Provider<BaseRouterDelegate>((ref) {
-  final dataStore = ref.watch(dataStoreProvider);
-  return AppRouterDelegate(dataStore: dataStore);
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return AppRouterDelegate(productsRepository: productsRepository);
 });
