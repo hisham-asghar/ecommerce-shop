@@ -1,22 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/mock_data_store.dart';
 
 abstract class DataStore {
   // TODO: This should depend on the authenticated user
+  // Address
+  bool get isAddressSet;
   Future<void> submitAddress(Address address);
 
-  bool get isAddressSet;
-}
+  // Products
+  List<Product> getProducts();
 
-class MockDataStore implements DataStore {
-  @override
-  Future<void> submitAddress(Address address) async {
-    await Future.delayed(const Duration(seconds: 2));
-    isAddressSet = true;
-  }
+  void addProduct(Product product);
 
-  @override
-  var isAddressSet = false;
+  Product findProduct(String id);
 }
 
 final dataStoreProvider = Provider<DataStore>((ref) {

@@ -7,6 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_ca
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class ShoppingCartScreen extends StatelessWidget {
   const ShoppingCartScreen({Key? key}) : super(key: key);
@@ -27,6 +28,7 @@ class ShoppingCartContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final dataStore = ref.watch(dataStoreProvider);
     final itemsList = ref.watch(cartProvider);
     if (itemsList.items.isEmpty) {
       return Center(
@@ -73,7 +75,8 @@ class ShoppingCartContents extends ConsumerWidget {
                   flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
-                    child: ShoppingCartCheckout(total: itemsList.total()),
+                    child:
+                        ShoppingCartCheckout(total: itemsList.total(dataStore)),
                   ),
                 )
               ],
@@ -104,7 +107,7 @@ class ShoppingCartContents extends ConsumerWidget {
             ),
           ),
           DecoratedBoxWithShadow(
-            child: ShoppingCartCheckout(total: itemsList.total()),
+            child: ShoppingCartCheckout(total: itemsList.total(dataStore)),
           ),
         ],
       );

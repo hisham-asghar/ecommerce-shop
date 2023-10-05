@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/pages.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 // Inspired by: https://gist.github.com/johnpryan/5ce79aee5b5f83cfababa97c9cf0a204#gistcomment-3872855
 
@@ -118,10 +119,13 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
 
 class AppRouterDelegate extends BaseRouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoutePath> {
-  AppRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
+  AppRouterDelegate({required this.dataStore})
+      : navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   final GlobalKey<NavigatorState> navigatorKey;
+
+  final DataStore dataStore;
 
   // These variables keep track of all the state needed to handle navigation
   AppRoute _appRoute = AppRoute.home;
@@ -262,7 +266,7 @@ class AppRouterDelegate extends BaseRouterDelegate
     // TODO: Defensive code to prevent navigation to pages that require certain objects to be set
     _appRoute = configuration.appRoute;
     if (configuration.appRoute == AppRoute.productDetails) {
-      _selectedProduct = findProduct(configuration.productId!);
+      _selectedProduct = dataStore.findProduct(configuration.productId!);
     } else {
       _selectedProduct = null;
     }
@@ -271,5 +275,6 @@ class AppRouterDelegate extends BaseRouterDelegate
 }
 
 final routerDelegateProvider = Provider<BaseRouterDelegate>((ref) {
-  return AppRouterDelegate();
+  final dataStore = ref.watch(dataStoreProvider);
+  return AppRouterDelegate(dataStore: dataStore);
 });

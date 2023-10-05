@@ -3,7 +3,7 @@ import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_tabs_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/mock_data_store.dart';
 
 class MockTickerProvider extends TickerProvider {
   @override

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/date_formatter.dart';
 
 class OrderCard extends StatelessWidget {
@@ -37,8 +37,10 @@ class OrderHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalFormatted =
-        ref.watch(currentyFormatterProvider).format(order.itemsList.total());
+    final dataStore = ref.watch(dataStoreProvider);
+    final totalFormatted = ref
+        .watch(currentyFormatterProvider)
+        .format(order.itemsList.total(dataStore));
     final dateFormatted =
         ref.watch(dateFormatterProvider).format(order.orderDate);
     return Container(
@@ -127,13 +129,14 @@ class OrderStatusLabel extends ConsumerWidget {
   }
 }
 
-class OrderItemListTile extends StatelessWidget {
+class OrderItemListTile extends ConsumerWidget {
   const OrderItemListTile({Key? key, required this.item}) : super(key: key);
   final Item item;
 
   @override
-  Widget build(BuildContext context) {
-    final product = findProduct(item.productId);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataStore = ref.watch(dataStoreProvider);
+    final product = dataStore.findProduct(item.productId);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
       child: Row(

@@ -5,8 +5,8 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_colu
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({Key? key, required this.item, this.isEditable = true})
@@ -31,7 +31,8 @@ class ShoppingCartItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final product = findProduct(item.productId);
+    final dataStore = ref.watch(dataStoreProvider);
+    final product = dataStore.findProduct(item.productId);
     final priceFormatted =
         ref.watch(currentyFormatterProvider).format(product.price);
     return Padding(
