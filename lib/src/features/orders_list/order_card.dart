@@ -22,6 +22,7 @@ class OrderCard extends StatelessWidget {
       child: Column(
         children: [
           OrderHeader(order: order),
+          // TODO: Admin options (show user UID etc.)
           const Divider(height: 1, color: Colors.grey),
           //const SizedBox(height: Sizes.p16),
           OrderItemsList(order: order),
