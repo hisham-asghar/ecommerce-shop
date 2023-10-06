@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/models/items_list.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 
 enum PaymentStatus { notPaid, paid }
 
@@ -32,7 +32,7 @@ class Order {
   Order({
     required this.id,
     required this.userId,
-    required this.itemsList,
+    required this.items,
     // required this.paymentStatus,
     required this.orderStatus,
     required this.orderDate,
@@ -46,7 +46,7 @@ class Order {
   final String userId;
 
   /// List of items in that order
-  final ItemsList itemsList;
+  final List<Item> items;
   // final PaymentStatus paymentStatus;
   final OrderStatus orderStatus;
   final DateTime orderDate;
@@ -62,6 +62,6 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(id: $id, orderDate: $orderDate, itemsList: $itemsList)';
+    return 'Order(id: $id, orderDate: $orderDate, items: $items)';
   }
 }

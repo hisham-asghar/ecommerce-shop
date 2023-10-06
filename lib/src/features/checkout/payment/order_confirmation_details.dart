@@ -16,7 +16,7 @@ class OrderConfirmationDetails extends ConsumerWidget {
     final productsRepository = ref.watch(productsRepositoryProvider);
     final totalFormatted = ref
         .watch(currencyFormatterProvider)
-        .format(productsRepository.calculateTotal(order.itemsList.items));
+        .format(productsRepository.calculateTotal(order.items));
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(Sizes.p16),

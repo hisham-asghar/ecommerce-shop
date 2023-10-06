@@ -12,7 +12,7 @@ class PaymentCompleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Show items list or order list
-    final itemsList = order.itemsList;
+    final items = order.items;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Payment Complete'),
@@ -27,13 +27,13 @@ class PaymentCompleteScreen extends StatelessWidget {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  final item = itemsList.items[index];
+                  final item = items[index];
                   return ShoppingCartItem(
                     item: item,
                     isEditable: false,
                   );
                 },
-                childCount: itemsList.items.length,
+                childCount: items.length,
               ),
             ),
           ),

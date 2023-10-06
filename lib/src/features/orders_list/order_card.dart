@@ -41,7 +41,7 @@ class OrderHeader extends ConsumerWidget {
     final productsRepository = ref.watch(productsRepositoryProvider);
     final totalFormatted = ref
         .watch(currencyFormatterProvider)
-        .format(productsRepository.calculateTotal(order.itemsList.items));
+        .format(productsRepository.calculateTotal(order.items));
     final dateFormatted =
         ref.watch(dateFormatterProvider).format(order.orderDate);
     return Container(
@@ -90,7 +90,7 @@ class OrderItemsList extends ConsumerWidget {
           padding: const EdgeInsets.all(Sizes.p16),
           child: OrderStatusLabel(order: order),
         ),
-        for (var item in order.itemsList.items) OrderItemListTile(item: item),
+        for (var item in order.items) OrderItemListTile(item: item),
       ],
     );
   }

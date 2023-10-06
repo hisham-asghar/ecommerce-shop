@@ -1,12 +1,16 @@
 import 'package:faker/faker.dart' hide Address;
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/mock_cart.dart';
 
 class MockDataStore implements DataStore {
+  // -------------------------------------
   // Address
+  // -------------------------------------
   @override
   var isAddressSet = false;
 
@@ -16,7 +20,9 @@ class MockDataStore implements DataStore {
     isAddressSet = true;
   }
 
+  // -------------------------------------
   // Products
+  // -------------------------------------
   // default list of products when the app loads
   final List<Product> _products = kTestProducts;
 
@@ -36,7 +42,9 @@ class MockDataStore implements DataStore {
     return _products.firstWhere((product) => product.id == id);
   }
 
+  // -------------------------------------
   // Orders
+  // -------------------------------------
   @override
   Map<String, Order> orders = {};
 
@@ -53,6 +61,47 @@ class MockDataStore implements DataStore {
       (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
     );
     return ordersList;
+  }
+
+  // -------------------------------------
+  // Shopping cart
+  // -------------------------------------
+
+  @override
+  Map<String, List<Item>> cartData = {};
+
+  @override
+  List<Item> items(String uid) {
+    return cartData[uid] ?? [];
+  }
+
+  @override
+  void addItem(String uid, Item item) {
+    final cart = MockCart(cartData[uid] ?? []);
+    cart.addItem(item);
+    cartData[uid] = cart.items;
+  }
+
+  @override
+  void removeItem(String uid, Item item) {
+    final cart = MockCart(cartData[uid] ?? []);
+    cart.removeItem(item);
+    cartData[uid] = cart.items;
+  }
+
+  @override
+  bool updateItemIfExists(String uid, Item item) {
+    final cart = MockCart(cartData[uid] ?? []);
+    final result = cart.updateItemIfExists(item);
+    if (result) {
+      cartData[uid] = cart.items;
+    }
+    return result;
+  }
+
+  @override
+  void removeAllItems(String uid) {
+    cartData[uid] = [];
   }
 }
 

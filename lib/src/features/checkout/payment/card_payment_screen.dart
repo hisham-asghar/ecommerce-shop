@@ -49,7 +49,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     final order = Order(
       id: Uuid().v1(),
       userId: auth.uid!, // safe to use ! as we must be logged in if we get here
-      itemsList: itemsList,
+      items: itemsList,
       // TODO: Update with real payment status
       // paymentStatus: PaymentStatus.paid,
       orderStatus: OrderStatus.confirmed,

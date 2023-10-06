@@ -29,8 +29,8 @@ class ShoppingCartContents extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsRepository = ref.watch(productsRepositoryProvider);
-    final itemsList = ref.watch(cartProvider);
-    if (itemsList.items.isEmpty) {
+    final items = ref.watch(cartProvider);
+    if (items.isEmpty) {
       return Center(
         child: Text(
           'Shopping Cart is empty',
@@ -60,10 +60,10 @@ class ShoppingCartContents extends ConsumerWidget {
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              final item = itemsList.items[index];
+                              final item = items[index];
                               return ShoppingCartItem(item: item);
                             },
-                            childCount: itemsList.items.length,
+                            childCount: items.length,
                           ),
                         ),
                       ),
@@ -76,8 +76,7 @@ class ShoppingCartContents extends ConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
                     child: ShoppingCartCheckout(
-                        total:
-                            productsRepository.calculateTotal(itemsList.items)),
+                        total: productsRepository.calculateTotal(items)),
                   ),
                 )
               ],
@@ -97,10 +96,10 @@ class ShoppingCartContents extends ConsumerWidget {
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        final item = itemsList.items[index];
+                        final item = items[index];
                         return ShoppingCartItem(item: item);
                       },
-                      childCount: itemsList.items.length,
+                      childCount: items.length,
                     ),
                   ),
                 ),
@@ -109,7 +108,7 @@ class ShoppingCartContents extends ConsumerWidget {
           ),
           DecoratedBoxWithShadow(
             child: ShoppingCartCheckout(
-                total: productsRepository.calculateTotal(itemsList.items)),
+                total: productsRepository.calculateTotal(items)),
           ),
         ],
       );

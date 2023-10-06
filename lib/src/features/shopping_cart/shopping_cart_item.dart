@@ -18,7 +18,7 @@ class ShoppingCartItem extends ConsumerWidget {
     final cart = ref.read(cartProvider.notifier);
     cart.removeItem(item);
     final itemsList = ref.read(cartProvider);
-    if (itemsList.items.isEmpty) {
+    if (itemsList.isEmpty) {
       // TODO: navigate back?
     }
   }

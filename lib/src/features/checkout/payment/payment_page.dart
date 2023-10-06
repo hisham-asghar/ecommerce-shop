@@ -16,7 +16,7 @@ class PaymentPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsRepository = ref.watch(productsRepositoryProvider);
-    final itemsList = ref.watch(cartProvider);
+    final items = ref.watch(cartProvider);
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
@@ -28,20 +28,20 @@ class PaymentPage extends ConsumerWidget {
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                final item = itemsList.items[index];
+                final item = items[index];
                 return ShoppingCartItem(
                   item: item,
                   // make item non editable so that user can't empty cart completely
                   isEditable: false,
                 );
               },
-              childCount: itemsList.items.length,
+              childCount: items.length,
             ),
           ),
         ),
         SliverToBoxAdapter(
           child: OrderPaymentOptions(
-              total: productsRepository.calculateTotal(itemsList.items)),
+              total: productsRepository.calculateTotal(items)),
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 
+// TODO: This is no longer needed?
 class ItemsList {
   ItemsList(this.items);
   final List<Item> items;
