@@ -3,6 +3,18 @@ import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
+// TODO: Try this later
+// mixin UserListener {
+//   late String uid;
+
+//   init(AuthService authService, void Function(String uid) onUidUpdated) {
+//     authService.authStateChanges().listen((uid) {
+//       this.uid = uid!;
+//       onUidUpdated(this.uid);
+//     });
+//   }
+// }
+
 class Cart extends StateNotifier<List<Item>> {
   Cart({required this.authService, required this.dataStore})
       : uid = authService.uid!,

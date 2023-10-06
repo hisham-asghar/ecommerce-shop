@@ -1,7 +1,7 @@
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
-// TODO: Use this
+// TODO: Make this uid-dependent
 class AddressRepository {
   AddressRepository({required this.dataStore});
   final DataStore dataStore;

@@ -19,11 +19,11 @@ abstract class DataStore {
   Product findProduct(String id);
 
   // Orders
-  Map<String, Order> get orders;
+  Map<String, Order> orders(String uid);
 
-  Future<void> placeOrder(Order order);
+  Future<void> placeOrder(String uid, Order order);
 
-  List<Order> get ordersByDate;
+  List<Order> ordersByDate(String uid);
 
   // Shopping Cart
   List<Item> items(String uid);

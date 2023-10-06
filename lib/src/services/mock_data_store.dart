@@ -45,18 +45,25 @@ class MockDataStore implements DataStore {
   // -------------------------------------
   // Orders
   // -------------------------------------
-  @override
-  Map<String, Order> orders = {};
+  Map<String, Map<String, Order>> ordersData = {};
 
   @override
-  Future<void> placeOrder(Order order) async {
-    await Future.delayed(const Duration(seconds: 2));
-    orders[order.id] = order;
+  Map<String, Order> orders(String uid) {
+    return ordersData[uid] ?? {};
   }
 
   @override
-  List<Order> get ordersByDate {
-    final ordersList = orders.values.toList();
+  Future<void> placeOrder(String uid, Order order) async {
+    await Future.delayed(const Duration(seconds: 2));
+    final userOrders = Map<String, Order>.from(ordersData[uid] ?? {});
+    userOrders[order.id] = order;
+    ordersData[uid] = userOrders;
+  }
+
+  @override
+  List<Order> ordersByDate(String uid) {
+    final userOrders = ordersData[uid] ?? {};
+    final ordersList = userOrders.values.toList();
     ordersList.sort(
       (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
     );
