@@ -67,7 +67,6 @@ class MockDataStore implements DataStore {
   // Shopping cart
   // -------------------------------------
 
-  @override
   Map<String, List<Item>> cartData = {};
 
   @override
