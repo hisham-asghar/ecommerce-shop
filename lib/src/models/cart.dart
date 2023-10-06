@@ -4,10 +4,24 @@ import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class Cart extends StateNotifier<List<Item>> {
-  Cart({required this.uid, required this.dataStore})
-      : super(dataStore.items(uid));
-  final String uid;
+  Cart({required this.authService, required this.dataStore})
+      : uid = authService.uid!,
+        super([]) {
+    init();
+  }
+  final AuthService authService;
   final DataStore dataStore;
+
+  // Make it late non-nullable as it will always be non-nullable once the app starts
+  // (users are signed in as guest immediately)
+  String uid;
+
+  void init() {
+    authService.authStateChanges().listen((uid) {
+      this.uid = uid!;
+      state = dataStore.items(this.uid);
+    });
+  }
 
   void addItem(Item item) {
     dataStore.addItem(uid, item);
@@ -35,7 +49,9 @@ class Cart extends StateNotifier<List<Item>> {
 
 final cartProvider = StateNotifierProvider<Cart, List<Item>>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
+  //final authStateChanges = ref.watch(authStateChangesProvider);
+  // Maybe the cart itself should listen to changes in uid, and adjust accordingly!!!
+  // https://github.com/rrousselGit/river_pod/issues/705
   final authService = ref.watch(authServiceProvider);
-  final uid = authService.uid!;
-  return Cart(uid: uid, dataStore: dataStore);
+  return Cart(authService: authService, dataStore: dataStore);
 });

@@ -26,8 +26,8 @@ abstract class DataStore {
   List<Order> get ordersByDate;
 
   // Shopping Cart
-  Map<String, List<Item>> get cartData;
   List<Item> items(String uid);
+
   void addItem(String uid, Item item);
 
   void removeItem(String uid, Item item);
