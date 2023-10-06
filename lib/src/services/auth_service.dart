@@ -33,6 +33,8 @@ class MockAuthService implements AuthService {
   @override
   String? uid;
 
+  // Problem: this won't replay the previous value when a new listener is registered
+  // Use ValueNotifier instead?
   final _authStateChangesController = StreamController<String?>.broadcast();
 
   @override
@@ -47,8 +49,7 @@ class MockAuthService implements AuthService {
     }
     isSignedIn = false;
     // assign new uid
-    uid = const Uuid().v1();
-    _authStateChangesController.add(uid);
+    _createNewUid();
   }
 
   @override
@@ -59,8 +60,7 @@ class MockAuthService implements AuthService {
     isAdmin = true;
     // keep current uid if one already exists
     if (uid == null) {
-      uid = const Uuid().v1();
-      _authStateChangesController.add(uid);
+      _createNewUid();
     }
   }
 
@@ -73,8 +73,7 @@ class MockAuthService implements AuthService {
     isAdmin = true;
     // keep current uid if one already exists
     if (uid == null) {
-      uid = const Uuid().v1();
-      _authStateChangesController.add(uid);
+      _createNewUid();
     }
   }
 
@@ -90,8 +89,13 @@ class MockAuthService implements AuthService {
     isSignedIn = false;
     isAdmin = false;
     // assign new uid
+    _createNewUid();
+  }
+
+  void _createNewUid() {
     uid = const Uuid().v1();
     _authStateChangesController.add(uid);
+    print('New uid: $uid');
   }
 }
 

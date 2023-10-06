@@ -16,6 +16,7 @@ enum AppRoute {
   pay,
   paymentComplete,
   ordersList,
+  account,
 }
 
 // TODO: Replace with sealed union (Freezed?)
@@ -43,6 +44,9 @@ class AppRoutePath {
   AppRoutePath.ordersList()
       : appRoute = AppRoute.ordersList,
         productId = null;
+  AppRoutePath.account()
+      : appRoute = AppRoute.account,
+        productId = null;
 
   final AppRoute appRoute;
   final String? productId;
@@ -67,6 +71,8 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
           return AppRoutePath.pay();
         case 'paymentComplete':
           return AppRoutePath.paymentComplete();
+        case 'account':
+          return AppRoutePath.account();
         default:
           return AppRoutePath.notFound();
       }
@@ -95,6 +101,8 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
       case AppRoute.paymentComplete:
         // TODO: append orderId
         return const RouteInformation(location: '/paymentComplete');
+      case AppRoute.account:
+        return const RouteInformation(location: '/account');
       default:
         return const RouteInformation(location: '/404');
     }
@@ -109,6 +117,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
   void openPay();
   void openPaymentComplete(Order order);
   void openOrdersList();
+  void openAccount();
   // nice to call as:
   // context.go(cart)
   // context.go(checkout)
@@ -179,6 +188,12 @@ class AppRouterDelegate extends BaseRouterDelegate
     notifyListeners();
   }
 
+  @override
+  void openAccount() {
+    _appRoute = AppRoute.account;
+    notifyListeners();
+  }
+
   // given the state variables, return the current configuration
   @override
   AppRoutePath get currentConfiguration =>
@@ -209,6 +224,7 @@ class AppRouterDelegate extends BaseRouterDelegate
         if (_appRoute == AppRoute.paymentComplete)
           PaymentCompletePage(order: _latestOrder!),
         if (_appRoute == AppRoute.ordersList) const OrdersListPage(),
+        if (_appRoute == AppRoute.account) const AccountPage(),
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
@@ -225,6 +241,8 @@ class AppRouterDelegate extends BaseRouterDelegate
             notifyListeners();
             break;
           case AppRoute.cart:
+          case AppRoute.ordersList:
+          case AppRoute.account:
             _appRoute = _selectedProduct != null
                 ? AppRoute.productDetails
                 : AppRoute.home;
@@ -242,12 +260,6 @@ class AppRouterDelegate extends BaseRouterDelegate
             _appRoute = AppRoute.home;
             _selectedProduct = null;
             _latestOrder = null;
-            notifyListeners();
-            break;
-          case AppRoute.ordersList:
-            _appRoute = _selectedProduct != null
-                ? AppRoute.productDetails
-                : AppRoute.home;
             notifyListeners();
             break;
           case AppRoute.notFound:

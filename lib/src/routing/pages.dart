@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/account/account_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment_complete/payment_complete.dart';
@@ -90,6 +91,16 @@ class OrdersListPage extends Page {
   Route createRoute(BuildContext context) => MaterialPageRoute(
         settings: this,
         builder: (_) => const OrdersListScreen(),
+        fullscreenDialog: true,
+      );
+}
+
+class AccountPage extends Page {
+  const AccountPage();
+  @override
+  Route createRoute(BuildContext context) => MaterialPageRoute(
+        settings: this,
+        builder: (_) => const AccountScreen(),
         fullscreenDialog: true,
       );
 }

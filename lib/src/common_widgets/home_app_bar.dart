@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 enum PopupMenuOption {
   orders,
   account,
   admin,
-  logout,
 }
 
 class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
@@ -28,14 +26,15 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
           initialValue: PopupMenuOption.orders,
           onSelected: (option) {
             final routerDelegate = ref.read(routerDelegateProvider);
-            if (option == PopupMenuOption.orders) {
-              routerDelegate.openOrdersList();
-            } else if (option == PopupMenuOption.logout) {
-              final authService = ref.read(authServiceProvider);
-              authService.signOut();
-              // TODO
-            } else {
-              print('Unimplemented');
+            switch (option) {
+              case PopupMenuOption.orders:
+                routerDelegate.openOrdersList();
+                break;
+              case PopupMenuOption.account:
+                routerDelegate.openAccount();
+                break;
+              default:
+                print('Unimplemented');
             }
           },
           itemBuilder: (_) {
@@ -51,10 +50,6 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
               const PopupMenuItem(
                 child: Text('Admin'),
                 value: PopupMenuOption.admin,
-              ),
-              const PopupMenuItem(
-                child: Text('Logout'),
-                value: PopupMenuOption.logout,
               ),
             ];
           },
