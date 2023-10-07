@@ -14,10 +14,11 @@ abstract class DataStore {
   // -------------------------------------
   // Products
   // -------------------------------------
-  List<Product> getProducts();
+  Stream<List<Product>> getProducts();
 
-  void addProduct(Product product);
+  Future<void> addProduct(Product product);
 
+  // TODO: Also provide a Stream API?
   Product findProduct(String id);
 
   // -------------------------------------

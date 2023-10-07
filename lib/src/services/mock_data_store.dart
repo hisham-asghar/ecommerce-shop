@@ -13,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 class MockDataStore implements DataStore {
   MockDataStore() {
     // Initialize all controllers
-    _ordersDataController.add(ordersData);
+    _ordersDataSubject.add(ordersData);
   }
   // -------------------------------------
   // Address
@@ -32,15 +32,18 @@ class MockDataStore implements DataStore {
   // -------------------------------------
   // default list of products when the app loads
   final List<Product> _products = kTestProducts;
+  final _productsSubject = BehaviorSubject<List<Product>>.seeded(kTestProducts);
+  Stream<List<Product>> get _productsStream => _productsSubject.stream;
 
   @override
-  List<Product> getProducts() {
-    return _products;
+  Stream<List<Product>> getProducts() {
+    return _productsStream;
   }
 
   @override
-  void addProduct(Product product) {
-    throw UnimplementedError();
+  Future<void> addProduct(Product product) async {
+    _products.add(product);
+    _productsSubject.add(_products);
   }
 
   /// Throws error if not found
@@ -48,18 +51,19 @@ class MockDataStore implements DataStore {
   Product findProduct(String id) {
     return _products.firstWhere((product) => product.id == id);
   }
+  // @override
+  // Stream<Product> findProduct(String id) {
+  //   return _productsStream
+  //       .map((products) => products.firstWhere((product) => product.id == id));
+  // }
 
   // -------------------------------------
   // Orders
   // -------------------------------------
-  // actual data
   Map<String, Map<String, Order>> ordersData = {};
-  // controller for realtime updates
-  // maybe this should be behaviourSubject
-  final _ordersDataController =
-      BehaviorSubject<Map<String, Map<String, Order>>>();
+  final _ordersDataSubject = BehaviorSubject<Map<String, Map<String, Order>>>();
   Stream<Map<String, Map<String, Order>>> get _ordersDataStream =>
-      _ordersDataController.stream;
+      _ordersDataSubject.stream;
 
   @override
   Stream<Map<String, Order>> orders(String uid) {
@@ -72,7 +76,7 @@ class MockDataStore implements DataStore {
     final userOrders = Map<String, Order>.from(ordersData[uid] ?? {});
     userOrders[order.id] = order;
     ordersData[uid] = userOrders;
-    _ordersDataController.add(ordersData);
+    _ordersDataSubject.add(ordersData);
   }
 
   @override
@@ -82,7 +86,7 @@ class MockDataStore implements DataStore {
     final updated = order.copyWith(orderStatus: status);
     userOrders[order.id] = updated;
     ordersData[order.userId] = userOrders;
-    _ordersDataController.add(ordersData);
+    _ordersDataSubject.add(ordersData);
   }
 
   @override

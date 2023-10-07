@@ -9,7 +9,7 @@ class OrdersListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ordersByDateValue = ref.watch(ordersByDateProvider2);
+    final ordersByDateValue = ref.watch(ordersByDateProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Orders'),
