@@ -4,8 +4,8 @@ import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 // This is the *user* orders repository
-class OrdersRepository {
-  OrdersRepository({required this.authService, required this.dataStore})
+class UserOrdersRepository {
+  UserOrdersRepository({required this.authService, required this.dataStore})
       : uid = authService.uid! {
     init();
   }
@@ -29,8 +29,8 @@ class OrdersRepository {
   Future<void> placeOrder(Order order) => dataStore.placeOrder(uid, order);
 }
 
-final ordersRepositoryProvider = Provider<OrdersRepository>((ref) {
+final userOrdersRepositoryProvider = Provider<UserOrdersRepository>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
   final authService = ref.watch(authServiceProvider);
-  return OrdersRepository(authService: authService, dataStore: dataStore);
+  return UserOrdersRepository(authService: authService, dataStore: dataStore);
 });

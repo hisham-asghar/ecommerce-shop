@@ -7,7 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/orders_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/user_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
@@ -45,7 +45,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     final cart = ref.read(cartProvider.notifier);
     final itemsList = ref.read(cartProvider);
     final auth = ref.read(authServiceProvider);
-    final ordersRepository = ref.read(ordersRepositoryProvider);
+    final userOrdersRepository = ref.read(userOrdersRepositoryProvider);
     final order = Order(
       id: Uuid().v1(),
       userId: auth.uid!, // safe to use ! as we must be logged in if we get here
@@ -58,7 +58,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     );
     try {
       setState(() => _isLoading = true);
-      await ordersRepository.placeOrder(order);
+      await userOrdersRepository.placeOrder(order);
       cart.removeAll();
       setState(() => _isLoading = false);
       ref.read(routerDelegateProvider).openPaymentComplete(order);
