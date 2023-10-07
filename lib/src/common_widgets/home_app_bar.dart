@@ -33,6 +33,9 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
               case PopupMenuOption.account:
                 routerDelegate.openAccount();
                 break;
+              case PopupMenuOption.admin:
+                routerDelegate.openAdmin();
+                break;
               default:
                 print('Unimplemented');
             }

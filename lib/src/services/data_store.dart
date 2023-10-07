@@ -25,6 +25,8 @@ abstract class DataStore {
 
   List<Order> ordersByDate(String uid);
 
+  List<Order> allOrdersByDate();
+
   // Shopping Cart
   List<Item> items(String uid);
 

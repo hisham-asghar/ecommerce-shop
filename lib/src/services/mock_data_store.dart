@@ -70,6 +70,18 @@ class MockDataStore implements DataStore {
     return ordersList;
   }
 
+  @override
+  List<Order> allOrdersByDate() {
+    final orders = <Order>[];
+    for (var userOrders in ordersData.values) {
+      orders.addAll(userOrders.values);
+    }
+    orders.sort(
+      (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
+    );
+    return orders;
+  }
+
   // -------------------------------------
   // Shopping cart
   // -------------------------------------

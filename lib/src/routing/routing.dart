@@ -17,6 +17,8 @@ enum AppRoute {
   paymentComplete,
   ordersList,
   account,
+  admin,
+  adminOrders,
 }
 
 // TODO: Replace with sealed union (Freezed?)
@@ -47,6 +49,12 @@ class AppRoutePath {
   AppRoutePath.account()
       : appRoute = AppRoute.account,
         productId = null;
+  AppRoutePath.admin()
+      : appRoute = AppRoute.admin,
+        productId = null;
+  AppRoutePath.adminOrders()
+      : appRoute = AppRoute.adminOrders,
+        productId = null;
 
   final AppRoute appRoute;
   final String? productId;
@@ -73,6 +81,10 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
           return AppRoutePath.paymentComplete();
         case 'account':
           return AppRoutePath.account();
+        case 'admin':
+          return AppRoutePath.admin();
+        case 'adminOrders':
+          return AppRoutePath.adminOrders();
         default:
           return AppRoutePath.notFound();
       }
@@ -103,6 +115,10 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
         return const RouteInformation(location: '/paymentComplete');
       case AppRoute.account:
         return const RouteInformation(location: '/account');
+      case AppRoute.admin:
+        return const RouteInformation(location: '/admin');
+      case AppRoute.adminOrders:
+        return const RouteInformation(location: '/admin/orders');
       default:
         return const RouteInformation(location: '/404');
     }
@@ -118,6 +134,8 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
   void openPaymentComplete(Order order);
   void openOrdersList();
   void openAccount();
+  void openAdmin();
+  void openAdminOrders();
   // nice to call as:
   // context.go(cart)
   // context.go(checkout)
@@ -194,6 +212,18 @@ class AppRouterDelegate extends BaseRouterDelegate
     notifyListeners();
   }
 
+  @override
+  void openAdmin() {
+    _appRoute = AppRoute.admin;
+    notifyListeners();
+  }
+
+  @override
+  void openAdminOrders() {
+    _appRoute = AppRoute.adminOrders;
+    notifyListeners();
+  }
+
   // given the state variables, return the current configuration
   @override
   AppRoutePath get currentConfiguration =>
@@ -225,6 +255,11 @@ class AppRouterDelegate extends BaseRouterDelegate
           PaymentCompletePage(order: _latestOrder!),
         if (_appRoute == AppRoute.ordersList) const OrdersListPage(),
         if (_appRoute == AppRoute.account) const AccountPage(),
+        if (_appRoute == AppRoute.admin) const AdminPage(),
+        if (_appRoute == AppRoute.adminOrders) ...[
+          const AdminPage(),
+          const AdminOrdersPage(),
+        ],
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
@@ -243,6 +278,7 @@ class AppRouterDelegate extends BaseRouterDelegate
           case AppRoute.cart:
           case AppRoute.ordersList:
           case AppRoute.account:
+          case AppRoute.admin:
             _appRoute = _selectedProduct != null
                 ? AppRoute.productDetails
                 : AppRoute.home;
@@ -254,6 +290,10 @@ class AppRouterDelegate extends BaseRouterDelegate
             break;
           case AppRoute.pay:
             _appRoute = AppRoute.checkout;
+            notifyListeners();
+            break;
+          case AppRoute.adminOrders:
+            _appRoute = AppRoute.admin;
             notifyListeners();
             break;
           case AppRoute.paymentComplete:

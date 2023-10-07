@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/account/account_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/admin_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/orders/admin_orders_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment_complete/payment_complete.dart';
@@ -102,5 +104,25 @@ class AccountPage extends Page {
         settings: this,
         builder: (_) => const AccountScreen(),
         fullscreenDialog: true,
+      );
+}
+
+class AdminPage extends Page {
+  const AdminPage();
+  @override
+  Route createRoute(BuildContext context) => MaterialPageRoute(
+        settings: this,
+        builder: (_) => const AdminScreen(),
+        fullscreenDialog: true,
+      );
+}
+
+class AdminOrdersPage extends Page {
+  const AdminOrdersPage();
+  @override
+  Route createRoute(BuildContext context) => MaterialPageRoute(
+        settings: this,
+        builder: (_) => const AdminOrdersScreen(),
+        fullscreenDialog: false,
       );
 }
