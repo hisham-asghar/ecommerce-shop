@@ -6,10 +6,18 @@ class AdminOrdersRepository {
   AdminOrdersRepository({required this.dataStore});
   final DataStore dataStore;
 
-  List<Order> allOrdersByDate() => dataStore.allOrdersByDate();
+  Stream<List<Order>> allOrdersByDate() => dataStore.allOrdersByDate();
+
+  Future<void> updateOrderStatus(Order order, OrderStatus status) =>
+      dataStore.updateOrderStatus(order, status);
 }
 
 final adminOrdersRepositoryProvider = Provider<AdminOrdersRepository>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
   return AdminOrdersRepository(dataStore: dataStore);
+});
+
+final allOrdersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
+  final dataStore = ref.watch(dataStoreProvider);
+  return dataStore.allOrdersByDate();
 });

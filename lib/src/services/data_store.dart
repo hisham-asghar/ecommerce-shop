@@ -19,13 +19,15 @@ abstract class DataStore {
   Product findProduct(String id);
 
   // Orders
-  Map<String, Order> orders(String uid);
+  Stream<Map<String, Order>> orders(String uid);
 
   Future<void> placeOrder(String uid, Order order);
 
-  List<Order> ordersByDate(String uid);
+  Future<void> updateOrderStatus(Order order, OrderStatus status);
 
-  List<Order> allOrdersByDate();
+  Stream<List<Order>> ordersByDate(String uid);
+
+  Stream<List<Order>> allOrdersByDate();
 
   // Shopping Cart
   List<Item> items(String uid);

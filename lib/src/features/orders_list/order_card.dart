@@ -114,10 +114,7 @@ class OrderItemsList extends ConsumerWidget {
           padding: const EdgeInsets.all(Sizes.p16),
           child: viewMode == OrderViewMode.user
               ? OrderStatusLabel(order: order)
-              : OrderStatusDropDown(
-                  value: order.orderStatus,
-                  onChanged: (_) {},
-                ),
+              : OrderStatusDropDown(order: order),
         ),
         for (var item in order.items) OrderItemListTile(item: item),
       ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:faker/faker.dart' hide Address;
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
@@ -6,8 +8,13 @@ import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_cart.dart';
+import 'package:rxdart/rxdart.dart';
 
 class MockDataStore implements DataStore {
+  MockDataStore() {
+    // Initialize all controllers
+    _ordersDataController.add(ordersData);
+  }
   // -------------------------------------
   // Address
   // -------------------------------------
@@ -45,11 +52,18 @@ class MockDataStore implements DataStore {
   // -------------------------------------
   // Orders
   // -------------------------------------
+  // actual data
   Map<String, Map<String, Order>> ordersData = {};
+  // controller for realtime updates
+  // maybe this should be behaviourSubject
+  final _ordersDataController =
+      BehaviorSubject<Map<String, Map<String, Order>>>();
+  Stream<Map<String, Map<String, Order>>> get _ordersDataStream =>
+      _ordersDataController.stream;
 
   @override
-  Map<String, Order> orders(String uid) {
-    return ordersData[uid] ?? {};
+  Stream<Map<String, Order>> orders(String uid) {
+    return _ordersDataStream.map((ordersData) => ordersData[uid] ?? {});
   }
 
   @override
@@ -58,28 +72,42 @@ class MockDataStore implements DataStore {
     final userOrders = Map<String, Order>.from(ordersData[uid] ?? {});
     userOrders[order.id] = order;
     ordersData[uid] = userOrders;
+    _ordersDataController.add(ordersData);
   }
 
   @override
-  List<Order> ordersByDate(String uid) {
-    final userOrders = ordersData[uid] ?? {};
-    final ordersList = userOrders.values.toList();
-    ordersList.sort(
-      (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
-    );
-    return ordersList;
+  Future<void> updateOrderStatus(Order order, OrderStatus status) async {
+    final userOrders = Map<String, Order>.from(ordersData[order.userId] ?? {});
+    final updated = order.copyWith(orderStatus: status);
+    userOrders[order.id] = updated;
+    ordersData[order.userId] = userOrders;
+    _ordersDataController.add(ordersData);
   }
 
   @override
-  List<Order> allOrdersByDate() {
-    final orders = <Order>[];
-    for (var userOrders in ordersData.values) {
-      orders.addAll(userOrders.values);
-    }
-    orders.sort(
-      (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
-    );
-    return orders;
+  Stream<List<Order>> ordersByDate(String uid) {
+    return _ordersDataStream.map((ordersData) {
+      final userOrders = ordersData[uid] ?? {};
+      final ordersList = userOrders.values.toList();
+      ordersList.sort(
+        (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
+      );
+      return ordersList;
+    });
+  }
+
+  @override
+  Stream<List<Order>> allOrdersByDate() {
+    return _ordersDataStream.map((ordersData) {
+      final orders = <Order>[];
+      for (var userOrders in ordersData.values) {
+        orders.addAll(userOrders.values);
+      }
+      orders.sort(
+        (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
+      );
+      return orders;
+    });
   }
 
   // -------------------------------------

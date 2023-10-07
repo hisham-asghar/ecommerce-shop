@@ -22,9 +22,9 @@ class UserOrdersRepository {
     });
   }
 
-  Map<String, Order> orders() => dataStore.orders(uid);
+  //Stream<Map<String, Order>> orders() => dataStore.orders(uid);
 
-  List<Order> ordersByDate() => dataStore.ordersByDate(uid);
+  Stream<List<Order>> ordersByDate() => dataStore.ordersByDate(uid);
 
   Future<void> placeOrder(Order order) => dataStore.placeOrder(uid, order);
 }
@@ -34,3 +34,15 @@ final userOrdersRepositoryProvider = Provider<UserOrdersRepository>((ref) {
   final authService = ref.watch(authServiceProvider);
   return UserOrdersRepository(authService: authService, dataStore: dataStore);
 });
+
+final ordersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
+  final userOrdersRepository = ref.watch(userOrdersRepositoryProvider);
+  return userOrdersRepository.ordersByDate();
+});
+
+
+// final ordersByDateProvider =
+//     StreamProvider.autoDispose.family<List<Order>, String>((ref, uid) {
+//   final dataStore = ref.watch(dataStoreProvider);
+//   return dataStore.ordersByDate(uid);
+// });

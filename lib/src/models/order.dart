@@ -52,6 +52,23 @@ class Order {
   final DateTime orderDate;
   final DateTime? deliveryDate;
 
+  Order copyWith({
+    String? id,
+    String? userId,
+    List<Item>? items,
+    OrderStatus? orderStatus,
+    DateTime? orderDate,
+    DateTime? deliveryDate,
+  }) =>
+      Order(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
+        items: items ?? this.items,
+        orderStatus: orderStatus ?? this.orderStatus,
+        orderDate: orderDate ?? this.orderDate,
+        deliveryDate: deliveryDate ?? this.deliveryDate,
+      );
+
   @override
   int get hashCode => id.hashCode & userId.hashCode;
 

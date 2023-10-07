@@ -9,8 +9,7 @@ class OrdersListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userOrdersRepository = ref.watch(userOrdersRepositoryProvider);
-    final orders = userOrdersRepository.ordersByDate();
+    final ordersByDateValue = ref.watch(ordersByDateProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Orders'),
@@ -21,17 +20,23 @@ class OrdersListScreen extends ConsumerWidget {
           child: CustomScrollView(
             slivers: <Widget>[
               // TODO: Some summary of orders here?
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) => Padding(
-                    padding: const EdgeInsets.all(Sizes.p8),
-                    child: OrderCard(
-                      order: orders[index],
-                      viewMode: OrderViewMode.user,
+              ordersByDateValue.when(
+                data: (orders) => SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) => Padding(
+                      padding: const EdgeInsets.all(Sizes.p8),
+                      child: OrderCard(
+                        order: orders[index],
+                        viewMode: OrderViewMode.user,
+                      ),
                     ),
+                    childCount: orders.length,
                   ),
-                  childCount: orders.length,
                 ),
+                loading: () => const SliverToBoxAdapter(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (e, st) => Text(e.toString()),
               ),
             ],
           ),
