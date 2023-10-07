@@ -3,30 +3,21 @@ import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
-// This is the *user* orders repository
 class UserOrdersRepository {
-  UserOrdersRepository({required this.authService, required this.dataStore})
-      : uid = authService.uid! {
-    init();
-  }
+  UserOrdersRepository({required this.authService, required this.dataStore});
   final AuthService authService;
   final DataStore dataStore;
 
-  // TODO: Don't copy paste this logic
-  // Make it late non-nullable as it will always be non-nullable once the app starts
-  // (users are signed in as guest immediately)
-  String uid;
-  void init() {
-    authService.authStateChanges().listen((uid) {
-      this.uid = uid!;
-    });
+  // All write operations go here
+  Future<void> placeOrder(Order order) async {
+    final uid = authService.uid;
+    if (uid != null) {
+      await dataStore.placeOrder(uid, order);
+    } else {
+      // TODO: Log error
+      throw AssertionError('Can\'t place order as uid == null');
+    }
   }
-
-  //Stream<Map<String, Order>> orders() => dataStore.orders(uid);
-
-  Stream<List<Order>> ordersByDate() => dataStore.ordersByDate(uid);
-
-  Future<void> placeOrder(Order order) => dataStore.placeOrder(uid, order);
 }
 
 final userOrdersRepositoryProvider = Provider<UserOrdersRepository>((ref) {
@@ -35,14 +26,15 @@ final userOrdersRepositoryProvider = Provider<UserOrdersRepository>((ref) {
   return UserOrdersRepository(authService: authService, dataStore: dataStore);
 });
 
+// All read operations go here
 final ordersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
-  final userOrdersRepository = ref.watch(userOrdersRepositoryProvider);
-  return userOrdersRepository.ordersByDate();
+  final uidValue = ref.watch(authStateChangesProvider);
+  final uid = uidValue.maybeWhen(data: (uid) => uid, orElse: () => null);
+  if (uid != null) {
+    final dataStore = ref.watch(dataStoreProvider);
+    return dataStore.ordersByDate(uid);
+  } else {
+    // TODO: Log error
+    return const Stream.empty();
+  }
 });
-
-
-// final ordersByDateProvider =
-//     StreamProvider.autoDispose.family<List<Order>, String>((ref, uid) {
-//   final dataStore = ref.watch(dataStoreProvider);
-//   return dataStore.ordersByDate(uid);
-// });

@@ -37,7 +37,9 @@ class AdminOrdersScreen extends ConsumerWidget {
                 loading: () => const SliverToBoxAdapter(
                   child: CircularProgressIndicator(),
                 ),
-                error: (e, st) => Text(e.toString()),
+                error: (e, st) => SliverToBoxAdapter(
+                  child: Text(e.toString()),
+                ),
               ),
             ],
           ),

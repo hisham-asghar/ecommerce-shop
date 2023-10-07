@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class AuthService {
@@ -35,7 +36,7 @@ class MockAuthService implements AuthService {
 
   // Problem: this won't replay the previous value when a new listener is registered
   // Use ValueNotifier instead?
-  final _authStateChangesController = StreamController<String?>.broadcast();
+  final _authStateChangesController = BehaviorSubject<String?>();
 
   @override
   Stream<String?> authStateChanges() => _authStateChangesController.stream;

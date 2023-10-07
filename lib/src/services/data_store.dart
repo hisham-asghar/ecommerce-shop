@@ -11,14 +11,18 @@ abstract class DataStore {
   bool get isAddressSet;
   Future<void> submitAddress(Address address);
 
+  // -------------------------------------
   // Products
+  // -------------------------------------
   List<Product> getProducts();
 
   void addProduct(Product product);
 
   Product findProduct(String id);
 
+  // -------------------------------------
   // Orders
+  // -------------------------------------
   Stream<Map<String, Order>> orders(String uid);
 
   Future<void> placeOrder(String uid, Order order);
@@ -29,7 +33,9 @@ abstract class DataStore {
 
   Stream<List<Order>> allOrdersByDate();
 
+  // -------------------------------------
   // Shopping Cart
+  // -------------------------------------
   List<Item> items(String uid);
 
   void addItem(String uid, Item item);

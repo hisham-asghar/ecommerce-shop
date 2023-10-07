@@ -9,7 +9,7 @@ class OrdersListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ordersByDateValue = ref.watch(ordersByDateProvider);
+    final ordersByDateValue = ref.watch(ordersByDateProvider2);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Orders'),
@@ -36,7 +36,9 @@ class OrdersListScreen extends ConsumerWidget {
                 loading: () => const SliverToBoxAdapter(
                   child: CircularProgressIndicator(),
                 ),
-                error: (e, st) => Text(e.toString()),
+                error: (e, st) => SliverToBoxAdapter(
+                  child: Text(e.toString()),
+                ),
               ),
             ],
           ),
