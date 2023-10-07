@@ -28,6 +28,7 @@ class AdminOrdersScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(Sizes.p8),
                     child: OrderCard(
                       order: orders[index],
+                      viewMode: OrderViewMode.admin,
                     ),
                   ),
                   childCount: orders.length,

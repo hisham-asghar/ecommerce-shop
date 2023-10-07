@@ -27,6 +27,7 @@ class OrdersListScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(Sizes.p8),
                     child: OrderCard(
                       order: orders[index],
+                      viewMode: OrderViewMode.user,
                     ),
                   ),
                   childCount: orders.length,

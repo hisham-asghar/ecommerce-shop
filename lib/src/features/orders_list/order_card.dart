@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_item_list_tile.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_drop_down.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_label.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/date_formatter.dart';
 
+enum OrderViewMode { user, admin }
+
 class OrderCard extends StatelessWidget {
-  const OrderCard({Key? key, required this.order}) : super(key: key);
+  const OrderCard({Key? key, required this.order, required this.viewMode})
+      : super(key: key);
   final Order order;
+  final OrderViewMode viewMode;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +27,10 @@ class OrderCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          OrderHeader(order: order),
-          // TODO: Admin options (show user UID etc.)
+          OrderHeader(order: order, viewMode: viewMode),
           const Divider(height: 1, color: Colors.grey),
           //const SizedBox(height: Sizes.p16),
-          OrderItemsList(order: order),
+          OrderItemsList(order: order, viewMode: viewMode),
         ],
       ),
     );
@@ -33,8 +38,10 @@ class OrderCard extends StatelessWidget {
 }
 
 class OrderHeader extends ConsumerWidget {
-  const OrderHeader({Key? key, required this.order}) : super(key: key);
+  const OrderHeader({Key? key, required this.order, required this.viewMode})
+      : super(key: key);
   final Order order;
+  final OrderViewMode viewMode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,6 +64,13 @@ class OrderHeader extends ConsumerWidget {
                   style: Theme.of(context).textTheme.caption),
               const SizedBox(height: Sizes.p4),
               Text(dateFormatted),
+              if (viewMode == OrderViewMode.admin) ...[
+                const SizedBox(height: Sizes.p16),
+                Text('User ID'.toUpperCase(),
+                    style: Theme.of(context).textTheme.caption),
+                const SizedBox(height: Sizes.p4),
+                Text(order.userId),
+              ],
             ],
           ),
           Column(
@@ -68,6 +82,14 @@ class OrderHeader extends ConsumerWidget {
               ),
               const SizedBox(height: Sizes.p4),
               Text(totalFormatted),
+              if (viewMode == OrderViewMode.admin) ...[
+                const SizedBox(height: Sizes.p16),
+                Text('User email'.toUpperCase(),
+                    style: Theme.of(context).textTheme.caption),
+                const SizedBox(height: Sizes.p4),
+                // TODO: Fetch and show user email
+                const Text('TBD'),
+              ],
             ],
           )
         ],
@@ -78,8 +100,10 @@ class OrderHeader extends ConsumerWidget {
 }
 
 class OrderItemsList extends ConsumerWidget {
-  const OrderItemsList({Key? key, required this.order}) : super(key: key);
+  const OrderItemsList({Key? key, required this.order, required this.viewMode})
+      : super(key: key);
   final Order order;
+  final OrderViewMode viewMode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -88,72 +112,15 @@ class OrderItemsList extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(Sizes.p16),
-          child: OrderStatusLabel(order: order),
+          child: viewMode == OrderViewMode.user
+              ? OrderStatusLabel(order: order)
+              : OrderStatusDropDown(
+                  value: order.orderStatus,
+                  onChanged: (_) {},
+                ),
         ),
         for (var item in order.items) OrderItemListTile(item: item),
       ],
-    );
-  }
-}
-
-class OrderStatusLabel extends ConsumerWidget {
-  const OrderStatusLabel({Key? key, required this.order}) : super(key: key);
-  final Order order;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final textStyle = Theme.of(context).textTheme.bodyText1!;
-    switch (order.orderStatus) {
-      case OrderStatus.confirmed:
-        return Text('Confirmed - preparing for delivery', style: textStyle);
-      case OrderStatus.shipped:
-        if (order.deliveryDate != null) {
-          final date =
-              ref.watch(dateFormatterProvider).format(order.deliveryDate!);
-          return Text('Shipped - estimated delivery $date', style: textStyle);
-        } else {
-          return Text('Shipped', style: textStyle);
-        }
-      case OrderStatus.delivered:
-        if (order.deliveryDate != null) {
-          final date =
-              ref.watch(dateFormatterProvider).format(order.deliveryDate!);
-          return Text('Delivered $date',
-              style: textStyle.copyWith(color: Colors.green));
-        } else {
-          return Text('Delivered',
-              style: textStyle.copyWith(color: Colors.green));
-        }
-      default:
-        return Container();
-    }
-  }
-}
-
-class OrderItemListTile extends ConsumerWidget {
-  const OrderItemListTile({Key? key, required this.item}) : super(key: key);
-  final Item item;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final productsRepository = ref.watch(productsRepositoryProvider);
-    final product = productsRepository.findProduct(item.productId);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-      child: Row(
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            flex: 1,
-            child: Image.network(product.imageUrl),
-          ),
-          const SizedBox(width: Sizes.p8),
-          Flexible(
-            flex: 3,
-            child: Text(product.title),
-          ),
-        ],
-      ),
     );
   }
 }
