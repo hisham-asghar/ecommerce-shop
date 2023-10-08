@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_list.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 
-class AdminProductsScreen extends StatelessWidget {
+class AdminProductsScreen extends ConsumerWidget {
   const AdminProductsScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products Management'),
@@ -24,16 +26,20 @@ class AdminProductsScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline4),
                 ),
               ),
-              const SliverPadding(
-                padding: EdgeInsets.all(Sizes.p16),
-                sliver: ProductsGrid(),
+              SliverPadding(
+                padding: const EdgeInsets.all(Sizes.p16),
+                sliver: ProductsGrid(
+                  onProductSelected: (product) => ref
+                      .read(routerDelegateProvider)
+                      .openAdminProduct(product),
+                ),
               ),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {},
       ),
     );

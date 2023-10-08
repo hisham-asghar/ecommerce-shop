@@ -20,48 +20,52 @@ enum AppRoute {
   admin,
   adminOrders,
   adminProducts,
+  adminProduct,
 }
 
 // TODO: Replace with sealed union (Freezed?)
 class AppRoutePath {
-  AppRoutePath({required this.appRoute, required this.productId});
-  AppRoutePath.notFound()
-      : appRoute = AppRoute.notFound,
-        productId = null;
-  AppRoutePath.home()
-      : appRoute = AppRoute.home,
-        productId = null;
-  AppRoutePath.details(this.productId) : appRoute = AppRoute.productDetails;
-  AppRoutePath.cart()
-      : appRoute = AppRoute.cart,
-        productId = null;
-  AppRoutePath.checkout()
-      : appRoute = AppRoute.checkout,
-        productId = null;
-  AppRoutePath.pay()
-      : appRoute = AppRoute.pay,
-        productId = null;
-  AppRoutePath.paymentComplete()
-      : appRoute = AppRoute.paymentComplete,
-        productId = null;
-  AppRoutePath.ordersList()
-      : appRoute = AppRoute.ordersList,
-        productId = null;
-  AppRoutePath.account()
-      : appRoute = AppRoute.account,
-        productId = null;
-  AppRoutePath.admin()
-      : appRoute = AppRoute.admin,
-        productId = null;
-  AppRoutePath.adminOrders()
-      : appRoute = AppRoute.adminOrders,
-        productId = null;
-  AppRoutePath.adminProducts()
-      : appRoute = AppRoute.adminOrders,
-        productId = null;
+  AppRoutePath(this.appRoute, {this.userProductId, this.adminProductId});
+  // AppRoutePath.notFound()
+  //     : appRoute = AppRoute.notFound,
+  //       userProductId = null;
+  // AppRoutePath.home()
+  //     : appRoute = AppRoute.home,
+  //       userProductId = null;
+  // AppRoutePath.details(this.userProductId) : appRoute = AppRoute.productDetails;
+  // AppRoutePath.cart()
+  //     : appRoute = AppRoute.cart,
+  //       userProductId = null;
+  // AppRoutePath.checkout()
+  //     : appRoute = AppRoute.checkout,
+  //       userProductId = null;
+  // AppRoutePath.pay()
+  //     : appRoute = AppRoute.pay,
+  //       userProductId = null;
+  // AppRoutePath.paymentComplete()
+  //     : appRoute = AppRoute.paymentComplete,
+  //       userProductId = null;
+  // AppRoutePath.ordersList()
+  //     : appRoute = AppRoute.ordersList,
+  //       userProductId = null;
+  // AppRoutePath.account()
+  //     : appRoute = AppRoute.account,
+  //       userProductId = null;
+  // AppRoutePath.admin()
+  //     : appRoute = AppRoute.admin,
+  //       userProductId = null;
+  // AppRoutePath.adminOrders()
+  //     : appRoute = AppRoute.adminOrders,
+  //       userProductId = null;
+  // AppRoutePath.adminProducts()
+  //     : appRoute = AppRoute.adminOrders,
+  //       userProductId = null;
+  // // TODO: Don't reuse same productId
+  // AppRoutePath.adminProduct(this.userProductId) : appRoute = AppRoute.adminProduct;
 
   final AppRoute appRoute;
-  final String? productId;
+  final String? userProductId;
+  final String? adminProductId;
 }
 
 class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
@@ -71,33 +75,51 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
     final uri = Uri.parse(routeInformation.location!);
 
     if (uri.pathSegments.isEmpty) {
-      return AppRoutePath.home();
+      return AppRoutePath(AppRoute.home);
     }
     if (uri.pathSegments.length == 1) {
       switch (uri.pathSegments[0]) {
         case 'cart':
-          return AppRoutePath.cart();
+          return AppRoutePath(AppRoute.cart);
         case 'checkout':
-          return AppRoutePath.checkout();
+          return AppRoutePath(AppRoute.checkout);
         case 'pay':
-          return AppRoutePath.pay();
+          return AppRoutePath(AppRoute.pay);
         case 'paymentComplete':
-          return AppRoutePath.paymentComplete();
+          return AppRoutePath(AppRoute.paymentComplete);
         case 'account':
-          return AppRoutePath.account();
+          return AppRoutePath(AppRoute.account);
         case 'admin':
-          return AppRoutePath.admin();
-        case 'adminOrders':
-          return AppRoutePath.adminOrders();
-        case 'adminProducts':
-          return AppRoutePath.adminProducts();
+          return AppRoutePath(AppRoute.admin);
         default:
-          return AppRoutePath.notFound();
+          return AppRoutePath(AppRoute.notFound);
       }
     }
     if (uri.pathSegments.length >= 2) {
-      final productId = uri.pathSegments[1];
-      return AppRoutePath.details(productId);
+      switch (uri.pathSegments[0]) {
+        case 'products':
+          final productId = uri.pathSegments[1];
+          return AppRoutePath(AppRoute.productDetails,
+              userProductId: productId);
+        case 'admin':
+          switch (uri.pathSegments[1]) {
+            case 'orders':
+              return AppRoutePath(AppRoute.adminOrders);
+            case 'products':
+              if (uri.pathSegments.length >= 3) {
+                final productId = uri.pathSegments[2];
+                return AppRoutePath(AppRoute.adminProduct,
+                    adminProductId: productId);
+              } else {
+                return AppRoutePath(AppRoute.adminProducts);
+              }
+            default:
+              return AppRoutePath(AppRoute.notFound);
+          }
+
+        default:
+          return AppRoutePath(AppRoute.notFound);
+      }
     }
     throw UnimplementedError();
   }
@@ -109,7 +131,7 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
         return const RouteInformation(location: '/');
       case AppRoute.productDetails:
         return RouteInformation(
-            location: '/product/${configuration.productId!}');
+            location: '/products/${configuration.userProductId!}');
       case AppRoute.cart:
         return const RouteInformation(location: '/cart');
       case AppRoute.checkout:
@@ -127,6 +149,9 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
         return const RouteInformation(location: '/admin/orders');
       case AppRoute.adminProducts:
         return const RouteInformation(location: '/admin/products');
+      case AppRoute.adminProduct:
+        return RouteInformation(
+            location: '/admin/products/${configuration.userProductId!}');
       default:
         return const RouteInformation(location: '/404');
     }
@@ -145,6 +170,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
   void openAdmin();
   void openAdminOrders();
   void openAdminProducts();
+  void openAdminProduct(Product product);
   // nice to call as:
   // context.go(cart)
   // context.go(checkout)
@@ -165,14 +191,16 @@ class AppRouterDelegate extends BaseRouterDelegate
 
   // These variables keep track of all the state needed to handle navigation
   AppRoute _appRoute = AppRoute.home;
-  Product? _selectedProduct;
+  Product? _selectedUserProduct;
+  Product? _selectedAdminProduct;
   Order? _latestOrder;
 
   // method handlers to update the navigation state
   @override
   void openHome() {
     _appRoute = AppRoute.home;
-    _selectedProduct = null;
+    _selectedUserProduct = null;
+    _selectedAdminProduct = null;
     _latestOrder = null;
     notifyListeners();
   }
@@ -180,7 +208,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   void selectProduct(Product product) {
     _appRoute = AppRoute.productDetails;
-    _selectedProduct = product;
+    _selectedUserProduct = product;
     notifyListeners();
   }
 
@@ -224,6 +252,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   void openAdmin() {
     _appRoute = AppRoute.admin;
+    _selectedAdminProduct = null;
     notifyListeners();
   }
 
@@ -239,10 +268,20 @@ class AppRouterDelegate extends BaseRouterDelegate
     notifyListeners();
   }
 
+  @override
+  void openAdminProduct(Product product) {
+    _appRoute = AppRoute.adminProduct;
+    _selectedAdminProduct = product;
+    notifyListeners();
+  }
+
   // given the state variables, return the current configuration
   @override
-  AppRoutePath get currentConfiguration =>
-      AppRoutePath(appRoute: _appRoute, productId: _selectedProduct?.id);
+  AppRoutePath get currentConfiguration => AppRoutePath(
+        _appRoute,
+        userProductId: _selectedUserProduct?.id,
+        adminProductId: _selectedAdminProduct?.id,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -253,8 +292,8 @@ class AppRouterDelegate extends BaseRouterDelegate
           const NotFoundPage()
         else
           const ProductListPage(),
-        if (_selectedProduct != null)
-          ProductDetailsPage(product: _selectedProduct!),
+        if (_selectedUserProduct != null)
+          ProductDetailsPage(product: _selectedUserProduct!),
         if (_appRoute == AppRoute.cart) const ShoppingCartPage(),
         if (_appRoute == AppRoute.checkout) ...[
           const ShoppingCartPage(),
@@ -279,6 +318,11 @@ class AppRouterDelegate extends BaseRouterDelegate
           const AdminPage(),
           const AdminProductsPage(),
         ],
+        if (_appRoute == AppRoute.adminProduct) ...[
+          const AdminPage(),
+          const AdminProductsPage(),
+          AdminProductDetailsPage(product: _selectedAdminProduct!),
+        ],
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
@@ -291,14 +335,14 @@ class AppRouterDelegate extends BaseRouterDelegate
             break;
           case AppRoute.productDetails:
             _appRoute = AppRoute.home;
-            _selectedProduct = null;
+            _selectedUserProduct = null;
             notifyListeners();
             break;
           case AppRoute.cart:
           case AppRoute.ordersList:
           case AppRoute.account:
           case AppRoute.admin:
-            _appRoute = _selectedProduct != null
+            _appRoute = _selectedUserProduct != null
                 ? AppRoute.productDetails
                 : AppRoute.home;
             notifyListeners();
@@ -311,15 +355,21 @@ class AppRouterDelegate extends BaseRouterDelegate
             _appRoute = AppRoute.checkout;
             notifyListeners();
             break;
+          case AppRoute.paymentComplete:
+            _appRoute = AppRoute.home;
+            _selectedUserProduct = null;
+            _latestOrder = null;
+            notifyListeners();
+            break;
           case AppRoute.adminOrders:
           case AppRoute.adminProducts:
             _appRoute = AppRoute.admin;
+            _selectedAdminProduct = null;
             notifyListeners();
             break;
-          case AppRoute.paymentComplete:
-            _appRoute = AppRoute.home;
-            _selectedProduct = null;
-            _latestOrder = null;
+          case AppRoute.adminProduct:
+            _appRoute = AppRoute.adminProducts;
+            _selectedAdminProduct = null;
             notifyListeners();
             break;
           case AppRoute.notFound:
@@ -338,10 +388,16 @@ class AppRouterDelegate extends BaseRouterDelegate
     // TODO: Defensive code to prevent navigation to pages that require certain objects to be set
     _appRoute = configuration.appRoute;
     if (configuration.appRoute == AppRoute.productDetails) {
-      _selectedProduct =
-          productsRepository.getProductById(configuration.productId!);
+      _selectedUserProduct =
+          productsRepository.getProductById(configuration.userProductId!);
     } else {
-      _selectedProduct = null;
+      _selectedUserProduct = null;
+    }
+    if (configuration.appRoute == AppRoute.adminProduct) {
+      _selectedAdminProduct =
+          productsRepository.getProductById(configuration.adminProductId!);
+    } else {
+      _selectedAdminProduct = null;
     }
     // TODO: Handle payment complete
   }
