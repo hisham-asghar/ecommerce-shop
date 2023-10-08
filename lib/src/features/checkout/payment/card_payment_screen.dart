@@ -4,9 +4,9 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/user_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
@@ -42,8 +42,8 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
 
   // TODO: Move this to more appropriate place
   void _placeOrder() async {
-    final cart = ref.read(cartProvider.notifier);
-    final itemsList = ref.read(cartProvider);
+    final cartRepository = ref.read(cartRepositoryProvider);
+    final itemsList = await cartRepository.getItems();
     final auth = ref.read(authServiceProvider);
     final userOrdersRepository = ref.read(userOrdersRepositoryProvider);
     final order = Order(
@@ -59,7 +59,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     try {
       setState(() => _isLoading = true);
       await userOrdersRepository.placeOrder(order);
-      cart.removeAll();
+      cartRepository.removeAll();
       setState(() => _isLoading = false);
       ref.read(routerDelegateProvider).openPaymentComplete(order);
     } catch (e) {

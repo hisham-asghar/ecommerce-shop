@@ -9,13 +9,14 @@ class ProductsRepository {
 
   Future<void> addProduct(Product product) => dataStore.addProduct(product);
 
-  Product findProduct(String productId) => dataStore.findProduct(productId);
+  Product getProductById(String productId) =>
+      dataStore.getProductById(productId);
 
   double calculateTotal(List<Item> items) => items.isEmpty
       ? 0.0
       : items
           // first extract quantity * price for each item
-          .map((item) => item.quantity * findProduct(item.productId).price)
+          .map((item) => item.quantity * getProductById(item.productId).price)
           // then add them up
           .reduce((value, element) => value + element);
 }

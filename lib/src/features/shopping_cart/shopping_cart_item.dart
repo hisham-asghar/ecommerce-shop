@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 
@@ -14,25 +14,21 @@ class ShoppingCartItem extends ConsumerWidget {
   final Item item;
   final bool isEditable;
 
-  void _deleteItem(WidgetRef ref) {
-    final cart = ref.read(cartProvider.notifier);
-    cart.removeItem(item);
-    final itemsList = ref.read(cartProvider);
-    if (itemsList.isEmpty) {
-      // TODO: navigate back?
-    }
+  void _deleteItem(WidgetRef ref) async {
+    final cart = ref.read(cartRepositoryProvider);
+    await cart.removeItem(item);
   }
 
-  void _updateQuantity(WidgetRef ref, int quantity) {
-    final cart = ref.read(cartProvider.notifier);
+  void _updateQuantity(WidgetRef ref, int quantity) async {
+    final cart = ref.read(cartRepositoryProvider);
     final updated = Item(productId: item.productId, quantity: quantity);
-    cart.updateItemIfExists(updated);
+    await cart.updateItemIfExists(updated);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsRepository = ref.watch(productsRepositoryProvider);
-    final product = productsRepository.findProduct(item.productId);
+    final product = productsRepository.getProductById(item.productId);
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
     return Padding(

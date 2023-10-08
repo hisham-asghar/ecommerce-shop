@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 
 class AddToCartWidget extends ConsumerStatefulWidget {
   const AddToCartWidget({Key? key, required this.product}) : super(key: key);
@@ -23,7 +23,7 @@ class _AddToCartBoxState extends ConsumerState<AddToCartWidget> {
       productId: widget.product.id,
       quantity: _quantity,
     );
-    ref.read(cartProvider.notifier).addItem(item);
+    ref.read(cartRepositoryProvider).addItem(item);
     // TODO: Restore
     //ScaffoldMessenger.of(context)
     //    .showSnackBar(const SnackBar(content: Text('Added to cart')));

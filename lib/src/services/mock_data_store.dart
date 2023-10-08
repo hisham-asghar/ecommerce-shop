@@ -48,14 +48,15 @@ class MockDataStore implements DataStore {
 
   /// Throws error if not found
   @override
-  Product findProduct(String id) {
+  Product getProductById(String id) {
     return _products.firstWhere((product) => product.id == id);
   }
-  // @override
-  // Stream<Product> findProduct(String id) {
-  //   return _productsStream
-  //       .map((products) => products.firstWhere((product) => product.id == id));
-  // }
+
+  @override
+  Stream<Product> productById(String id) {
+    return _productsStream
+        .map((products) => products.firstWhere((product) => product.id == id));
+  }
 
   // -------------------------------------
   // Orders
@@ -64,6 +65,11 @@ class MockDataStore implements DataStore {
   final _ordersDataSubject = BehaviorSubject<Map<String, Map<String, Order>>>();
   Stream<Map<String, Map<String, Order>>> get _ordersDataStream =>
       _ordersDataSubject.stream;
+
+  @override
+  Map<String, Order> getOrders(String uid) {
+    return ordersData[uid] ?? {};
+  }
 
   @override
   Stream<Map<String, Order>> orders(String uid) {
@@ -120,39 +126,53 @@ class MockDataStore implements DataStore {
   // -------------------------------------
 
   Map<String, List<Item>> cartData = {};
+  final _cartDataSubject = BehaviorSubject<Map<String, List<Item>>>();
+  Stream<Map<String, List<Item>>> get _cartDataStream =>
+      _cartDataSubject.stream;
 
   @override
-  List<Item> items(String uid) {
+  List<Item> getItems(String uid) {
     return cartData[uid] ?? [];
   }
 
   @override
-  void addItem(String uid, Item item) {
+  Stream<List<Item>> items(String uid) {
+    return _cartDataStream.map((cartData) {
+      return cartData[uid] ?? [];
+    });
+  }
+
+  @override
+  Future<void> addItem(String uid, Item item) async {
     final cart = MockCart(cartData[uid] ?? []);
     cart.addItem(item);
     cartData[uid] = cart.items;
+    _cartDataSubject.add(cartData);
   }
 
   @override
-  void removeItem(String uid, Item item) {
+  Future<void> removeItem(String uid, Item item) async {
     final cart = MockCart(cartData[uid] ?? []);
     cart.removeItem(item);
     cartData[uid] = cart.items;
+    _cartDataSubject.add(cartData);
   }
 
   @override
-  bool updateItemIfExists(String uid, Item item) {
+  Future<bool> updateItemIfExists(String uid, Item item) async {
     final cart = MockCart(cartData[uid] ?? []);
     final result = cart.updateItemIfExists(item);
     if (result) {
       cartData[uid] = cart.items;
+      _cartDataSubject.add(cartData);
     }
     return result;
   }
 
   @override
-  void removeAllItems(String uid) {
+  Future<void> removeAllItems(String uid) async {
     cartData[uid] = [];
+    _cartDataSubject.add(cartData);
   }
 }
 

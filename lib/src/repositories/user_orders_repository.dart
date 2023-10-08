@@ -15,7 +15,7 @@ class UserOrdersRepository {
       await dataStore.placeOrder(uid, order);
     } else {
       // TODO: Log error
-      throw AssertionError('Can\'t place order as uid == null');
+      throw AssertionError('uid == null');
     }
   }
 }

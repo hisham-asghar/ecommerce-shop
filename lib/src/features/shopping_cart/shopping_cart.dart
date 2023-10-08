@@ -4,32 +4,38 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
 
-class ShoppingCartScreen extends StatelessWidget {
+class ShoppingCartScreen extends ConsumerWidget {
   const ShoppingCartScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final itemsValue = ref.watch(cartItemsProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shopping Cart'),
       ),
-      body: const ShoppingCartContents(),
+      body: itemsValue.when(
+        data: (items) => ShoppingCartContents(items: items),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, st) => Center(child: Text(e.toString())),
+      ),
     );
   }
 }
 
 class ShoppingCartContents extends ConsumerWidget {
-  const ShoppingCartContents({Key? key}) : super(key: key);
+  const ShoppingCartContents({Key? key, required this.items}) : super(key: key);
+  final List<Item> items;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsRepository = ref.watch(productsRepositoryProvider);
-    final items = ref.watch(cartProvider);
     if (items.isEmpty) {
       return Center(
         child: Text(

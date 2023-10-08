@@ -18,12 +18,17 @@ abstract class DataStore {
 
   Future<void> addProduct(Product product);
 
-  // TODO: Also provide a Stream API?
-  Product findProduct(String id);
+  // Read from cache
+  Product getProductById(String id);
+  // Realtime
+  Stream<Product> productById(String id);
 
   // -------------------------------------
   // Orders
   // -------------------------------------
+  // Read from cache
+  Map<String, Order> getOrders(String uid);
+  // Realtime
   Stream<Map<String, Order>> orders(String uid);
 
   Future<void> placeOrder(String uid, Order order);
@@ -37,15 +42,18 @@ abstract class DataStore {
   // -------------------------------------
   // Shopping Cart
   // -------------------------------------
-  List<Item> items(String uid);
+  // Read from cache
+  List<Item> getItems(String uid);
+  // Realtime
+  Stream<List<Item>> items(String uid);
 
-  void addItem(String uid, Item item);
+  Future<void> addItem(String uid, Item item);
 
-  void removeItem(String uid, Item item);
+  Future<void> removeItem(String uid, Item item);
 
-  bool updateItemIfExists(String uid, Item item);
+  Future<bool> updateItemIfExists(String uid, Item item);
 
-  void removeAllItems(String uid);
+  Future<void> removeAllItems(String uid);
 }
 
 final dataStoreProvider = Provider<DataStore>((ref) {

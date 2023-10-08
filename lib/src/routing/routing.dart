@@ -319,7 +319,7 @@ class AppRouterDelegate extends BaseRouterDelegate
     _appRoute = configuration.appRoute;
     if (configuration.appRoute == AppRoute.productDetails) {
       _selectedProduct =
-          productsRepository.findProduct(configuration.productId!);
+          productsRepository.getProductById(configuration.productId!);
     } else {
       _selectedProduct = null;
     }
