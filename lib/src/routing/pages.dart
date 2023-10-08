@@ -37,7 +37,7 @@ class ProductListPage extends Page {
 
 class ProductDetailsPage extends Page {
   ProductDetailsPage({required this.product})
-      : super(key: ValueKey(product.id));
+      : super(key: ValueKey('user-${product.id}'));
   final Product product;
 
   @override
@@ -141,7 +141,7 @@ class AdminProductsPage extends Page {
 
 class AdminProductDetailsPage extends Page {
   AdminProductDetailsPage({required this.product})
-      : super(key: ValueKey(product.id));
+      : super(key: ValueKey('admin-${product.id}'));
   final Product product;
 
   @override
