@@ -6,7 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({Key? key, required this.item, this.isEditable = true})

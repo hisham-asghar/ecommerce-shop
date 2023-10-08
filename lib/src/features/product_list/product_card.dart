@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class ProductCard extends ConsumerWidget {
   const ProductCard({Key? key, required this.product, this.onPressed})

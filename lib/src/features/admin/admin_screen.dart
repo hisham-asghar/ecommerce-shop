@@ -24,7 +24,8 @@ class AdminScreen extends ConsumerWidget {
               children: [
                 PrimaryButton(
                   text: 'Products',
-                  onPressed: () {},
+                  onPressed: () =>
+                      ref.read(routerDelegateProvider).openAdminProducts(),
                 ),
                 const SizedBox(height: Sizes.p24),
                 PrimaryButton(

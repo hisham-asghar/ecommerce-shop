@@ -8,7 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class ShoppingCartScreen extends ConsumerWidget {
   const ShoppingCartScreen({Key? key}) : super(key: key);

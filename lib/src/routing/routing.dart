@@ -19,6 +19,7 @@ enum AppRoute {
   account,
   admin,
   adminOrders,
+  adminProducts,
 }
 
 // TODO: Replace with sealed union (Freezed?)
@@ -55,6 +56,9 @@ class AppRoutePath {
   AppRoutePath.adminOrders()
       : appRoute = AppRoute.adminOrders,
         productId = null;
+  AppRoutePath.adminProducts()
+      : appRoute = AppRoute.adminOrders,
+        productId = null;
 
   final AppRoute appRoute;
   final String? productId;
@@ -85,6 +89,8 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
           return AppRoutePath.admin();
         case 'adminOrders':
           return AppRoutePath.adminOrders();
+        case 'adminProducts':
+          return AppRoutePath.adminProducts();
         default:
           return AppRoutePath.notFound();
       }
@@ -119,6 +125,8 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
         return const RouteInformation(location: '/admin');
       case AppRoute.adminOrders:
         return const RouteInformation(location: '/admin/orders');
+      case AppRoute.adminProducts:
+        return const RouteInformation(location: '/admin/products');
       default:
         return const RouteInformation(location: '/404');
     }
@@ -136,6 +144,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
   void openAccount();
   void openAdmin();
   void openAdminOrders();
+  void openAdminProducts();
   // nice to call as:
   // context.go(cart)
   // context.go(checkout)
@@ -224,6 +233,12 @@ class AppRouterDelegate extends BaseRouterDelegate
     notifyListeners();
   }
 
+  @override
+  void openAdminProducts() {
+    _appRoute = AppRoute.adminProducts;
+    notifyListeners();
+  }
+
   // given the state variables, return the current configuration
   @override
   AppRoutePath get currentConfiguration =>
@@ -260,6 +275,10 @@ class AppRouterDelegate extends BaseRouterDelegate
           const AdminPage(),
           const AdminOrdersPage(),
         ],
+        if (_appRoute == AppRoute.adminProducts) ...[
+          const AdminPage(),
+          const AdminProductsPage(),
+        ],
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
@@ -293,6 +312,7 @@ class AppRouterDelegate extends BaseRouterDelegate
             notifyListeners();
             break;
           case AppRoute.adminOrders:
+          case AppRoute.adminProducts:
             _appRoute = AppRoute.admin;
             notifyListeners();
             break;

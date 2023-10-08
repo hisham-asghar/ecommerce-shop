@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/account/account_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/admin_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/orders/admin_orders_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_products_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment_complete/payment_complete.dart';
@@ -123,6 +124,16 @@ class AdminOrdersPage extends Page {
   Route createRoute(BuildContext context) => MaterialPageRoute(
         settings: this,
         builder: (_) => const AdminOrdersScreen(),
+        fullscreenDialog: false,
+      );
+}
+
+class AdminProductsPage extends Page {
+  const AdminProductsPage();
+  @override
+  Route createRoute(BuildContext context) => MaterialPageRoute(
+        settings: this,
+        builder: (_) => const AdminProductsScreen(),
         fullscreenDialog: false,
       );
 }

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class OrderConfirmationDetails extends ConsumerWidget {
   const OrderConfirmationDetails({Key? key, required this.order})

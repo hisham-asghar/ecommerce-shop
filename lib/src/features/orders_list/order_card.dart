@@ -6,8 +6,8 @@ import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_label.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/date_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
 enum OrderViewMode { user, admin }
 

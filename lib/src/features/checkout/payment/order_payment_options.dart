@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/currency_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class OrderPaymentOptions extends ConsumerWidget {
   const OrderPaymentOptions({Key? key, required this.total}) : super(key: key);

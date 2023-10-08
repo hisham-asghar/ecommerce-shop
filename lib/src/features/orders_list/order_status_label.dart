@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/date_formatter.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
 class OrderStatusLabel extends ConsumerWidget {
   const OrderStatusLabel({Key? key, required this.order}) : super(key: key);
