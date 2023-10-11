@@ -62,7 +62,8 @@ class MockDataStore implements DataStore {
   // Orders
   // -------------------------------------
   Map<String, Map<String, Order>> ordersData = {};
-  final _ordersDataSubject = BehaviorSubject<Map<String, Map<String, Order>>>();
+  final _ordersDataSubject =
+      BehaviorSubject<Map<String, Map<String, Order>>>.seeded({});
   Stream<Map<String, Map<String, Order>>> get _ordersDataStream =>
       _ordersDataSubject.stream;
 
@@ -126,7 +127,7 @@ class MockDataStore implements DataStore {
   // -------------------------------------
 
   Map<String, List<Item>> cartData = {};
-  final _cartDataSubject = BehaviorSubject<Map<String, List<Item>>>();
+  final _cartDataSubject = BehaviorSubject<Map<String, List<Item>>>.seeded({});
   Stream<Map<String, List<Item>>> get _cartDataStream =>
       _cartDataSubject.stream;
 

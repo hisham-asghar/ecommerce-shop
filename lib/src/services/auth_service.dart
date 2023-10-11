@@ -36,7 +36,7 @@ class MockAuthService implements AuthService {
 
   // Problem: this won't replay the previous value when a new listener is registered
   // Use ValueNotifier instead?
-  final _authStateChangesController = BehaviorSubject<String?>();
+  final _authStateChangesController = BehaviorSubject<String?>.seeded(null);
 
   @override
   Stream<String?> authStateChanges() => _authStateChangesController.stream;
