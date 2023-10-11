@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_view_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class AdminProductScreen extends ConsumerWidget {
@@ -13,6 +16,8 @@ class AdminProductScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
+    final productsRepository = ref.watch(productsRepositoryProvider);
+    // TODO: Make editable
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -33,24 +38,11 @@ class AdminProductScreen extends ConsumerWidget {
                 endContent: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(Sizes.p16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(product.title,
-                            style: Theme.of(context).textTheme.headline6),
-                        const SizedBox(height: Sizes.p8),
-                        Text(product.description),
-                        const SizedBox(height: Sizes.p8),
-                        const Divider(),
-                        const SizedBox(height: Sizes.p8),
-                        Text(priceFormatted,
-                            style: Theme.of(context).textTheme.headline5),
-                        const SizedBox(height: Sizes.p8),
-                        // TODO: Ratings
-                        const Placeholder(fallbackHeight: 48.0),
-                        const SizedBox(height: Sizes.p8),
-                        const Divider(),
-                      ],
+                    child: AdminEditProductDetails(
+                      viewModel: AdminProductScreenViewModel(
+                        productsRepository: productsRepository,
+                        product: product,
+                      ),
                     ),
                   ),
                 ),
@@ -58,6 +50,77 @@ class AdminProductScreen extends ConsumerWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AdminEditProductDetails extends ConsumerStatefulWidget {
+  const AdminEditProductDetails({Key? key, required this.viewModel})
+      : super(key: key);
+  final AdminProductScreenViewModel viewModel;
+
+  @override
+  ConsumerState<AdminEditProductDetails> createState() =>
+      _AdminEditProductDetailsState();
+}
+
+class _AdminEditProductDetailsState
+    extends ConsumerState<AdminEditProductDetails> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    const autovalidateMode = AutovalidateMode.disabled;
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextFormField(
+            initialValue: widget.viewModel.title,
+            decoration: const InputDecoration(
+              label: Text('Title'),
+            ),
+            autovalidateMode: autovalidateMode,
+            validator: AdminProductScreenViewModel.titleValidator,
+            onSaved: (value) => widget.viewModel.title = value!,
+          ),
+          const SizedBox(height: Sizes.p8),
+          TextFormField(
+            initialValue: widget.viewModel.description,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            decoration: const InputDecoration(
+              label: Text('Description'),
+            ),
+            autovalidateMode: autovalidateMode,
+            validator: AdminProductScreenViewModel.descriptionValidator,
+            onSaved: (value) => widget.viewModel.description = value!,
+          ),
+          const SizedBox(height: Sizes.p8),
+          TextFormField(
+            initialValue: widget.viewModel.price != 0
+                ? widget.viewModel.price.toString()
+                : '',
+            decoration: const InputDecoration(
+              label: Text('Price'),
+            ),
+            autovalidateMode: autovalidateMode,
+            validator: AdminProductScreenViewModel.priceValidator,
+            onSaved: (value) => widget.viewModel.price = double.parse(value!),
+          ),
+          const SizedBox(height: Sizes.p8),
+          PrimaryButton(
+            text: 'Save',
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                widget.viewModel.submit();
+              }
+            },
+          ),
+        ],
       ),
     );
   }

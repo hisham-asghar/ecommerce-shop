@@ -46,6 +46,16 @@ class MockDataStore implements DataStore {
     _productsSubject.add(_products);
   }
 
+  @override
+  Future<void> editProduct(Product product) async {
+    final index = _products.indexWhere((item) => item.id == product.id);
+    if (index == -1) {
+      throw AssertionError('Product not found (id: ${product.id}');
+    }
+    _products[index] = product;
+    _productsSubject.add(_products);
+  }
+
   /// Throws error if not found
   @override
   Product getProductById(String id) {
@@ -57,6 +67,8 @@ class MockDataStore implements DataStore {
     return _productsStream
         .map((products) => products.firstWhere((product) => product.id == id));
   }
+
+  // TODO: Methods to edit products
 
   // -------------------------------------
   // Orders

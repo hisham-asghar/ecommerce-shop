@@ -151,7 +151,7 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
         return const RouteInformation(location: '/admin/products');
       case AppRoute.adminProduct:
         return RouteInformation(
-            location: '/admin/products/${configuration.userProductId!}');
+            location: '/admin/products/${configuration.adminProductId!}');
       default:
         return const RouteInformation(location: '/404');
     }

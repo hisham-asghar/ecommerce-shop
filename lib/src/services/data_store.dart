@@ -18,6 +18,7 @@ abstract class DataStore {
 
   Future<void> addProduct(Product product);
 
+  Future<void> editProduct(Product product);
   // Read from cache
   Product getProductById(String id);
   // Realtime
