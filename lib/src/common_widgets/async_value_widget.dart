@@ -14,8 +14,11 @@ class AsyncValueWidget<T> extends StatelessWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, st) => Center(
         child: Text(
-          // TODO: Style text
           e.toString(),
+          style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(color: Colors.red),
         ),
       ),
     );
@@ -32,16 +35,20 @@ class AsyncValueSliverWidget<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return value.when(
-        data: data,
-        loading: () => const SliverToBoxAdapter(
-            child: Center(child: CircularProgressIndicator())),
-        error: (e, st) => SliverToBoxAdapter(
-              child: Center(
-                // TODO: Style text
-                child: Text(
-                  e.toString(),
-                ),
-              ),
-            ));
+      data: data,
+      loading: () => const SliverToBoxAdapter(
+          child: Center(child: CircularProgressIndicator())),
+      error: (e, st) => SliverToBoxAdapter(
+        child: Center(
+          child: Text(
+            e.toString(),
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(color: Colors.red),
+          ),
+        ),
+      ),
+    );
   }
 }
