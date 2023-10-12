@@ -15,7 +15,7 @@ class ProductScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productValue = ref.watch(productRepository(productId));
+    final productValue = ref.watch(productProvider(productId));
     return Scaffold(
       appBar: const HomeAppBar(),
       body: SingleChildScrollView(

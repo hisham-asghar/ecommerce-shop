@@ -34,7 +34,7 @@ final productsProvider = StreamProvider.autoDispose<List<Product>>((ref) {
   return dataStore.getProducts();
 });
 
-final productRepository =
+final productProvider =
     StreamProvider.autoDispose.family<Product, String>((ref, id) {
   final dataStore = ref.watch(dataStoreProvider);
   return dataStore.product(id);
