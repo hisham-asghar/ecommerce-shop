@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/user_orders_repository.dart';
 
 class OrdersListScreen extends ConsumerWidget {
@@ -19,8 +21,8 @@ class OrdersListScreen extends ConsumerWidget {
           width: FormFactor.desktop,
           child: CustomScrollView(
             slivers: <Widget>[
-              // TODO: Some summary of orders here?
-              ordersByDateValue.when(
+              AsyncValueSliverWidget<List<Order>>(
+                value: ordersByDateValue,
                 data: (orders) => SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) => Padding(
@@ -32,12 +34,6 @@ class OrdersListScreen extends ConsumerWidget {
                     ),
                     childCount: orders.length,
                   ),
-                ),
-                loading: () => const SliverToBoxAdapter(
-                  child: CircularProgressIndicator(),
-                ),
-                error: (e, st) => SliverToBoxAdapter(
-                  child: Text(e.toString()),
                 ),
               ),
             ],

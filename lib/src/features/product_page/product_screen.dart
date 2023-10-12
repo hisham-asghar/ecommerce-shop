@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -23,10 +24,9 @@ class ProductScreen extends ConsumerWidget {
             width: FormFactor.desktop,
             child: Padding(
               padding: const EdgeInsets.all(Sizes.p16),
-              child: productValue.when(
+              child: AsyncValueWidget<Product>(
+                value: productValue,
                 data: (product) => ProductScreenContents(product: product),
-                loading: () => const CircularProgressIndicator(),
-                error: (e, st) => Text(e.toString()),
               ),
             ),
           ),

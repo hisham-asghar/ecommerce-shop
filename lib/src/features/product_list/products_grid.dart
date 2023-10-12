@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
@@ -13,7 +14,8 @@ class ProductsGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsValue = ref.watch(productsProvider);
-    return productsValue.when(
+    return AsyncValueSliverWidget<List<Product>>(
+      value: productsValue,
       data: (products) => SliverGrid(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
@@ -33,12 +35,6 @@ class ProductsGrid extends ConsumerWidget {
           mainAxisSpacing: Sizes.p24,
           crossAxisSpacing: Sizes.p24,
         ),
-      ),
-      loading: () => const SliverToBoxAdapter(
-        child: Center(child: CircularProgressIndicator()),
-      ),
-      error: (e, st) => SliverToBoxAdapter(
-        child: Center(child: Text(e.toString())),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -25,14 +26,13 @@ class ShoppingCartItem extends ConsumerWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
-          child: productValue.when(
+          child: AsyncValueWidget<Product>(
+            value: productValue,
             data: (product) => ShoppingCartItemContents(
               product: product,
               item: item,
               isEditable: isEditable,
             ),
-            loading: () => const CircularProgressIndicator(),
-            error: (e, st) => Text(e.toString()),
           ),
         ),
       ),

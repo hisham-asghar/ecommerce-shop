@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 class AccountScreen extends ConsumerWidget {
@@ -34,22 +35,14 @@ class UserUidLabel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authServiceProvider);
     final authStateChangesValue = ref.watch(authStateChangesProvider);
-    return authStateChangesValue.when(
+    return AsyncValueWidget(
+      value: authStateChangesValue,
       data: (uid) => Text(
         'uid: $uid',
         style: Theme.of(context).textTheme.caption,
         textAlign: TextAlign.center,
       ),
-      // TODO: Make this better
-      // workaround for stream controller
-      loading: () => Text(
-        'uid: ${authService.uid}}',
-        style: Theme.of(context).textTheme.caption,
-        textAlign: TextAlign.center,
-      ),
-      error: (e, st) => Text(e.toString()),
     );
   }
 }

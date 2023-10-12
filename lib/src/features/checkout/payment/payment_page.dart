@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/order_payment_options.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 
@@ -17,7 +19,8 @@ class PaymentPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final productsRepository = ref.watch(productsRepositoryProvider);
     final itemsValue = ref.watch(cartItemsProvider);
-    return itemsValue.when(
+    return AsyncValueSliverWidget<List<Item>>(
+      value: itemsValue,
       data: (items) => CustomScrollView(
         controller: _scrollController,
         slivers: [
@@ -46,8 +49,6 @@ class PaymentPage extends ConsumerWidget {
           ),
         ],
       ),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, st) => Center(child: Text(e.toString())),
     );
   }
 }

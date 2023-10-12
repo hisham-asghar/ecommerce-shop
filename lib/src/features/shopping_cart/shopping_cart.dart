@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -20,10 +21,9 @@ class ShoppingCartScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Shopping Cart'),
       ),
-      body: itemsValue.when(
+      body: AsyncValueWidget<List<Item>>(
+        value: itemsValue,
         data: (items) => ShoppingCartContents(items: items),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text(e.toString())),
       ),
     );
   }
