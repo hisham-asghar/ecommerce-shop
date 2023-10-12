@@ -197,6 +197,7 @@ final kTestProducts = [
     title: 'Sony Playstation 4 Pro White Version',
     description: faker.lorem.sentence(),
     price: 399,
+    availableQuantity: 5,
   ),
   Product(
     id: '2',
@@ -204,6 +205,7 @@ final kTestProducts = [
     title: 'Amazon Echo Dot 3rd Generation',
     description: faker.lorem.sentence(),
     price: 29,
+    availableQuantity: 5,
   ),
   Product(
     id: '3',
@@ -211,6 +213,7 @@ final kTestProducts = [
     title: 'Cannon EOS 80D DSLR Camera',
     description: faker.lorem.sentence(),
     price: 929,
+    availableQuantity: 5,
   ),
   Product(
     id: '4',
@@ -218,5 +221,6 @@ final kTestProducts = [
     title: 'iPhone 11 Pro 256GB Memory',
     description: faker.lorem.sentence(),
     price: 599,
+    availableQuantity: 5,
   ),
 ];

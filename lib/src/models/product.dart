@@ -5,6 +5,7 @@ class Product {
     required this.title,
     required this.description,
     required this.price,
+    required this.availableQuantity,
   });
 
   /// Unique id
@@ -13,6 +14,7 @@ class Product {
   final String title;
   final String description;
   final double price;
+  final int availableQuantity;
   // TODO: Add reviews
 
   Product copyWith({
@@ -21,6 +23,7 @@ class Product {
     String? title,
     String? description,
     double? price,
+    int? availableQuantity,
   }) =>
       Product(
         id: id ?? this.id,
@@ -28,6 +31,7 @@ class Product {
         title: title ?? this.title,
         description: description ?? this.description,
         price: price ?? this.price,
+        availableQuantity: availableQuantity ?? this.availableQuantity,
       );
 
   @override

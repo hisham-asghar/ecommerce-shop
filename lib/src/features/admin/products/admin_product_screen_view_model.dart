@@ -12,11 +12,15 @@ class AdminProductScreenViewModel {
   var title = '';
   var description = '';
   var price = 0.0;
+  var availableQuantity = 0;
+  var imageUrl = '';
 
   void init() {
     title = product?.title ?? '';
     description = product?.description ?? '';
     price = product?.price ?? 0.0;
+    availableQuantity = product?.availableQuantity ?? 0;
+    imageUrl = product?.imageUrl ?? '';
   }
 
   Future<void> submit() async {
@@ -26,8 +30,8 @@ class AdminProductScreenViewModel {
         title: title,
         description: description,
         price: price,
-        // TODO
-        imageUrl: '',
+        availableQuantity: availableQuantity,
+        imageUrl: imageUrl,
       );
       await productsRepository.addProduct(newProduct);
     } else {
@@ -35,12 +39,24 @@ class AdminProductScreenViewModel {
         title: title,
         description: description,
         price: price,
+        imageUrl: imageUrl,
+        availableQuantity: availableQuantity,
       );
       await productsRepository.editProduct(updatedProduct);
     }
   }
 
   // VALIDATORS
+  static String? imageUrlValidator(String? value) {
+    if (value == null) {
+      return 'Can\'t be empty';
+    }
+    final uri = Uri.tryParse(value);
+    if (uri?.hasScheme != true) {
+      return 'Not a valid URL';
+    }
+    return null;
+  }
 
   static String? titleValidator(String? value) {
     if (value == null) {
@@ -75,6 +91,23 @@ class AdminProductScreenViewModel {
     }
     if (price >= 100000) {
       return 'The maximum price must be less than \$100,000';
+    }
+    return null;
+  }
+
+  static String? availableQuantityValidator(String? value) {
+    if (value == null) {
+      return 'Can\'t be empty';
+    }
+    final availableQuantity = int.tryParse(value);
+    if (availableQuantity == null) {
+      return 'Not a valid number';
+    }
+    if (availableQuantity < 0) {
+      return 'Quantity must be zero or more';
+    }
+    if (availableQuantity >= 1000) {
+      return 'The maximum quantity must be less than 1,000';
     }
     return null;
   }
