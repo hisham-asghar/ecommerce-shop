@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
@@ -57,6 +59,7 @@ class ShoppingCartItem extends ConsumerWidget {
                         children: [
                           ItemQuantitySelector(
                             quantity: item.quantity,
+                            maxQuantity: min(product.availableQuantity, 10),
                             onChanged: (quantity) =>
                                 _updateQuantity(ref, quantity),
                           ),

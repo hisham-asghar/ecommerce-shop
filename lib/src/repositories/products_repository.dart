@@ -28,7 +28,13 @@ final productsRepositoryProvider = Provider<ProductsRepository>((ref) {
   return ProductsRepository(dataStore: dataStore);
 });
 
-final productsProvider = StreamProvider<List<Product>>((ref) {
+final productsProvider = StreamProvider.autoDispose<List<Product>>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
   return dataStore.getProducts();
+});
+
+final productRepository =
+    StreamProvider.autoDispose.family<Product, String>((ref, id) {
+  final dataStore = ref.watch(dataStoreProvider);
+  return dataStore.product(id);
 });

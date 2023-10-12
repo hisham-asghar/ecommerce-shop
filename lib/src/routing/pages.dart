@@ -36,14 +36,14 @@ class ProductListPage extends Page {
 }
 
 class ProductDetailsPage extends Page {
-  ProductDetailsPage({required this.product})
-      : super(key: ValueKey('user-${product.id}'));
-  final Product product;
+  ProductDetailsPage({required this.productId})
+      : super(key: ValueKey('user-$productId'));
+  final String productId;
 
   @override
   Route createRoute(BuildContext context) => MaterialPageRoute(
         settings: this,
-        builder: (_) => ProductScreen(product: product),
+        builder: (_) => ProductScreen(productId: productId),
       );
 }
 

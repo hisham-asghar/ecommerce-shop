@@ -157,7 +157,7 @@ class AppRouterDelegate extends BaseRouterDelegate
 
   // These variables keep track of all the state needed to handle navigation
   AppRoute _appRoute = AppRoute.home;
-  Product? _selectedUserProduct;
+  String? _selectedUserProductId;
   Product? _selectedAdminProduct;
   Order? _latestOrder;
 
@@ -165,7 +165,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   void openHome() {
     _appRoute = AppRoute.home;
-    _selectedUserProduct = null;
+    _selectedUserProductId = null;
     _selectedAdminProduct = null;
     _latestOrder = null;
     notifyListeners();
@@ -174,7 +174,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   void selectProduct(Product product) {
     _appRoute = AppRoute.productDetails;
-    _selectedUserProduct = product;
+    _selectedUserProductId = product.id;
     notifyListeners();
   }
 
@@ -245,7 +245,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   AppRoutePath get currentConfiguration => AppRoutePath(
         _appRoute,
-        userProductId: _selectedUserProduct?.id,
+        userProductId: _selectedUserProductId,
         adminProductId: _selectedAdminProduct?.id,
       );
 
@@ -258,8 +258,8 @@ class AppRouterDelegate extends BaseRouterDelegate
           const NotFoundPage()
         else
           const ProductListPage(),
-        if (_selectedUserProduct != null)
-          ProductDetailsPage(product: _selectedUserProduct!),
+        if (_selectedUserProductId != null)
+          ProductDetailsPage(productId: _selectedUserProductId!),
         if (_appRoute == AppRoute.cart) const ShoppingCartPage(),
         if (_appRoute == AppRoute.checkout) ...[
           const ShoppingCartPage(),
@@ -301,14 +301,14 @@ class AppRouterDelegate extends BaseRouterDelegate
             break;
           case AppRoute.productDetails:
             _appRoute = AppRoute.home;
-            _selectedUserProduct = null;
+            _selectedUserProductId = null;
             notifyListeners();
             break;
           case AppRoute.cart:
           case AppRoute.ordersList:
           case AppRoute.account:
           case AppRoute.admin:
-            _appRoute = _selectedUserProduct != null
+            _appRoute = _selectedUserProductId != null
                 ? AppRoute.productDetails
                 : AppRoute.home;
             notifyListeners();
@@ -323,7 +323,7 @@ class AppRouterDelegate extends BaseRouterDelegate
             break;
           case AppRoute.paymentComplete:
             _appRoute = AppRoute.home;
-            _selectedUserProduct = null;
+            _selectedUserProductId = null;
             _latestOrder = null;
             notifyListeners();
             break;
@@ -354,10 +354,9 @@ class AppRouterDelegate extends BaseRouterDelegate
     // TODO: Defensive code to prevent navigation to pages that require certain objects to be set
     _appRoute = configuration.appRoute;
     if (configuration.appRoute == AppRoute.productDetails) {
-      _selectedUserProduct =
-          productsRepository.getProductById(configuration.userProductId!);
+      _selectedUserProductId = configuration.userProductId;
     } else {
-      _selectedUserProduct = null;
+      _selectedUserProductId = null;
     }
     if (configuration.appRoute == AppRoute.adminProduct) {
       _selectedAdminProduct = configuration.adminProductId != null

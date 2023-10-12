@@ -41,6 +41,12 @@ class MockDataStore implements DataStore {
   }
 
   @override
+  Stream<Product> product(String id) {
+    return _productsStream
+        .map((products) => products.firstWhere((product) => product.id == id));
+  }
+
+  @override
   Future<void> addProduct(Product product) async {
     _products.add(product);
     _productsSubject.add(_products);
@@ -92,10 +98,26 @@ class MockDataStore implements DataStore {
   @override
   Future<void> placeOrder(String uid, Order order) async {
     await Future.delayed(const Duration(seconds: 2));
+    // First, make sure all items are available
+    for (var item in order.items) {
+      final product = getProductById(item.productId);
+      if (product.availableQuantity < item.quantity) {
+        throw AssertionError(
+            'Can\'t purchase ${item.quantity} quantity of $product');
+      }
+    }
+    // then, place the order
     final userOrders = Map<String, Order>.from(ordersData[uid] ?? {});
     userOrders[order.id] = order;
     ordersData[uid] = userOrders;
     _ordersDataSubject.add(ordersData);
+    // and update all the product quantities
+    for (var item in order.items) {
+      final product = getProductById(item.productId);
+      final updated = product.copyWith(
+          availableQuantity: product.availableQuantity - item.quantity);
+      editProduct(updated);
+    }
   }
 
   @override

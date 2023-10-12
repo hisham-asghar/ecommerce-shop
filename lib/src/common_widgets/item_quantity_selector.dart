@@ -25,8 +25,9 @@ class ItemQuantitySelector extends StatelessWidget {
         children: [
           IconButton(
             icon: const Icon(Icons.remove),
-            onPressed:
-                quantity > 1 ? () => onChanged?.call(quantity - 1) : null,
+            onPressed: onChanged != null && quantity > 1
+                ? () => onChanged!.call(quantity - 1)
+                : null,
           ),
           SizedBox(
             width: 30.0,
@@ -38,8 +39,8 @@ class ItemQuantitySelector extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: quantity < maxQuantity
-                ? () => onChanged?.call(quantity + 1)
+            onPressed: onChanged != null && quantity < maxQuantity
+                ? () => onChanged!.call(quantity + 1)
                 : null,
           ),
         ],

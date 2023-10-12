@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
@@ -41,6 +43,7 @@ class _AddToCartBoxState extends ConsumerState<AddToCartWidget> {
             const Text('Quantity:'),
             ItemQuantitySelector(
               quantity: _quantity,
+              maxQuantity: min(widget.product.availableQuantity, 10),
               onChanged: (quantity) {
                 setState(() => _quantity = quantity);
               },
@@ -51,8 +54,10 @@ class _AddToCartBoxState extends ConsumerState<AddToCartWidget> {
         const Divider(),
         const SizedBox(height: Sizes.p8),
         PrimaryButton(
-          onPressed: _addToCart,
-          text: 'Add to Cart',
+          onPressed: widget.product.availableQuantity > 0 ? _addToCart : null,
+          text: widget.product.availableQuantity > 0
+              ? 'Add to Cart'
+              : 'Out of Stock',
         ),
       ],
     );
