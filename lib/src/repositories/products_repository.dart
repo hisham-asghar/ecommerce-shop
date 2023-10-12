@@ -18,7 +18,8 @@ class ProductsRepository {
       ? 0.0
       : items
           // first extract quantity * price for each item
-          .map((item) => item.quantity * getProductById(item.productId).price)
+          .map((item) =>
+              item.quantity * dataStore.getProductById(item.productId).price)
           // then add them up
           .reduce((value, element) => value + element);
 }

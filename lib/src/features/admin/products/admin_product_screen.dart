@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_view_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 
 class AdminProductScreen extends ConsumerStatefulWidget {
-  const AdminProductScreen({Key? key, required this.product}) : super(key: key);
-  final Product? product;
+  const AdminProductScreen({Key? key, required this.productId})
+      : super(key: key);
+  final String? productId;
 
   @override
   ConsumerState<AdminProductScreen> createState() => _AdminProductScreenState();
@@ -18,7 +18,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late final viewModel = AdminProductScreenViewModel(
-    product: widget.product,
+    productId: widget.productId,
     productsRepository: ref.read(productsRepositoryProvider),
   );
 
@@ -27,7 +27,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
     const autovalidateMode = AutovalidateMode.disabled;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.product == null ? 'New Product' : 'Edit Product'),
+        title: Text(widget.productId == null ? 'New Product' : 'Edit Product'),
         actions: [
           TextButton(
             child: const Text('Save', style: TextStyle(color: Colors.white)),

@@ -13,7 +13,6 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_list
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 
 class NotFoundPage extends Page {
   const NotFoundPage();
@@ -140,16 +139,16 @@ class AdminProductsPage extends Page {
 }
 
 class AdminProductDetailsPage extends Page {
-  AdminProductDetailsPage({this.product})
+  AdminProductDetailsPage({this.productId})
       : super(
             key: ValueKey(
-          product != null ? 'admin-${product.id}' : 'admin-new-product',
+          productId != null ? 'admin-$productId' : 'admin-new-product',
         ));
-  final Product? product;
+  final String? productId;
 
   @override
   Route createRoute(BuildContext context) => MaterialPageRoute(
         settings: this,
-        builder: (_) => AdminProductScreen(product: product),
+        builder: (_) => AdminProductScreen(productId: productId),
       );
 }

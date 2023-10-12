@@ -4,11 +4,14 @@ import 'package:uuid/uuid.dart';
 
 class AdminProductScreenViewModel {
   AdminProductScreenViewModel(
-      {required this.productsRepository, this.product}) {
+      {required this.productsRepository, String? productId})
+      : product = productId != null
+            ? productsRepository.getProductById(productId)
+            : null {
     init();
   }
   final ProductsRepository productsRepository;
-  final Product? product;
+  late final Product? product;
   var title = '';
   var description = '';
   var price = 0.0;

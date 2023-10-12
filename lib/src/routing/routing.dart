@@ -158,7 +158,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   // These variables keep track of all the state needed to handle navigation
   AppRoute _appRoute = AppRoute.home;
   String? _selectedUserProductId;
-  Product? _selectedAdminProduct;
+  String? _selectedAdminProductId;
   Order? _latestOrder;
 
   // method handlers to update the navigation state
@@ -166,7 +166,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   void openHome() {
     _appRoute = AppRoute.home;
     _selectedUserProductId = null;
-    _selectedAdminProduct = null;
+    _selectedAdminProductId = null;
     _latestOrder = null;
     notifyListeners();
   }
@@ -218,7 +218,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   void openAdmin() {
     _appRoute = AppRoute.admin;
-    _selectedAdminProduct = null;
+    _selectedAdminProductId = null;
     notifyListeners();
   }
 
@@ -237,7 +237,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   void openAdminProduct(Product? product) {
     _appRoute = AppRoute.adminProduct;
-    _selectedAdminProduct = product;
+    _selectedAdminProductId = product?.id;
     notifyListeners();
   }
 
@@ -246,7 +246,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   AppRoutePath get currentConfiguration => AppRoutePath(
         _appRoute,
         userProductId: _selectedUserProductId,
-        adminProductId: _selectedAdminProduct?.id,
+        adminProductId: _selectedAdminProductId,
       );
 
   @override
@@ -287,7 +287,7 @@ class AppRouterDelegate extends BaseRouterDelegate
         if (_appRoute == AppRoute.adminProduct) ...[
           const AdminPage(),
           const AdminProductsPage(),
-          AdminProductDetailsPage(product: _selectedAdminProduct),
+          AdminProductDetailsPage(productId: _selectedAdminProductId),
         ],
       ],
       onPopPage: (route, result) {
@@ -330,12 +330,12 @@ class AppRouterDelegate extends BaseRouterDelegate
           case AppRoute.adminOrders:
           case AppRoute.adminProducts:
             _appRoute = AppRoute.admin;
-            _selectedAdminProduct = null;
+            _selectedAdminProductId = null;
             notifyListeners();
             break;
           case AppRoute.adminProduct:
             _appRoute = AppRoute.adminProducts;
-            _selectedAdminProduct = null;
+            _selectedAdminProductId = null;
             notifyListeners();
             break;
           case AppRoute.notFound:
@@ -359,11 +359,9 @@ class AppRouterDelegate extends BaseRouterDelegate
       _selectedUserProductId = null;
     }
     if (configuration.appRoute == AppRoute.adminProduct) {
-      _selectedAdminProduct = configuration.adminProductId != null
-          ? productsRepository.getProductById(configuration.adminProductId!)
-          : null;
+      _selectedAdminProductId = configuration.adminProductId;
     } else {
-      _selectedAdminProduct = null;
+      _selectedAdminProductId = null;
     }
     // TODO: Handle payment complete
   }
