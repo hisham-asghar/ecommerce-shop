@@ -140,9 +140,12 @@ class AdminProductsPage extends Page {
 }
 
 class AdminProductDetailsPage extends Page {
-  AdminProductDetailsPage({required this.product})
-      : super(key: ValueKey('admin-${product.id}'));
-  final Product product;
+  AdminProductDetailsPage({this.product})
+      : super(
+            key: ValueKey(
+          product != null ? 'admin-${product.id}' : 'admin-new-product',
+        ));
+  final Product? product;
 
   @override
   Route createRoute(BuildContext context) => MaterialPageRoute(

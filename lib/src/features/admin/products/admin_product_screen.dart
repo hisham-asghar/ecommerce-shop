@@ -57,7 +57,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                       child: Column(
                         children: [
                           // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
-                          Image.network(viewModel.imageUrl),
+                          if (viewModel.imageUrl.isNotEmpty)
+                            Image.network(viewModel.imageUrl),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
                             initialValue: viewModel.imageUrl,

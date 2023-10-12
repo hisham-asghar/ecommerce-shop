@@ -26,42 +26,6 @@ enum AppRoute {
 // TODO: Replace with sealed union (Freezed?)
 class AppRoutePath {
   AppRoutePath(this.appRoute, {this.userProductId, this.adminProductId});
-  // AppRoutePath.notFound()
-  //     : appRoute = AppRoute.notFound,
-  //       userProductId = null;
-  // AppRoutePath.home()
-  //     : appRoute = AppRoute.home,
-  //       userProductId = null;
-  // AppRoutePath.details(this.userProductId) : appRoute = AppRoute.productDetails;
-  // AppRoutePath.cart()
-  //     : appRoute = AppRoute.cart,
-  //       userProductId = null;
-  // AppRoutePath.checkout()
-  //     : appRoute = AppRoute.checkout,
-  //       userProductId = null;
-  // AppRoutePath.pay()
-  //     : appRoute = AppRoute.pay,
-  //       userProductId = null;
-  // AppRoutePath.paymentComplete()
-  //     : appRoute = AppRoute.paymentComplete,
-  //       userProductId = null;
-  // AppRoutePath.ordersList()
-  //     : appRoute = AppRoute.ordersList,
-  //       userProductId = null;
-  // AppRoutePath.account()
-  //     : appRoute = AppRoute.account,
-  //       userProductId = null;
-  // AppRoutePath.admin()
-  //     : appRoute = AppRoute.admin,
-  //       userProductId = null;
-  // AppRoutePath.adminOrders()
-  //     : appRoute = AppRoute.adminOrders,
-  //       userProductId = null;
-  // AppRoutePath.adminProducts()
-  //     : appRoute = AppRoute.adminOrders,
-  //       userProductId = null;
-  // // TODO: Don't reuse same productId
-  // AppRoutePath.adminProduct(this.userProductId) : appRoute = AppRoute.adminProduct;
 
   final AppRoute appRoute;
   final String? userProductId;
@@ -151,7 +115,9 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
         return const RouteInformation(location: '/admin/products');
       case AppRoute.adminProduct:
         return RouteInformation(
-            location: '/admin/products/${configuration.adminProductId!}');
+            location: configuration.adminProductId != null
+                ? '/admin/products/${configuration.adminProductId}'
+                : '/admin/products/new');
       default:
         return const RouteInformation(location: '/404');
     }
@@ -170,7 +136,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
   void openAdmin();
   void openAdminOrders();
   void openAdminProducts();
-  void openAdminProduct(Product product);
+  void openAdminProduct(Product? product);
   // nice to call as:
   // context.go(cart)
   // context.go(checkout)
@@ -269,7 +235,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   }
 
   @override
-  void openAdminProduct(Product product) {
+  void openAdminProduct(Product? product) {
     _appRoute = AppRoute.adminProduct;
     _selectedAdminProduct = product;
     notifyListeners();
@@ -321,7 +287,7 @@ class AppRouterDelegate extends BaseRouterDelegate
         if (_appRoute == AppRoute.adminProduct) ...[
           const AdminPage(),
           const AdminProductsPage(),
-          AdminProductDetailsPage(product: _selectedAdminProduct!),
+          AdminProductDetailsPage(product: _selectedAdminProduct),
         ],
       ],
       onPopPage: (route, result) {
@@ -394,8 +360,9 @@ class AppRouterDelegate extends BaseRouterDelegate
       _selectedUserProduct = null;
     }
     if (configuration.appRoute == AppRoute.adminProduct) {
-      _selectedAdminProduct =
-          productsRepository.getProductById(configuration.adminProductId!);
+      _selectedAdminProduct = configuration.adminProductId != null
+          ? productsRepository.getProductById(configuration.adminProductId!)
+          : null;
     } else {
       _selectedAdminProduct = null;
     }

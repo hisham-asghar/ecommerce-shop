@@ -40,7 +40,8 @@ class AdminProductsScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () =>
+            ref.read(routerDelegateProvider).openAdminProduct(null),
       ),
     );
   }
