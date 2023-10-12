@@ -35,7 +35,6 @@ class ShoppingCartContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsRepository = ref.watch(productsRepositoryProvider);
     if (items.isEmpty) {
       return Center(
         child: Text(
@@ -45,6 +44,7 @@ class ShoppingCartContents extends ConsumerWidget {
         ),
       );
     }
+    final productsRepository = ref.watch(productsRepositoryProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     // wide layouts
     if (screenWidth >= FormFactor.tablet) {

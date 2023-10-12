@@ -6,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selec
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
@@ -13,6 +14,40 @@ import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({Key? key, required this.item, this.isEditable = true})
       : super(key: key);
+  final Item item;
+  final bool isEditable;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productValue = ref.watch(productRepository(item.productId));
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(Sizes.p16),
+          child: productValue.when(
+            data: (product) => ShoppingCartItemContents(
+              product: product,
+              item: item,
+              isEditable: isEditable,
+            ),
+            loading: () => const CircularProgressIndicator(),
+            error: (e, st) => Text(e.toString()),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShoppingCartItemContents extends ConsumerWidget {
+  const ShoppingCartItemContents(
+      {Key? key,
+      required this.product,
+      required this.item,
+      required this.isEditable})
+      : super(key: key);
+  final Product product;
   final Item item;
   final bool isEditable;
 
@@ -29,55 +64,42 @@ class ShoppingCartItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsRepository = ref.watch(productsRepositoryProvider);
-    final product = productsRepository.getProductById(item.productId);
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          child: ResponsiveTwoColumnLayout(
-            startFlex: 1,
-            endFlex: 2,
-            // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
-            startContent: Image.network(product.imageUrl),
-            spacing: Sizes.p24,
-            endContent: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(product.title,
-                    style: Theme.of(context).textTheme.headline5),
-                const SizedBox(height: Sizes.p24),
-                Text(priceFormatted,
-                    style: Theme.of(context).textTheme.headline5),
-                const SizedBox(height: Sizes.p24),
-                isEditable
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ItemQuantitySelector(
-                            quantity: item.quantity,
-                            maxQuantity: min(product.availableQuantity, 10),
-                            onChanged: (quantity) =>
-                                _updateQuantity(ref, quantity),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red[700]),
-                            onPressed: () => _deleteItem(ref),
-                          ),
-                          const Spacer(),
-                        ],
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-                        child: Text('Quantity: ${item.quantity}'),
-                      ),
-              ],
-            ),
-          ),
-        ),
+    return ResponsiveTwoColumnLayout(
+      startFlex: 1,
+      endFlex: 2,
+      // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
+      startContent: Image.network(product.imageUrl),
+      spacing: Sizes.p24,
+      endContent: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(product.title, style: Theme.of(context).textTheme.headline5),
+          const SizedBox(height: Sizes.p24),
+          Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
+          const SizedBox(height: Sizes.p24),
+          isEditable
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ItemQuantitySelector(
+                      quantity: item.quantity,
+                      maxQuantity: min(product.availableQuantity, 10),
+                      onChanged: (quantity) => _updateQuantity(ref, quantity),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red[700]),
+                      onPressed: () => _deleteItem(ref),
+                    ),
+                    const Spacer(),
+                  ],
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+                  child: Text('Quantity: ${item.quantity}'),
+                ),
+        ],
       ),
     );
   }
