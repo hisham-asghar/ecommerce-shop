@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_view_model.dart';
@@ -29,8 +30,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
       appBar: AppBar(
         title: Text(widget.productId == null ? 'New Product' : 'Edit Product'),
         actions: [
-          TextButton(
-            child: const Text('Save', style: TextStyle(color: Colors.white)),
+          ActionTextButton(
+            text: 'Save',
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();

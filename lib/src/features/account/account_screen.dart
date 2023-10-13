@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
@@ -11,15 +12,12 @@ class AccountScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(
+          ActionTextButton(
+            text: 'Logout',
             onPressed: () {
               final authService = ref.read(authServiceProvider);
               authService.signOut();
             },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: Colors.white),
-            ),
           ),
         ],
       ),
