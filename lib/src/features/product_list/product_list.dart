@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 

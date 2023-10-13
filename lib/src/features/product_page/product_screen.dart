@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
