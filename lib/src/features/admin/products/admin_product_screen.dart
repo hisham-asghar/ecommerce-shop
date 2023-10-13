@@ -120,9 +120,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                                 viewModel.price = double.parse(value!),
                           ),
                           TextFormField(
-                            initialValue: viewModel.availableQuantity != 0
-                                ? viewModel.availableQuantity.toString()
-                                : '',
+                            initialValue:
+                                viewModel.availableQuantity.toString(),
                             decoration: const InputDecoration(
                               label: Text('Available quantity'),
                             ),

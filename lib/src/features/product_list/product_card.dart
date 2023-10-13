@@ -16,12 +16,11 @@ class ProductCard extends ConsumerWidget {
         ref.watch(currencyFormatterProvider).format(product.price);
     return Card(
       child: InkWell(
-        // TODO: Tweak splash effect
         onTap: onPressed,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
               Image.network(product.imageUrl),
@@ -33,6 +32,13 @@ class ProductCard extends ConsumerWidget {
               // TODO: Add reviews
               Text(priceFormatted,
                   style: Theme.of(context).textTheme.headline5),
+              const SizedBox(height: Sizes.p4),
+              Text(
+                product.availableQuantity <= 0
+                    ? 'Out of Stock'
+                    : '${product.availableQuantity} available',
+                style: Theme.of(context).textTheme.caption,
+              )
             ],
           ),
         ),
