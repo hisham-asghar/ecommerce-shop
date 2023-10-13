@@ -16,8 +16,8 @@ class MoreMenuButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authStateValue = ref.watch(authStateChangesProvider);
-    final uid =
-        authStateValue.maybeWhen(data: (uid) => uid, orElse: () => null);
+    final user =
+        authStateValue.maybeWhen(data: (user) => user, orElse: () => null);
     return PopupMenuButton(
       onSelected: (option) {
         final routerDelegate = ref.read(routerDelegateProvider);
@@ -39,14 +39,8 @@ class MoreMenuButton extends ConsumerWidget {
         }
       },
       itemBuilder: (_) {
-        return uid == null
+        return user != null && user.isSignedIn
             ? <PopupMenuEntry<PopupMenuOption>>[
-                const PopupMenuItem(
-                  child: Text('Sign In'),
-                  value: PopupMenuOption.signIn,
-                ),
-              ]
-            : <PopupMenuEntry<PopupMenuOption>>[
                 const PopupMenuItem(
                   child: Text('Orders'),
                   value: PopupMenuOption.orders,
@@ -58,6 +52,12 @@ class MoreMenuButton extends ConsumerWidget {
                 const PopupMenuItem(
                   child: Text('Admin'),
                   value: PopupMenuOption.admin,
+                ),
+              ]
+            : <PopupMenuEntry<PopupMenuOption>>[
+                const PopupMenuItem(
+                  child: Text('Sign In'),
+                  value: PopupMenuOption.signIn,
                 ),
               ];
       },

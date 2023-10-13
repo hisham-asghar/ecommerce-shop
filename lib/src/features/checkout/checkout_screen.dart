@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_tabs_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/sign_in/email_password_sign_in_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/sign_in/email_password_sign_in_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
