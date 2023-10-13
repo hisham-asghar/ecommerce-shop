@@ -18,7 +18,7 @@ class PaymentPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsRepository = ref.watch(productsRepositoryProvider);
-    final itemsValue = ref.watch(cartItemsProvider);
+    final itemsValue = ref.watch(cartItemsListProvider);
     return AsyncValueWidget<List<Item>>(
       value: itemsValue,
       data: (items) => CustomScrollView(

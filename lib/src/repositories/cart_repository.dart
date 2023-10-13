@@ -9,10 +9,10 @@ class CartRepository {
   final DataStore dataStore;
 
   // TODO: Make these methods more DRY
-  List<Item> getItems() {
+  List<Item> getItemsList() {
     final uid = authService.uid;
     if (uid != null) {
-      return dataStore.getItems(uid);
+      return dataStore.getItemsList(uid);
     } else {
       throw AssertionError('uid == null');
     }
@@ -45,7 +45,7 @@ class CartRepository {
     }
   }
 
-  Future<void> removeAll() {
+  Future<void> removeAllItems() {
     final uid = authService.uid;
     if (uid != null) {
       return dataStore.removeAllItems(uid);
@@ -61,12 +61,12 @@ final cartRepositoryProvider = Provider<CartRepository>((ref) {
   return CartRepository(authService: authService, dataStore: dataStore);
 });
 
-final cartItemsProvider = StreamProvider.autoDispose<List<Item>>((ref) {
+final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
   final uidValue = ref.watch(authStateChangesProvider);
   final uid = uidValue.maybeWhen(data: (uid) => uid, orElse: () => null);
   if (uid != null) {
     final dataStore = ref.watch(dataStoreProvider);
-    return dataStore.items(uid);
+    return dataStore.itemsList(uid);
   } else {
     // TODO: Log error
     return const Stream.empty();

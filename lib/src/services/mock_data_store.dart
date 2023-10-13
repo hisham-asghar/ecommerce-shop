@@ -36,7 +36,7 @@ class MockDataStore implements DataStore {
   Stream<List<Product>> get _productsStream => _productsSubject.stream;
 
   @override
-  Stream<List<Product>> getProducts() {
+  Stream<List<Product>> productsList() {
     return _productsStream;
   }
 
@@ -166,12 +166,12 @@ class MockDataStore implements DataStore {
       _cartDataSubject.stream;
 
   @override
-  List<Item> getItems(String uid) {
+  List<Item> getItemsList(String uid) {
     return cartData[uid] ?? [];
   }
 
   @override
-  Stream<List<Item>> items(String uid) {
+  Stream<List<Item>> itemsList(String uid) {
     return _cartDataStream.map((cartData) {
       return cartData[uid] ?? [];
     });

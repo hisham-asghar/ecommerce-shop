@@ -43,7 +43,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   // TODO: Move this to more appropriate place
   void _placeOrder() async {
     final cartRepository = ref.read(cartRepositoryProvider);
-    final itemsList = await cartRepository.getItems();
+    final itemsList = cartRepository.getItemsList();
     final auth = ref.read(authServiceProvider);
     final userOrdersRepository = ref.read(userOrdersRepositoryProvider);
     final order = Order(
@@ -59,7 +59,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     try {
       setState(() => _isLoading = true);
       await userOrdersRepository.placeOrder(order);
-      cartRepository.removeAll();
+      cartRepository.removeAllItems();
       setState(() => _isLoading = false);
       ref.read(routerDelegateProvider).openPaymentComplete(order);
     } catch (e) {

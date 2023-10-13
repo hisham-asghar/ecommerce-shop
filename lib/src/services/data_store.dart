@@ -14,7 +14,7 @@ abstract class DataStore {
   // -------------------------------------
   // Products
   // -------------------------------------
-  Stream<List<Product>> getProducts();
+  Stream<List<Product>> productsList();
   Stream<Product> product(String id);
 
   Future<void> addProduct(Product product);
@@ -45,9 +45,9 @@ abstract class DataStore {
   // Shopping Cart
   // -------------------------------------
   // Read from cache
-  List<Item> getItems(String uid);
+  List<Item> getItemsList(String uid);
   // Realtime
-  Stream<List<Item>> items(String uid);
+  Stream<List<Item>> itemsList(String uid);
 
   Future<void> addItem(String uid, Item item);
 

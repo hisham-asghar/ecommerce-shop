@@ -13,7 +13,7 @@ class ProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsValue = ref.watch(productsProvider);
+    final productsValue = ref.watch(productsListProvider);
     return AsyncValueSliverWidget<List<Product>>(
       value: productsValue,
       data: (products) => SliverGrid(
