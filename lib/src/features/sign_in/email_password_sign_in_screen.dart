@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
-class EmailPasswordSignInPage extends StatefulWidget {
-  const EmailPasswordSignInPage(
+class EmailPasswordSignInScreen extends ConsumerWidget {
+  const EmailPasswordSignInScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authService = ref.watch(authServiceProvider);
+    return Scaffold(
+      appBar: AppBar(title: const Text('Sign In')),
+      body: EmailPasswordSignInContents(
+        model: EmailPasswordSignInModel(authService: authService),
+        onSignedIn: () => Navigator.of(context).pop(),
+      ),
+    );
+  }
+}
+
+class EmailPasswordSignInContents extends StatefulWidget {
+  const EmailPasswordSignInContents(
       {Key? key, required this.model, this.onSignedIn})
       : super(key: key);
   final EmailPasswordSignInModel model;
   final VoidCallback? onSignedIn;
   @override
-  _EmailPasswordSignInPageState createState() =>
-      _EmailPasswordSignInPageState();
+  _EmailPasswordSignInContentsState createState() =>
+      _EmailPasswordSignInContentsState();
 }
 
-class _EmailPasswordSignInPageState extends State<EmailPasswordSignInPage> {
+class _EmailPasswordSignInContentsState
+    extends State<EmailPasswordSignInContents> {
   final FocusScopeNode _node = FocusScopeNode();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();

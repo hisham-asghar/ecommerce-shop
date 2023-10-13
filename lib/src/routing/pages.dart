@@ -12,6 +12,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/orders_list/orders_list_s
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_list.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 
 class NotFoundPage extends Page {
@@ -43,6 +44,17 @@ class ProductDetailsPage extends Page {
   Route createRoute(BuildContext context) => MaterialPageRoute(
         settings: this,
         builder: (_) => ProductScreen(productId: productId),
+      );
+}
+
+class EmailPasswordSignInPage extends Page {
+  const EmailPasswordSignInPage();
+
+  @override
+  Route createRoute(BuildContext context) => MaterialPageRoute(
+        settings: this,
+        builder: (_) => const EmailPasswordSignInScreen(),
+        fullscreenDialog: true,
       );
 }
 

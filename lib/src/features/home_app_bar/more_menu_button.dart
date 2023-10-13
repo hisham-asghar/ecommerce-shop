@@ -23,7 +23,7 @@ class MoreMenuButton extends ConsumerWidget {
         final routerDelegate = ref.read(routerDelegateProvider);
         switch (option) {
           case PopupMenuOption.signIn:
-            routerDelegate.openOrdersList();
+            routerDelegate.openSignIn();
             break;
           case PopupMenuOption.orders:
             routerDelegate.openOrdersList();

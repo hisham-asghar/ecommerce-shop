@@ -11,6 +11,7 @@ enum AppRoute {
   notFound,
   home,
   productDetails,
+  signIn,
   cart,
   checkout,
   pay,
@@ -47,6 +48,8 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
           return AppRoutePath(AppRoute.cart);
         case 'checkout':
           return AppRoutePath(AppRoute.checkout);
+        case 'signIn':
+          return AppRoutePath(AppRoute.signIn);
         case 'pay':
           return AppRoutePath(AppRoute.pay);
         case 'paymentComplete':
@@ -96,6 +99,8 @@ class AppRouteInformationParser extends RouteInformationParser<AppRoutePath> {
       case AppRoute.productDetails:
         return RouteInformation(
             location: '/products/${configuration.userProductId!}');
+      case AppRoute.signIn:
+        return const RouteInformation(location: '/signIn');
       case AppRoute.cart:
         return const RouteInformation(location: '/cart');
       case AppRoute.checkout:
@@ -137,6 +142,7 @@ abstract class BaseRouterDelegate extends RouterDelegate<AppRoutePath> {
   void openAdminOrders();
   void openAdminProducts();
   void openAdminProduct(Product? product);
+  void openSignIn();
   // nice to call as:
   // context.go(cart)
   // context.go(checkout)
@@ -241,6 +247,12 @@ class AppRouterDelegate extends BaseRouterDelegate
     notifyListeners();
   }
 
+  @override
+  void openSignIn() {
+    _appRoute = AppRoute.signIn;
+    notifyListeners();
+  }
+
   // given the state variables, return the current configuration
   @override
   AppRoutePath get currentConfiguration => AppRoutePath(
@@ -260,6 +272,7 @@ class AppRouterDelegate extends BaseRouterDelegate
           const ProductListPage(),
         if (_selectedUserProductId != null)
           ProductDetailsPage(productId: _selectedUserProductId!),
+        if (_appRoute == AppRoute.signIn) const EmailPasswordSignInPage(),
         if (_appRoute == AppRoute.cart) const ShoppingCartPage(),
         if (_appRoute == AppRoute.checkout) ...[
           const ShoppingCartPage(),
@@ -304,6 +317,7 @@ class AppRouterDelegate extends BaseRouterDelegate
             _selectedUserProductId = null;
             notifyListeners();
             break;
+          case AppRoute.signIn:
           case AppRoute.cart:
           case AppRoute.ordersList:
           case AppRoute.account:
