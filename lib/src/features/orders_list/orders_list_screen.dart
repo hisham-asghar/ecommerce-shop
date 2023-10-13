@@ -16,29 +16,37 @@ class OrdersListScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Your Orders'),
       ),
-      body: Center(
-        child: SizedBox(
-          width: FormFactor.desktop,
-          child: CustomScrollView(
-            slivers: <Widget>[
-              AsyncValueSliverWidget<List<Order>>(
-                value: ordersByDateValue,
-                data: (orders) => SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) => Padding(
-                      padding: const EdgeInsets.all(Sizes.p8),
-                      child: OrderCard(
-                        order: orders[index],
-                        viewMode: OrderViewMode.user,
+      body: AsyncValueWidget<List<Order>>(
+        value: ordersByDateValue,
+        data: (orders) => orders.isEmpty
+            ? Center(
+                child: Text(
+                  'No previous orders',
+                  style: Theme.of(context).textTheme.headline3,
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : Center(
+                child: SizedBox(
+                  width: FormFactor.desktop,
+                  child: CustomScrollView(
+                    slivers: <Widget>[
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) => Padding(
+                            padding: const EdgeInsets.all(Sizes.p8),
+                            child: OrderCard(
+                              order: orders[index],
+                              viewMode: OrderViewMode.user,
+                            ),
+                          ),
+                          childCount: orders.length,
+                        ),
                       ),
-                    ),
-                    childCount: orders.length,
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }
