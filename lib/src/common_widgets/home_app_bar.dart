@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/shopping_cart_icon.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 
 enum PopupMenuOption {
@@ -16,11 +17,7 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
     return AppBar(
       title: const Text('My Shop'),
       actions: [
-        IconButton(
-          // TODO: show item count
-          icon: const Icon(Icons.shopping_cart),
-          onPressed: () => ref.read(routerDelegateProvider).openCart(),
-        ),
+        const ShoppingCartIcon(),
         // TODO: Move to separate widget?
         PopupMenuButton(
           initialValue: PopupMenuOption.orders,
