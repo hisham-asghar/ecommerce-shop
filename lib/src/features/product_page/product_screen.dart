@@ -70,8 +70,8 @@ class ProductScreenContents extends ConsumerWidget {
                   style: Theme.of(context).textTheme.headline5),
               const SizedBox(height: Sizes.p8),
               // TODO: Ratings
-              const Placeholder(fallbackHeight: 48.0),
-              const SizedBox(height: Sizes.p8),
+              // const Placeholder(fallbackHeight: 48.0),
+              // const SizedBox(height: Sizes.p8),
               const Divider(),
               const SizedBox(height: Sizes.p8),
               AddToCartWidget(product: product),

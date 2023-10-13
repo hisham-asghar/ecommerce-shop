@@ -82,7 +82,8 @@ class ShoppingCartContents extends ConsumerWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
                     child: ShoppingCartCheckout(
-                        total: productsRepository.calculateTotal(items)),
+                      total: productsRepository.calculateTotal(items),
+                    ),
                   ),
                 )
               ],
