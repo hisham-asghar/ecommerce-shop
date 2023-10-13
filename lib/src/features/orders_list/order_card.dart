@@ -23,7 +23,7 @@ class OrderCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         side: BorderSide(width: 1, color: Colors.grey[400]!),
-        borderRadius: const BorderRadius.all(Radius.circular(Sizes.p4)),
+        borderRadius: const BorderRadius.all(Radius.circular(Sizes.p8)),
       ),
       child: Column(
         children: [
@@ -54,47 +54,88 @@ class OrderHeader extends ConsumerWidget {
     return Container(
       color: Colors.grey[200],
       padding: const EdgeInsets.all(Sizes.p16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Order placed'.toUpperCase(),
+                      style: Theme.of(context).textTheme.caption),
+                  const SizedBox(height: Sizes.p4),
+                  Text(dateFormatted),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    'Total'.toUpperCase(),
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  const SizedBox(height: Sizes.p4),
+                  Text(totalFormatted),
+                ],
+              ),
+            ],
+          ),
+          if (viewMode == OrderViewMode.admin)
+            OrderHeaderAdminFields(order: order),
+        ],
+      ),
+    );
+  }
+}
+
+class OrderHeaderAdminFields extends StatelessWidget {
+  const OrderHeaderAdminFields({Key? key, required this.order})
+      : super(key: key);
+  final Order order;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: Sizes.p16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Order placed'.toUpperCase(),
-                  style: Theme.of(context).textTheme.caption),
-              const SizedBox(height: Sizes.p4),
-              Text(dateFormatted),
-              if (viewMode == OrderViewMode.admin) ...[
-                const SizedBox(height: Sizes.p16),
-                Text('User ID'.toUpperCase(),
-                    style: Theme.of(context).textTheme.caption),
+          Flexible(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'User ID'.toUpperCase(),
+                  textAlign: TextAlign.end,
+                  style: Theme.of(context).textTheme.caption,
+                ),
                 const SizedBox(height: Sizes.p4),
                 Text(order.userId),
               ],
-            ],
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                'Total'.toUpperCase(),
-                style: Theme.of(context).textTheme.caption,
-              ),
-              const SizedBox(height: Sizes.p4),
-              Text(totalFormatted),
-              if (viewMode == OrderViewMode.admin) ...[
-                const SizedBox(height: Sizes.p16),
-                Text('User email'.toUpperCase(),
-                    style: Theme.of(context).textTheme.caption),
+          Flexible(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'User email'.toUpperCase(),
+                  textAlign: TextAlign.end,
+                  style: Theme.of(context).textTheme.caption,
+                ),
                 const SizedBox(height: Sizes.p4),
                 // TODO: Fetch and show user email
                 const Text('TBD'),
               ],
-            ],
-          )
+            ),
+          ),
         ],
       ),
-      // TODO: Show order ID on desktop?
     );
   }
 }
