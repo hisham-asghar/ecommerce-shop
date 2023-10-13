@@ -48,7 +48,8 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     final userOrdersRepository = ref.read(userOrdersRepositoryProvider);
     final order = Order(
       id: Uuid().v1(),
-      userId: auth.uid!, // safe to use ! as we must be logged in if we get here
+      userId: auth.currentUser!
+          .uid, // safe to use ! as we must be logged in if we get here
       items: itemsList,
       // TODO: Update with real payment status
       // paymentStatus: PaymentStatus.paid,

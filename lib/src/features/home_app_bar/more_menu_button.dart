@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 enum PopupMenuOption {
+  signIn,
   orders,
   account,
   admin,
@@ -13,12 +15,16 @@ class MoreMenuButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-//    final authStateValue = ref.watch(authStateChangesProvider);
+    final authStateValue = ref.watch(authStateChangesProvider);
+    final uid =
+        authStateValue.maybeWhen(data: (uid) => uid, orElse: () => null);
     return PopupMenuButton(
-      initialValue: PopupMenuOption.orders,
       onSelected: (option) {
         final routerDelegate = ref.read(routerDelegateProvider);
         switch (option) {
+          case PopupMenuOption.signIn:
+            routerDelegate.openOrdersList();
+            break;
           case PopupMenuOption.orders:
             routerDelegate.openOrdersList();
             break;
@@ -33,20 +39,27 @@ class MoreMenuButton extends ConsumerWidget {
         }
       },
       itemBuilder: (_) {
-        return <PopupMenuEntry<PopupMenuOption>>[
-          const PopupMenuItem(
-            child: Text('Orders'),
-            value: PopupMenuOption.orders,
-          ),
-          const PopupMenuItem(
-            child: Text('Account'),
-            value: PopupMenuOption.account,
-          ),
-          const PopupMenuItem(
-            child: Text('Admin'),
-            value: PopupMenuOption.admin,
-          ),
-        ];
+        return uid == null
+            ? <PopupMenuEntry<PopupMenuOption>>[
+                const PopupMenuItem(
+                  child: Text('Sign In'),
+                  value: PopupMenuOption.signIn,
+                ),
+              ]
+            : <PopupMenuEntry<PopupMenuOption>>[
+                const PopupMenuItem(
+                  child: Text('Orders'),
+                  value: PopupMenuOption.orders,
+                ),
+                const PopupMenuItem(
+                  child: Text('Account'),
+                  value: PopupMenuOption.account,
+                ),
+                const PopupMenuItem(
+                  child: Text('Admin'),
+                  value: PopupMenuOption.admin,
+                ),
+              ];
       },
       // TODO: Find right icon
       icon: const Icon(Icons.more_vert),

@@ -10,9 +10,9 @@ class UserOrdersRepository {
 
   // All write operations go here
   Future<void> placeOrder(Order order) async {
-    final uid = authService.uid;
-    if (uid != null) {
-      await dataStore.placeOrder(uid, order);
+    final user = authService.currentUser;
+    if (user != null) {
+      await dataStore.placeOrder(user.uid, order);
     } else {
       // TODO: Log error
       throw AssertionError('uid == null');
@@ -28,11 +28,11 @@ final userOrdersRepositoryProvider = Provider<UserOrdersRepository>((ref) {
 
 // All read operations go here
 final ordersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
-  final uidValue = ref.watch(authStateChangesProvider);
-  final uid = uidValue.maybeWhen(data: (uid) => uid, orElse: () => null);
-  if (uid != null) {
+  final userValue = ref.watch(authStateChangesProvider);
+  final user = userValue.maybeWhen(data: (user) => user, orElse: () => null);
+  if (user != null) {
     final dataStore = ref.watch(dataStoreProvider);
-    return dataStore.ordersByDate(uid);
+    return dataStore.ordersByDate(user.uid);
   } else {
     // TODO: Log error
     return const Stream.empty();

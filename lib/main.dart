@@ -19,7 +19,7 @@ void main() async {
   }
 
   final authService = MockAuthService();
-  if (authService.uid == null) {
+  if (authService.currentUser == null) {
     authService.signInAnonymously();
   }
   runApp(ProviderScope(

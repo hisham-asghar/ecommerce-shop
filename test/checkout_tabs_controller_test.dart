@@ -32,8 +32,9 @@ void main() {
 
     test('signed in, no address - index 1', () {
       final mockAuthService = MockAuthService();
-      mockAuthService.isSignedIn = true;
-      mockAuthService.uid = '123';
+      mockAuthService.currentUser =
+          User(uid: '123', isSignedIn: true, isAdmin: false);
+
       final mockDataStore = MockDataStore();
       final tabController =
           TabController(length: 3, vsync: MockTickerProvider());
@@ -47,8 +48,8 @@ void main() {
     });
     test('signed in, address - index 2', () async {
       final mockAuthService = MockAuthService();
-      mockAuthService.isSignedIn = true;
-      mockAuthService.uid = '123';
+      mockAuthService.currentUser =
+          User(uid: '123', isSignedIn: true, isAdmin: false);
       final mockDataStore = MockDataStore();
       await mockDataStore.submitAddress(
           '123',

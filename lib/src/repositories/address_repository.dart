@@ -9,18 +9,18 @@ class AddressRepository {
   final DataStore dataStore;
 
   Address? getAddress() {
-    final uid = authService.uid;
-    if (uid != null) {
-      return dataStore.getAddress(uid);
+    final user = authService.currentUser;
+    if (user != null) {
+      return dataStore.getAddress(user.uid);
     } else {
       throw AssertionError('uid == null');
     }
   }
 
   Future<void> submitAddress(Address address) async {
-    final uid = authService.uid;
-    if (uid != null) {
-      await dataStore.submitAddress(uid, address);
+    final user = authService.currentUser;
+    if (user != null) {
+      await dataStore.submitAddress(user.uid, address);
     } else {
       throw AssertionError('uid == null');
     }
@@ -34,11 +34,11 @@ final addressRepositoryProvider = Provider<AddressRepository>((ref) {
 });
 
 final addressProvider = StreamProvider.autoDispose<Address?>((ref) {
-  final uidValue = ref.watch(authStateChangesProvider);
-  final uid = uidValue.maybeWhen(data: (uid) => uid, orElse: () => null);
-  if (uid != null) {
+  final userValue = ref.watch(authStateChangesProvider);
+  final user = userValue.maybeWhen(data: (user) => user, orElse: () => null);
+  if (user != null) {
     final dataStore = ref.watch(dataStoreProvider);
-    return dataStore.address(uid);
+    return dataStore.address(user.uid);
   } else {
     // TODO: Log error
     return const Stream.empty();

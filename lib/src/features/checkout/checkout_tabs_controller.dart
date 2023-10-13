@@ -8,9 +8,8 @@ class CheckoutTabsController with ChangeNotifier {
     required this.dataStore,
     required this.tabController,
     // set this when the object is first created.
-  }) : needsTabView = !authService.isSignedIn ||
-            authService.uid == null ||
-            dataStore.getAddress(authService.uid!) == null;
+  }) : needsTabView = authService.currentUser == null ||
+            dataStore.getAddress(authService.currentUser!.uid) == null;
   final AuthService authService;
   final DataStore dataStore;
   final TabController tabController;
@@ -18,9 +17,9 @@ class CheckoutTabsController with ChangeNotifier {
 
   int tabIndex() {
     var tabIndex = 0;
-    if (authService.isSignedIn) {
-      final uid = authService.uid!;
-      if (dataStore.getAddress(uid) != null) {
+    final user = authService.currentUser;
+    if (user != null && user.isSignedIn) {
+      if (dataStore.getAddress(user.uid) != null) {
         tabIndex = 2;
       } else {
         tabIndex = 1;

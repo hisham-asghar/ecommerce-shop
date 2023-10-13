@@ -10,45 +10,45 @@ class CartRepository {
 
   // TODO: Make these methods more DRY
   List<Item> getItemsList() {
-    final uid = authService.uid;
-    if (uid != null) {
-      return dataStore.getItemsList(uid);
+    final user = authService.currentUser;
+    if (user != null) {
+      return dataStore.getItemsList(user.uid);
     } else {
       throw AssertionError('uid == null');
     }
   }
 
   Future<void> addItem(Item item) {
-    final uid = authService.uid;
-    if (uid != null) {
-      return dataStore.addItem(uid, item);
+    final user = authService.currentUser;
+    if (user != null) {
+      return dataStore.addItem(user.uid, item);
     } else {
       throw AssertionError('uid == null');
     }
   }
 
   Future<void> removeItem(Item item) {
-    final uid = authService.uid;
-    if (uid != null) {
-      return dataStore.removeItem(uid, item);
+    final user = authService.currentUser;
+    if (user != null) {
+      return dataStore.removeItem(user.uid, item);
     } else {
       throw AssertionError('uid == null');
     }
   }
 
   Future<bool> updateItemIfExists(Item item) {
-    final uid = authService.uid;
-    if (uid != null) {
-      return dataStore.updateItemIfExists(uid, item);
+    final user = authService.currentUser;
+    if (user != null) {
+      return dataStore.updateItemIfExists(user.uid, item);
     } else {
       throw AssertionError('uid == null');
     }
   }
 
   Future<void> removeAllItems() {
-    final uid = authService.uid;
-    if (uid != null) {
-      return dataStore.removeAllItems(uid);
+    final user = authService.currentUser;
+    if (user != null) {
+      return dataStore.removeAllItems(user.uid);
     } else {
       throw AssertionError('uid == null');
     }
@@ -62,11 +62,11 @@ final cartRepositoryProvider = Provider<CartRepository>((ref) {
 });
 
 final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
-  final uidValue = ref.watch(authStateChangesProvider);
-  final uid = uidValue.maybeWhen(data: (uid) => uid, orElse: () => null);
-  if (uid != null) {
+  final userValue = ref.watch(authStateChangesProvider);
+  final user = userValue.maybeWhen(data: (user) => user, orElse: () => null);
+  if (user != null) {
     final dataStore = ref.watch(dataStoreProvider);
-    return dataStore.itemsList(uid);
+    return dataStore.itemsList(user.uid);
   } else {
     // TODO: Log error
     return const Stream.empty();
