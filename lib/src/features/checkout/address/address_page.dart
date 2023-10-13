@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/address_repository.dart';
 
 class AddressPage extends ConsumerStatefulWidget {
   const AddressPage({Key? key, this.onDataSubmitted}) : super(key: key);
@@ -37,9 +37,9 @@ class _AddressPageState extends ConsumerState<AddressPage> {
         postalCode: _postalCodeController.value.text,
         country: _countryController.value.text,
       );
-      final dataStore = ref.read(dataStoreProvider);
+      final addressRepository = ref.read(addressRepositoryProvider);
       setState(() => _isLoading = true);
-      await dataStore.submitAddress(address);
+      await addressRepository.submitAddress(address);
       setState(() => _isLoading = false);
       widget.onDataSubmitted?.call();
     }

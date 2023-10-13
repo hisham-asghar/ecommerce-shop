@@ -6,10 +6,12 @@ import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_data_store.dart';
 
 abstract class DataStore {
-  // TODO: This should depend on the authenticated user
+  // -------------------------------------
   // Address
-  bool get isAddressSet;
-  Future<void> submitAddress(Address address);
+  // -------------------------------------
+  Address? getAddress(String uid);
+  Stream<Address?> address(String uid);
+  Future<void> submitAddress(String uid, Address address);
 
   // -------------------------------------
   // Products

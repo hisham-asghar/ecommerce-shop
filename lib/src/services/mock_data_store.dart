@@ -18,13 +18,27 @@ class MockDataStore implements DataStore {
   // -------------------------------------
   // Address
   // -------------------------------------
-  @override
-  var isAddressSet = false;
+  final Map<String, Address> _addressData = {};
+  final _addressDataSubject = BehaviorSubject<Map<String, Address>>.seeded({});
+  Stream<Map<String, Address>> get _addressDataStream =>
+      _addressDataSubject.stream;
 
   @override
-  Future<void> submitAddress(Address address) async {
+  Address? getAddress(String uid) {
+    return _addressData[uid];
+  }
+
+  @override
+  Stream<Address?> address(String uid) {
+    return _addressDataStream.map((addressData) => addressData[uid]);
+  }
+
+  @override
+  Future<void> submitAddress(String uid, Address address) async {
     await Future.delayed(const Duration(seconds: 2));
-    isAddressSet = true;
+
+    _addressData[uid] = address;
+    _addressDataSubject.add(_addressData);
   }
 
   // -------------------------------------
