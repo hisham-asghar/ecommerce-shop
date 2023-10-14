@@ -15,7 +15,7 @@ class AdminOrdersScreen extends ConsumerWidget {
     // TODO: Avoid duplicating code from OrdersListScreen
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order management'),
+        title: const Text('Manage Orders'),
       ),
       body: Center(
         child: SizedBox(

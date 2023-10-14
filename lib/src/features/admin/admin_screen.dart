@@ -23,13 +23,13 @@ class AdminScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 PrimaryButton(
-                  text: 'Products',
+                  text: 'Manage Products',
                   onPressed: () =>
                       ref.read(routerDelegateProvider).openAdminProducts(),
                 ),
                 const SizedBox(height: Sizes.p24),
                 PrimaryButton(
-                  text: 'Orders',
+                  text: 'Manage Orders',
                   onPressed: () =>
                       ref.read(routerDelegateProvider).openAdminOrders(),
                 ),

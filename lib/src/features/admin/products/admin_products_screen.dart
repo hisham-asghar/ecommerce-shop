@@ -11,7 +11,7 @@ class AdminProductsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Products Management'),
+        title: const Text('Manage Products'),
       ),
       body: Center(
         child: SizedBox(
@@ -22,7 +22,7 @@ class AdminProductsScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(Sizes.p16),
                 sliver: SliverToBoxAdapter(
-                  child: Text('Products Management',
+                  child: Text('Manage Products',
                       style: Theme.of(context).textTheme.headline4),
                 ),
               ),
