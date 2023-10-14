@@ -35,8 +35,7 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> submitAddress(String uid, Address address) async {
-    await Future.delayed(const Duration(seconds: 2));
-
+    await _delay();
     _addressData[uid] = address;
     _addressDataSubject.add(_addressData);
   }
@@ -62,12 +61,14 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> addProduct(Product product) async {
+    await _delay();
     _products.add(product);
     _productsSubject.add(_products);
   }
 
   @override
   Future<void> editProduct(Product product) async {
+    await _delay();
     final index = _products.indexWhere((item) => item.id == product.id);
     if (index == -1) {
       throw AssertionError('Product not found (id: ${product.id}');
@@ -111,7 +112,7 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> placeOrder(String uid, Order order) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await _delay();
     // First, make sure all items are available
     for (var item in order.items) {
       final product = getProductById(item.productId);
@@ -136,7 +137,7 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> updateOrderStatus(Order order, OrderStatus status) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await _delay();
     final userOrders = Map<String, Order>.from(ordersData[order.userId] ?? {});
     // TODO: Do this at the call site?
     final updated = order.copyWith(orderStatus: status);
@@ -195,6 +196,7 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> addItem(String uid, Item item) async {
+    await _delay();
     final cart = MockCart(cartData[uid] ?? []);
     cart.addItem(item);
     cartData[uid] = cart.items;
@@ -203,6 +205,7 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> removeItem(String uid, Item item) async {
+    await _delay();
     final cart = MockCart(cartData[uid] ?? []);
     cart.removeItem(item);
     cartData[uid] = cart.items;
@@ -211,6 +214,7 @@ class MockDataStore implements DataStore {
 
   @override
   Future<bool> updateItemIfExists(String uid, Item item) async {
+    await _delay();
     final cart = MockCart(cartData[uid] ?? []);
     final result = cart.updateItemIfExists(item);
     if (result) {
@@ -222,8 +226,13 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> removeAllItems(String uid) async {
+    await _delay();
     cartData[uid] = [];
     _cartDataSubject.add(cartData);
+  }
+
+  Future<void> _delay() async {
+    await Future.delayed(const Duration(seconds: 2));
   }
 }
 

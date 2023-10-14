@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -18,6 +19,8 @@ class AdminProductScreenViewModel {
   var availableQuantity = 0;
   var imageUrl = '';
 
+  var isLoading = ValueNotifier<bool>(false);
+
   void init() {
     title = product?.title ?? '';
     description = product?.description ?? '';
@@ -27,25 +30,33 @@ class AdminProductScreenViewModel {
   }
 
   Future<void> submit() async {
-    if (product == null) {
-      final newProduct = Product(
-        id: const Uuid().v1(),
-        title: title,
-        description: description,
-        price: price,
-        availableQuantity: availableQuantity,
-        imageUrl: imageUrl,
-      );
-      await productsRepository.addProduct(newProduct);
-    } else {
-      final updatedProduct = product!.copyWith(
-        title: title,
-        description: description,
-        price: price,
-        imageUrl: imageUrl,
-        availableQuantity: availableQuantity,
-      );
-      await productsRepository.editProduct(updatedProduct);
+    try {
+      isLoading.value = true;
+      if (product == null) {
+        final newProduct = Product(
+          id: const Uuid().v1(),
+          title: title,
+          description: description,
+          price: price,
+          availableQuantity: availableQuantity,
+          imageUrl: imageUrl,
+        );
+        await productsRepository.addProduct(newProduct);
+      } else {
+        final updatedProduct = product!.copyWith(
+          title: title,
+          description: description,
+          price: price,
+          imageUrl: imageUrl,
+          availableQuantity: availableQuantity,
+        );
+        await productsRepository.editProduct(updatedProduct);
+      }
+    } catch (e) {
+      // TODO: Emit error state?
+      print(e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 
