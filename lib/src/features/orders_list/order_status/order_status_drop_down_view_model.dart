@@ -1,21 +1,29 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/admin_orders_repository.dart';
 
-class OrderStatusDropDownViewModel {
+class OrderStatusDropDownViewModel extends StateNotifier<bool> {
   OrderStatusDropDownViewModel(
-      {required this.adminOrdersRepository, required this.order});
+      {required this.adminOrdersRepository, required this.order})
+      : super(false);
   final AdminOrdersRepository adminOrdersRepository;
 
   final Order order;
-  var isLoading = ValueNotifier<bool>(false);
 
   Future<void> updateOrderStatus(OrderStatus status) async {
     try {
-      isLoading.value = true;
+      state = true;
       await adminOrdersRepository.updateOrderStatus(order, status);
     } finally {
-      isLoading.value = false;
+      state = false;
     }
   }
 }
+
+final orderStatusDropDownViewModelProvider =
+    StateNotifierProvider.family<OrderStatusDropDownViewModel, bool, Order>(
+        (ref, order) {
+  final adminOrdersRepository = ref.watch(adminOrdersRepositoryProvider);
+  return OrderStatusDropDownViewModel(
+      adminOrdersRepository: adminOrdersRepository, order: order);
+});

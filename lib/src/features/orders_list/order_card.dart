@@ -3,10 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_item_list_tile.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_view_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_label.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/admin_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
@@ -141,15 +139,14 @@ class OrderHeaderAdminFields extends StatelessWidget {
   }
 }
 
-class OrderItemsList extends ConsumerWidget {
+class OrderItemsList extends StatelessWidget {
   const OrderItemsList({Key? key, required this.order, required this.viewMode})
       : super(key: key);
   final Order order;
   final OrderViewMode viewMode;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final adminOrdersRepository = ref.watch(adminOrdersRepositoryProvider);
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -159,10 +156,7 @@ class OrderItemsList extends ConsumerWidget {
               ? OrderStatusLabel(order: order)
               : OrderStatusDropDown(
                   key: ValueKey('drop-down-${order.id}'),
-                  viewModel: OrderStatusDropDownViewModel(
-                    adminOrdersRepository: adminOrdersRepository,
-                    order: order,
-                  ),
+                  order: order,
                 ),
         ),
         for (var item in order.items) OrderItemListTile(item: item),
