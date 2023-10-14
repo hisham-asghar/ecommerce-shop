@@ -214,7 +214,7 @@ class MockDataStore implements DataStore {
 
   @override
   Future<bool> updateItemIfExists(String uid, Item item) async {
-    await _delay();
+    await _delay(300);
     final cart = MockCart(cartData[uid] ?? []);
     final result = cart.updateItemIfExists(item);
     if (result) {
@@ -231,8 +231,8 @@ class MockDataStore implements DataStore {
     _cartDataSubject.add(cartData);
   }
 
-  Future<void> _delay() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<void> _delay([int milliseconds = 2000]) async {
+    await Future.delayed(Duration(milliseconds: milliseconds));
   }
 }
 

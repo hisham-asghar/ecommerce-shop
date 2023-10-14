@@ -6,9 +6,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item_view_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
@@ -51,21 +51,11 @@ class ShoppingCartItemContents extends ConsumerWidget {
   final Item item;
   final bool isEditable;
 
-  void _deleteItem(WidgetRef ref) async {
-    final cart = ref.read(cartRepositoryProvider);
-    await cart.removeItem(item);
-  }
-
-  void _updateQuantity(WidgetRef ref, int quantity) async {
-    final cart = ref.read(cartRepositoryProvider);
-    final updated = Item(productId: item.productId, quantity: quantity);
-    await cart.updateItemIfExists(updated);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
+    final state = ref.watch(shoppingCartItemViewModelProvider);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
@@ -86,11 +76,19 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ItemQuantitySelector(
                       quantity: item.quantity,
                       maxQuantity: min(product.availableQuantity, 10),
-                      onChanged: (quantity) => _updateQuantity(ref, quantity),
+                      onChanged: state.isLoading
+                          ? null
+                          : (quantity) => ref
+                              .read(shoppingCartItemViewModelProvider.notifier)
+                              .updateQuantity(item, quantity),
                     ),
                     IconButton(
                       icon: Icon(Icons.delete, color: Colors.red[700]),
-                      onPressed: () => _deleteItem(ref),
+                      onPressed: state.isLoading
+                          ? null
+                          : () => ref
+                              .read(shoppingCartItemViewModelProvider.notifier)
+                              .deleteItem(item),
                     ),
                     const Spacer(),
                   ],

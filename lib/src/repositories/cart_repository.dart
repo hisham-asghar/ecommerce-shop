@@ -37,6 +37,7 @@ class CartRepository {
   }
 
   Future<bool> updateItemIfExists(Item item) {
+    // Is there a way to cache this so updates are faster?
     final user = authService.currentUser;
     if (user != null) {
       return dataStore.updateItemIfExists(user.uid, item);
