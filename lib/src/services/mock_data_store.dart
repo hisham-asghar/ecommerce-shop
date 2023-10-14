@@ -136,11 +136,13 @@ class MockDataStore implements DataStore {
 
   @override
   Future<void> updateOrderStatus(Order order, OrderStatus status) async {
+    await Future.delayed(const Duration(seconds: 2));
     final userOrders = Map<String, Order>.from(ordersData[order.userId] ?? {});
     // TODO: Do this at the call site?
     final updated = order.copyWith(orderStatus: status);
     userOrders[order.id] = updated;
     ordersData[order.userId] = userOrders;
+    // Note: Adding this to the stream causes additional rebuilds in the OrderList
     _ordersDataSubject.add(ordersData);
   }
 
