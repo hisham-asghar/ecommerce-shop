@@ -1,25 +1,20 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:uuid/uuid.dart';
 
-class AdminProductScreenViewModel {
-  AdminProductScreenViewModel(
-      {required this.productsRepository, String? productId})
-      : product = productId != null
-            ? productsRepository.getProductById(productId)
-            : null {
+class AdminProductScreenViewModel extends StateNotifier<bool> {
+  AdminProductScreenViewModel({required this.productsRepository, this.product})
+      : super(false) {
     init();
   }
   final ProductsRepository productsRepository;
-  late final Product? product;
+  final Product? product;
   var title = '';
   var description = '';
   var price = 0.0;
   var availableQuantity = 0;
   var imageUrl = '';
-
-  var isLoading = ValueNotifier<bool>(false);
 
   void init() {
     title = product?.title ?? '';
@@ -31,7 +26,7 @@ class AdminProductScreenViewModel {
 
   Future<void> submit() async {
     try {
-      isLoading.value = true;
+      state = true;
       if (product == null) {
         final newProduct = Product(
           id: const Uuid().v1(),
@@ -56,7 +51,7 @@ class AdminProductScreenViewModel {
       // TODO: Emit error state?
       print(e.toString());
     } finally {
-      isLoading.value = false;
+      state = false;
     }
   }
 
@@ -126,3 +121,13 @@ class AdminProductScreenViewModel {
     return null;
   }
 }
+
+final adminProductScreenViewModelProvider =
+    StateNotifierProvider.family<AdminProductScreenViewModel, bool, String?>(
+        (ref, productId) {
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  final product =
+      productId != null ? productsRepository.getProductById(productId) : null;
+  return AdminProductScreenViewModel(
+      productsRepository: productsRepository, product: product);
+});
