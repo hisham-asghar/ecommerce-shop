@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_view_model.dart';
 
 class AdminProductScreen extends ConsumerStatefulWidget {
@@ -19,9 +20,20 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // error handling
+    ref.listen(adminProductScreenViewModelProvider(widget.productId),
+        (AdminProductScreenState state) {
+      state.whenOrNull(
+        error: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error)),
+          );
+        },
+      );
+    });
     final viewModel = ref
         .watch(adminProductScreenViewModelProvider(widget.productId).notifier);
-    final isLoading =
+    final state =
         ref.watch(adminProductScreenViewModelProvider(widget.productId));
     const autovalidateMode = AutovalidateMode.disabled;
     return Scaffold(
@@ -30,7 +42,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
         actions: [
           ActionTextButton(
             text: 'Save',
-            onPressed: isLoading
+            onPressed: state == const AdminProductScreenState.loading()
                 ? null
                 : () async {
                     if (_formKey.currentState!.validate()) {
@@ -69,7 +81,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                             Image.network(viewModel.imageUrl),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
-                            enabled: !isLoading,
+                            enabled: state !=
+                                const AdminProductScreenState.loading(),
                             initialValue: viewModel.imageUrl,
                             decoration: const InputDecoration(
                               label: Text('Image URL'),
@@ -91,7 +104,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           TextFormField(
-                            enabled: !isLoading,
+                            enabled: state !=
+                                const AdminProductScreenState.loading(),
                             initialValue: viewModel.title,
                             decoration: const InputDecoration(
                               label: Text('Title'),
@@ -103,7 +117,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                           ),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
-                            enabled: !isLoading,
+                            enabled: state !=
+                                const AdminProductScreenState.loading(),
                             initialValue: viewModel.description,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
@@ -117,7 +132,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                           ),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
-                            enabled: !isLoading,
+                            enabled: state !=
+                                const AdminProductScreenState.loading(),
                             initialValue: viewModel.price != 0
                                 ? viewModel.price.toString()
                                 : '',
@@ -131,7 +147,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                                 viewModel.price = double.parse(value!),
                           ),
                           TextFormField(
-                            enabled: !isLoading,
+                            enabled: state !=
+                                const AdminProductScreenState.loading(),
                             initialValue:
                                 viewModel.availableQuantity.toString(),
                             decoration: const InputDecoration(

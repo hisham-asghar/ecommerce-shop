@@ -1,11 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:uuid/uuid.dart';
 
-class AdminProductScreenViewModel extends StateNotifier<bool> {
+class AdminProductScreenViewModel
+    extends StateNotifier<AdminProductScreenState> {
   AdminProductScreenViewModel({required this.productsRepository, this.product})
-      : super(false) {
+      : super(const AdminProductScreenState.notLoading()) {
     init();
   }
   final ProductsRepository productsRepository;
@@ -26,7 +28,7 @@ class AdminProductScreenViewModel extends StateNotifier<bool> {
 
   Future<void> submit() async {
     try {
-      state = true;
+      state = const AdminProductScreenState.loading();
       if (product == null) {
         final newProduct = Product(
           id: const Uuid().v1(),
@@ -48,10 +50,10 @@ class AdminProductScreenViewModel extends StateNotifier<bool> {
         await productsRepository.editProduct(updatedProduct);
       }
     } catch (e) {
-      // TODO: Emit error state?
-      print(e.toString());
+      state =
+          const AdminProductScreenState.error('Could not save product data');
     } finally {
-      state = false;
+      state = const AdminProductScreenState.notLoading();
     }
   }
 
@@ -122,9 +124,10 @@ class AdminProductScreenViewModel extends StateNotifier<bool> {
   }
 }
 
-final adminProductScreenViewModelProvider =
-    StateNotifierProvider.family<AdminProductScreenViewModel, bool, String?>(
-        (ref, productId) {
+final adminProductScreenViewModelProvider = StateNotifierProvider.family<
+    AdminProductScreenViewModel,
+    AdminProductScreenState,
+    String?>((ref, productId) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   final product =
       productId != null ? productsRepository.getProductById(productId) : null;
