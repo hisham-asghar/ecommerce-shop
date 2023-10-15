@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
