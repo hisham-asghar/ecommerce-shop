@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'widget_basic_state.freezed.dart';
 
 @freezed
-abstract class WidgetBasicState with _$WidgetBasicState {
+class WidgetBasicState with _$WidgetBasicState {
   const factory WidgetBasicState.loading() = _Loading;
   const factory WidgetBasicState.notLoading() = _NotLoading;
   const factory WidgetBasicState.error(String message) = _Error;
