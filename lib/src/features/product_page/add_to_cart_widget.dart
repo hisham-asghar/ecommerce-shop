@@ -5,15 +5,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_view_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 class AddToCartWidget extends ConsumerWidget {
   const AddToCartWidget({Key? key, required this.product}) : super(key: key);
   final Product product;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(addToCartViewModelProvider);
+    ref.listen(addToCartModelProvider, (AddToCartState state) {
+      state.widgetState.whenOrNull(
+        error: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error)),
+          );
+        },
+      );
+    });
+    final state = ref.watch(addToCartModelProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -25,12 +36,11 @@ class AddToCartWidget extends ConsumerWidget {
             ItemQuantitySelector(
               quantity: state.quantity,
               maxQuantity: min(product.availableQuantity, 10),
-              onChanged: state.isLoading
+              onChanged: state.widgetState == const WidgetBasicState.loading()
                   ? null
                   : (quantity) {
-                      final viewModel =
-                          ref.read(addToCartViewModelProvider.notifier);
-                      viewModel.updateQuantity(quantity);
+                      final model = ref.read(addToCartModelProvider.notifier);
+                      model.updateQuantity(quantity);
                     },
             ),
           ],
@@ -39,10 +49,9 @@ class AddToCartWidget extends ConsumerWidget {
         const Divider(),
         const SizedBox(height: Sizes.p8),
         PrimaryButton(
-          isLoading: state.isLoading,
+          isLoading: state.widgetState == const WidgetBasicState.loading(),
           onPressed: product.availableQuantity > 0
-              ? () =>
-                  ref.read(addToCartViewModelProvider.notifier).addItem(product)
+              ? () => ref.read(addToCartModelProvider.notifier).addItem(product)
               : null,
           text: product.availableQuantity > 0 ? 'Add to Cart' : 'Out of Stock',
         ),

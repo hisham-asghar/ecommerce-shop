@@ -25,7 +25,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
       adminProductScreenModelProvider(widget.productId),
       (WidgetBasicState state) => widgetStateErrorListener(context, state),
     );
-    final viewModel =
+    final model =
         ref.watch(adminProductScreenModelProvider(widget.productId).notifier);
     final state = ref.watch(adminProductScreenModelProvider(widget.productId));
     const autovalidateMode = AutovalidateMode.disabled;
@@ -43,10 +43,10 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                       // This forces the image to reload
                       setState(() {});
                       final scaffoldMessenger = ScaffoldMessenger.of(context);
-                      final viewModel = ref.read(
+                      final model = ref.read(
                           adminProductScreenModelProvider(widget.productId)
                               .notifier);
-                      await viewModel.submit();
+                      await model.submit();
                       scaffoldMessenger.showSnackBar(
                         const SnackBar(content: Text('Product updated')),
                       );
@@ -70,19 +70,19 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                       child: Column(
                         children: [
                           // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
-                          if (viewModel.imageUrl.isNotEmpty)
-                            Image.network(viewModel.imageUrl),
+                          if (model.imageUrl.isNotEmpty)
+                            Image.network(model.imageUrl),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
                             enabled: state != const WidgetBasicState.loading(),
-                            initialValue: viewModel.imageUrl,
+                            initialValue: model.imageUrl,
                             decoration: const InputDecoration(
                               label: Text('Image URL'),
                             ),
                             autovalidateMode: autovalidateMode,
                             validator:
                                 AdminProductScreenModel.imageUrlValidator,
-                            onSaved: (value) => viewModel.imageUrl = value!,
+                            onSaved: (value) => model.imageUrl = value!,
                           ),
                         ],
                       ),
@@ -97,18 +97,18 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                         children: [
                           TextFormField(
                             enabled: state != const WidgetBasicState.loading(),
-                            initialValue: viewModel.title,
+                            initialValue: model.title,
                             decoration: const InputDecoration(
                               label: Text('Title'),
                             ),
                             autovalidateMode: autovalidateMode,
                             validator: AdminProductScreenModel.titleValidator,
-                            onSaved: (value) => viewModel.title = value!,
+                            onSaved: (value) => model.title = value!,
                           ),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
                             enabled: state != const WidgetBasicState.loading(),
-                            initialValue: viewModel.description,
+                            initialValue: model.description,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             decoration: const InputDecoration(
@@ -117,26 +117,24 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                             autovalidateMode: autovalidateMode,
                             validator:
                                 AdminProductScreenModel.descriptionValidator,
-                            onSaved: (value) => viewModel.description = value!,
+                            onSaved: (value) => model.description = value!,
                           ),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
                             enabled: state != const WidgetBasicState.loading(),
-                            initialValue: viewModel.price != 0
-                                ? viewModel.price.toString()
-                                : '',
+                            initialValue:
+                                model.price != 0 ? model.price.toString() : '',
                             decoration: const InputDecoration(
                               label: Text('Price'),
                             ),
                             autovalidateMode: autovalidateMode,
                             validator: AdminProductScreenModel.priceValidator,
                             onSaved: (value) =>
-                                viewModel.price = double.parse(value!),
+                                model.price = double.parse(value!),
                           ),
                           TextFormField(
                             enabled: state != const WidgetBasicState.loading(),
-                            initialValue:
-                                viewModel.availableQuantity.toString(),
+                            initialValue: model.availableQuantity.toString(),
                             decoration: const InputDecoration(
                               label: Text('Available quantity'),
                             ),
@@ -144,7 +142,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                             validator: AdminProductScreenModel
                                 .availableQuantityValidator,
                             onSaved: (value) =>
-                                viewModel.availableQuantity = int.parse(value!),
+                                model.availableQuantity = int.parse(value!),
                           ),
                         ],
                       ),

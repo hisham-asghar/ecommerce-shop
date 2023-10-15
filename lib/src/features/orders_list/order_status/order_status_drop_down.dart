@@ -2,8 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_view_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 class OrderStatusDropDown extends ConsumerWidget {
   const OrderStatusDropDown({Key? key, required this.order}) : super(key: key);
@@ -11,14 +12,14 @@ class OrderStatusDropDown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(orderStatusDropDownViewModelProvider(order));
+    final state = ref.watch(orderStatusDropDownModelProvider(order));
     return Row(
       children: [
         Text('Status:', style: Theme.of(context).textTheme.subtitle1),
         const SizedBox(width: Sizes.p16),
         SizedBox(
           height: Sizes.p48,
-          child: isLoading
+          child: state == const WidgetBasicState.loading()
               ? const Center(child: CircularProgressIndicator())
               : DropdownButton<OrderStatus>(
                   value: order.orderStatus,
@@ -31,9 +32,9 @@ class OrderStatusDropDown extends ConsumerWidget {
                   ),
                   onChanged: (status) {
                     if (status != null) {
-                      final viewModel = ref.read(
-                          orderStatusDropDownViewModelProvider(order).notifier);
-                      viewModel.updateOrderStatus(status);
+                      final model = ref.read(
+                          orderStatusDropDownModelProvider(order).notifier);
+                      model.updateOrderStatus(status);
                     }
                   },
                   items: [

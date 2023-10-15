@@ -1,24 +1,26 @@
+import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+
 class AddToCartState {
   AddToCartState({
     required this.quantity,
-    required this.isLoading,
+    required this.widgetState,
   });
   final int quantity;
-  final bool isLoading;
+  final WidgetBasicState widgetState;
 
   AddToCartState copyWith({
     int? quantity,
-    bool? isLoading,
+    WidgetBasicState? widgetState,
   }) {
     return AddToCartState(
       quantity: quantity ?? this.quantity,
-      isLoading: isLoading ?? this.isLoading,
+      widgetState: widgetState ?? this.widgetState,
     );
   }
 
   @override
   String toString() =>
-      'AddToCartState(quantity: $quantity, isLoading: $isLoading)';
+      'AddToCartState(quantity: $quantity, widgetState: $widgetState)';
 
   @override
   bool operator ==(Object other) {
@@ -26,9 +28,9 @@ class AddToCartState {
 
     return other is AddToCartState &&
         other.quantity == quantity &&
-        other.isLoading == isLoading;
+        other.widgetState == widgetState;
   }
 
   @override
-  int get hashCode => quantity.hashCode ^ isLoading.hashCode;
+  int get hashCode => quantity.hashCode ^ widgetState.hashCode;
 }

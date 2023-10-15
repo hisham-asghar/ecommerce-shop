@@ -3,10 +3,14 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart_
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class AddToCartViewModel extends StateNotifier<AddToCartState> {
-  AddToCartViewModel({required this.cartRepository})
-      : super(AddToCartState(quantity: 1, isLoading: false));
+class AddToCartModel extends StateNotifier<AddToCartState> {
+  AddToCartModel({required this.cartRepository})
+      : super(AddToCartState(
+          quantity: 1,
+          widgetState: const WidgetBasicState.notLoading(),
+        ));
   final CartRepository cartRepository;
 
   void updateQuantity(int quantity) {
@@ -15,22 +19,24 @@ class AddToCartViewModel extends StateNotifier<AddToCartState> {
 
   Future<void> addItem(Product product) async {
     try {
-      state = state.copyWith(isLoading: true);
+      state = state.copyWith(widgetState: const WidgetBasicState.loading());
       final item = Item(
         productId: product.id,
         quantity: state.quantity,
       );
       await cartRepository.addItem(item);
     } catch (e) {
-      print(e.toString());
+      state = state.copyWith(
+        widgetState: const WidgetBasicState.error('Can\'t add item to cart'),
+      );
     } finally {
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(widgetState: const WidgetBasicState.notLoading());
     }
   }
 }
 
-final addToCartViewModelProvider =
-    StateNotifierProvider<AddToCartViewModel, AddToCartState>((ref) {
+final addToCartModelProvider =
+    StateNotifierProvider<AddToCartModel, AddToCartState>((ref) {
   final cartRepository = ref.watch(cartRepositoryProvider);
-  return AddToCartViewModel(cartRepository: cartRepository);
+  return AddToCartModel(cartRepository: cartRepository);
 });
