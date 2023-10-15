@@ -12,7 +12,10 @@ class CustomTextButton extends StatelessWidget {
     return SizedBox(
       height: Sizes.p48,
       child: TextButton(
-        child: Text(text),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
         onPressed: onPressed,
       ),
     );

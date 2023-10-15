@@ -15,9 +15,10 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         child: isLoading
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Text(
                 text,
+                textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headline6!

@@ -18,7 +18,10 @@ class CustomOutlinedButton extends StatelessWidget {
           textStyle: Theme.of(context).textTheme.headline5,
         ),
         onPressed: onPressed,
-        child: Text(text),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
