@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_view_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 class AdminProductScreen extends ConsumerStatefulWidget {
@@ -22,13 +22,12 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
   Widget build(BuildContext context) {
     // error handling
     ref.listen(
-      adminProductScreenViewModelProvider(widget.productId),
+      adminProductScreenModelProvider(widget.productId),
       (WidgetBasicState state) => widgetStateErrorListener(context, state),
     );
-    final viewModel = ref
-        .watch(adminProductScreenViewModelProvider(widget.productId).notifier);
-    final state =
-        ref.watch(adminProductScreenViewModelProvider(widget.productId));
+    final viewModel =
+        ref.watch(adminProductScreenModelProvider(widget.productId).notifier);
+    final state = ref.watch(adminProductScreenModelProvider(widget.productId));
     const autovalidateMode = AutovalidateMode.disabled;
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +44,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                       setState(() {});
                       final scaffoldMessenger = ScaffoldMessenger.of(context);
                       final viewModel = ref.read(
-                          adminProductScreenViewModelProvider(widget.productId)
+                          adminProductScreenModelProvider(widget.productId)
                               .notifier);
                       await viewModel.submit();
                       scaffoldMessenger.showSnackBar(
@@ -82,7 +81,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                             ),
                             autovalidateMode: autovalidateMode,
                             validator:
-                                AdminProductScreenViewModel.imageUrlValidator,
+                                AdminProductScreenModel.imageUrlValidator,
                             onSaved: (value) => viewModel.imageUrl = value!,
                           ),
                         ],
@@ -103,8 +102,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                               label: Text('Title'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator:
-                                AdminProductScreenViewModel.titleValidator,
+                            validator: AdminProductScreenModel.titleValidator,
                             onSaved: (value) => viewModel.title = value!,
                           ),
                           const SizedBox(height: Sizes.p8),
@@ -117,8 +115,8 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                               label: Text('Description'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator: AdminProductScreenViewModel
-                                .descriptionValidator,
+                            validator:
+                                AdminProductScreenModel.descriptionValidator,
                             onSaved: (value) => viewModel.description = value!,
                           ),
                           const SizedBox(height: Sizes.p8),
@@ -131,8 +129,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                               label: Text('Price'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator:
-                                AdminProductScreenViewModel.priceValidator,
+                            validator: AdminProductScreenModel.priceValidator,
                             onSaved: (value) =>
                                 viewModel.price = double.parse(value!),
                           ),
@@ -144,7 +141,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                               label: Text('Available quantity'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator: AdminProductScreenViewModel
+                            validator: AdminProductScreenModel
                                 .availableQuantityValidator,
                             onSaved: (value) =>
                                 viewModel.availableQuantity = int.parse(value!),

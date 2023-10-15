@@ -6,7 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item_view_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
@@ -56,12 +56,12 @@ class ShoppingCartItemContents extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
     ref.listen(
-      shoppingCartItemViewModelProvider,
+      shoppingCartItemModelProvider,
       (WidgetBasicState state) => widgetStateErrorListener(context, state),
     );
+    final state = ref.watch(shoppingCartItemModelProvider);
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
-    final state = ref.watch(shoppingCartItemViewModelProvider);
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
@@ -85,7 +85,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                       onChanged: state == const WidgetBasicState.loading()
                           ? null
                           : (quantity) => ref
-                              .read(shoppingCartItemViewModelProvider.notifier)
+                              .read(shoppingCartItemModelProvider.notifier)
                               .updateQuantity(item, quantity),
                     ),
                     IconButton(
@@ -93,7 +93,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                       onPressed: state == const WidgetBasicState.loading()
                           ? null
                           : () => ref
-                              .read(shoppingCartItemViewModelProvider.notifier)
+                              .read(shoppingCartItemModelProvider.notifier)
                               .deleteItem(item),
                     ),
                     const Spacer(),

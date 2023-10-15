@@ -3,8 +3,9 @@ import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class ShoppingCartItemViewModel extends StateNotifier<WidgetBasicState> {
-  ShoppingCartItemViewModel({required this.cartRepository})
+// a StateNotifier subclass to manage the widget's state
+class ShoppingCartItemModel extends StateNotifier<WidgetBasicState> {
+  ShoppingCartItemModel({required this.cartRepository})
       : super(const WidgetBasicState.notLoading());
   final CartRepository cartRepository;
 
@@ -32,8 +33,9 @@ class ShoppingCartItemViewModel extends StateNotifier<WidgetBasicState> {
   }
 }
 
-final shoppingCartItemViewModelProvider =
-    StateNotifierProvider<ShoppingCartItemViewModel, WidgetBasicState>((ref) {
+// provider for accessing the model
+final shoppingCartItemModelProvider =
+    StateNotifierProvider<ShoppingCartItemModel, WidgetBasicState>((ref) {
   final cartRepository = ref.watch(cartRepositoryProvider);
-  return ShoppingCartItemViewModel(cartRepository: cartRepository);
+  return ShoppingCartItemModel(cartRepository: cartRepository);
 });

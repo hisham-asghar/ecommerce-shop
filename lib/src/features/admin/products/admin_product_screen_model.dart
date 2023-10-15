@@ -4,8 +4,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.d
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 import 'package:uuid/uuid.dart';
 
-class AdminProductScreenViewModel extends StateNotifier<WidgetBasicState> {
-  AdminProductScreenViewModel({required this.productsRepository, this.product})
+class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
+  AdminProductScreenModel({required this.productsRepository, this.product})
       : super(const WidgetBasicState.notLoading()) {
     init();
   }
@@ -122,11 +122,11 @@ class AdminProductScreenViewModel extends StateNotifier<WidgetBasicState> {
   }
 }
 
-final adminProductScreenViewModelProvider = StateNotifierProvider.family<
-    AdminProductScreenViewModel, WidgetBasicState, String?>((ref, productId) {
+final adminProductScreenModelProvider = StateNotifierProvider.family<
+    AdminProductScreenModel, WidgetBasicState, String?>((ref, productId) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   final product =
       productId != null ? productsRepository.getProductById(productId) : null;
-  return AdminProductScreenViewModel(
+  return AdminProductScreenModel(
       productsRepository: productsRepository, product: product);
 });
