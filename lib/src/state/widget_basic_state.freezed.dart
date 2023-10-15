@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'admin_product_screen_state.dart';
+part of 'widget_basic_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,8 +14,8 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$AdminProductScreenStateTearOff {
-  const _$AdminProductScreenStateTearOff();
+class _$WidgetBasicStateTearOff {
+  const _$WidgetBasicStateTearOff();
 
   _Loading loading() {
     return const _Loading();
@@ -33,10 +33,10 @@ class _$AdminProductScreenStateTearOff {
 }
 
 /// @nodoc
-const $AdminProductScreenState = _$AdminProductScreenStateTearOff();
+const $WidgetBasicState = _$WidgetBasicStateTearOff();
 
 /// @nodoc
-mixin _$AdminProductScreenState {
+mixin _$WidgetBasicState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
@@ -84,20 +84,20 @@ mixin _$AdminProductScreenState {
 }
 
 /// @nodoc
-abstract class $AdminProductScreenStateCopyWith<$Res> {
-  factory $AdminProductScreenStateCopyWith(AdminProductScreenState value,
-          $Res Function(AdminProductScreenState) then) =
-      _$AdminProductScreenStateCopyWithImpl<$Res>;
+abstract class $WidgetBasicStateCopyWith<$Res> {
+  factory $WidgetBasicStateCopyWith(
+          WidgetBasicState value, $Res Function(WidgetBasicState) then) =
+      _$WidgetBasicStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$AdminProductScreenStateCopyWithImpl<$Res>
-    implements $AdminProductScreenStateCopyWith<$Res> {
-  _$AdminProductScreenStateCopyWithImpl(this._value, this._then);
+class _$WidgetBasicStateCopyWithImpl<$Res>
+    implements $WidgetBasicStateCopyWith<$Res> {
+  _$WidgetBasicStateCopyWithImpl(this._value, this._then);
 
-  final AdminProductScreenState _value;
+  final WidgetBasicState _value;
   // ignore: unused_field
-  final $Res Function(AdminProductScreenState) _then;
+  final $Res Function(WidgetBasicState) _then;
 }
 
 /// @nodoc
@@ -107,8 +107,7 @@ abstract class _$LoadingCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res>
-    extends _$AdminProductScreenStateCopyWithImpl<$Res>
+class __$LoadingCopyWithImpl<$Res> extends _$WidgetBasicStateCopyWithImpl<$Res>
     implements _$LoadingCopyWith<$Res> {
   __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
       : super(_value, (v) => _then(v as _Loading));
@@ -124,7 +123,7 @@ class _$_Loading implements _Loading {
 
   @override
   String toString() {
-    return 'AdminProductScreenState.loading()';
+    return 'WidgetBasicState.loading()';
   }
 
   @override
@@ -204,7 +203,7 @@ class _$_Loading implements _Loading {
   }
 }
 
-abstract class _Loading implements AdminProductScreenState {
+abstract class _Loading implements WidgetBasicState {
   const factory _Loading() = _$_Loading;
 }
 
@@ -217,7 +216,7 @@ abstract class _$NotLoadingCopyWith<$Res> {
 
 /// @nodoc
 class __$NotLoadingCopyWithImpl<$Res>
-    extends _$AdminProductScreenStateCopyWithImpl<$Res>
+    extends _$WidgetBasicStateCopyWithImpl<$Res>
     implements _$NotLoadingCopyWith<$Res> {
   __$NotLoadingCopyWithImpl(
       _NotLoading _value, $Res Function(_NotLoading) _then)
@@ -234,7 +233,7 @@ class _$_NotLoading implements _NotLoading {
 
   @override
   String toString() {
-    return 'AdminProductScreenState.notLoading()';
+    return 'WidgetBasicState.notLoading()';
   }
 
   @override
@@ -314,7 +313,7 @@ class _$_NotLoading implements _NotLoading {
   }
 }
 
-abstract class _NotLoading implements AdminProductScreenState {
+abstract class _NotLoading implements WidgetBasicState {
   const factory _NotLoading() = _$_NotLoading;
 }
 
@@ -326,8 +325,7 @@ abstract class _$ErrorCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$ErrorCopyWithImpl<$Res>
-    extends _$AdminProductScreenStateCopyWithImpl<$Res>
+class __$ErrorCopyWithImpl<$Res> extends _$WidgetBasicStateCopyWithImpl<$Res>
     implements _$ErrorCopyWith<$Res> {
   __$ErrorCopyWithImpl(_Error _value, $Res Function(_Error) _then)
       : super(_value, (v) => _then(v as _Error));
@@ -358,7 +356,7 @@ class _$_Error implements _Error {
 
   @override
   String toString() {
-    return 'AdminProductScreenState.error(message: $message)';
+    return 'WidgetBasicState.error(message: $message)';
   }
 
   @override
@@ -447,7 +445,7 @@ class _$_Error implements _Error {
   }
 }
 
-abstract class _Error implements AdminProductScreenState {
+abstract class _Error implements WidgetBasicState {
   const factory _Error(String message) = _$_Error;
 
   String get message => throw _privateConstructorUsedError;

@@ -1,13 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 import 'package:uuid/uuid.dart';
 
-class AdminProductScreenViewModel
-    extends StateNotifier<AdminProductScreenState> {
+class AdminProductScreenViewModel extends StateNotifier<WidgetBasicState> {
   AdminProductScreenViewModel({required this.productsRepository, this.product})
-      : super(const AdminProductScreenState.notLoading()) {
+      : super(const WidgetBasicState.notLoading()) {
     init();
   }
   final ProductsRepository productsRepository;
@@ -28,7 +27,7 @@ class AdminProductScreenViewModel
 
   Future<void> submit() async {
     try {
-      state = const AdminProductScreenState.loading();
+      state = const WidgetBasicState.loading();
       if (product == null) {
         final newProduct = Product(
           id: const Uuid().v1(),
@@ -50,10 +49,9 @@ class AdminProductScreenViewModel
         await productsRepository.editProduct(updatedProduct);
       }
     } catch (e) {
-      state =
-          const AdminProductScreenState.error('Could not save product data');
+      state = const WidgetBasicState.error('Could not save product data');
     } finally {
-      state = const AdminProductScreenState.notLoading();
+      state = const WidgetBasicState.notLoading();
     }
   }
 
@@ -125,9 +123,7 @@ class AdminProductScreenViewModel
 }
 
 final adminProductScreenViewModelProvider = StateNotifierProvider.family<
-    AdminProductScreenViewModel,
-    AdminProductScreenState,
-    String?>((ref, productId) {
+    AdminProductScreenViewModel, WidgetBasicState, String?>((ref, productId) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   final product =
       productId != null ? productsRepository.getProductById(productId) : null;

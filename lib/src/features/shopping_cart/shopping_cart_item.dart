@@ -10,6 +10,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_ca
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class ShoppingCartItem extends ConsumerWidget {
@@ -53,6 +54,11 @@ class ShoppingCartItemContents extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // error handling
+    ref.listen(
+      shoppingCartItemViewModelProvider,
+      (WidgetBasicState state) => widgetStateErrorListener(context, state),
+    );
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
     final state = ref.watch(shoppingCartItemViewModelProvider);
@@ -76,7 +82,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ItemQuantitySelector(
                       quantity: item.quantity,
                       maxQuantity: min(product.availableQuantity, 10),
-                      onChanged: state.isLoading
+                      onChanged: state == const WidgetBasicState.loading()
                           ? null
                           : (quantity) => ref
                               .read(shoppingCartItemViewModelProvider.notifier)
@@ -84,7 +90,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ),
                     IconButton(
                       icon: Icon(Icons.delete, color: Colors.red[700]),
-                      onPressed: state.isLoading
+                      onPressed: state == const WidgetBasicState.loading()
                           ? null
                           : () => ref
                               .read(shoppingCartItemViewModelProvider.notifier)
