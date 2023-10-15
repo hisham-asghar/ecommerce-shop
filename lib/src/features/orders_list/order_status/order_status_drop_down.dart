@@ -12,6 +12,11 @@ class OrderStatusDropDown extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // error handling
+    ref.listen(
+      orderStatusDropDownModelProvider(order),
+      (WidgetBasicState state) => widgetStateErrorListener(context, state),
+    );
     final state = ref.watch(orderStatusDropDownModelProvider(order));
     return Row(
       children: [

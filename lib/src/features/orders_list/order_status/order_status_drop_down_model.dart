@@ -15,6 +15,8 @@ class OrderStatusDropDownModel extends StateNotifier<WidgetBasicState> {
     try {
       state = const WidgetBasicState.loading();
       await adminOrdersRepository.updateOrderStatus(order, status);
+    } catch (e) {
+      state = const WidgetBasicState.error('Could not update order status');
     } finally {
       state = const WidgetBasicState.notLoading();
     }
