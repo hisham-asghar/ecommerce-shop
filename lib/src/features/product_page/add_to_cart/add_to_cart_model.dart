@@ -25,13 +25,17 @@ class AddToCartModel extends StateNotifier<AddToCartState> {
         quantity: state.quantity,
       );
       await cartRepository.addItem(item);
+      state = state.copyWith(
+        quantity: 1,
+        widgetState: const WidgetBasicState.notLoading(),
+      );
     } catch (e) {
+      // first, emit an error
       state = state.copyWith(
         widgetState: const WidgetBasicState.error('Can\'t add item to cart'),
       );
-    } finally {
+      // then, emit notLoading
       state = state.copyWith(
-        quantity: 1,
         widgetState: const WidgetBasicState.notLoading(),
       );
     }
