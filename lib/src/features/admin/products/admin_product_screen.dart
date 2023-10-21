@@ -1,37 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class AdminProductScreen extends ConsumerStatefulWidget {
-  const AdminProductScreen({Key? key, required this.productId})
-      : super(key: key);
+class AdminProductScreen extends ConsumerWidget {
+  const AdminProductScreen({Key? key, this.productId}) : super(key: key);
   final String? productId;
 
   @override
-  ConsumerState<AdminProductScreen> createState() => _AdminProductScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productValue = ref.watch(optionalProductProvider(productId));
+    return AsyncValueWidget<Product?>(
+      value: productValue,
+      data: (product) => AdminProductScreenContents(product: product),
+    );
+  }
 }
 
-class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
+class AdminProductScreenContents extends ConsumerStatefulWidget {
+  const AdminProductScreenContents({Key? key, this.product}) : super(key: key);
+  final Product? product;
+
+  @override
+  ConsumerState<AdminProductScreenContents> createState() =>
+      _AdminProductScreenContentsState();
+}
+
+class _AdminProductScreenContentsState
+    extends ConsumerState<AdminProductScreenContents> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     // error handling
     ref.listen(
-      adminProductScreenModelProvider(widget.productId),
+      adminProductScreenModelProvider(widget.product),
       (WidgetBasicState state) => widgetStateErrorListener(context, state),
     );
     final model =
-        ref.watch(adminProductScreenModelProvider(widget.productId).notifier);
-    final state = ref.watch(adminProductScreenModelProvider(widget.productId));
+        ref.watch(adminProductScreenModelProvider(widget.product).notifier);
+    final state = ref.watch(adminProductScreenModelProvider(widget.product));
     const autovalidateMode = AutovalidateMode.disabled;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.productId == null ? 'New Product' : 'Edit Product'),
+        title: Text(widget.product == null ? 'New Product' : 'Edit Product'),
         actions: [
           ActionTextButton(
             text: 'Save',
@@ -44,7 +62,7 @@ class _AdminProductScreenState extends ConsumerState<AdminProductScreen> {
                       setState(() {});
                       final scaffoldMessenger = ScaffoldMessenger.of(context);
                       final model = ref.read(
-                          adminProductScreenModelProvider(widget.productId)
+                          adminProductScreenModelProvider(widget.product)
                               .notifier);
                       await model.submit();
                       scaffoldMessenger.showSnackBar(

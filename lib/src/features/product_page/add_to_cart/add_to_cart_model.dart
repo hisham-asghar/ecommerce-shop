@@ -30,7 +30,10 @@ class AddToCartModel extends StateNotifier<AddToCartState> {
         widgetState: const WidgetBasicState.error('Can\'t add item to cart'),
       );
     } finally {
-      state = state.copyWith(widgetState: const WidgetBasicState.notLoading());
+      state = state.copyWith(
+        quantity: 1,
+        widgetState: const WidgetBasicState.notLoading(),
+      );
     }
   }
 }

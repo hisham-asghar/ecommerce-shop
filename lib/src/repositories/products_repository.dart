@@ -39,3 +39,14 @@ final productProvider =
   final dataStore = ref.watch(dataStoreProvider);
   return dataStore.product(id);
 });
+
+// alternative provider that returns a product if a productId is given, or null otherwise
+final optionalProductProvider =
+    StreamProvider.autoDispose.family<Product?, String?>((ref, id) {
+  final dataStore = ref.watch(dataStoreProvider);
+  if (id != null) {
+    return dataStore.product(id);
+  } else {
+    return Stream.fromIterable([null]);
+  }
+});

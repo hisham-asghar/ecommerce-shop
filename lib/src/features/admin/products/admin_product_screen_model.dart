@@ -123,10 +123,8 @@ class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
 }
 
 final adminProductScreenModelProvider = StateNotifierProvider.family<
-    AdminProductScreenModel, WidgetBasicState, String?>((ref, productId) {
+    AdminProductScreenModel, WidgetBasicState, Product?>((ref, product) {
   final productsRepository = ref.watch(productsRepositoryProvider);
-  final product =
-      productId != null ? productsRepository.getProductById(productId) : null;
   return AdminProductScreenModel(
       productsRepository: productsRepository, product: product);
 });
