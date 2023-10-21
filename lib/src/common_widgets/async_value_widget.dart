@@ -11,8 +11,8 @@ class AsyncValueWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, st) => Center(
+      loading: (_) => const Center(child: CircularProgressIndicator()),
+      error: (e, st, _) => Center(
         child: Text(
           e.toString(),
           style: Theme.of(context)
@@ -36,9 +36,9 @@ class AsyncValueSliverWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return value.when(
       data: data,
-      loading: () => const SliverToBoxAdapter(
+      loading: (_) => const SliverToBoxAdapter(
           child: Center(child: CircularProgressIndicator())),
-      error: (e, st) => SliverToBoxAdapter(
+      error: (e, st, _) => SliverToBoxAdapter(
         child: Center(
           child: Text(
             e.toString(),
