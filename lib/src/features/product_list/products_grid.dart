@@ -16,26 +16,34 @@ class ProductsGrid extends ConsumerWidget {
     final productsValue = ref.watch(productsListProvider);
     return AsyncValueSliverWidget<List<Product>>(
       value: productsValue,
-      data: (products) => SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final product = products[index];
-            return ProductCard(
-              product: product,
-              onPressed: () => onProductSelected(product),
-            );
-          },
-          childCount: products.length,
-        ),
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 350,
-          // TODO: Aspect ratio / axis extent calculation
-          mainAxisExtent: 450,
-          childAspectRatio: 0.8,
-          mainAxisSpacing: Sizes.p24,
-          crossAxisSpacing: Sizes.p24,
-        ),
-      ),
+      data: (products) => products.isEmpty
+          ? SliverToBoxAdapter(
+              child: Center(
+              child: Text(
+                'No products available',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ))
+          : SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    product: product,
+                    onPressed: () => onProductSelected(product),
+                  );
+                },
+                childCount: products.length,
+              ),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 350,
+                // TODO: Aspect ratio / axis extent calculation
+                mainAxisExtent: 450,
+                childAspectRatio: 0.8,
+                mainAxisSpacing: Sizes.p24,
+                crossAxisSpacing: Sizes.p24,
+              ),
+            ),
     );
   }
 }
