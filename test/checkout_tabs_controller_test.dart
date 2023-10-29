@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_tabs_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/mock_auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_data_store.dart';
 
 class MockTickerProvider extends TickerProvider {
