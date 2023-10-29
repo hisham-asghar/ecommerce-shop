@@ -26,6 +26,7 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
+    // TODO: how to link with credential when registering?
     await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -50,10 +51,15 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    // Assuming the user is always signed in anonymously,
+    // this method should link the existing account with the email auth credential
+    final user = _auth.currentUser!;
+    await user.linkWithCredential(
+        EmailAuthProvider.credential(email: email, password: password));
+    // await _auth.signInWithEmailAndPassword(
+    //   email: email,
+    //   password: password,
+    // );
   }
 
   @override
