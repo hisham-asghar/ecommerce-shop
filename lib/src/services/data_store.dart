@@ -45,6 +45,7 @@ abstract class DataStore {
   // -------------------------------------
   // Shopping Cart
   // -------------------------------------
+  // TODO: Add a method to read the cart total value
   // Read from cache
   List<Item> getItemsList(String uid);
   // Realtime
