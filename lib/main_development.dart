@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
@@ -10,6 +11,7 @@ void main() async {
   // TODO: Uncomment this when implementing Stripe payments
   // TODO: Add platform checks to disable on desktop
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   if (PlatformIs.iOS || PlatformIs.android) {
     // TODO: Provide key
     //Stripe.publishableKey = stripePublishableKey;
