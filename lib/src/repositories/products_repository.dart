@@ -11,15 +11,14 @@ class ProductsRepository {
 
   Future<void> editProduct(Product product) => dataStore.editProduct(product);
 
-  Product getProductById(String productId) =>
-      dataStore.getProductById(productId);
+  Product getProductById(String productId) => dataStore.getProduct(productId);
 
   double calculateTotal(List<Item> items) => items.isEmpty
       ? 0.0
       : items
           // first extract quantity * price for each item
           .map((item) =>
-              item.quantity * dataStore.getProductById(item.productId).price)
+              item.quantity * dataStore.getProduct(item.productId).price)
           // then add them up
           .reduce((value, element) => value + element);
 }

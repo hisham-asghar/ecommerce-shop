@@ -17,15 +17,14 @@ abstract class DataStore {
   // Products
   // -------------------------------------
   Stream<List<Product>> productsList();
+  // Read from cache
+  Product getProduct(String id);
+  // Realtime
   Stream<Product> product(String id);
 
   Future<void> addProduct(Product product);
 
   Future<void> editProduct(Product product);
-  // Read from cache
-  Product getProductById(String id);
-  // Realtime
-  Stream<Product> productById(String id);
 
   // -------------------------------------
   // Orders
