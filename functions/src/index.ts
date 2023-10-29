@@ -8,12 +8,12 @@ admin.initializeApp();
 
 import { updateCartTotal } from './cart';
 
-exports.cartItemUpdated = functions.firestore
-    .document('users/{uid}/public/cart').onUpdate((change, context) => {
+exports.cartItemUpdated = functions.region('europe-west2').firestore
+    .document('users/{uid}/cartItems/{itemId}').onUpdate((change, context) => {
       updateCartTotal(context);
     });
 
-exports.cartItemDeleted = functions.firestore
-    .document('users/{uid}/public/cart').onDelete((change, context) => {
+exports.cartItemDeleted = functions.region('europe-west2').firestore
+    .document('users/{uid}/cartItems/{itemId}').onDelete((change, context) => {
       updateCartTotal(context);
     });
