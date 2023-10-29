@@ -9,8 +9,9 @@ class FirestorePath {
   static String address(String uid) => 'users/$uid/private/address';
   static String products() => 'products';
   static String product(String id) => 'products/$id';
-  static String cart(String uid) => 'users/$uid/cart';
-  static String cartItem(String uid, String id) => 'users/$uid/cart/$id';
+  static String cart(String uid) => 'users/$uid/public/cart'; // contains total
+  static String cartItems(String uid) => 'users/$uid/cartItems';
+  static String cartItem(String uid, String id) => 'users/$uid/cartItems/$id';
 }
 
 class FirebaseDataStore implements DataStore {
@@ -116,18 +117,22 @@ class FirebaseDataStore implements DataStore {
 
   @override
   Future<List<Item>> getItemsList(String uid) async {
-    final ref = _firestore.collection(FirestorePath.cart(uid)).withConverter(
-        fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
-        toFirestore: (Item item, options) => item.toMap());
+    final ref = _firestore
+        .collection(FirestorePath.cartItems(uid))
+        .withConverter(
+            fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
+            toFirestore: (Item item, options) => item.toMap());
     final snapshot = await ref.get();
     return snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
   }
 
   @override
   Stream<List<Item>> itemsList(String uid) {
-    final ref = _firestore.collection(FirestorePath.cart(uid)).withConverter(
-        fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
-        toFirestore: (Item item, options) => item.toMap());
+    final ref = _firestore
+        .collection(FirestorePath.cartItems(uid))
+        .withConverter(
+            fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
+            toFirestore: (Item item, options) => item.toMap());
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
@@ -155,7 +160,7 @@ class FirebaseDataStore implements DataStore {
   Future<void> removeAllItems(String uid) async {
     // https://firebase.google.com/docs/firestore/manage-data/delete-data
     //  If you need to delete entire collections, do so only from a trusted server environment.
-    final collectionRef = _firestore.collection(FirestorePath.cart(uid));
+    final collectionRef = _firestore.collection(FirestorePath.cartItems(uid));
     final docsSnapshot = await collectionRef.get();
     for (var snapshot in docsSnapshot.docs) {
       final docId = FirestorePath.cartItem(uid, snapshot.id);
