@@ -3,7 +3,6 @@ import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_tabs_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_data_store.dart';
 
@@ -34,7 +33,7 @@ void main() {
     test('signed in, no address - index 1', () {
       final mockAuthService = MockAuthService();
       mockAuthService.currentUser =
-          User(uid: '123', isSignedIn: true, isAdmin: false);
+          MockAppUser(uid: '123', isSignedIn: true, isAdmin: false);
 
       final mockDataStore = MockDataStore();
       final tabController =
@@ -50,7 +49,7 @@ void main() {
     test('signed in, address - index 2', () async {
       final mockAuthService = MockAuthService();
       mockAuthService.currentUser =
-          User(uid: '123', isSignedIn: true, isAdmin: false);
+          MockAppUser(uid: '123', isSignedIn: true, isAdmin: false);
       final mockDataStore = MockDataStore();
       await mockDataStore.submitAddress(
           '123',

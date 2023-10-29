@@ -2,16 +2,64 @@ import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
+class MockAppUser implements AppUser {
+  MockAppUser({
+    required this.uid,
+    required this.isSignedIn,
+    required this.isAdmin,
+  });
+  // True if user is an admin
+  @override
+  final String uid;
+  // Temporary getter, will replace with Firebase stull
+  // if true, user is authenticated
+  // if false, user is guest (anonymous)
+  @override
+  final bool isSignedIn;
+  // True if user is an admin
+  @override
+  final bool isAdmin;
+
+  MockAppUser copyWith({
+    String? uid,
+    bool? isSignedIn,
+    bool? isAdmin,
+  }) {
+    return MockAppUser(
+      uid: uid ?? this.uid,
+      isSignedIn: isSignedIn ?? this.isSignedIn,
+      isAdmin: isAdmin ?? this.isAdmin,
+    );
+  }
+
+  @override
+  String toString() =>
+      'User(uid: $uid, isSignedIn: $isSignedIn, isAdmin: $isAdmin)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AppUser &&
+        other.uid == uid &&
+        other.isSignedIn == isSignedIn &&
+        other.isAdmin == isAdmin;
+  }
+
+  @override
+  int get hashCode => uid.hashCode ^ isSignedIn.hashCode ^ isAdmin.hashCode;
+}
+
 class MockAuthService implements AuthService {
   @override
-  User? currentUser;
+  AppUser? currentUser;
 
   // Problem: this won't replay the previous value when a new listener is registered
   // Use ValueNotifier instead?
-  final _authStateChangesController = BehaviorSubject<User?>.seeded(null);
+  final _authStateChangesController = BehaviorSubject<AppUser?>.seeded(null);
 
   @override
-  Stream<User?> authStateChanges() => _authStateChangesController.stream;
+  Stream<AppUser?> authStateChanges() => _authStateChangesController.stream;
 
   @override
   Future<void> signInAnonymously() async {
@@ -57,7 +105,7 @@ class MockAuthService implements AuthService {
   }
 
   void _createNewUser({required bool isSignedIn, required bool isAdmin}) {
-    currentUser = User(
+    currentUser = MockAppUser(
       uid: const Uuid().v1(),
       isSignedIn: isSignedIn,
       isAdmin: isAdmin,
@@ -67,7 +115,7 @@ class MockAuthService implements AuthService {
   }
 
   void _updateUser({required bool isSignedIn, required bool isAdmin}) {
-    currentUser = currentUser!.copyWith(
+    currentUser = (currentUser as MockAppUser?)!.copyWith(
       isSignedIn: isSignedIn,
       isAdmin: isAdmin,
     );
