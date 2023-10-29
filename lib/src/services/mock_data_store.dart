@@ -207,7 +207,7 @@ class MockDataStore implements DataStore {
   }
 
   @override
-  Future<bool> updateItemIfExists(String uid, Item item) async {
+  Future<void> updateItemIfExists(String uid, Item item) async {
     await _delay(300);
     final cart = MockCart(cartData[uid] ?? []);
     final result = cart.updateItemIfExists(item);
@@ -215,7 +215,6 @@ class MockDataStore implements DataStore {
       cartData[uid] = cart.items;
       _cartDataSubject.add(cartData);
     }
-    return result;
   }
 
   @override

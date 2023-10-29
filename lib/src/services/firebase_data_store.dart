@@ -9,6 +9,8 @@ class FirestorePath {
   static String address(String uid) => 'users/$uid/private/address';
   static String products() => 'products';
   static String product(String id) => 'products/$id';
+  static String cart(String uid) => 'users/$uid/cart';
+  static String cartItem(String uid, String id) => 'users/$uid/cart/$id';
 }
 
 class FirebaseDataStore implements DataStore {
@@ -77,6 +79,7 @@ class FirebaseDataStore implements DataStore {
   // Orders
   // -------------------------------------
 
+  // TODO: Implement
   @override
   Map<String, Order> getOrders(String uid) {
     throw UnimplementedError();
@@ -118,26 +121,41 @@ class FirebaseDataStore implements DataStore {
 
   @override
   Stream<List<Item>> itemsList(String uid) {
-    throw UnimplementedError();
+    final ref = _firestore.collection(FirestorePath.cart(uid)).withConverter(
+        fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
+        toFirestore: (Item item, options) => item.toMap());
+    return ref.snapshots().map((snapshot) =>
+        snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
 
   @override
-  Future<void> addItem(String uid, Item item) async {
-    throw UnimplementedError();
+  Future<void> addItem(String uid, Item item) {
+    return _firestore
+        .doc(FirestorePath.cartItem(uid, item.productId))
+        .set(item.toMap());
   }
 
   @override
   Future<void> removeItem(String uid, Item item) async {
-    throw UnimplementedError();
+    return _firestore.doc(FirestorePath.cartItem(uid, item.productId)).delete();
   }
 
   @override
-  Future<bool> updateItemIfExists(String uid, Item item) async {
-    throw UnimplementedError();
+  Future<void> updateItemIfExists(String uid, Item item) async {
+    return _firestore
+        .doc(FirestorePath.cartItem(uid, item.productId))
+        .set(item.toMap());
   }
 
   @override
   Future<void> removeAllItems(String uid) async {
-    throw UnimplementedError();
+    // https://firebase.google.com/docs/firestore/manage-data/delete-data
+    //  If you need to delete entire collections, do so only from a trusted server environment.
+    final collectionRef = _firestore.collection(FirestorePath.cart(uid));
+    final docsSnapshot = await collectionRef.get();
+    for (var snapshot in docsSnapshot.docs) {
+      final docId = FirestorePath.cartItem(uid, snapshot.id);
+      await _firestore.doc(docId).delete();
+    }
   }
 }

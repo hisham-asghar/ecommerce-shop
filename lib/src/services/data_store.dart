@@ -54,7 +54,7 @@ abstract class DataStore {
 
   Future<void> removeItem(String uid, Item item);
 
-  Future<bool> updateItemIfExists(String uid, Item item);
+  Future<void> updateItemIfExists(String uid, Item item);
 
   Future<void> removeAllItems(String uid);
 }
