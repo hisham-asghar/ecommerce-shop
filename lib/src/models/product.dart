@@ -59,8 +59,8 @@ class Product {
       imageUrl: map['imageUrl'],
       title: map['title'],
       description: map['description'],
-      price: map['price'],
-      availableQuantity: map['availableQuantity'],
+      price: (map['price'] as num).toDouble(),
+      availableQuantity: (map['availableQuantity'] as num).toInt(),
     );
   }
 
