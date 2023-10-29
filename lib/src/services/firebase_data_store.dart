@@ -115,8 +115,12 @@ class FirebaseDataStore implements DataStore {
   // -------------------------------------
 
   @override
-  List<Item> getItemsList(String uid) {
-    throw UnimplementedError();
+  Future<List<Item>> getItemsList(String uid) async {
+    final ref = _firestore.collection(FirestorePath.cart(uid)).withConverter(
+        fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
+        toFirestore: (Item item, options) => item.toMap());
+    final snapshot = await ref.get();
+    return snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
   }
 
   @override

@@ -177,8 +177,8 @@ class MockDataStore implements DataStore {
       _cartDataSubject.stream;
 
   @override
-  List<Item> getItemsList(String uid) {
-    return cartData[uid] ?? [];
+  Future<List<Item>> getItemsList(String uid) {
+    return Future.value(cartData[uid] ?? []);
   }
 
   @override

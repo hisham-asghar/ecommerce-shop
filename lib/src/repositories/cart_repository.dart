@@ -9,7 +9,7 @@ class CartRepository {
   final DataStore dataStore;
 
   // TODO: Make these methods more DRY
-  List<Item> getItemsList() {
+  Future<List<Item>> getItemsList() {
     final user = authService.currentUser;
     if (user != null) {
       return dataStore.getItemsList(user.uid);

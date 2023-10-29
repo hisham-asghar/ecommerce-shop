@@ -43,7 +43,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   // TODO: Move this to more appropriate place
   void _placeOrder() async {
     final cartRepository = ref.read(cartRepositoryProvider);
-    final itemsList = cartRepository.getItemsList();
+    final itemsList = await cartRepository.getItemsList();
     final auth = ref.read(authServiceProvider);
     final userOrdersRepository = ref.read(userOrdersRepositoryProvider);
     final order = Order(

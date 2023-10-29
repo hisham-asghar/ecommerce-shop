@@ -47,7 +47,7 @@ abstract class DataStore {
   // -------------------------------------
   // TODO: Add a method to read the cart total value
   // Read from cache
-  List<Item> getItemsList(String uid);
+  Future<List<Item>> getItemsList(String uid);
   // Realtime
   Stream<List<Item>> itemsList(String uid);
 
