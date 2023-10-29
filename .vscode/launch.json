@@ -10,7 +10,6 @@
         "type": "dart",
         "program": "lib/main.dart",
         "args": [
-          "-v",
           "--target",
           "lib/main.dart"
         ]
@@ -21,7 +20,6 @@
       "type": "dart",
       "program": "lib/main_development.dart",
       "args": [
-        "-v",
         "--flavor",
         "development",
         "--target",
