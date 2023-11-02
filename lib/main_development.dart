@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,11 @@ void main() async {
   // TODO: Add platform checks to disable on desktop
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // Use local Firestore emulator
+  final firestore = FirebaseFirestore.instance;
+  firestore.settings =
+      const Settings(persistenceEnabled: false, sslEnabled: false);
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
   if (PlatformIs.iOS || PlatformIs.android) {
     // TODO: Provide key
     //Stripe.publishableKey = stripePublishableKey;
