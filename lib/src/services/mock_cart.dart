@@ -29,7 +29,8 @@ class MockCart {
   }
 
   bool updateItemIfExists(Item item) {
-    final itemIndex = items.indexOf(item);
+    final productIds = items.map((item) => item.productId).toList();
+    final itemIndex = productIds.indexOf(item.productId);
     if (itemIndex >= 0) {
       final list = List<Item>.from(items);
       list[itemIndex] = item;
