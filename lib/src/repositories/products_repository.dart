@@ -13,8 +13,6 @@ class ProductsRepository {
 
   Product getProductById(String productId) => dataStore.getProduct(productId);
 
-  // TODO: this should this be written by a Cloud function every time the cart
-  // is updated
   double calculateTotal(List<Item> items) => items.isEmpty
       ? 0.0
       : items

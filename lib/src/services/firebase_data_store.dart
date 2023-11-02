@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
@@ -138,11 +139,27 @@ class FirebaseDataStore implements DataStore {
   }
 
   @override
-  Future<void> addItem(String uid, Item item) {
-    // TODO: Let firestore generate item ID?
+  Future<void> addItem(String uid, Item item) async {
+    final existingItem = await _getItem(uid, item.productId);
+    final updatedQuantity = existingItem != null
+        ? item.quantity + existingItem.quantity
+        : item.quantity;
+    final updatedItem = item.copyWith(quantity: updatedQuantity);
     return _firestore
-        .doc(FirestorePath.cartItem(uid, item.productId))
-        .set(item.toMap());
+        .doc(FirestorePath.cartItem(uid, updatedItem.productId))
+        .set(updatedItem.toMap());
+  }
+
+  Future<Item?> _getItem(String uid, String productId) async {
+    final ref = _firestore
+        .doc(FirestorePath.cartItem(uid, productId))
+        .withConverter(
+            fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
+            toFirestore: (Item item, options) => item.toMap());
+    final snapshot = await ref.get();
+    if (snapshot.exists) {
+      return snapshot.data()!;
+    }
   }
 
   @override
@@ -167,5 +184,15 @@ class FirebaseDataStore implements DataStore {
       final docId = FirestorePath.cartItem(uid, snapshot.id);
       await _firestore.doc(docId).delete();
     }
+  }
+
+  @override
+  Stream<CartTotal> cartTotal(String uid) {
+    final ref = _firestore.doc(FirestorePath.cart(uid)).withConverter(
+        fromFirestore: (doc, _) => CartTotal.fromMap(doc.data()!),
+        toFirestore: (CartTotal cartTotal, options) => cartTotal.toMap());
+    return ref
+        .snapshots()
+        .map((snapshot) => snapshot.data() ?? CartTotal(total: 0));
   }
 }

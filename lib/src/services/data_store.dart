@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
@@ -50,6 +51,8 @@ abstract class DataStore {
   Future<List<Item>> getItemsList(String uid);
   // Realtime
   Stream<List<Item>> itemsList(String uid);
+
+  Stream<CartTotal> cartTotal(String uid);
 
   Future<void> addItem(String uid, Item item);
 

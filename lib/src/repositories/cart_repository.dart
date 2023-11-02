@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
@@ -21,6 +22,7 @@ class CartRepository {
   Future<void> addItem(Item item) {
     final user = authService.currentUser;
     if (user != null) {
+      // TODO: This will replace the item quantity if it already exists
       return dataStore.addItem(user.uid, item);
     } else {
       throw AssertionError('uid == null');
@@ -72,4 +74,11 @@ final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
     // TODO: Log error
     return const Stream.empty();
   }
+});
+
+final cartTotalProvider = StreamProvider<CartTotal>((ref) {
+  final dataStore = ref.watch(dataStoreProvider);
+  final authService = ref.watch(authServiceProvider);
+  final user = authService.currentUser!;
+  return dataStore.cartTotal(user.uid);
 });

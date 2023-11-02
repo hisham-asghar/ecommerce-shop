@@ -5,9 +5,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
@@ -44,7 +44,6 @@ class ShoppingCartContents extends ConsumerWidget {
         ),
       );
     }
-    final productsRepository = ref.watch(productsRepositoryProvider);
     final screenWidth = MediaQuery.of(context).size.width;
     // wide layouts
     if (screenWidth >= FormFactor.tablet) {
@@ -77,13 +76,11 @@ class ShoppingCartContents extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: Sizes.p16),
-                Flexible(
+                const Flexible(
                   flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Sizes.p16),
-                    child: ShoppingCartCheckout(
-                      total: productsRepository.calculateTotal(items),
-                    ),
+                    padding: EdgeInsets.symmetric(vertical: Sizes.p16),
+                    child: ShoppingCartCheckout(),
                   ),
                 )
               ],
@@ -113,9 +110,8 @@ class ShoppingCartContents extends ConsumerWidget {
               ],
             ),
           ),
-          DecoratedBoxWithShadow(
-            child: ShoppingCartCheckout(
-                total: productsRepository.calculateTotal(items)),
+          const DecoratedBoxWithShadow(
+            child: ShoppingCartCheckout(),
           ),
         ],
       );
@@ -124,27 +120,32 @@ class ShoppingCartContents extends ConsumerWidget {
 }
 
 class ShoppingCartCheckout extends ConsumerWidget {
-  const ShoppingCartCheckout({Key? key, required this.total}) : super(key: key);
-  final double total;
+  const ShoppingCartCheckout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalFormatted = ref.watch(currencyFormatterProvider).format(total);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          'Total: $totalFormatted',
-          style: Theme.of(context).textTheme.headline5,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: Sizes.p16),
-        PrimaryButton(
-          text: 'Checkout',
-          onPressed: () => ref.read(routerDelegateProvider).openCheckout(),
-        ),
-      ],
+    final cartTotalValue = ref.watch(cartTotalProvider);
+    return AsyncValueWidget<CartTotal>(
+      value: cartTotalValue,
+      data: (cartTotal) {
+        final totalFormatted =
+            ref.watch(currencyFormatterProvider).format(cartTotal.total);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Total: $totalFormatted',
+              style: Theme.of(context).textTheme.headline5,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: Sizes.p16),
+            PrimaryButton(
+              text: 'Checkout',
+              onPressed: () => ref.read(routerDelegateProvider).openCheckout(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

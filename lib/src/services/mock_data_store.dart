@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:faker/faker.dart' hide Address;
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
@@ -222,6 +223,21 @@ class MockDataStore implements DataStore {
     await _delay();
     cartData[uid] = [];
     _cartDataSubject.add(cartData);
+  }
+
+  @override
+  Stream<CartTotal> cartTotal(String uid) {
+    return _cartDataStream.map((cartData) {
+      final items = cartData[uid] ?? [];
+      final total = items.isEmpty
+          ? 0.0
+          : items
+              // first extract quantity * price for each item
+              .map((item) => item.quantity * getProduct(item.productId).price)
+              // then add them up
+              .reduce((value, element) => value + element);
+      return CartTotal(total: total);
+    });
   }
 
   Future<void> _delay([int milliseconds = 2000]) async {
