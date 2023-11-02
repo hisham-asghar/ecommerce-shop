@@ -41,7 +41,7 @@ class FirebaseDataStore implements DataStore {
   @override
   Stream<List<Product>> productsList() {
     final ref = _firestore.collection(FirestorePath.products()).withConverter(
-        fromFirestore: (doc, _) => Product.fromMap(doc.data()!),
+        fromFirestore: (doc, _) => Product.fromMap(doc.data()!, doc.id),
         toFirestore: (Product product, options) => product.toMap());
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
@@ -56,7 +56,7 @@ class FirebaseDataStore implements DataStore {
   @override
   Stream<Product> product(String id) {
     final ref = _firestore.doc(FirestorePath.product(id)).withConverter(
-        fromFirestore: (doc, _) => Product.fromMap(doc.data()!),
+        fromFirestore: (doc, _) => Product.fromMap(doc.data()!, doc.id),
         toFirestore: (Product product, options) => product.toMap());
     return ref.snapshots().map((snapshot) => snapshot.data()!);
   }
@@ -139,6 +139,7 @@ class FirebaseDataStore implements DataStore {
 
   @override
   Future<void> addItem(String uid, Item item) {
+    // TODO: Let firestore generate item ID?
     return _firestore
         .doc(FirestorePath.cartItem(uid, item.productId))
         .set(item.toMap());
