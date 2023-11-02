@@ -2,7 +2,7 @@ import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 
 export async function updateCartTotal(context: functions.EventContext) {
-    const uid = context.auth!.uid;
+    const uid = context.params.uid;
     const firestore = admin.firestore()
     var updatedPrice = 0;
     // iterate through all the cart items
@@ -10,8 +10,9 @@ export async function updateCartTotal(context: functions.EventContext) {
     for (const doc of collection.docs) {
         // extract the items data
         const { productId, quantity } = doc.data()
+        console.info(`found productId: ${productId}, quantity: ${quantity}`)
         // find a matching product
-        const product = await firestore.doc(`product/${productId}`).get();
+        const product = await firestore.doc(`products/${productId}`).get();
         if (product !== undefined) {
             const { price } = product.data()!
             const itemPrice = price * quantity;
@@ -20,7 +21,7 @@ export async function updateCartTotal(context: functions.EventContext) {
             // TODO: Throw some error (or fail silently?)
         }
     }
-    await firestore.doc(`users/${uid}/public/cart`).set({
+    return await firestore.doc(`users/${uid}/public/cart`).set({
         'total': updatedPrice
     })
 }

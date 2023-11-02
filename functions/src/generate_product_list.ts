@@ -4,9 +4,9 @@ import * as functions from 'firebase-functions'
 
 export async function generateProductList(response: functions.Response) {
     const firestore = admin.firestore()
-    const collectionRef = firestore.collection(`products`)
     const productsData = [
         {
+            id: '1',
             imageUrl: 'http://proshopapp.herokuapp.com/images/playstation.jpg',
             title: 'Sony Playstation 4 Pro White Version',
             description: 'Lorem impsum',
@@ -14,6 +14,7 @@ export async function generateProductList(response: functions.Response) {
             availableQuantity: 5
         },
         {
+            id: '2',
             imageUrl: 'http://proshopapp.herokuapp.com/images/alexa.jpg',
             title: 'Amazon Echo Dot 3rd Generation',
             description: 'Lorem impsum',
@@ -21,6 +22,7 @@ export async function generateProductList(response: functions.Response) {
             availableQuantity: 5
         },
         {
+            id: '3',
             imageUrl: 'http://proshopapp.herokuapp.com/images/camera.jpg',
             title: 'Cannon EOS 80D DSLR Camera',
             description: 'Lorem impsum',
@@ -28,6 +30,7 @@ export async function generateProductList(response: functions.Response) {
             availableQuantity: 5
         },
         {
+            id: '4',
             imageUrl: 'http://proshopapp.herokuapp.com/images/phone.jpg',
             title: 'iPhone 11 Pro 256GB Memory',
             description: 'Lorem impsum',
@@ -35,14 +38,9 @@ export async function generateProductList(response: functions.Response) {
             availableQuantity: 5
         }
     ]
-    // TODO: How to generate IDs 
     for (var product of productsData) {
-        // insert new document for product
-        const doc = await collectionRef.add(product)
-        // update its id
-        await firestore.doc(`products/${doc.id}`).update({
-            id: doc.id,
-        })
+        // insert new document for product with given ID
+        await firestore.doc(`products/${product.id}`).set(product)
     }
     response.sendStatus(200)
 }

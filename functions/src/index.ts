@@ -7,24 +7,20 @@ const region = 'europe-west2'
 
 import { updateCartTotal } from './cart'
 
-exports.cartItemUpdated = functions.region(region).firestore
-    .document('users/{uid}/cartItems/{itemId}').onUpdate((change, context) => {
-      updateCartTotal(context);
-    });
-
-exports.cartItemDeleted = functions.region(region).firestore
-    .document('users/{uid}/cartItems/{itemId}').onDelete((change, context) => {
+exports.updateCartTotal = functions.region(region).firestore
+    .document(`users/{uid}/cartItems/{itemId}`).onWrite((_, context) => {
+      // TODO: Doesn't seem to be triggered
       updateCartTotal(context);
     });
 
 // products management
 import { generateProductList, clearProductList } from './generate_product_list'
 
-exports.generateProductList = functions.region(region).https.onRequest((request, response) => {
+exports.generateProductList = functions.region(region).https.onRequest((_, response) => {
   generateProductList(response)
 })
 
-exports.clearProductList = functions.region(region).https.onRequest((request, response) => {
+exports.clearProductList = functions.region(region).https.onRequest((_, response) => {
   clearProductList(response)
 })
 
