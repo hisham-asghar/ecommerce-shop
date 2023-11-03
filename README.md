@@ -1,30 +1,69 @@
-# my_shop_ecommerce_flutter
+# Flutter eCommerce Template
 
-A new Flutter project.
+This is a reference implementation of a full-stack eCommerce app using Flutter & Firebase.
 
-## Getting Started
+## Supported Features
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+- Products List
+- Product Page + Add to Cart
+- Shopping Cart (update quantity, delete items, show total price)
+- Checkout Flow
+  - Sign in/register
+  - Address details
+  - Confirmation
+- Purchase flow with Stripe integration (TBC)
+- Order History
+- User Authentication
+- Admin Section
+  - Manage products
+    - Add / edit products
+    - Set stock level
+  - Manage orders
+    - Set order status (confirmed / shipped / delivered)
+- Responsive UI
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Packages
 
-## Assets
+- Riverpod for state management
+- Stripe for payments
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+See `pubspec.yaml` for full list of packages.
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
+### Backend
 
-## Localization
+The backend uses the following Firebase services:
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+- Authentication
+- Cloud Firestore
+- Cloud Functions
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+## Future Roadmap
+
+- Improve test coverage
+- Stripe Integration on mobile and web
+- Pagination for products list
+- Product reviews/ratings
+
+## Architecture
+
+The Flutter client app uses Riverpod for state management and introduces four application layers:
+
+- services
+- repositories
+- widget state/model classes
+- widgets
+
+As a general rule, **each layer can only access the layers above**.
+
+Navigator 2.0 is used for routing. Planning to migrate to `go_router`.
+
+### Project structure
+
+The project folders are organized **by feature**:
+
+- Each feature contains widgets and their state/model classes (if needed)
+- Complex features can have sub-folders containing smaller features
+- Repositories and services live in the top-level folder (`lib/src`)
+
+
+### LICENSE: MIT
