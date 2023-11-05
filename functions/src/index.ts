@@ -3,15 +3,16 @@ import * as functions from 'firebase-functions'
 
 admin.initializeApp();
 
-const region = 'europe-west2'
+const region = 'us-central1'
 
-import { updateCartTotal } from './cart'
+import { updateCartTotal, placeOrder } from './cart'
 
 exports.updateCartTotal = functions.region(region).firestore
     .document(`users/{uid}/cartItems/{itemId}`).onWrite((_, context) => {
-      // TODO: Doesn't seem to be triggered
-      updateCartTotal(context);
-    });
+      return updateCartTotal(context);
+    })
+
+exports.placeOrder = functions.region(region).https.onCall(placeOrder)
 
 // products management
 import { generateProductList, clearProductList } from './generate_product_list'

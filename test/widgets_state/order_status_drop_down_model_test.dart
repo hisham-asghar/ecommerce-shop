@@ -13,6 +13,7 @@ Order _fakeOrder() => Order(
       items: [],
       orderStatus: OrderStatus.confirmed,
       orderDate: DateTime(2021, 10, 15),
+      total: 100,
     );
 
 void main() {

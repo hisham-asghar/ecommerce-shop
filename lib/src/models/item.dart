@@ -44,11 +44,7 @@ class Item {
   factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
       productId: map['productId'],
-      quantity: map['quantity'],
+      quantity: (map['quantity'] as num).toInt(),
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Item.fromJson(String source) => Item.fromMap(json.decode(source));
 }

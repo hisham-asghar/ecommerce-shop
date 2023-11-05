@@ -10,6 +10,7 @@ import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_cart.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 class MockDataStore implements DataStore {
   MockDataStore() {
@@ -25,8 +26,8 @@ class MockDataStore implements DataStore {
       _addressDataSubject.stream;
 
   @override
-  Address? getAddress(String uid) {
-    return _addressData[uid];
+  Future<Address?> getAddress(String uid) {
+    return Future.value(_addressData[uid]);
   }
 
   @override
@@ -89,27 +90,24 @@ class MockDataStore implements DataStore {
   // -------------------------------------
   // Orders
   // -------------------------------------
-  Map<String, Map<String, Order>> ordersData = {};
+  Map<String, List<Order>> ordersData = {};
   final _ordersDataSubject =
-      BehaviorSubject<Map<String, Map<String, Order>>>.seeded({});
-  Stream<Map<String, Map<String, Order>>> get _ordersDataStream =>
+      BehaviorSubject<Map<String, List<Order>>>.seeded({});
+  Stream<Map<String, List<Order>>> get _ordersDataStream =>
       _ordersDataSubject.stream;
 
   @override
-  Map<String, Order> getOrders(String uid) {
-    return ordersData[uid] ?? {};
+  Stream<List<Order>> orders(String uid) {
+    return _ordersDataStream.map((ordersData) => ordersData[uid] ?? []);
   }
 
-  @override
-  Stream<Map<String, Order>> orders(String uid) {
-    return _ordersDataStream.map((ordersData) => ordersData[uid] ?? {});
-  }
-
-  @override
-  Future<void> placeOrder(String uid, Order order) async {
+  // Not overridden, only available from MockCloudFunctions
+  Future<Order> placeOrder(String uid) async {
+    // TODO: This should pull all the data from the shopping cart
     await _delay();
+    final items = await getItemsList(uid);
     // First, make sure all items are available
-    for (var item in order.items) {
+    for (var item in items) {
       final product = getProduct(item.productId);
       if (product.availableQuantity < item.quantity) {
         throw AssertionError(
@@ -117,36 +115,53 @@ class MockDataStore implements DataStore {
       }
     }
     // then, place the order
-    final userOrders = Map<String, Order>.from(ordersData[uid] ?? {});
-    userOrders[order.id] = order;
+    final userOrders = ordersData[uid] ?? [];
+    final total = _totalPrice(items);
+    final order = Order(
+      id: const Uuid().v1(),
+      userId: uid,
+      items: items,
+      // TODO: Update with real payment status
+      // paymentStatus: PaymentStatus.paid,
+      orderStatus: OrderStatus.confirmed,
+      orderDate: DateTime.now(),
+      total: total,
+    );
+    userOrders.add(order);
     ordersData[uid] = userOrders;
     _ordersDataSubject.add(ordersData);
     // and update all the product quantities
-    for (var item in order.items) {
+    for (var item in items) {
       final product = getProduct(item.productId);
       final updated = product.copyWith(
           availableQuantity: product.availableQuantity - item.quantity);
-      editProduct(updated);
+      await editProduct(updated);
     }
+    await _removeAllItems(uid);
+    return order;
   }
 
   @override
   Future<void> updateOrderStatus(Order order, OrderStatus status) async {
     await _delay();
-    final userOrders = Map<String, Order>.from(ordersData[order.userId] ?? {});
+    final userOrders = ordersData[order.userId] ?? [];
     // TODO: Do this at the call site?
     final updated = order.copyWith(orderStatus: status);
-    userOrders[order.id] = updated;
-    ordersData[order.userId] = userOrders;
-    // Note: Adding this to the stream causes additional rebuilds in the OrderList
-    _ordersDataSubject.add(ordersData);
+    final index = userOrders.indexWhere((element) => element.id == order.id);
+    if (index >= 0) {
+      userOrders[index] = updated;
+      ordersData[order.userId] = userOrders;
+      // Note: Adding this to the stream causes additional rebuilds in the OrderList
+      _ordersDataSubject.add(ordersData);
+    } else {
+      throw AssertionError('Order with id ${order.id} does not exist');
+    }
   }
 
   @override
   Stream<List<Order>> ordersByDate(String uid) {
     return _ordersDataStream.map((ordersData) {
-      final userOrders = ordersData[uid] ?? {};
-      final ordersList = userOrders.values.toList();
+      final ordersList = ordersData[uid] ?? [];
       ordersList.sort(
         (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
       );
@@ -159,7 +174,7 @@ class MockDataStore implements DataStore {
     return _ordersDataStream.map((ordersData) {
       final orders = <Order>[];
       for (var userOrders in ordersData.values) {
-        orders.addAll(userOrders.values);
+        orders.addAll(userOrders);
       }
       orders.sort(
         (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
@@ -219,26 +234,29 @@ class MockDataStore implements DataStore {
   }
 
   @override
-  Future<void> removeAllItems(String uid) async {
+  Stream<CartTotal> cartTotal(String uid) {
+    return _cartDataStream.map((cartData) {
+      final items = cartData[uid] ?? [];
+      final total = _totalPrice(items);
+      return CartTotal(total: total);
+    });
+  }
+
+  // private methods
+
+  Future<void> _removeAllItems(String uid) async {
     await _delay();
     cartData[uid] = [];
     _cartDataSubject.add(cartData);
   }
 
-  @override
-  Stream<CartTotal> cartTotal(String uid) {
-    return _cartDataStream.map((cartData) {
-      final items = cartData[uid] ?? [];
-      final total = items.isEmpty
-          ? 0.0
-          : items
-              // first extract quantity * price for each item
-              .map((item) => item.quantity * getProduct(item.productId).price)
-              // then add them up
-              .reduce((value, element) => value + element);
-      return CartTotal(total: total);
-    });
-  }
+  double _totalPrice(List<Item> items) => items.isEmpty
+      ? 0.0
+      : items
+          // first extract quantity * price for each item
+          .map((item) => item.quantity * getProduct(item.productId).price)
+          // then add them up
+          .reduce((value, element) => value + element);
 
   Future<void> _delay([int milliseconds = 2000]) async {
     await Future.delayed(Duration(milliseconds: milliseconds));

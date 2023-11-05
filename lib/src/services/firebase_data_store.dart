@@ -13,13 +13,19 @@ class FirestorePath {
   static String cart(String uid) => 'users/$uid/public/cart'; // contains total
   static String cartItems(String uid) => 'users/$uid/cartItems';
   static String cartItem(String uid, String id) => 'users/$uid/cartItems/$id';
+  static String userOrders(String uid) => 'users/$uid/orders';
+  static String userOrder(String uid, String id) => 'users/$uid/orders/$id';
 }
 
 class FirebaseDataStore implements DataStore {
   final _firestore = FirebaseFirestore.instance;
   @override
-  Address? getAddress(String uid) {
-    throw UnimplementedError();
+  Future<Address?> getAddress(String uid) async {
+    final ref = _firestore.doc(FirestorePath.address(uid)).withConverter(
+        fromFirestore: (doc, _) => Address.fromMap(doc.data()!),
+        toFirestore: (Address address, options) => address.toMap());
+    final snapshot = await ref.get();
+    return snapshot.data();
   }
 
   @override
@@ -81,20 +87,15 @@ class FirebaseDataStore implements DataStore {
   // Orders
   // -------------------------------------
 
-  // TODO: Implement
   @override
-  Map<String, Order> getOrders(String uid) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Stream<Map<String, Order>> orders(String uid) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> placeOrder(String uid, Order order) async {
-    throw UnimplementedError();
+  Stream<List<Order>> orders(String uid) {
+    final ref = _firestore
+        .collection(FirestorePath.userOrders(uid))
+        .withConverter(
+            fromFirestore: (doc, _) => Order.fromMap(doc.data()!, doc.id),
+            toFirestore: (Order order, options) => order.toMap());
+    return ref.snapshots().map((snapshot) =>
+        snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
 
   @override
@@ -104,7 +105,13 @@ class FirebaseDataStore implements DataStore {
 
   @override
   Stream<List<Order>> ordersByDate(String uid) {
-    throw UnimplementedError();
+    return orders(uid).map((orders) {
+      final sortedOrders = orders;
+      sortedOrders.sort(
+        (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
+      );
+      return sortedOrders;
+    });
   }
 
   @override
@@ -172,18 +179,6 @@ class FirebaseDataStore implements DataStore {
     return _firestore
         .doc(FirestorePath.cartItem(uid, item.productId))
         .set(item.toMap());
-  }
-
-  @override
-  Future<void> removeAllItems(String uid) async {
-    // https://firebase.google.com/docs/firestore/manage-data/delete-data
-    //  If you need to delete entire collections, do so only from a trusted server environment.
-    final collectionRef = _firestore.collection(FirestorePath.cartItems(uid));
-    final docsSnapshot = await collectionRef.get();
-    for (var snapshot in docsSnapshot.docs) {
-      final docId = FirestorePath.cartItem(uid, snapshot.id);
-      await _firestore.doc(docId).delete();
-    }
   }
 
   @override

@@ -8,14 +8,14 @@ class AddressRepository {
   final AuthService authService;
   final DataStore dataStore;
 
-  Address? getAddress() {
-    final user = authService.currentUser;
-    if (user != null) {
-      return dataStore.getAddress(user.uid);
-    } else {
-      throw AssertionError('uid == null');
-    }
-  }
+  // Future<Address?> getAddress() {
+  //   final user = authService.currentUser;
+  //   if (user != null) {
+  //     return dataStore.getAddress(user.uid);
+  //   } else {
+  //     throw AssertionError('uid == null');
+  //   }
+  // }
 
   Future<void> submitAddress(Address address) async {
     final user = authService.currentUser;
@@ -31,6 +31,17 @@ final addressRepositoryProvider = Provider<AddressRepository>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
   final authService = ref.watch(authServiceProvider);
   return AddressRepository(authService: authService, dataStore: dataStore);
+});
+
+final addressFutureProvider = FutureProvider.autoDispose<Address?>((ref) {
+  final dataStore = ref.watch(dataStoreProvider);
+  final authService = ref.watch(authServiceProvider);
+  final user = authService.currentUser;
+  if (user != null) {
+    return dataStore.getAddress(user.uid);
+  } else {
+    throw AssertionError('uid == null');
+  }
 });
 
 final addressProvider = StreamProvider.autoDispose<Address?>((ref) {

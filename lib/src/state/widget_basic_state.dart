@@ -10,6 +10,10 @@ class WidgetBasicState with _$WidgetBasicState {
   const factory WidgetBasicState.error(String message) = _Error;
 }
 
+extension WidgetBasicStateX on WidgetBasicState {
+  bool get isLoading => this == const WidgetBasicState.loading();
+}
+
 // global function to be used when handling WidgetBasicState changes with ref.listen()
 void widgetStateErrorListener(BuildContext context, WidgetBasicState state) {
   state.whenOrNull(

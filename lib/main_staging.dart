@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/firebase_auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/firebase_cloud_functions.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/firebase_data_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/mock_auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
@@ -27,10 +29,12 @@ void main() async {
     await authService.signInAnonymously();
   }
   final dataStore = FirebaseDataStore();
+  final cloudFunctions = FirebaseCloudFunctions();
   runApp(ProviderScope(
     overrides: [
       authServiceProvider.overrideWithValue(authService),
       dataStoreProvider.overrideWithValue(dataStore),
+      cloudFunctionsProvider.overrideWithValue(cloudFunctions),
     ],
     observers: [ProviderLogger()],
     child: MyApp(),

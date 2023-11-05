@@ -53,7 +53,7 @@ class _AdminProductScreenContentsState
         actions: [
           ActionTextButton(
             text: 'Save',
-            onPressed: state == const WidgetBasicState.loading()
+            onPressed: state.isLoading
                 ? null
                 : () async {
                     if (_formKey.currentState!.validate()) {

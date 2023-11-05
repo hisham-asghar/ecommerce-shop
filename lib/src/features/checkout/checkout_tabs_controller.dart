@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class CheckoutTabsController with ChangeNotifier {
   CheckoutTabsController({
-    required this.authService,
-    required this.dataStore,
+    required this.currentUser,
+    required this.address,
     required this.tabController,
     // set this when the object is first created.
-  }) : needsTabView = authService.currentUser == null ||
-            dataStore.getAddress(authService.currentUser!.uid) == null;
-  final AuthService authService;
-  final DataStore dataStore;
+  }) : needsTabView = currentUser == null || address == null;
+  // TODO: Make this reactive again
+  final AppUser? currentUser;
+  final Address? address;
   final TabController tabController;
   final bool needsTabView;
 
   int tabIndex() {
     var tabIndex = 0;
-    final user = authService.currentUser;
+    final user = currentUser;
     if (user != null && user.isSignedIn) {
-      if (dataStore.getAddress(user.uid) != null) {
+      if (address != null) {
         tabIndex = 2;
       } else {
         tabIndex = 1;

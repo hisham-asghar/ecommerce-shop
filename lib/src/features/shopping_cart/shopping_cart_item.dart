@@ -82,7 +82,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ItemQuantitySelector(
                       quantity: item.quantity,
                       maxQuantity: min(product.availableQuantity, 10),
-                      onChanged: state == const WidgetBasicState.loading()
+                      onChanged: state.isLoading
                           ? null
                           : (quantity) => ref
                               .read(shoppingCartItemModelProvider.notifier)
@@ -90,7 +90,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ),
                     IconButton(
                       icon: Icon(Icons.delete, color: Colors.red[700]),
-                      onPressed: state == const WidgetBasicState.loading()
+                      onPressed: state.isLoading
                           ? null
                           : () => ref
                               .read(shoppingCartItemModelProvider.notifier)

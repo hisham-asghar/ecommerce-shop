@@ -1,13 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
 class CartRepository {
-  CartRepository({required this.authService, required this.dataStore});
+  CartRepository(
+      {required this.authService,
+      required this.dataStore,
+      required this.cloudFunctions});
   final AuthService authService;
   final DataStore dataStore;
+  final CloudFunctions cloudFunctions;
 
   // TODO: Make these methods more DRY
   Future<List<Item>> getItemsList() {
@@ -48,10 +54,10 @@ class CartRepository {
     }
   }
 
-  Future<void> removeAllItems() {
+  Future<Order> placeOrder() async {
     final user = authService.currentUser;
     if (user != null) {
-      return dataStore.removeAllItems(user.uid);
+      return await cloudFunctions.placeOrder(user.uid);
     } else {
       throw AssertionError('uid == null');
     }
@@ -61,7 +67,12 @@ class CartRepository {
 final cartRepositoryProvider = Provider<CartRepository>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
   final authService = ref.watch(authServiceProvider);
-  return CartRepository(authService: authService, dataStore: dataStore);
+  final cloudFunctions = ref.watch(cloudFunctionsProvider);
+  return CartRepository(
+    authService: authService,
+    dataStore: dataStore,
+    cloudFunctions: cloudFunctions,
+  );
 });
 
 final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {

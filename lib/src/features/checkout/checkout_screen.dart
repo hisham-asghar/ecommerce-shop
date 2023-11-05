@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_tabs_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
-
 import 'address/address_page.dart';
 
-class CheckoutScreen extends ConsumerStatefulWidget {
+class CheckoutScreen extends ConsumerWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
 
   @override
-  _CheckoutScreenState createState() => _CheckoutScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final addressValue = ref.watch(addressProvider);
+    return AsyncValueWidget<Address?>(
+      value: addressValue,
+      data: (address) => CheckoutScreenContents(address: address),
+    );
+  }
 }
 
-class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
+class CheckoutScreenContents extends ConsumerStatefulWidget {
+  const CheckoutScreenContents({Key? key, required this.address})
+      : super(key: key);
+  final Address? address;
+
+  @override
+  _CheckoutScreenContentsState createState() => _CheckoutScreenContentsState();
+}
+
+class _CheckoutScreenContentsState extends ConsumerState<CheckoutScreenContents>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
+  // TODO: This is not reactive
   late final _checkoutTabsController = CheckoutTabsController(
-    authService: ref.read(authServiceProvider),
-    dataStore: ref.read(dataStoreProvider),
+    currentUser: ref.read(authServiceProvider).currentUser,
+    address: widget.address,
     tabController: _tabController,
   )..updateIndex();
 

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
 
@@ -12,15 +11,6 @@ class ProductsRepository {
   Future<void> editProduct(Product product) => dataStore.editProduct(product);
 
   Product getProductById(String productId) => dataStore.getProduct(productId);
-
-  double calculateTotal(List<Item> items) => items.isEmpty
-      ? 0.0
-      : items
-          // first extract quantity * price for each item
-          .map((item) =>
-              item.quantity * dataStore.getProduct(item.productId).price)
-          // then add them up
-          .reduce((value, element) => value + element);
 }
 
 final productsRepositoryProvider = Provider<ProductsRepository>((ref) {

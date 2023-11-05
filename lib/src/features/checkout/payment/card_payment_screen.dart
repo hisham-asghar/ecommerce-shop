@@ -4,12 +4,14 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/user_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 import 'package:uuid/uuid.dart';
 
 /// Borrowed from flutter_stripe example app
@@ -22,8 +24,6 @@ class CardPaymentScreen extends ConsumerStatefulWidget {
 
 class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   final controller = CardFormEditController();
-
-  var _isLoading = false;
 
   // TODO: Review
   @override
@@ -40,38 +40,23 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     super.dispose();
   }
 
-  // TODO: Move this to more appropriate place
   void _placeOrder() async {
-    final cartRepository = ref.read(cartRepositoryProvider);
-    final itemsList = await cartRepository.getItemsList();
-    final auth = ref.read(authServiceProvider);
-    final userOrdersRepository = ref.read(userOrdersRepositoryProvider);
-    final order = Order(
-      id: Uuid().v1(),
-      userId: auth.currentUser!
-          .uid, // safe to use ! as we must be logged in if we get here
-      items: itemsList,
-      // TODO: Update with real payment status
-      // paymentStatus: PaymentStatus.paid,
-      orderStatus: OrderStatus.confirmed,
-      // TODO: Inject this rather than hardcoding
-      orderDate: DateTime.now(),
-    );
-    try {
-      setState(() => _isLoading = true);
-      await userOrdersRepository.placeOrder(order);
-      cartRepository.removeAllItems();
-      setState(() => _isLoading = false);
+    final model = ref.read(cardPaymentScreenModelProvider.notifier);
+    final order = await model.placeOrder();
+    // TODO: should navigation happen inside view model?
+    if (order != null) {
       ref.read(routerDelegateProvider).openPaymentComplete(order);
-    } catch (e) {
-      setState(() => _isLoading = false);
-      // TODO: Proper error handling
-      print(e.toString());
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // error handling
+    ref.listen(
+      cardPaymentScreenModelProvider,
+      (WidgetBasicState state) => widgetStateErrorListener(context, state),
+    );
+    final state = ref.watch(cardPaymentScreenModelProvider);
     return Scaffold(
       appBar: AppBar(),
       body: ScrollablePage(
@@ -85,12 +70,12 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                 ? CardFormField(controller: controller)
                 : const UnsupportedPlatformPaymentPlaceholder(),
             PrimaryButton(
-              onPressed: _placeOrder,
+              onPressed: state.isLoading ? null : _placeOrder,
               // onPressed: controller.details.complete == true ||
               //         !Platform.isIOS && !Platform.isAndroid
               //     ? _placeOrder
               //     : null,
-              isLoading: _isLoading,
+              isLoading: state.isLoading,
               text: 'Pay',
             ),
             // Divider(),

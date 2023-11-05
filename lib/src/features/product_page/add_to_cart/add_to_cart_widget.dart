@@ -36,7 +36,7 @@ class AddToCartWidget extends ConsumerWidget {
             ItemQuantitySelector(
               quantity: state.quantity,
               maxQuantity: min(product.availableQuantity, 10),
-              onChanged: state.widgetState == const WidgetBasicState.loading()
+              onChanged: state.widgetState.isLoading
                   ? null
                   : (quantity) {
                       final model = ref.read(addToCartModelProvider.notifier);
@@ -49,7 +49,7 @@ class AddToCartWidget extends ConsumerWidget {
         const Divider(),
         const SizedBox(height: Sizes.p8),
         PrimaryButton(
-          isLoading: state.widgetState == const WidgetBasicState.loading(),
+          isLoading: state.widgetState.isLoading,
           onPressed: product.availableQuantity > 0
               ? () => ref.read(addToCartModelProvider.notifier).addItem(product)
               : null,

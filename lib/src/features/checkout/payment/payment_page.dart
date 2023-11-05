@@ -17,7 +17,6 @@ class PaymentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productsRepository = ref.watch(productsRepositoryProvider);
     final itemsValue = ref.watch(cartItemsListProvider);
     return AsyncValueWidget<List<Item>>(
       value: itemsValue,
@@ -43,9 +42,8 @@ class PaymentPage extends ConsumerWidget {
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: OrderPaymentOptions(
-                total: productsRepository.calculateTotal(items)),
+          const SliverToBoxAdapter(
+            child: OrderPaymentOptions(),
           ),
         ],
       ),

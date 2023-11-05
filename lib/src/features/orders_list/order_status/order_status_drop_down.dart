@@ -24,7 +24,7 @@ class OrderStatusDropDown extends ConsumerWidget {
         const SizedBox(width: Sizes.p16),
         SizedBox(
           height: Sizes.p48,
-          child: state == const WidgetBasicState.loading()
+          child: state.isLoading
               ? const Center(child: CircularProgressIndicator())
               : DropdownButton<OrderStatus>(
                   value: order.orderStatus,
