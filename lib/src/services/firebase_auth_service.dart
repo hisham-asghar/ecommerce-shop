@@ -53,17 +53,19 @@ class FirebaseAuthService implements AuthService {
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     // Assuming the user is always signed in anonymously,
     // this method should link the existing account with the email auth credential
-    final user = _auth.currentUser!;
-    await user.linkWithCredential(
-        EmailAuthProvider.credential(email: email, password: password));
-    // await _auth.signInWithEmailAndPassword(
-    //   email: email,
-    //   password: password,
-    // );
+    // final user = _auth.currentUser!;
+    // await user.linkWithCredential(
+    //     EmailAuthProvider.credential(email: email, password: password));
+    // TODO: This is broken!!
+    await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   @override
-  Future<void> signOut() {
-    return _auth.signOut();
+  Future<void> signOut() async {
+    await _auth.signOut();
+    await _auth.signInAnonymously();
   }
 }
