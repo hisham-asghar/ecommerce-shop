@@ -34,8 +34,6 @@ abstract class DataStore {
 
   Future<void> updateOrderStatus(Order order, OrderStatus status);
 
-  Stream<List<Order>> ordersByDate(String uid);
-
   Stream<List<Order>> allOrdersByDate();
 
   // -------------------------------------

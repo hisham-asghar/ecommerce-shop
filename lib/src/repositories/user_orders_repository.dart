@@ -9,7 +9,7 @@ final ordersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
   final user = userValue.maybeWhen(data: (user) => user, orElse: () => null);
   if (user != null) {
     final dataStore = ref.watch(dataStoreProvider);
-    return dataStore.ordersByDate(user.uid);
+    return dataStore.orders(user.uid);
   } else {
     // TODO: Log error
     return const Stream.empty();

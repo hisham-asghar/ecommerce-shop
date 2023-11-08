@@ -98,7 +98,13 @@ class MockDataStore implements DataStore {
 
   @override
   Stream<List<Order>> orders(String uid) {
-    return _ordersDataStream.map((ordersData) => ordersData[uid] ?? []);
+    return _ordersDataStream.map((ordersData) {
+      final ordersList = ordersData[uid] ?? [];
+      ordersList.sort(
+        (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
+      );
+      return ordersList;
+    });
   }
 
   // Not overridden, only available from MockCloudFunctions
@@ -156,17 +162,6 @@ class MockDataStore implements DataStore {
     } else {
       throw AssertionError('Order with id ${order.id} does not exist');
     }
-  }
-
-  @override
-  Stream<List<Order>> ordersByDate(String uid) {
-    return _ordersDataStream.map((ordersData) {
-      final ordersList = ordersData[uid] ?? [];
-      ordersList.sort(
-        (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
-      );
-      return ordersList;
-    });
   }
 
   @override
