@@ -2,13 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
-import 'package:uuid/uuid.dart';
 
 class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
   AdminProductScreenModel({required this.productsRepository, this.product})
       : super(const WidgetBasicState.notLoading()) {
     init();
   }
+  // TODO: Force rebuild or avoid mutable state?
   final ProductsRepository productsRepository;
   final Product? product;
   var title = '';
@@ -25,12 +25,20 @@ class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
     imageUrl = product?.imageUrl ?? '';
   }
 
+  void reset() {
+    title = '';
+    description = '';
+    price = 0.0;
+    availableQuantity = 0;
+    imageUrl = '';
+  }
+
   Future<void> submit() async {
     try {
       state = const WidgetBasicState.loading();
       if (product == null) {
         final newProduct = Product(
-          id: const Uuid().v1(),
+          id: "",
           title: title,
           description: description,
           price: price,
@@ -38,6 +46,8 @@ class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
           imageUrl: imageUrl,
         );
         await productsRepository.addProduct(newProduct);
+        // reset state for next time page is shown
+        reset();
       } else {
         final updatedProduct = product!.copyWith(
           title: title,

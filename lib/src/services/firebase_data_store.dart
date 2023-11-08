@@ -64,9 +64,8 @@ class FirebaseDataStore implements DataStore {
 
   @override
   Future<void> addProduct(Product product) async {
-    // TODO: Should this generate the ID?
-    final ref = _productRef(product.id);
-    return ref.set(product);
+    final ref = _productsRef();
+    await ref.add(product);
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 class AdminProductScreen extends ConsumerWidget {
@@ -65,6 +66,7 @@ class _AdminProductScreenContentsState
                           adminProductScreenModelProvider(widget.product)
                               .notifier);
                       await model.submit();
+                      ref.read(routerDelegateProvider).popRoute();
                       scaffoldMessenger.showSnackBar(
                         const SnackBar(content: Text('Product updated')),
                       );
@@ -167,7 +169,6 @@ class _AdminProductScreenContentsState
                     ),
                   ),
                 ),
-                //}),
               ),
             ),
           ),

@@ -64,7 +64,8 @@ class MockDataStore implements DataStore {
   @override
   Future<void> addProduct(Product product) async {
     await _delay();
-    _products.add(product);
+    final productWithId = product.copyWith(id: const Uuid().v1());
+    _products.add(productWithId);
     _productsSubject.add(_products);
   }
 
