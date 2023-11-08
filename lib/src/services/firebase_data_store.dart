@@ -56,12 +56,6 @@ class FirebaseDataStore implements DataStore {
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
 
-  /// Throws error if not found
-  @override
-  Product getProduct(String id) {
-    throw UnimplementedError();
-  }
-
   @override
   Stream<Product> product(String id) {
     final ref = _productRef(id);

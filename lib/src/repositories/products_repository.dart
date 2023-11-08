@@ -9,8 +9,6 @@ class ProductsRepository {
   Future<void> addProduct(Product product) => dataStore.addProduct(product);
 
   Future<void> editProduct(Product product) => dataStore.editProduct(product);
-
-  Product getProductById(String productId) => dataStore.getProduct(productId);
 }
 
 final productsRepositoryProvider = Provider<ProductsRepository>((ref) {

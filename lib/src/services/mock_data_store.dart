@@ -55,12 +55,6 @@ class MockDataStore implements DataStore {
     return _productsStream;
   }
 
-  /// Throws error if not found
-  @override
-  Product getProduct(String id) {
-    return _products.firstWhere((product) => product.id == id);
-  }
-
   @override
   Stream<Product> product(String id) {
     return _productsStream
@@ -114,7 +108,7 @@ class MockDataStore implements DataStore {
     final items = await getItemsList(uid);
     // First, make sure all items are available
     for (var item in items) {
-      final product = getProduct(item.productId);
+      final product = _getProduct(item.productId);
       if (product.availableQuantity < item.quantity) {
         throw AssertionError(
             'Can\'t purchase ${item.quantity} quantity of $product');
@@ -138,7 +132,7 @@ class MockDataStore implements DataStore {
     _ordersDataSubject.add(ordersData);
     // and update all the product quantities
     for (var item in items) {
-      final product = getProduct(item.productId);
+      final product = _getProduct(item.productId);
       final updated = product.copyWith(
           availableQuantity: product.availableQuantity - item.quantity);
       await editProduct(updated);
@@ -175,6 +169,11 @@ class MockDataStore implements DataStore {
       );
       return orders;
     });
+  }
+
+  /// Throws error if not found
+  Product _getProduct(String id) {
+    return _products.firstWhere((product) => product.id == id);
   }
 
   // -------------------------------------
@@ -248,7 +247,7 @@ class MockDataStore implements DataStore {
       ? 0.0
       : items
           // first extract quantity * price for each item
-          .map((item) => item.quantity * getProduct(item.productId).price)
+          .map((item) => item.quantity * _getProduct(item.productId).price)
           // then add them up
           .reduce((value, element) => value + element);
 
