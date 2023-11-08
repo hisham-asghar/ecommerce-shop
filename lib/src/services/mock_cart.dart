@@ -6,7 +6,8 @@ class MockCart {
   List<Item> items;
 
   void addItem(Item item) {
-    final itemIndex = items.indexOf(item);
+    final productIds = items.map((item) => item.productId).toList();
+    final itemIndex = productIds.indexOf(item.productId);
     // if item already exists, update quantity
     if (itemIndex >= 0) {
       final list = List<Item>.from(items);
