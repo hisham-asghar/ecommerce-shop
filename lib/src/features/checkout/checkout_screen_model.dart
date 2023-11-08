@@ -33,9 +33,10 @@ class CheckoutScreenModel extends StateNotifier<CheckoutScreenModelState> {
         : null;
     final shouldShowTabs = initialUser == null || initialAddress == null;
     state = stateFor(
-        user: initialUser,
-        address: initialAddress,
-        shouldShowTabs: shouldShowTabs);
+      user: initialUser,
+      address: initialAddress,
+      shouldShowTabs: shouldShowTabs,
+    );
 
     // Then, get updates if tabs should be shown
     if (shouldShowTabs) {

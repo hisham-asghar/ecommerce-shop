@@ -6,35 +6,18 @@ import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
 import 'address/address_page.dart';
 
-class CheckoutScreen extends ConsumerWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final addressValue = ref.watch(addressProvider);
-    return AsyncValueWidget<Address?>(
-      value: addressValue,
-      data: (address) => CheckoutScreenContents(address: address),
-    );
-  }
+  _CheckoutScreenState createState() => _CheckoutScreenState();
 }
 
-class CheckoutScreenContents extends ConsumerStatefulWidget {
-  const CheckoutScreenContents({Key? key, required this.address})
-      : super(key: key);
-  final Address? address;
-
-  @override
-  _CheckoutScreenContentsState createState() => _CheckoutScreenContentsState();
-}
-
-class _CheckoutScreenContentsState extends ConsumerState<CheckoutScreenContents>
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(length: 3, vsync: this);
 

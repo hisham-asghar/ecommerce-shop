@@ -17,17 +17,6 @@ void main() {
       );
     });
 
-    test('not signed in, show tabs', () {
-      expect(
-        CheckoutScreenModel.stateFor(
-          user: MockAppUser(uid: '123', isAdmin: false),
-          address: null,
-          shouldShowTabs: true,
-        ),
-        const CheckoutScreenModelState.tab(0),
-      );
-    });
-
     test('signed in, null address, show tabs', () {
       expect(
         CheckoutScreenModel.stateFor(
