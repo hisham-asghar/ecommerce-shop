@@ -76,6 +76,14 @@ class AddToCartWidget extends ConsumerWidget {
                   : null,
               text: availableQuantity > 0 ? 'Add to Cart' : 'Out of Stock',
             ),
+            if (product.availableQuantity > 0 && availableQuantity == 0) ...[
+              const SizedBox(height: Sizes.p8),
+              Text(
+                'Already added to cart',
+                style: Theme.of(context).textTheme.caption,
+                textAlign: TextAlign.center,
+              ),
+            ]
           ],
         );
       },
