@@ -7,6 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dar
 import 'package:my_shop_ecommerce_flutter/src/services/auth/mock_auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions/mock_cloud_functions.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store/mock_data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store/sembast_cart_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
 
 import 'src/app.dart';
@@ -24,15 +25,14 @@ void main() async {
   }
 
   final authService = MockAuthService();
-  if (authService.currentUser == null) {
-    await authService.signInAnonymously();
-  }
   final dataStore = MockDataStore();
+  final localDataStore = await SembastCartStore.makeDefault();
   final cloudFunctions = MockCloudFunctions(dataStore);
   runApp(ProviderScope(
     overrides: [
       authServiceProvider.overrideWithValue(authService),
       dataStoreProvider.overrideWithValue(dataStore),
+      localCartDataStoreProvider.overrideWithValue(localDataStore),
       cloudFunctionsProvider.overrideWithValue(cloudFunctions),
     ],
     observers: [ProviderLogger()],

@@ -20,7 +20,7 @@ void main() {
     test('not signed in, show tabs', () {
       expect(
         CheckoutScreenModel.stateFor(
-          user: MockAppUser(uid: '123', isSignedIn: false, isAdmin: false),
+          user: MockAppUser(uid: '123', isAdmin: false),
           address: null,
           shouldShowTabs: true,
         ),
@@ -31,7 +31,7 @@ void main() {
     test('signed in, null address, show tabs', () {
       expect(
         CheckoutScreenModel.stateFor(
-          user: MockAppUser(uid: '123', isSignedIn: true, isAdmin: false),
+          user: MockAppUser(uid: '123', isAdmin: false),
           address: null,
           shouldShowTabs: true,
         ),
@@ -42,7 +42,7 @@ void main() {
     test('signed in, valid address, show tabs', () {
       expect(
         CheckoutScreenModel.stateFor(
-          user: MockAppUser(uid: '123', isSignedIn: true, isAdmin: false),
+          user: MockAppUser(uid: '123', isAdmin: false),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: true,
@@ -54,7 +54,7 @@ void main() {
     test('signed in, valid address, no tabs', () {
       expect(
         CheckoutScreenModel.stateFor(
-          user: MockAppUser(uid: '123', isSignedIn: true, isAdmin: false),
+          user: MockAppUser(uid: '123', isAdmin: false),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: false,

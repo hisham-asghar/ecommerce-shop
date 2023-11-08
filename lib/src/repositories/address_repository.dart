@@ -46,12 +46,11 @@ final addressFutureProvider = FutureProvider.autoDispose<Address?>((ref) {
 
 final addressProvider = StreamProvider.autoDispose<Address?>((ref) {
   final userValue = ref.watch(authStateChangesProvider);
-  final user = userValue.maybeWhen(data: (user) => user, orElse: () => null);
+  final user = userValue.asData?.value;
   if (user != null) {
     final dataStore = ref.watch(dataStoreProvider);
     return dataStore.address(user.uid);
   } else {
-    // TODO: Log error
-    return const Stream.empty();
+    return Stream.fromIterable([null]);
   }
 });

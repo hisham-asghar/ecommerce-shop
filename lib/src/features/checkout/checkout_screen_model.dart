@@ -31,8 +31,7 @@ class CheckoutScreenModel extends StateNotifier<CheckoutScreenModelState> {
     final initialAddress = initialUser != null
         ? await dataStore.getAddress(initialUser.uid)
         : null;
-    final shouldShowTabs =
-        initialUser?.isSignedIn == false || initialAddress == null;
+    final shouldShowTabs = initialUser == null || initialAddress == null;
     state = stateFor(
         user: initialUser,
         address: initialAddress,
@@ -59,7 +58,7 @@ class CheckoutScreenModel extends StateNotifier<CheckoutScreenModelState> {
   static CheckoutScreenModelState stateFor(
       {AppUser? user, Address? address, required bool shouldShowTabs}) {
     if (shouldShowTabs) {
-      if (user != null && user.isSignedIn) {
+      if (user != null) {
         if (address != null) {
           return const CheckoutScreenModelState.tab(2);
         } else {

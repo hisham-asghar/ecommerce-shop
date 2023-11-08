@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class AppUser {
   String get uid;
-  bool get isSignedIn;
   bool get isAdmin;
 }
 

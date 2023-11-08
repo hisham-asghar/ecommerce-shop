@@ -8,7 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/mock_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store/mock_cart.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -234,6 +234,17 @@ class MockDataStore implements DataStore {
       final total = _totalPrice(items);
       return CartTotal(total: total);
     });
+  }
+
+  @override
+  Future<void> addAllItems(String uid, List<Item> items) async {
+    await _delay();
+    final cart = MockCart(cartData[uid] ?? []);
+    for (var item in items) {
+      cart.addItem(item);
+    }
+    cartData[uid] = cart.items;
+    _cartDataSubject.add(cartData);
   }
 
   // private methods

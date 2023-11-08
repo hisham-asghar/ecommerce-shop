@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_si
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/address_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
 import 'address/address_page.dart';
 
@@ -107,6 +108,14 @@ class CheckoutWithTabs extends ConsumerWidget {
             model: EmailPasswordSignInModel(
               authService: ref.watch(authServiceProvider),
             ),
+            onSignedIn: () async {
+              try {
+                await ref.read(cartRepositoryProvider).copyItemsToRemote();
+              } catch (e, st) {
+                // TODO: Report exception
+                print(e);
+              }
+            },
           ),
           const AddressPage(),
           PaymentPage(),

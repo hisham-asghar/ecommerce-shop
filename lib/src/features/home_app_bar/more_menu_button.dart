@@ -39,7 +39,7 @@ class MoreMenuButton extends ConsumerWidget {
         }
       },
       itemBuilder: (_) {
-        return user != null && user.isSignedIn
+        return user != null
             ? <PopupMenuEntry<PopupMenuOption>>[
                 const PopupMenuItem(
                   child: Text('Orders'),

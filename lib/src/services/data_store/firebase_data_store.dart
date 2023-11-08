@@ -182,6 +182,14 @@ class FirebaseDataStore implements DataStore {
     return ref.set(item);
   }
 
+  @override
+  Future<void> addAllItems(String uid, List<Item> items) async {
+    final ref = _itemsListRef(uid);
+    for (var item in items) {
+      await ref.add(item);
+    }
+  }
+
   CollectionReference<Item> _itemsListRef(String uid) =>
       _firestore.collection(FirestorePath.cartItems(uid)).withConverter(
             fromFirestore: (doc, _) => Item.fromMap(doc.data()!),

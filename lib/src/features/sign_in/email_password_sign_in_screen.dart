@@ -7,6 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
 
 class EmailPasswordSignInScreen extends ConsumerWidget {
@@ -19,7 +20,15 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Sign In')),
       body: EmailPasswordSignInContents(
         model: EmailPasswordSignInModel(authService: authService),
-        onSignedIn: () => Navigator.of(context).pop(),
+        onSignedIn: () async {
+          try {
+            await ref.read(cartRepositoryProvider).copyItemsToRemote();
+          } catch (e, st) {
+            // TODO: Report exception
+            print(e);
+          }
+          Navigator.of(context).pop();
+        },
       ),
     );
   }

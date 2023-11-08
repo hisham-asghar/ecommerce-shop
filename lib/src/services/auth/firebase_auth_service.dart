@@ -8,9 +8,6 @@ class FirebaseAppUser implements AppUser {
   bool get isAdmin => false;
 
   @override
-  bool get isSignedIn => !_user.isAnonymous;
-
-  @override
   String get uid => _user.uid;
 }
 
@@ -26,7 +23,6 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
-    // TODO: how to link with credential when registering?
     await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -51,12 +47,6 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    // Assuming the user is always signed in anonymously,
-    // this method should link the existing account with the email auth credential
-    // final user = _auth.currentUser!;
-    // await user.linkWithCredential(
-    //     EmailAuthProvider.credential(email: email, password: password));
-    // TODO: This is broken!!
     await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
@@ -64,8 +54,7 @@ class FirebaseAuthService implements AuthService {
   }
 
   @override
-  Future<void> signOut() async {
-    await _auth.signOut();
-    await _auth.signInAnonymously();
+  Future<void> signOut() {
+    return _auth.signOut();
   }
 }

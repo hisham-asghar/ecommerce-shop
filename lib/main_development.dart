@@ -10,6 +10,7 @@ import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions/cloud_fun
 import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions/firebase_cloud_functions.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store/firebase_data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store/sembast_cart_store.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
 
 import 'src/app.dart';
@@ -37,15 +38,14 @@ void main() async {
   }
 
   final authService = FirebaseAuthService();
-  if (authService.currentUser == null) {
-    await authService.signInAnonymously();
-  }
   final dataStore = FirebaseDataStore();
+  final localDataStore = await SembastCartStore.makeDefault();
   final cloudFunctions = FirebaseCloudFunctions();
   runApp(ProviderScope(
     overrides: [
       authServiceProvider.overrideWithValue(authService),
       dataStoreProvider.overrideWithValue(dataStore),
+      localCartDataStoreProvider.overrideWithValue(localDataStore),
       cloudFunctionsProvider.overrideWithValue(cloudFunctions),
     ],
     observers: [ProviderLogger()],
