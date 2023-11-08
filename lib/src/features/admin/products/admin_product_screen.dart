@@ -39,9 +39,9 @@ class _AdminProductScreenContentsState
   @override
   Widget build(BuildContext context) {
     // error handling
-    ref.listen(
+    ref.listen<WidgetBasicState>(
       adminProductScreenModelProvider(widget.product),
-      (WidgetBasicState state) => widgetStateErrorListener(context, state),
+      (_, state) => widgetStateErrorListener(context, state),
     );
     final model =
         ref.watch(adminProductScreenModelProvider(widget.product).notifier);

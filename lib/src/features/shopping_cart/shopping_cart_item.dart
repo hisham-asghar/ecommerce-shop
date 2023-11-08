@@ -55,9 +55,9 @@ class ShoppingCartItemContents extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
-    ref.listen(
+    ref.listen<WidgetBasicState>(
       shoppingCartItemModelProvider,
-      (WidgetBasicState state) => widgetStateErrorListener(context, state),
+      (_, state) => widgetStateErrorListener(context, state),
     );
     final state = ref.watch(shoppingCartItemModelProvider);
     final priceFormatted =

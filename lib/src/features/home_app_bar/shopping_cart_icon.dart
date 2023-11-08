@@ -72,7 +72,7 @@ class _ShoppingCartIconBadgeState extends ConsumerState<ShoppingCartIconBadge>
   @override
   Widget build(BuildContext context) {
     // Use a provider listener to forward the animation and make the badge "bounce"
-    ref.listen(cartItemsListProvider, (AsyncValue<List<Item>> itemsValue) {
+    ref.listen<AsyncValue<List<Item>>>(cartItemsListProvider, (_, itemsValue) {
       final itemsCount =
           itemsValue.maybeWhen(data: (items) => items.length, orElse: () => 0);
       if (itemsCount > 0) {

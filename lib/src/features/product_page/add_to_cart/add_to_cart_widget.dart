@@ -15,7 +15,7 @@ class AddToCartWidget extends ConsumerWidget {
   final Product product;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(addToCartModelProvider, (AddToCartState state) {
+    ref.listen<AddToCartState>(addToCartModelProvider, (_, state) {
       state.widgetState.whenOrNull(
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(

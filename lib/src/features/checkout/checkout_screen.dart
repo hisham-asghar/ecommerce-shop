@@ -39,7 +39,8 @@ class _CheckoutScreenContentsState extends ConsumerState<CheckoutScreenContents>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(checkoutScreenModelProvider, (CheckoutScreenModelState state) {
+    ref.listen<CheckoutScreenModelState>(checkoutScreenModelProvider,
+        (_, state) {
       state.maybeWhen(
           tab: (index) {
             _tabController.index = index;

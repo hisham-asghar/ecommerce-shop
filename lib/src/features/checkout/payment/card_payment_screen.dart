@@ -52,9 +52,9 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   @override
   Widget build(BuildContext context) {
     // error handling
-    ref.listen(
+    ref.listen<WidgetBasicState>(
       cardPaymentScreenModelProvider,
-      (WidgetBasicState state) => widgetStateErrorListener(context, state),
+      (_, state) => widgetStateErrorListener(context, state),
     );
     final state = ref.watch(cardPaymentScreenModelProvider);
     return Scaffold(
