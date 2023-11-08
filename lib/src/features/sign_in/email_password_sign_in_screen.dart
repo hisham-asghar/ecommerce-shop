@@ -7,7 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
 
 class EmailPasswordSignInScreen extends ConsumerWidget {
   const EmailPasswordSignInScreen({Key? key}) : super(key: key);

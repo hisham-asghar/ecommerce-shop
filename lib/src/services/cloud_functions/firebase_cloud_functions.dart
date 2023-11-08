@@ -1,6 +1,6 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions/cloud_functions.dart';
 
 class FirebaseCloudFunctions implements CloudFunctions {
   final functions = FirebaseFunctions.instanceFor(region: 'us-central1');

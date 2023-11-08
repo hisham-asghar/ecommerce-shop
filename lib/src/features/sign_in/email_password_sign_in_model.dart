@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
 

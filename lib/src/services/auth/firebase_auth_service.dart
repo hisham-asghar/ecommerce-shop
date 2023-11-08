@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
 
 class FirebaseAppUser implements AppUser {
   FirebaseAppUser(this._user);

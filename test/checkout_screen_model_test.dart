@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_model_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/mock_auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth/mock_auth_service.dart';
 
 void main() {
   group('checkout screen model', () {

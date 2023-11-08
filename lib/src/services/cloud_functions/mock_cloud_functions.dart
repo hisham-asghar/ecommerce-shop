@@ -1,6 +1,6 @@
 import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/mock_data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions/cloud_functions.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store/mock_data_store.dart';
 
 class MockCloudFunctions implements CloudFunctions {
   MockCloudFunctions(this.dataStore);

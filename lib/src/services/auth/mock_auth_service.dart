@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 

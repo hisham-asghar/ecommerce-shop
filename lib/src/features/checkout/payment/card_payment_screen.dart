@@ -5,14 +5,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/user_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
-import 'package:uuid/uuid.dart';
 
 /// Borrowed from flutter_stripe example app
 class CardPaymentScreen extends ConsumerStatefulWidget {

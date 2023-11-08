@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
 
 class AddressRepository {
   AddressRepository({required this.authService, required this.dataStore});
