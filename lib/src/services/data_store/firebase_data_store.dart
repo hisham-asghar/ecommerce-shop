@@ -7,10 +7,10 @@ import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
 
 class FirestorePath {
-  static String address(String uid) => 'users/$uid/private/address';
   static String products() => 'products';
   static String product(String id) => 'products/$id';
-  static String cart(String uid) => 'users/$uid/public/cart'; // contains total
+  static String address(String uid) => 'users/$uid/private/address';
+  static String cart(String uid) => 'users/$uid/private/cart'; // contains total
   static String cartItems(String uid) => 'users/$uid/cartItems';
   static String cartItem(String uid, String id) => 'users/$uid/cartItems/$id';
   static String userOrders(String uid) => 'users/$uid/orders';
