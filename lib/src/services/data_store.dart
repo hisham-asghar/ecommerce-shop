@@ -30,11 +30,11 @@ abstract class DataStore {
   // Orders
   // -------------------------------------
   // Realtime
-  Stream<List<Order>> orders(String uid);
+  Stream<List<Order>> userOrders(String uid);
 
-  Future<void> updateOrderStatus(Order order, OrderStatus status);
+  Future<void> updateOrderStatus(Order order);
 
-  Stream<List<Order>> allOrdersByDate();
+  Stream<List<Order>> allOrders();
 
   // -------------------------------------
   // Shopping Cart

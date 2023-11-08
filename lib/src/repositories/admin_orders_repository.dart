@@ -7,8 +7,8 @@ class AdminOrdersRepository {
   final DataStore dataStore;
 
   // All write methods
-  Future<void> updateOrderStatus(Order order, OrderStatus status) =>
-      dataStore.updateOrderStatus(order, status);
+  Future<void> updateOrderStatus(Order order) =>
+      dataStore.updateOrderStatus(order);
 }
 
 final adminOrdersRepositoryProvider = Provider<AdminOrdersRepository>((ref) {
@@ -19,5 +19,5 @@ final adminOrdersRepositoryProvider = Provider<AdminOrdersRepository>((ref) {
 // all read methods as StreamProviders
 final allOrdersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
-  return dataStore.allOrdersByDate();
+  return dataStore.allOrders();
 });

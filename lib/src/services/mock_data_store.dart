@@ -97,7 +97,7 @@ class MockDataStore implements DataStore {
       _ordersDataSubject.stream;
 
   @override
-  Stream<List<Order>> orders(String uid) {
+  Stream<List<Order>> userOrders(String uid) {
     return _ordersDataStream.map((ordersData) {
       final ordersList = ordersData[uid] ?? [];
       ordersList.sort(
@@ -148,14 +148,13 @@ class MockDataStore implements DataStore {
   }
 
   @override
-  Future<void> updateOrderStatus(Order order, OrderStatus status) async {
+  Future<void> updateOrderStatus(Order order) async {
     await _delay();
     final userOrders = ordersData[order.userId] ?? [];
     // TODO: Do this at the call site?
-    final updated = order.copyWith(orderStatus: status);
     final index = userOrders.indexWhere((element) => element.id == order.id);
     if (index >= 0) {
-      userOrders[index] = updated;
+      userOrders[index] = order;
       ordersData[order.userId] = userOrders;
       // Note: Adding this to the stream causes additional rebuilds in the OrderList
       _ordersDataSubject.add(ordersData);
@@ -165,7 +164,7 @@ class MockDataStore implements DataStore {
   }
 
   @override
-  Stream<List<Order>> allOrdersByDate() {
+  Stream<List<Order>> allOrders() {
     return _ordersDataStream.map((ordersData) {
       final orders = <Order>[];
       for (var userOrders in ordersData.values) {

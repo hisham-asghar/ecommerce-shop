@@ -15,6 +15,8 @@ class FirestorePath {
   static String cartItem(String uid, String id) => 'users/$uid/cartItems/$id';
   static String userOrders(String uid) => 'users/$uid/orders';
   static String userOrder(String uid, String id) => 'users/$uid/orders/$id';
+  static String adminOrders() => 'orders';
+  static String adminOrder(String id) => 'orders/$id';
 }
 
 class FirebaseDataStore implements DataStore {
@@ -95,24 +97,26 @@ class FirebaseDataStore implements DataStore {
   // -------------------------------------
 
   @override
-  Stream<List<Order>> orders(String uid) {
-    final ref = ordersRef(uid);
+  Stream<List<Order>> userOrders(String uid) {
+    final ref = _userOrdersRef(uid);
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
 
   @override
-  Future<void> updateOrderStatus(Order order, OrderStatus status) async {
-    throw UnimplementedError();
+  Future<void> updateOrderStatus(Order order) async {
+    final ref = _adminOrderRef(order.id);
+    return ref.set(order);
   }
 
-  // TODO: Admin
   @override
-  Stream<List<Order>> allOrdersByDate() {
-    throw UnimplementedError();
+  Stream<List<Order>> allOrders() {
+    final ref = _adminOrdersRef();
+    return ref.snapshots().map((snapshot) =>
+        snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
 
-  Query<Order> ordersRef(String uid) => _firestore
+  Query<Order> _userOrdersRef(String uid) => _firestore
       .collection(FirestorePath.userOrders(uid))
       .orderBy('orderDate', descending: true)
       .withConverter(
@@ -120,6 +124,19 @@ class FirebaseDataStore implements DataStore {
         toFirestore: (Order order, options) => order.toMap(),
       );
 
+  Query<Order> _adminOrdersRef() => _firestore
+      .collection(FirestorePath.adminOrders())
+      .orderBy('orderDate', descending: true)
+      .withConverter(
+        fromFirestore: (doc, _) => Order.fromMap(doc.data()!, doc.id),
+        toFirestore: (Order order, options) => order.toMap(),
+      );
+
+  DocumentReference<Order> _adminOrderRef(String orderId) =>
+      _firestore.doc(FirestorePath.adminOrder(orderId)).withConverter(
+            fromFirestore: (doc, _) => Order.fromMap(doc.data()!, orderId),
+            toFirestore: (Order order, options) => order.toMap(),
+          );
   // -------------------------------------
   // Shopping cart Items
   // -------------------------------------

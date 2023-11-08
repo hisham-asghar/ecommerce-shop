@@ -14,7 +14,8 @@ class OrderStatusDropDownModel extends StateNotifier<WidgetBasicState> {
   Future<void> updateOrderStatus(OrderStatus status) async {
     try {
       state = const WidgetBasicState.loading();
-      await adminOrdersRepository.updateOrderStatus(order, status);
+      final updatedOrder = order.copyWith(orderStatus: status);
+      await adminOrdersRepository.updateOrderStatus(updatedOrder);
     } catch (e) {
       state = const WidgetBasicState.error('Could not update order status');
     } finally {
