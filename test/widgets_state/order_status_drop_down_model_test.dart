@@ -22,20 +22,22 @@ void main() {
       // setup
       final order = _fakeOrder();
       const status = OrderStatus.delivered;
+      final updatedOrder = order.copyWith(orderStatus: status);
       final repository = MockAdminOrdersRepository();
       // simulate success
-      when(() => repository.updateOrderStatus(order, status))
+      when(() => repository.updateOrderStatus(updatedOrder))
           .thenAnswer((_) => Future<void>.value());
       final observedStates = <WidgetBasicState>[];
       final model = OrderStatusDropDownModel(
         adminOrdersRepository: repository,
-        order: _fakeOrder(),
+        order: order,
       );
       // track all state chanegs
       model.addListener(observedStates.add);
       // run
       await model.updateOrderStatus(status);
       // verify
+      verify(() => repository.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
         WidgetBasicState.notLoading(), // initial state
         WidgetBasicState.loading(), // updateOrderStatus - try
@@ -46,9 +48,10 @@ void main() {
       // setup
       final order = _fakeOrder();
       const status = OrderStatus.delivered;
+      final updatedOrder = order.copyWith(orderStatus: status);
       final repository = MockAdminOrdersRepository();
       // simulate failure: throw error
-      when(() => repository.updateOrderStatus(order, status))
+      when(() => repository.updateOrderStatus(updatedOrder))
           .thenThrow(StateError('User is not signed in'));
       final observedStates = <WidgetBasicState>[];
       final model = OrderStatusDropDownModel(
@@ -60,6 +63,7 @@ void main() {
       // run
       await model.updateOrderStatus(status);
       // verify
+      verify(() => repository.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
         WidgetBasicState.notLoading(), // initial state
         WidgetBasicState.loading(), // updateOrderStatus - try
