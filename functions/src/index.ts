@@ -5,6 +5,14 @@ admin.initializeApp();
 
 const region = 'us-central1'
 
+// Admin
+import { promoteToAdminIfWhitelisted } from './admin'
+
+exports.promoteToAdminIfWhitelisted = functions.region(region).auth.user().onCreate((user, context) => {
+  return promoteToAdminIfWhitelisted(user, context)
+})
+
+// Cart
 import { updateCartTotal, placeOrder } from './cart'
 
 exports.updateCartTotal = functions.region(region).firestore

@@ -1,18 +1,63 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FirebaseAppUser implements AppUser {
   FirebaseAppUser(this._user);
   final User _user;
-  @override
-  bool get isAdmin => false;
 
   @override
   String get uid => _user.uid;
+
+  @override
+  String? get email => _user.email;
+
+  @override
+  Future<bool> isAdminUser() async {
+    // Note: when a user is first created, there is no claim available until
+    // the cloud function returns. This can be fixed with a sign-out / sign-in
+    // but it's not ideal.
+    // Though it's ok since we can ask admins to do that once.
+    // See https://github.com/bizz84/my_shop_ecommerce_flutter/issues/42
+    final idTokenResult = await _user.getIdTokenResult(true);
+    final claims = idTokenResult.claims;
+    if (claims != null) {
+      return claims['admin'] == true;
+    }
+    return false;
+  }
 }
 
 class FirebaseAuthService implements AuthService {
+  FirebaseAuthService() {
+    init();
+  }
   final _auth = FirebaseAuth.instance;
+
+  // This would have do be done with RxDart
+  late StreamSubscription _authStateSubscription;
+  final _isAdminUserSubject = BehaviorSubject<bool>.seeded(false);
+
+  void init() {
+    _authStateSubscription = authStateChanges().listen((user) async {
+      if (user != null) {
+        final isAdminUser = await user.isAdminUser();
+        _isAdminUserSubject.add(isAdminUser);
+      } else {
+        _isAdminUserSubject.add(false);
+      }
+    });
+  }
+
+  void dispose() {
+    _authStateSubscription.cancel();
+  }
+
+  @override
+  Stream<bool> isAdminUserChanges() => _isAdminUserSubject.stream;
+
   @override
   Stream<AppUser?> authStateChanges() {
     return _auth

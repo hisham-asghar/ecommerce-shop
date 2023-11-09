@@ -15,9 +15,10 @@ class MoreMenuButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authStateValue = ref.watch(authStateChangesProvider);
-    final user =
-        authStateValue.maybeWhen(data: (user) => user, orElse: () => null);
+    final authStateChangesValue = ref.watch(authStateChangesProvider);
+    final user = authStateChangesValue.asData?.value;
+    final isAdminUserValue = ref.watch(isAdminUserProvider);
+    final isAdminUser = isAdminUserValue.asData?.value;
     return PopupMenuButton(
       onSelected: (option) {
         final routerDelegate = ref.read(routerDelegateProvider);
@@ -49,10 +50,12 @@ class MoreMenuButton extends ConsumerWidget {
                   child: Text('Account'),
                   value: PopupMenuOption.account,
                 ),
-                const PopupMenuItem(
-                  child: Text('Admin'),
-                  value: PopupMenuOption.admin,
-                ),
+                // only show this if user has admin custom claim
+                if (isAdminUser == true)
+                  const PopupMenuItem(
+                    child: Text('Admin'),
+                    value: PopupMenuOption.admin,
+                  ),
               ]
             : <PopupMenuEntry<PopupMenuOption>>[
                 const PopupMenuItem(

@@ -6,7 +6,7 @@ export async function updateCartTotal(context: functions.EventContext) {
     const firestore = admin.firestore()
     const cartTotal = await calculateCartTotal(uid, firestore)
     console.log(`Updated cart total: ${cartTotal}`)
-    return await firestore.doc(`users/${uid}/public/cart`).set({
+    return await firestore.doc(`users/${uid}/private/cart`).set({
         'total': cartTotal
     })
 }

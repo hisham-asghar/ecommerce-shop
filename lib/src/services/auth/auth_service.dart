@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class AppUser {
   String get uid;
-  bool get isAdmin;
+  String? get email;
+
+  Future<bool> isAdminUser();
 }
 
 abstract class AuthService {
@@ -15,6 +17,7 @@ abstract class AuthService {
   Future<void> signOut();
   Stream<AppUser?> authStateChanges();
   AppUser? get currentUser;
+  Stream<bool> isAdminUserChanges();
 }
 
 final authServiceProvider = Provider<AuthService>((ref) {
@@ -25,4 +28,9 @@ final authServiceProvider = Provider<AuthService>((ref) {
 final authStateChangesProvider = StreamProvider.autoDispose<AppUser?>((ref) {
   final authService = ref.watch(authServiceProvider);
   return authService.authStateChanges();
+});
+
+final isAdminUserProvider = StreamProvider.autoDispose<bool>((ref) {
+  final authService = ref.watch(authServiceProvider);
+  return authService.isAdminUserChanges();
 });
