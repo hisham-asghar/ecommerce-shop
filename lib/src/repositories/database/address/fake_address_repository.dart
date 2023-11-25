@@ -3,7 +3,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/addr
 import 'package:rxdart/rxdart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
 
-class MockAddressRepository implements AddressRepository {
+class FakeAddressRepository implements AddressRepository {
   final Map<String, Address> _addressData = {};
   final _addressDataSubject = BehaviorSubject<Map<String, Address>>.seeded({});
   Stream<Map<String, Address>> get _addressDataStream =>

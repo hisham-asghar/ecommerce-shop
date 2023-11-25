@@ -2,13 +2,13 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_to
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mock_cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/mock_products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-class MockCartRepository implements CartRepository {
-  MockCartRepository({required this.productsRepository});
-  final MockProductsRepository productsRepository;
+class FakeCartRepository implements CartRepository {
+  FakeCartRepository({required this.productsRepository});
+  final FakeProductsRepository productsRepository;
 
   Map<String, List<Item>> cartData = {};
   final _cartDataSubject = BehaviorSubject<Map<String, List<Item>>>.seeded({});
@@ -30,7 +30,7 @@ class MockCartRepository implements CartRepository {
   @override
   Future<void> addItem(String uid, Item item) async {
     await delay();
-    final cart = MockCart(cartData[uid] ?? []);
+    final cart = FakeCart(cartData[uid] ?? []);
     cart.addItem(item);
     cartData[uid] = cart.items;
     _cartDataSubject.add(cartData);
@@ -39,7 +39,7 @@ class MockCartRepository implements CartRepository {
   @override
   Future<void> removeItem(String uid, Item item) async {
     await delay();
-    final cart = MockCart(cartData[uid] ?? []);
+    final cart = FakeCart(cartData[uid] ?? []);
     cart.removeItem(item);
     cartData[uid] = cart.items;
     _cartDataSubject.add(cartData);
@@ -48,7 +48,7 @@ class MockCartRepository implements CartRepository {
   @override
   Future<void> updateItemIfExists(String uid, Item item) async {
     await delay(300);
-    final cart = MockCart(cartData[uid] ?? []);
+    final cart = FakeCart(cartData[uid] ?? []);
     final result = cart.updateItemIfExists(item);
     if (result) {
       cartData[uid] = cart.items;
@@ -68,7 +68,7 @@ class MockCartRepository implements CartRepository {
   @override
   Future<void> addAllItems(String uid, List<Item> items) async {
     await delay();
-    final cart = MockCart(cartData[uid] ?? []);
+    final cart = FakeCart(cartData[uid] ?? []);
     for (var item in items) {
       cart.addItem(item);
     }

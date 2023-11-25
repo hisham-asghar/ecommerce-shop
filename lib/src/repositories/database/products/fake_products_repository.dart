@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
 
-class MockProductsRepository implements ProductsRepository {
+class FakeProductsRepository implements ProductsRepository {
   // -------------------------------------
   // Products
   // -------------------------------------

@@ -1,16 +1,16 @@
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mock_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/mock_products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
-class MockOrdersRepository implements OrdersRepository {
-  MockOrdersRepository(
+class FakeOrdersRepository implements OrdersRepository {
+  FakeOrdersRepository(
       {required this.productsRepository, required this.cartRepository});
-  final MockProductsRepository productsRepository;
-  final MockCartRepository cartRepository;
+  final FakeProductsRepository productsRepository;
+  final FakeCartRepository cartRepository;
 
   Map<String, List<Order>> ordersData = {};
   final _ordersDataSubject =
@@ -29,7 +29,7 @@ class MockOrdersRepository implements OrdersRepository {
     });
   }
 
-  // Not overridden, only available from MockCloudFunctions
+  // Not overridden, only available from FakeCloudFunctions
   Future<Order> placeOrder(String uid) async {
     // TODO: This should pull all the data from the shopping cart
     await delay();

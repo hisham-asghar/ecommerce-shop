@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/mock_auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/fake_auth_repository.dart';
 
 void main() {
   group('CheckoutScreenController', () {
@@ -20,7 +20,7 @@ void main() {
     test('signed in, null address, show tabs', () {
       expect(
         CheckoutScreenController.stateFor(
-          user: MockAppUser(uid: '123'),
+          user: FakeAppUser(uid: '123'),
           address: null,
           shouldShowTabs: true,
         ),
@@ -31,7 +31,7 @@ void main() {
     test('signed in, valid address, show tabs', () {
       expect(
         CheckoutScreenController.stateFor(
-          user: MockAppUser(uid: '123'),
+          user: FakeAppUser(uid: '123'),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: true,
@@ -43,7 +43,7 @@ void main() {
     test('signed in, valid address, no tabs', () {
       expect(
         CheckoutScreenController.stateFor(
-          user: MockAppUser(uid: '123'),
+          user: FakeAppUser(uid: '123'),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: false,

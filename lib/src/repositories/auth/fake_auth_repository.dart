@@ -3,8 +3,8 @@ import 'package:uuid/uuid.dart';
 
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
-class MockAppUser implements AppUser {
-  MockAppUser({
+class FakeAppUser implements AppUser {
+  FakeAppUser({
     required this.uid,
     this.email,
   });
@@ -18,11 +18,11 @@ class MockAppUser implements AppUser {
   @override
   Future<bool> isAdminUser() => Future.value(true);
 
-  MockAppUser copyWith({
+  FakeAppUser copyWith({
     String? uid,
     String? email,
   }) {
-    return MockAppUser(
+    return FakeAppUser(
       uid: uid ?? this.uid,
       email: email ?? this.email,
     );
@@ -35,14 +35,14 @@ class MockAppUser implements AppUser {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is MockAppUser && other.uid == uid && other.email == email;
+    return other is FakeAppUser && other.uid == uid && other.email == email;
   }
 
   @override
   int get hashCode => uid.hashCode ^ email.hashCode;
 }
 
-class MockAuthRepository implements AuthRepository {
+class FakeAuthRepository implements AuthRepository {
   @override
   AppUser? currentUser;
 
@@ -97,7 +97,7 @@ class MockAuthRepository implements AuthRepository {
   }
 
   void _createNewUser() {
-    currentUser = MockAppUser(
+    currentUser = FakeAppUser(
       uid: const Uuid().v1(),
     );
     _authStateChangesController.add(currentUser);
