@@ -5,7 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/admin_orders_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class MockAdminOrdersRepository extends Mock implements AdminOrdersService {}
+class MockAdminOrdersService extends Mock implements AdminOrdersService {}
 
 Order _fakeOrder() => Order(
       id: '123',
@@ -17,19 +17,19 @@ Order _fakeOrder() => Order(
     );
 
 void main() {
-  group('OrderStatusDropDownModel - updateOrderStatus', () {
+  group('OrderStatusDropDownController - updateOrderStatus', () {
     test('success', () async {
       // setup
       final order = _fakeOrder();
       const status = OrderStatus.delivered;
       final updatedOrder = order.copyWith(orderStatus: status);
-      final repository = MockAdminOrdersRepository();
+      final service = MockAdminOrdersService();
       // simulate success
-      when(() => repository.updateOrderStatus(updatedOrder))
+      when(() => service.updateOrderStatus(updatedOrder))
           .thenAnswer((_) => Future<void>.value());
       final observedStates = <WidgetBasicState>[];
       final model = OrderStatusDropDownController(
-        adminOrdersRepository: repository,
+        adminOrdersService: service,
         order: order,
       );
       // track all state chanegs
@@ -37,7 +37,7 @@ void main() {
       // run
       await model.updateOrderStatus(status);
       // verify
-      verify(() => repository.updateOrderStatus(updatedOrder));
+      verify(() => service.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
         WidgetBasicState.notLoading(), // initial state
         WidgetBasicState.loading(), // updateOrderStatus - try
@@ -49,13 +49,13 @@ void main() {
       final order = _fakeOrder();
       const status = OrderStatus.delivered;
       final updatedOrder = order.copyWith(orderStatus: status);
-      final repository = MockAdminOrdersRepository();
+      final service = MockAdminOrdersService();
       // simulate failure: throw error
-      when(() => repository.updateOrderStatus(updatedOrder))
+      when(() => service.updateOrderStatus(updatedOrder))
           .thenThrow(StateError('User is not signed in'));
       final observedStates = <WidgetBasicState>[];
       final model = OrderStatusDropDownController(
-        adminOrdersRepository: repository,
+        adminOrdersService: service,
         order: _fakeOrder(),
       );
       // track all state chanegs
@@ -63,7 +63,7 @@ void main() {
       // run
       await model.updateOrderStatus(status);
       // verify
-      verify(() => repository.updateOrderStatus(updatedOrder));
+      verify(() => service.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
         WidgetBasicState.notLoading(), // initial state
         WidgetBasicState.loading(), // updateOrderStatus - try

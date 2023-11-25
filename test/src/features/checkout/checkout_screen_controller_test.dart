@@ -5,7 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/mock_auth_repository.dart';
 
 void main() {
-  group('checkout screen model', () {
+  group('CheckoutScreenController', () {
     test('null user, show tabs', () {
       expect(
         CheckoutScreenController.stateFor(
