@@ -214,7 +214,7 @@ class FirebaseDataStore implements DataStore {
 
   DocumentReference<CartTotal> _cartTotalRef(String uid) =>
       _firestore.doc(FirestorePath.cart(uid)).withConverter(
-            fromFirestore: (doc, _) => CartTotal.fromMap(doc.data()!),
+            fromFirestore: (doc, _) => CartTotal.fromMap(doc.data()),
             toFirestore: (CartTotal cartTotal, options) => cartTotal.toMap(),
           );
 }
