@@ -20,7 +20,8 @@ class FirestorePath {
 }
 
 class FirebaseDataStore implements DataStore {
-  final _firestore = FirebaseFirestore.instance;
+  FirebaseDataStore(this._firestore);
+  final FirebaseFirestore _firestore;
   @override
   Future<Address?> getAddress(String uid) async {
     final ref = _addressRef(uid);

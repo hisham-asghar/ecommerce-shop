@@ -39,10 +39,11 @@ void main() async {
     // await Stripe.instance.applySettings();
   }
 
-  final authRepository = FirebaseAuthRepository();
-  final dataStore = FirebaseDataStore();
+  final authRepository = FirebaseAuthRepository(FirebaseAuth.instance);
+  final dataStore = FirebaseDataStore(FirebaseFirestore.instance);
   final localDataStore = await SembastCartStore.makeDefault();
-  final cloudFunctionsRepository = FirebaseCloudFunctionsRepository();
+  final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
+      FirebaseFunctions.instanceFor(region: 'us-central1'));
   runApp(ProviderScope(
     overrides: [
       authRepositoryProvider.overrideWithValue(authRepository),

@@ -31,10 +31,10 @@ class FirebaseAppUser implements AppUser {
 }
 
 class FirebaseAuthRepository implements AuthRepository {
-  FirebaseAuthRepository() {
+  FirebaseAuthRepository(this._auth) {
     init();
   }
-  final _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth;
 
   // This would have do be done with RxDart
   late StreamSubscription _authStateSubscription;
