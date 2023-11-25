@@ -4,9 +4,8 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/order_payment_options.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
 class PaymentPage extends ConsumerWidget {
   PaymentPage({Key? key}) : super(key: key);

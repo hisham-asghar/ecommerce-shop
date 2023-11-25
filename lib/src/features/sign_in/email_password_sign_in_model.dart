@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
 
@@ -25,7 +25,7 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
     this.isLoading = false,
     this.submitted = false,
   });
-  final AuthService authService;
+  final AuthRepository authService;
 
   String email;
   String password;

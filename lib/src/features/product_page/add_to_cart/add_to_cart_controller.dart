@@ -1,17 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class AddToCartModel extends StateNotifier<AddToCartState> {
-  AddToCartModel({required this.cartRepository})
+class AddToCartController extends StateNotifier<AddToCartState> {
+  AddToCartController({required this.cartService})
       : super(AddToCartState(
           quantity: 1,
           widgetState: const WidgetBasicState.notLoading(),
         ));
-  final CartRepository cartRepository;
+  final CartService cartService;
 
   void updateQuantity(int quantity) {
     state = state.copyWith(quantity: quantity);
@@ -24,7 +24,7 @@ class AddToCartModel extends StateNotifier<AddToCartState> {
         productId: product.id,
         quantity: state.quantity,
       );
-      await cartRepository.addItem(item);
+      await cartService.addItem(item);
       state = state.copyWith(
         quantity: 1,
         widgetState: const WidgetBasicState.notLoading(),
@@ -42,8 +42,8 @@ class AddToCartModel extends StateNotifier<AddToCartState> {
   }
 }
 
-final addToCartModelProvider =
-    StateNotifierProvider<AddToCartModel, AddToCartState>((ref) {
-  final cartRepository = ref.watch(cartRepositoryProvider);
-  return AddToCartModel(cartRepository: cartRepository);
+final addToCartControllerProvider =
+    StateNotifierProvider<AddToCartController, AddToCartState>((ref) {
+  final cartRepository = ref.watch(cartServiceProvider);
+  return AddToCartController(cartService: cartRepository);
 });

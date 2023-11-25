@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FirebaseAppUser implements AppUser {
@@ -30,8 +30,8 @@ class FirebaseAppUser implements AppUser {
   }
 }
 
-class FirebaseAuthService implements AuthService {
-  FirebaseAuthService() {
+class FirebaseAuthRepository implements AuthRepository {
+  FirebaseAuthRepository() {
     init();
   }
   final _auth = FirebaseAuth.instance;

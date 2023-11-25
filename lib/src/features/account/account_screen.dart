@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -16,8 +16,8 @@ class AccountScreen extends ConsumerWidget {
           ActionTextButton(
             text: 'Logout',
             onPressed: () async {
-              final authService = ref.read(authServiceProvider);
-              await authService.signOut();
+              final authRepository = ref.read(authRepositoryProvider);
+              await authRepository.signOut();
               Navigator.of(context).pop();
             },
           ),

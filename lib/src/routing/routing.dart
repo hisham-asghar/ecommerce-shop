@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/pages.dart';
 
 // Inspired by: https://gist.github.com/johnpryan/5ce79aee5b5f83cfababa97c9cf0a204#gistcomment-3872855
@@ -159,7 +159,7 @@ class AppRouterDelegate extends BaseRouterDelegate
   @override
   final GlobalKey<NavigatorState> navigatorKey;
 
-  final ProductsRepository productsRepository;
+  final ProductsService productsRepository;
 
   // These variables keep track of all the state needed to handle navigation
   AppRoute _appRoute = AppRoute.home;
@@ -382,6 +382,6 @@ class AppRouterDelegate extends BaseRouterDelegate
 }
 
 final routerDelegateProvider = Provider<BaseRouterDelegate>((ref) {
-  final productsRepository = ref.watch(productsRepositoryProvider);
+  final productsRepository = ref.watch(productsServiceProvider);
   return AppRouterDelegate(productsRepository: productsRepository);
 });

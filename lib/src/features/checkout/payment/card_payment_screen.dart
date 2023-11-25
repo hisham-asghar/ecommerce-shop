@@ -4,7 +4,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
@@ -36,7 +36,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   }
 
   void _placeOrder() async {
-    final model = ref.read(cardPaymentScreenModelProvider.notifier);
+    final model = ref.read(cardPaymentScreenControllerProvider.notifier);
     final order = await model.placeOrder();
     // TODO: should navigation happen inside view model?
     if (order != null) {
@@ -48,10 +48,10 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   Widget build(BuildContext context) {
     // error handling
     ref.listen<WidgetBasicState>(
-      cardPaymentScreenModelProvider,
+      cardPaymentScreenControllerProvider,
       (_, state) => widgetStateErrorListener(context, state),
     );
-    final state = ref.watch(cardPaymentScreenModelProvider);
+    final state = ref.watch(cardPaymentScreenControllerProvider);
     return Scaffold(
       appBar: AppBar(),
       body: ScrollablePage(

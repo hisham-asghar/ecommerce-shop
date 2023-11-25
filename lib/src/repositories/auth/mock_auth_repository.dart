@@ -1,7 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
 class MockAppUser implements AppUser {
   MockAppUser({
@@ -42,7 +42,7 @@ class MockAppUser implements AppUser {
   int get hashCode => uid.hashCode ^ email.hashCode;
 }
 
-class MockAuthService implements AuthService {
+class MockAuthRepository implements AuthRepository {
   @override
   AppUser? currentUser;
 

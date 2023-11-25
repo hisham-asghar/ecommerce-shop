@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/order_confirmation_details.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
 
 class PaymentCompleteScreen extends StatelessWidget {
   const PaymentCompleteScreen({Key? key, required this.order})

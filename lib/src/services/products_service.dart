@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
 
-class ProductsRepository {
-  ProductsRepository({required this.dataStore});
+class ProductsService {
+  ProductsService({required this.dataStore});
   final DataStore dataStore;
 
   Future<void> addProduct(Product product) => dataStore.addProduct(product);
@@ -11,9 +11,9 @@ class ProductsRepository {
   Future<void> editProduct(Product product) => dataStore.editProduct(product);
 }
 
-final productsRepositoryProvider = Provider<ProductsRepository>((ref) {
+final productsServiceProvider = Provider<ProductsService>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
-  return ProductsRepository(dataStore: dataStore);
+  return ProductsService(dataStore: dataStore);
 });
 
 final productsListProvider = StreamProvider.autoDispose<List<Product>>((ref) {

@@ -1,22 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions/cloud_functions.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/cart_total.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
 
-class CartRepository {
-  CartRepository(
+class CartService {
+  CartService(
       {required this.authService,
       required this.remoteDataStore,
       required this.localDataStore,
       required this.cloudFunctions});
-  final AuthService authService;
+  final AuthRepository authService;
   final CartDataStore remoteDataStore;
   final LocalCartDataStore localDataStore;
-  final CloudFunctions cloudFunctions;
+  final CloudFunctionsRepository cloudFunctions;
 
   Future<List<Item>> getItemsList() {
     final user = authService.currentUser;
@@ -82,12 +82,12 @@ class CartRepository {
   }
 }
 
-final cartRepositoryProvider = Provider<CartRepository>((ref) {
+final cartServiceProvider = Provider<CartService>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
   final localDataStore = ref.watch(localCartDataStoreProvider);
-  final authService = ref.watch(authServiceProvider);
-  final cloudFunctions = ref.watch(cloudFunctionsProvider);
-  return CartRepository(
+  final authService = ref.watch(authRepositoryProvider);
+  final cloudFunctions = ref.watch(cloudFunctionsRepositoryProvider);
+  return CartService(
     authService: authService,
     remoteDataStore: dataStore,
     localDataStore: localDataStore,

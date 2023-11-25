@@ -1,15 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
-  AdminProductScreenModel({required this.productsRepository, this.product})
+class AdminProductScreenController extends StateNotifier<WidgetBasicState> {
+  AdminProductScreenController({required this.productsService, this.product})
       : super(const WidgetBasicState.notLoading()) {
     init();
   }
   // TODO: Force rebuild or avoid mutable state?
-  final ProductsRepository productsRepository;
+  final ProductsService productsService;
   final Product? product;
   var title = '';
   var description = '';
@@ -45,7 +45,7 @@ class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
           availableQuantity: availableQuantity,
           imageUrl: imageUrl,
         );
-        await productsRepository.addProduct(newProduct);
+        await productsService.addProduct(newProduct);
         // reset state for next time page is shown
         reset();
       } else {
@@ -56,7 +56,7 @@ class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
           imageUrl: imageUrl,
           availableQuantity: availableQuantity,
         );
-        await productsRepository.editProduct(updatedProduct);
+        await productsService.editProduct(updatedProduct);
       }
     } catch (e) {
       state = const WidgetBasicState.error('Could not save product data');
@@ -132,9 +132,9 @@ class AdminProductScreenModel extends StateNotifier<WidgetBasicState> {
   }
 }
 
-final adminProductScreenModelProvider = StateNotifierProvider.family<
-    AdminProductScreenModel, WidgetBasicState, Product?>((ref, product) {
-  final productsRepository = ref.watch(productsRepositoryProvider);
-  return AdminProductScreenModel(
-      productsRepository: productsRepository, product: product);
+final adminProductScreenControllerProvider = StateNotifierProvider.family<
+    AdminProductScreenController, WidgetBasicState, Product?>((ref, product) {
+  final productsRepository = ref.watch(productsServiceProvider);
+  return AdminProductScreenController(
+      productsService: productsRepository, product: product);
 });

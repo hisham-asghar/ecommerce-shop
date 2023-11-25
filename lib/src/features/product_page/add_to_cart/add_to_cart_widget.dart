@@ -6,11 +6,11 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 class AddToCartWidget extends ConsumerWidget {
@@ -29,7 +29,7 @@ class AddToCartWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AddToCartState>(addToCartModelProvider, (_, state) {
+    ref.listen<AddToCartState>(addToCartControllerProvider, (_, state) {
       state.widgetState.whenOrNull(
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -38,7 +38,7 @@ class AddToCartWidget extends ConsumerWidget {
         },
       );
     });
-    final state = ref.watch(addToCartModelProvider);
+    final state = ref.watch(addToCartControllerProvider);
     final itemsListValue = ref.watch(cartItemsListProvider);
     return AsyncValueWidget<List<Item>>(
       value: itemsListValue,
@@ -59,7 +59,7 @@ class AddToCartWidget extends ConsumerWidget {
                       ? null
                       : (quantity) {
                           final model =
-                              ref.read(addToCartModelProvider.notifier);
+                              ref.read(addToCartControllerProvider.notifier);
                           model.updateQuantity(quantity);
                         },
                 ),
@@ -71,8 +71,9 @@ class AddToCartWidget extends ConsumerWidget {
             PrimaryButton(
               isLoading: state.widgetState.isLoading,
               onPressed: availableQuantity > 0
-                  ? () =>
-                      ref.read(addToCartModelProvider.notifier).addItem(product)
+                  ? () => ref
+                      .read(addToCartControllerProvider.notifier)
+                      .addItem(product)
                   : null,
               text: availableQuantity > 0 ? 'Add to Cart' : 'Out of Stock',
             ),

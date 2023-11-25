@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/admin_orders_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/admin_orders_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class MockAdminOrdersRepository extends Mock implements AdminOrdersRepository {}
+class MockAdminOrdersRepository extends Mock implements AdminOrdersService {}
 
 Order _fakeOrder() => Order(
       id: '123',
@@ -28,7 +28,7 @@ void main() {
       when(() => repository.updateOrderStatus(updatedOrder))
           .thenAnswer((_) => Future<void>.value());
       final observedStates = <WidgetBasicState>[];
-      final model = OrderStatusDropDownModel(
+      final model = OrderStatusDropDownController(
         adminOrdersRepository: repository,
         order: order,
       );
@@ -54,7 +54,7 @@ void main() {
       when(() => repository.updateOrderStatus(updatedOrder))
           .thenThrow(StateError('User is not signed in'));
       final observedStates = <WidgetBasicState>[];
-      final model = OrderStatusDropDownModel(
+      final model = OrderStatusDropDownController(
         adminOrdersRepository: repository,
         order: _fakeOrder(),
       );

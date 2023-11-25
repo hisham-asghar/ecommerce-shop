@@ -13,7 +13,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_list
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
 
 class NotFoundPage extends Page {
   const NotFoundPage();

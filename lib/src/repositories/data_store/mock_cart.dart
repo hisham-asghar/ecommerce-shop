@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
 
 /// Helper class used by MockDataStore
 class MockCart {

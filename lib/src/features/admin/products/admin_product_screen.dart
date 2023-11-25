@@ -4,9 +4,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
@@ -41,12 +41,13 @@ class _AdminProductScreenContentsState
   Widget build(BuildContext context) {
     // error handling
     ref.listen<WidgetBasicState>(
-      adminProductScreenModelProvider(widget.product),
+      adminProductScreenControllerProvider(widget.product),
       (_, state) => widgetStateErrorListener(context, state),
     );
-    final model =
-        ref.watch(adminProductScreenModelProvider(widget.product).notifier);
-    final state = ref.watch(adminProductScreenModelProvider(widget.product));
+    final model = ref
+        .watch(adminProductScreenControllerProvider(widget.product).notifier);
+    final state =
+        ref.watch(adminProductScreenControllerProvider(widget.product));
     const autovalidateMode = AutovalidateMode.disabled;
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +64,7 @@ class _AdminProductScreenContentsState
                       setState(() {});
                       final scaffoldMessenger = ScaffoldMessenger.of(context);
                       final model = ref.read(
-                          adminProductScreenModelProvider(widget.product)
+                          adminProductScreenControllerProvider(widget.product)
                               .notifier);
                       await model.submit();
                       ref.read(routerDelegateProvider).popRoute();
@@ -101,7 +102,7 @@ class _AdminProductScreenContentsState
                             ),
                             autovalidateMode: autovalidateMode,
                             validator:
-                                AdminProductScreenModel.imageUrlValidator,
+                                AdminProductScreenController.imageUrlValidator,
                             onSaved: (value) => model.imageUrl = value!,
                           ),
                         ],
@@ -122,7 +123,8 @@ class _AdminProductScreenContentsState
                               label: Text('Title'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator: AdminProductScreenModel.titleValidator,
+                            validator:
+                                AdminProductScreenController.titleValidator,
                             onSaved: (value) => model.title = value!,
                           ),
                           const SizedBox(height: Sizes.p8),
@@ -135,8 +137,8 @@ class _AdminProductScreenContentsState
                               label: Text('Description'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator:
-                                AdminProductScreenModel.descriptionValidator,
+                            validator: AdminProductScreenController
+                                .descriptionValidator,
                             onSaved: (value) => model.description = value!,
                           ),
                           const SizedBox(height: Sizes.p8),
@@ -148,7 +150,8 @@ class _AdminProductScreenContentsState
                               label: Text('Price'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator: AdminProductScreenModel.priceValidator,
+                            validator:
+                                AdminProductScreenController.priceValidator,
                             onSaved: (value) =>
                                 model.price = double.parse(value!),
                           ),
@@ -159,7 +162,7 @@ class _AdminProductScreenContentsState
                               label: Text('Available quantity'),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator: AdminProductScreenModel
+                            validator: AdminProductScreenController
                                 .availableQuantityValidator,
                             onSaved: (value) =>
                                 model.availableQuantity = int.parse(value!),

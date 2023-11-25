@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store/mock_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/mock_cart.dart';
 
 void main() {
   group('add item', () {

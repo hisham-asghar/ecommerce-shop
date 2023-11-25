@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/cart_total.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
 
+// TODO: Should these be renamed as repositories?
 abstract class AddressDataStore {
   Future<Address?> getAddress(String uid);
 

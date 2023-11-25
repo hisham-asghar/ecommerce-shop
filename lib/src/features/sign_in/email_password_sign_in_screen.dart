@@ -7,22 +7,22 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
 class EmailPasswordSignInScreen extends ConsumerWidget {
   const EmailPasswordSignInScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authServiceProvider);
+    final authService = ref.watch(authRepositoryProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),
       body: EmailPasswordSignInContents(
         model: EmailPasswordSignInModel(authService: authService),
         onSignedIn: () async {
           try {
-            await ref.read(cartRepositoryProvider).copyItemsToRemote();
+            await ref.read(cartServiceProvider).copyItemsToRemote();
           } catch (e, st) {
             // TODO: Report exception
             print(e);

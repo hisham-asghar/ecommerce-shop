@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'checkout_screen_model_state.dart';
+part of 'checkout_screen_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,8 +14,8 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$CheckoutScreenModelStateTearOff {
-  const _$CheckoutScreenModelStateTearOff();
+class _$CheckoutScreenStateTearOff {
+  const _$CheckoutScreenStateTearOff();
 
   _Loading loading() {
     return const _Loading();
@@ -33,10 +33,10 @@ class _$CheckoutScreenModelStateTearOff {
 }
 
 /// @nodoc
-const $CheckoutScreenModelState = _$CheckoutScreenModelStateTearOff();
+const $CheckoutScreenState = _$CheckoutScreenStateTearOff();
 
 /// @nodoc
-mixin _$CheckoutScreenModelState {
+mixin _$CheckoutScreenState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
@@ -84,20 +84,20 @@ mixin _$CheckoutScreenModelState {
 }
 
 /// @nodoc
-abstract class $CheckoutScreenModelStateCopyWith<$Res> {
-  factory $CheckoutScreenModelStateCopyWith(CheckoutScreenModelState value,
-          $Res Function(CheckoutScreenModelState) then) =
-      _$CheckoutScreenModelStateCopyWithImpl<$Res>;
+abstract class $CheckoutScreenStateCopyWith<$Res> {
+  factory $CheckoutScreenStateCopyWith(
+          CheckoutScreenState value, $Res Function(CheckoutScreenState) then) =
+      _$CheckoutScreenStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$CheckoutScreenModelStateCopyWithImpl<$Res>
-    implements $CheckoutScreenModelStateCopyWith<$Res> {
-  _$CheckoutScreenModelStateCopyWithImpl(this._value, this._then);
+class _$CheckoutScreenStateCopyWithImpl<$Res>
+    implements $CheckoutScreenStateCopyWith<$Res> {
+  _$CheckoutScreenStateCopyWithImpl(this._value, this._then);
 
-  final CheckoutScreenModelState _value;
+  final CheckoutScreenState _value;
   // ignore: unused_field
-  final $Res Function(CheckoutScreenModelState) _then;
+  final $Res Function(CheckoutScreenState) _then;
 }
 
 /// @nodoc
@@ -108,7 +108,7 @@ abstract class _$LoadingCopyWith<$Res> {
 
 /// @nodoc
 class __$LoadingCopyWithImpl<$Res>
-    extends _$CheckoutScreenModelStateCopyWithImpl<$Res>
+    extends _$CheckoutScreenStateCopyWithImpl<$Res>
     implements _$LoadingCopyWith<$Res> {
   __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
       : super(_value, (v) => _then(v as _Loading));
@@ -124,7 +124,7 @@ class _$_Loading implements _Loading {
 
   @override
   String toString() {
-    return 'CheckoutScreenModelState.loading()';
+    return 'CheckoutScreenState.loading()';
   }
 
   @override
@@ -204,7 +204,7 @@ class _$_Loading implements _Loading {
   }
 }
 
-abstract class _Loading implements CheckoutScreenModelState {
+abstract class _Loading implements CheckoutScreenState {
   const factory _Loading() = _$_Loading;
 }
 
@@ -216,7 +216,7 @@ abstract class _$NoTabsCopyWith<$Res> {
 
 /// @nodoc
 class __$NoTabsCopyWithImpl<$Res>
-    extends _$CheckoutScreenModelStateCopyWithImpl<$Res>
+    extends _$CheckoutScreenStateCopyWithImpl<$Res>
     implements _$NoTabsCopyWith<$Res> {
   __$NoTabsCopyWithImpl(_NoTabs _value, $Res Function(_NoTabs) _then)
       : super(_value, (v) => _then(v as _NoTabs));
@@ -232,7 +232,7 @@ class _$_NoTabs implements _NoTabs {
 
   @override
   String toString() {
-    return 'CheckoutScreenModelState.noTabs()';
+    return 'CheckoutScreenState.noTabs()';
   }
 
   @override
@@ -312,7 +312,7 @@ class _$_NoTabs implements _NoTabs {
   }
 }
 
-abstract class _NoTabs implements CheckoutScreenModelState {
+abstract class _NoTabs implements CheckoutScreenState {
   const factory _NoTabs() = _$_NoTabs;
 }
 
@@ -324,8 +324,7 @@ abstract class _$TabCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$TabCopyWithImpl<$Res>
-    extends _$CheckoutScreenModelStateCopyWithImpl<$Res>
+class __$TabCopyWithImpl<$Res> extends _$CheckoutScreenStateCopyWithImpl<$Res>
     implements _$TabCopyWith<$Res> {
   __$TabCopyWithImpl(_Tab _value, $Res Function(_Tab) _then)
       : super(_value, (v) => _then(v as _Tab));
@@ -356,7 +355,7 @@ class _$_Tab implements _Tab {
 
   @override
   String toString() {
-    return 'CheckoutScreenModelState.tab(tabIndex: $tabIndex)';
+    return 'CheckoutScreenState.tab(tabIndex: $tabIndex)';
   }
 
   @override
@@ -446,7 +445,7 @@ class _$_Tab implements _Tab {
   }
 }
 
-abstract class _Tab implements CheckoutScreenModelState {
+abstract class _Tab implements CheckoutScreenState {
   const factory _Tab(int tabIndex) = _$_Tab;
 
   int get tabIndex => throw _privateConstructorUsedError;

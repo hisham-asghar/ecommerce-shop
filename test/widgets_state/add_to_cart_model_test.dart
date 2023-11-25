@@ -1,17 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
-class MockCartRepository extends Mock implements CartRepository {}
+class MockCartRepository extends Mock implements CartService {}
 
-Product _makeFakeProduct() => Product(
-      id: '1',
+Product _makeFakeProduct(String productId) => Product(
+      id: productId,
       imageUrl: AppAssets.sonyPlaystation4,
       title: 'Sony Playstation 4 Pro White Version',
       description: 'Something',
@@ -20,11 +20,15 @@ Product _makeFakeProduct() => Product(
     );
 
 void main() {
+  setUpAll(() {
+    // used by calls to repository.addItem(any()) below
+    registerFallbackValue(Item(productId: '1', quantity: 1));
+  });
   group('AddToCartModel - constructor', () {
     test('quantity: 1', () async {
       // setup
       final repository = MockCartRepository();
-      final model = AddToCartModel(cartRepository: repository);
+      final model = AddToCartController(cartRepository: repository);
       // verify
       expect(
           model.state,
@@ -39,7 +43,7 @@ void main() {
     test('success', () async {
       // setup
       final repository = MockCartRepository();
-      final model = AddToCartModel(cartRepository: repository);
+      final model = AddToCartController(cartRepository: repository);
       model.updateQuantity(10);
       // verify
       expect(
@@ -56,16 +60,17 @@ void main() {
       // setup
       final repository = MockCartRepository();
       // simulate success
-      when(() => repository.addItem(Item(productId: '1', quantity: 1)))
+      final item = Item(productId: '1', quantity: 1);
+      when(() => repository.addItem(any()))
           .thenAnswer((_) => Future<void>.value());
       final observedStates = <AddToCartState>[];
-      final model = AddToCartModel(cartRepository: repository);
+      final model = AddToCartController(cartRepository: repository);
       // update quantity as part of the initial setup
       model.updateQuantity(2);
       // track all state chanegs
       model.addListener(observedStates.add);
       // run
-      await model.addItem(_makeFakeProduct());
+      await model.addItem(_makeFakeProduct(item.productId));
 
       // verify
       expect(observedStates, [
@@ -84,16 +89,17 @@ void main() {
       // setup
       final repository = MockCartRepository();
       // simulate success
-      when(() => repository.addItem(Item(productId: '1', quantity: 1)))
+      final item = Item(productId: '1', quantity: 1);
+      when(() => repository.addItem(any()))
           .thenThrow(StateError('Database error'));
       final observedStates = <AddToCartState>[];
-      final model = AddToCartModel(cartRepository: repository);
+      final model = AddToCartController(cartRepository: repository);
       // update quantity as part of the initial setup
       model.updateQuantity(2);
       // track all state chanegs
       model.addListener(observedStates.add);
       // run
-      await model.addItem(_makeFakeProduct());
+      await model.addItem(_makeFakeProduct(item.productId));
 
       // verify
       expect(observedStates, [

@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 class OrderStatusDropDown extends ConsumerWidget {
@@ -15,10 +15,10 @@ class OrderStatusDropDown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
     ref.listen<WidgetBasicState>(
-      orderStatusDropDownModelProvider(order),
+      orderStatusDropDownControllerProvider(order),
       (_, state) => widgetStateErrorListener(context, state),
     );
-    final state = ref.watch(orderStatusDropDownModelProvider(order));
+    final state = ref.watch(orderStatusDropDownControllerProvider(order));
     return Row(
       children: [
         Text('Status:', style: Theme.of(context).textTheme.subtitle1),
@@ -39,7 +39,8 @@ class OrderStatusDropDown extends ConsumerWidget {
                   onChanged: (status) {
                     if (status != null) {
                       final model = ref.read(
-                          orderStatusDropDownModelProvider(order).notifier);
+                          orderStatusDropDownControllerProvider(order)
+                              .notifier);
                       model.updateOrderStatus(status);
                     }
                   },

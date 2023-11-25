@@ -1,8 +1,8 @@
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cloud_functions/cloud_functions.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
 
-class FirebaseCloudFunctions implements CloudFunctions {
+class FirebaseCloudFunctionsRepository implements CloudFunctionsRepository {
   final functions = FirebaseFunctions.instanceFor(region: 'us-central1');
 
   @override

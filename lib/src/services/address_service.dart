@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
 
-class AddressRepository {
-  AddressRepository({required this.authService, required this.dataStore});
-  final AuthService authService;
+class AddressService {
+  AddressService({required this.authService, required this.dataStore});
+  final AuthRepository authService;
   final DataStore dataStore;
 
   // Future<Address?> getAddress() {
@@ -27,15 +27,15 @@ class AddressRepository {
   }
 }
 
-final addressRepositoryProvider = Provider<AddressRepository>((ref) {
+final addressServiceProvider = Provider<AddressService>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
-  final authService = ref.watch(authServiceProvider);
-  return AddressRepository(authService: authService, dataStore: dataStore);
+  final authService = ref.watch(authRepositoryProvider);
+  return AddressService(authService: authService, dataStore: dataStore);
 });
 
 final addressFutureProvider = FutureProvider.autoDispose<Address?>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
-  final authService = ref.watch(authServiceProvider);
+  final authService = ref.watch(authRepositoryProvider);
   final user = authService.currentUser;
   if (user != null) {
     return dataStore.getAddress(user.uid);

@@ -6,10 +6,10 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
@@ -56,10 +56,10 @@ class ShoppingCartItemContents extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
     ref.listen<WidgetBasicState>(
-      shoppingCartItemModelProvider,
+      shoppingCartItemControllerProvider,
       (_, state) => widgetStateErrorListener(context, state),
     );
-    final state = ref.watch(shoppingCartItemModelProvider);
+    final state = ref.watch(shoppingCartItemControllerProvider);
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
     return ResponsiveTwoColumnLayout(
@@ -85,7 +85,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                       onChanged: state.isLoading
                           ? null
                           : (quantity) => ref
-                              .read(shoppingCartItemModelProvider.notifier)
+                              .read(shoppingCartItemControllerProvider.notifier)
                               .updateQuantity(item, quantity),
                     ),
                     IconButton(
@@ -93,7 +93,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                       onPressed: state.isLoading
                           ? null
                           : () => ref
-                              .read(shoppingCartItemModelProvider.notifier)
+                              .read(shoppingCartItemControllerProvider.notifier)
                               .deleteItem(item),
                     ),
                     const Spacer(),

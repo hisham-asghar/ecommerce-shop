@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:faker/faker.dart' hide Address;
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/cart_total.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store/mock_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/cart_total.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/mock_cart.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 

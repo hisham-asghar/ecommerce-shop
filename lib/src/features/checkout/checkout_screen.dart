@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_model_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+
 import 'address/address_page.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
@@ -23,7 +23,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<CheckoutScreenModelState>(checkoutScreenModelProvider,
+    ref.listen<CheckoutScreenState>(checkoutScreenControllerProvider,
         (_, state) {
       state.maybeWhen(
           tab: (index) {
@@ -31,7 +31,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
           },
           orElse: () {});
     });
-    final checkoutScreenModelState = ref.watch(checkoutScreenModelProvider);
+    final checkoutScreenModelState =
+        ref.watch(checkoutScreenControllerProvider);
     return checkoutScreenModelState.when(
       noTabs: () => Scaffold(
         appBar: AppBar(title: const Text('Payment')),
@@ -89,11 +90,11 @@ class CheckoutWithTabs extends ConsumerWidget {
         children: <Widget>[
           EmailPasswordSignInContents(
             model: EmailPasswordSignInModel(
-              authService: ref.watch(authServiceProvider),
+              authService: ref.watch(authRepositoryProvider),
             ),
             onSignedIn: () async {
               try {
-                await ref.read(cartRepositoryProvider).copyItemsToRemote();
+                await ref.read(cartServiceProvider).copyItemsToRemote();
               } catch (e, st) {
                 // TODO: Report exception
                 print(e);

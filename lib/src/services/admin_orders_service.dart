@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
 
-class AdminOrdersRepository {
-  AdminOrdersRepository({required this.dataStore});
+class AdminOrdersService {
+  AdminOrdersService({required this.dataStore});
   final DataStore dataStore;
 
   // All write methods
@@ -11,9 +11,9 @@ class AdminOrdersRepository {
       dataStore.updateOrderStatus(order);
 }
 
-final adminOrdersRepositoryProvider = Provider<AdminOrdersRepository>((ref) {
+final adminOrdersServiceProvider = Provider<AdminOrdersService>((ref) {
   final dataStore = ref.watch(dataStoreProvider);
-  return AdminOrdersRepository(dataStore: dataStore);
+  return AdminOrdersService(dataStore: dataStore);
 });
 
 // all read methods as StreamProviders

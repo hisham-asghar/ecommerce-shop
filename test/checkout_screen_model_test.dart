@@ -1,54 +1,54 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_model_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/auth/mock_auth_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/mock_auth_repository.dart';
 
 void main() {
   group('checkout screen model', () {
     test('null user, show tabs', () {
       expect(
-        CheckoutScreenModel.stateFor(
+        CheckoutScreenController.stateFor(
           user: null,
           address: null,
           shouldShowTabs: true,
         ),
-        const CheckoutScreenModelState.tab(0),
+        const CheckoutScreenState.tab(0),
       );
     });
 
     test('signed in, null address, show tabs', () {
       expect(
-        CheckoutScreenModel.stateFor(
+        CheckoutScreenController.stateFor(
           user: MockAppUser(uid: '123'),
           address: null,
           shouldShowTabs: true,
         ),
-        const CheckoutScreenModelState.tab(1),
+        const CheckoutScreenState.tab(1),
       );
     });
 
     test('signed in, valid address, show tabs', () {
       expect(
-        CheckoutScreenModel.stateFor(
+        CheckoutScreenController.stateFor(
           user: MockAppUser(uid: '123'),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: true,
         ),
-        const CheckoutScreenModelState.tab(2),
+        const CheckoutScreenState.tab(2),
       );
     });
 
     test('signed in, valid address, no tabs', () {
       expect(
-        CheckoutScreenModel.stateFor(
+        CheckoutScreenController.stateFor(
           user: MockAppUser(uid: '123'),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: false,
         ),
-        const CheckoutScreenModelState.noTabs(),
+        const CheckoutScreenState.noTabs(),
       );
     });
   });
