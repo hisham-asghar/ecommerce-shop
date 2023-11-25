@@ -2,19 +2,20 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 
 class CheckoutScreenController extends StateNotifier<CheckoutScreenState> {
   CheckoutScreenController(
-      {required this.authRepository, required this.dataStore})
+      {required this.authRepository, required this.addressRepository})
       : super(const CheckoutScreenState.loading()) {
     init();
   }
 
+  // TODO: Should these access the services instead?
   final AuthRepository authRepository;
-  final DataStore dataStore;
+  final AddressRepository addressRepository;
 
   StreamSubscription? _userSubscription;
   StreamSubscription? _addressSubscription;
@@ -30,7 +31,7 @@ class CheckoutScreenController extends StateNotifier<CheckoutScreenState> {
     // First, determine the initial state
     final initialUser = authRepository.currentUser;
     final initialAddress = initialUser != null
-        ? await dataStore.getAddress(initialUser.uid)
+        ? await addressRepository.getAddress(initialUser.uid)
         : null;
     final shouldShowTabs = initialUser == null || initialAddress == null;
     state = stateFor(
@@ -46,7 +47,8 @@ class CheckoutScreenController extends StateNotifier<CheckoutScreenState> {
           if (_addressSubscription != null) {
             _addressSubscription?.cancel();
           }
-          _addressSubscription = dataStore.address(user.uid).listen((address) {
+          _addressSubscription =
+              addressRepository.address(user.uid).listen((address) {
             state =
                 stateFor(user: user, address: address, shouldShowTabs: true);
           });
@@ -79,6 +81,6 @@ final checkoutScreenControllerProvider = StateNotifierProvider.autoDispose<
     CheckoutScreenController, CheckoutScreenState>((ref) {
   return CheckoutScreenController(
     authRepository: ref.watch(authRepositoryProvider),
-    dataStore: ref.watch(dataStoreProvider),
+    addressRepository: ref.watch(addressRepositoryProvider),
   );
 });

@@ -5,7 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';

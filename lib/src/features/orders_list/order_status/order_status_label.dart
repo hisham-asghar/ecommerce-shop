@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
 class OrderStatusLabel extends ConsumerWidget {

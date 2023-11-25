@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/address_service.dart';
 
 class AddressPage extends ConsumerStatefulWidget {
@@ -28,6 +28,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
   var _isLoading = false;
 
   Future<void> _submit() async {
+    // TODO: Move all this logic into a controller
     setState(() => _isSubmitted = true);
     if (_formKey.currentState!.validate()) {
       final address = Address(

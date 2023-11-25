@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-
-import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
 // TODO: This is no longer needed?
 class ItemsList {

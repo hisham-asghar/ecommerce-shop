@@ -7,8 +7,8 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selec
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';

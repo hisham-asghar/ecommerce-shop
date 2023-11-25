@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/mock_auth_repository.dart';
 
 void main() {

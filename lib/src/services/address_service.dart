@@ -1,26 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 
 class AddressService {
-  AddressService({required this.authService, required this.dataStore});
-  final AuthRepository authService;
-  final DataStore dataStore;
+  AddressService(
+      {required this.authRepository, required this.addressRepository});
+  final AuthRepository authRepository;
+  final AddressRepository addressRepository;
 
   // Future<Address?> getAddress() {
   //   final user = authService.currentUser;
   //   if (user != null) {
-  //     return dataStore.getAddress(user.uid);
+  //     return addressRepository.getAddress(user.uid);
   //   } else {
   //     throw AssertionError('uid == null');
   //   }
   // }
 
   Future<void> submitAddress(Address address) async {
-    final user = authService.currentUser;
+    final user = authRepository.currentUser;
     if (user != null) {
-      await dataStore.submitAddress(user.uid, address);
+      await addressRepository.submitAddress(user.uid, address);
     } else {
       throw AssertionError('uid == null');
     }
@@ -28,17 +29,20 @@ class AddressService {
 }
 
 final addressServiceProvider = Provider<AddressService>((ref) {
-  final dataStore = ref.watch(dataStoreProvider);
+  final addressRepository = ref.watch(addressRepositoryProvider);
   final authService = ref.watch(authRepositoryProvider);
-  return AddressService(authService: authService, dataStore: dataStore);
+  return AddressService(
+    authRepository: authService,
+    addressRepository: addressRepository,
+  );
 });
 
 final addressFutureProvider = FutureProvider.autoDispose<Address?>((ref) {
-  final dataStore = ref.watch(dataStoreProvider);
+  final addressRepository = ref.watch(addressRepositoryProvider);
   final authService = ref.watch(authRepositoryProvider);
   final user = authService.currentUser;
   if (user != null) {
-    return dataStore.getAddress(user.uid);
+    return addressRepository.getAddress(user.uid);
   } else {
     throw AssertionError('uid == null');
   }
@@ -48,8 +52,8 @@ final addressProvider = StreamProvider.autoDispose<Address?>((ref) {
   final userValue = ref.watch(authStateChangesProvider);
   final user = userValue.asData?.value;
   if (user != null) {
-    final dataStore = ref.watch(dataStoreProvider);
-    return dataStore.address(user.uid);
+    final addressRepository = ref.watch(addressRepositoryProvider);
+    return addressRepository.address(user.uid);
   } else {
     return Stream.fromIterable([null]);
   }

@@ -1,31 +1,32 @@
-import 'package:my_shop_ecommerce_flutter/src/entities/cart_total.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/items_list.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/mock_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/items_list.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mock_cart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-class SembastCartStore implements LocalCartDataStore {
+class SembastCartRepository implements LocalCartRepository {
   static DatabaseFactory dbFactory = databaseFactoryIo;
 
-  SembastCartStore(this.db);
+  SembastCartRepository(this.db);
   final Database db;
   final store = StoreRef.main();
 
   // Create data store on predefined location
-  static Future<SembastCartStore> makeDefault() async {
+  static Future<SembastCartRepository> makeDefault() async {
     final appDocDir = await getApplicationDocumentsDirectory();
-    return SembastCartStore(
+    return SembastCartRepository(
       // We use the database factory to open the database
       await dbFactory.openDatabase('${appDocDir.path}/default.db'),
     );
   }
 
   // Create data store on custom location
-  static Future<SembastCartStore> init(String dbPath) async => SembastCartStore(
+  static Future<SembastCartRepository> init(String dbPath) async =>
+      SembastCartRepository(
         // We use the database factory to open the database
         await dbFactory.openDatabase(dbPath),
       );

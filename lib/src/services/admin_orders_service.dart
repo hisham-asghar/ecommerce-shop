@@ -1,23 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 
 class AdminOrdersService {
-  AdminOrdersService({required this.dataStore});
-  final DataStore dataStore;
+  AdminOrdersService({required this.ordersRepository});
+  final OrdersRepository ordersRepository;
 
   // All write methods
   Future<void> updateOrderStatus(Order order) =>
-      dataStore.updateOrderStatus(order);
+      ordersRepository.updateOrderStatus(order);
 }
 
 final adminOrdersServiceProvider = Provider<AdminOrdersService>((ref) {
-  final dataStore = ref.watch(dataStoreProvider);
-  return AdminOrdersService(dataStore: dataStore);
+  final ordersRepository = ref.watch(ordersRepositoryProvider);
+  return AdminOrdersService(ordersRepository: ordersRepository);
 });
 
 // all read methods as StreamProviders
 final allOrdersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
-  final dataStore = ref.watch(dataStoreProvider);
-  return dataStore.allOrders();
+  final ordersRepository = ref.watch(ordersRepositoryProvider);
+  return ordersRepository.allOrders();
 });

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 

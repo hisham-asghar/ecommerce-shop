@@ -5,8 +5,8 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/cart_total.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';

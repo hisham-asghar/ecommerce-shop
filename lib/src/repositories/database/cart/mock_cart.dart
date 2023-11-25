@@ -1,6 +1,6 @@
-import 'package:my_shop_ecommerce_flutter/src/entities/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
-/// Helper class used by MockDataStore
+/// Helper class used by MockCartRepository
 class MockCart {
   MockCart(this.items);
   List<Item> items;

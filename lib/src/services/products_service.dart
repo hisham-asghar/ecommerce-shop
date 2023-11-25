@@ -1,38 +1,40 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/data_store/data_store.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 
 class ProductsService {
-  ProductsService({required this.dataStore});
-  final DataStore dataStore;
+  ProductsService({required this.productsRepository});
+  final ProductsRepository productsRepository;
 
-  Future<void> addProduct(Product product) => dataStore.addProduct(product);
+  Future<void> addProduct(Product product) =>
+      productsRepository.addProduct(product);
 
-  Future<void> editProduct(Product product) => dataStore.editProduct(product);
+  Future<void> editProduct(Product product) =>
+      productsRepository.editProduct(product);
 }
 
 final productsServiceProvider = Provider<ProductsService>((ref) {
-  final dataStore = ref.watch(dataStoreProvider);
-  return ProductsService(dataStore: dataStore);
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return ProductsService(productsRepository: productsRepository);
 });
 
 final productsListProvider = StreamProvider.autoDispose<List<Product>>((ref) {
-  final dataStore = ref.watch(dataStoreProvider);
-  return dataStore.productsList();
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.productsList();
 });
 
 final productProvider =
     StreamProvider.autoDispose.family<Product, String>((ref, id) {
-  final dataStore = ref.watch(dataStoreProvider);
-  return dataStore.product(id);
+  final productsRepository = ref.watch(productsRepositoryProvider);
+  return productsRepository.product(id);
 });
 
 // alternative provider that returns a product if a productId is given, or null otherwise
 final optionalProductProvider =
     StreamProvider.autoDispose.family<Product?, String?>((ref, id) {
-  final dataStore = ref.watch(dataStoreProvider);
+  final productsRepository = ref.watch(productsRepositoryProvider);
   if (id != null) {
-    return dataStore.product(id);
+    return productsRepository.product(id);
   } else {
     return Stream.fromIterable([null]);
   }

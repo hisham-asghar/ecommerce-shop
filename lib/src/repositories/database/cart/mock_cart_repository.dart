@@ -1,0 +1,94 @@
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mock_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/mock_products_repository.dart';
+import 'package:rxdart/rxdart.dart';
+
+class MockCartRepository implements CartRepository {
+  MockCartRepository({required this.productsRepository});
+  final MockProductsRepository productsRepository;
+
+  Map<String, List<Item>> cartData = {};
+  final _cartDataSubject = BehaviorSubject<Map<String, List<Item>>>.seeded({});
+  Stream<Map<String, List<Item>>> get _cartDataStream =>
+      _cartDataSubject.stream;
+
+  @override
+  Future<List<Item>> getItemsList(String uid) {
+    return Future.value(cartData[uid] ?? []);
+  }
+
+  @override
+  Stream<List<Item>> itemsList(String uid) {
+    return _cartDataStream.map((cartData) {
+      return cartData[uid] ?? [];
+    });
+  }
+
+  @override
+  Future<void> addItem(String uid, Item item) async {
+    await delay();
+    final cart = MockCart(cartData[uid] ?? []);
+    cart.addItem(item);
+    cartData[uid] = cart.items;
+    _cartDataSubject.add(cartData);
+  }
+
+  @override
+  Future<void> removeItem(String uid, Item item) async {
+    await delay();
+    final cart = MockCart(cartData[uid] ?? []);
+    cart.removeItem(item);
+    cartData[uid] = cart.items;
+    _cartDataSubject.add(cartData);
+  }
+
+  @override
+  Future<void> updateItemIfExists(String uid, Item item) async {
+    await delay(300);
+    final cart = MockCart(cartData[uid] ?? []);
+    final result = cart.updateItemIfExists(item);
+    if (result) {
+      cartData[uid] = cart.items;
+      _cartDataSubject.add(cartData);
+    }
+  }
+
+  @override
+  Stream<CartTotal> cartTotal(String uid) {
+    return _cartDataStream.map((cartData) {
+      final items = cartData[uid] ?? [];
+      final total = totalPrice(items);
+      return CartTotal(total: total);
+    });
+  }
+
+  @override
+  Future<void> addAllItems(String uid, List<Item> items) async {
+    await delay();
+    final cart = MockCart(cartData[uid] ?? []);
+    for (var item in items) {
+      cart.addItem(item);
+    }
+    cartData[uid] = cart.items;
+    _cartDataSubject.add(cartData);
+  }
+
+  Future<void> removeAllItems(String uid) async {
+    await delay();
+    cartData[uid] = [];
+    _cartDataSubject.add(cartData);
+  }
+
+  double totalPrice(List<Item> items) => items.isEmpty
+      ? 0.0
+      : items
+          // first extract quantity * price for each item
+          .map((item) =>
+              item.quantity *
+              productsRepository.getProduct(item.productId).price)
+          // then add them up
+          .reduce((value, element) => value + element);
+}

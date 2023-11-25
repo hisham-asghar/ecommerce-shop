@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_item_list_tile.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_label.dart';
-import 'package:my_shop_ecommerce_flutter/src/entities/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
