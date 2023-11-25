@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+//import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
@@ -20,7 +20,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       localizationsDelegates: const [
-        AppLocalizations.delegate,
+        //AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -28,8 +28,8 @@ class MyApp extends ConsumerWidget {
       supportedLocales: const [
         Locale('en', ''),
       ],
-      onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context)!.appTitle,
+      // onGenerateTitle: (BuildContext context) =>
+      //     AppLocalizations.of(context)!.appTitle,
       theme: ThemeData(
         visualDensity: const VisualDensity(),
         // TODO: Figure out swatch
