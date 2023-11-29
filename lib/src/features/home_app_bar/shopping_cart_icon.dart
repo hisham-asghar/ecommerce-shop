@@ -2,10 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 
 class ShoppingCartIcon extends ConsumerWidget {
   const ShoppingCartIcon({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class ShoppingCartIcon extends ConsumerWidget {
           child: IconButton(
             // TODO: show item count
             icon: const Icon(Icons.shopping_cart),
-            onPressed: () => ref.read(routerDelegateProvider).openCart(),
+            onPressed: () => context.pushNamed(AppRoute.cart.name),
           ),
         ),
         if (itemsCount != null && itemsCount > 0)

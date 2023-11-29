@@ -29,6 +29,15 @@ class FakeOrdersRepository implements OrdersRepository {
     });
   }
 
+  @override
+  Stream<Order> userOrder(String uid, String orderId) {
+    return _ordersDataStream.map((ordersData) {
+      final ordersList = ordersData[uid] ?? [];
+      final matchingOrders = ordersList.where((order) => order.id == orderId);
+      return matchingOrders.first;
+    });
+  }
+
   // Not overridden, only available from FakeCloudFunctions
   Future<Order> placeOrder(String uid) async {
     // TODO: This should pull all the data from the shopping cart

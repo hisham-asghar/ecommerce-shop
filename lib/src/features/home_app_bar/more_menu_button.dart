@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
 enum PopupMenuOption {
   signIn,
@@ -21,19 +22,19 @@ class MoreMenuButton extends ConsumerWidget {
     final isAdminUser = isAdminUserValue.asData?.value;
     return PopupMenuButton(
       onSelected: (option) {
-        final routerDelegate = ref.read(routerDelegateProvider);
+        // TODO: should these use goNamed?
         switch (option) {
           case PopupMenuOption.signIn:
-            routerDelegate.openSignIn();
+            context.pushNamed(AppRoute.signIn.name);
             break;
           case PopupMenuOption.orders:
-            routerDelegate.openOrdersList();
+            context.pushNamed(AppRoute.orders.name);
             break;
           case PopupMenuOption.account:
-            routerDelegate.openAccount();
+            context.pushNamed(AppRoute.account.name);
             break;
           case PopupMenuOption.admin:
-            routerDelegate.openAdmin();
+            context.pushNamed(AppRoute.admin.name);
             break;
           default:
             print('Unimplemented');

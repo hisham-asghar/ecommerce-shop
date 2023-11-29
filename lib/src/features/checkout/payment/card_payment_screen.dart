@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 /// Borrowed from flutter_stripe example app
@@ -40,7 +41,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     final order = await model.placeOrder();
     // TODO: should navigation happen inside view model?
     if (order != null) {
-      ref.read(routerDelegateProvider).openPaymentComplete(order);
+      context.goNamed(AppRoute.paymentComplete.name, params: {'id': order.id});
     }
   }
 

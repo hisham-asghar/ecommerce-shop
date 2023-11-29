@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
-class AdminScreen extends ConsumerWidget {
+class AdminScreen extends StatelessWidget {
   const AdminScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Dashboard'),
@@ -24,14 +24,12 @@ class AdminScreen extends ConsumerWidget {
               children: [
                 PrimaryButton(
                   text: 'Manage Products',
-                  onPressed: () =>
-                      ref.read(routerDelegateProvider).openAdminProducts(),
+                  onPressed: () => context.goNamed(AppRoute.adminProducts.name),
                 ),
                 const SizedBox(height: Sizes.p24),
                 PrimaryButton(
                   text: 'Manage Orders',
-                  onPressed: () =>
-                      ref.read(routerDelegateProvider).openAdminOrders(),
+                  onPressed: () => context.goNamed(AppRoute.adminOrders.name),
                 ),
                 // TODO: Any other options?
               ],

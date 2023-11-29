@@ -15,3 +15,16 @@ final ordersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
     return const Stream.empty();
   }
 });
+
+final userOrderProvider =
+    StreamProvider.autoDispose.family<Order, String>((ref, orderId) {
+  final userValue = ref.watch(authStateChangesProvider);
+  final user = userValue.asData?.value;
+  if (user != null) {
+    final ordersRepository = ref.watch(ordersRepositoryProvider);
+    return ordersRepository.userOrder(user.uid, orderId);
+  } else {
+    // TODO: Log error
+    return const Stream.empty();
+  }
+});

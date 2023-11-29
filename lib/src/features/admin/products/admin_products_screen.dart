@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
 class AdminProductsScreen extends ConsumerWidget {
   const AdminProductsScreen({Key? key}) : super(key: key);
@@ -29,9 +30,9 @@ class AdminProductsScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(Sizes.p16),
                 sliver: ProductsGrid(
-                  onProductSelected: (product) => ref
-                      .read(routerDelegateProvider)
-                      .openAdminProduct(product),
+                  onProductSelected: (product) => context.goNamed(
+                      AppRoute.adminProduct.name,
+                      params: {'id': product.id}),
                 ),
               ),
             ],
@@ -41,7 +42,7 @@ class AdminProductsScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () =>
-            ref.read(routerDelegateProvider).openAdminProduct(null),
+            context.goNamed(AppRoute.adminProduct.name, params: {'id': 'new'}),
       ),
     );
   }

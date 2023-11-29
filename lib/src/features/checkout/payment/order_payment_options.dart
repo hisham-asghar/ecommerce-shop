@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/routing.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class OrderPaymentOptions extends ConsumerWidget {
@@ -35,7 +36,7 @@ class OrderPaymentOptions extends ConsumerWidget {
               const SizedBox(height: Sizes.p24),
               PrimaryButton(
                 text: 'Pay by card',
-                onPressed: () => ref.read(routerDelegateProvider).openPay(),
+                onPressed: () => context.goNamed(AppRoute.pay.name),
               ),
               // const SizedBox(height: Sizes.p24),
               // PrimaryButton(
