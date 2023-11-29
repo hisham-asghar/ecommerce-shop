@@ -10,17 +10,17 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud
 
 class CartService {
   CartService(
-      {required this.authService,
+      {required this.authRepository,
       required this.cartRepository,
       required this.localCartRepository,
       required this.cloudFunctions});
-  final AuthRepository authService;
+  final AuthRepository authRepository;
   final CartRepository cartRepository;
   final LocalCartRepository localCartRepository;
   final CloudFunctionsRepository cloudFunctions;
 
   Future<List<Item>> getItemsList() {
-    final user = authService.currentUser;
+    final user = authRepository.currentUser;
     if (user != null) {
       return cartRepository.getItemsList(user.uid);
     } else {
@@ -29,7 +29,7 @@ class CartService {
   }
 
   Future<void> addItem(Item item) {
-    final user = authService.currentUser;
+    final user = authRepository.currentUser;
     if (user != null) {
       // This will replace the item quantity if it already exists
       return cartRepository.addItem(user.uid, item);
@@ -39,7 +39,7 @@ class CartService {
   }
 
   Future<void> removeItem(Item item) {
-    final user = authService.currentUser;
+    final user = authRepository.currentUser;
     if (user != null) {
       return cartRepository.removeItem(user.uid, item);
     } else {
@@ -49,7 +49,7 @@ class CartService {
 
   Future<void> updateItemIfExists(Item item) {
     // Is there a way to cache this so updates are faster?
-    final user = authService.currentUser;
+    final user = authRepository.currentUser;
     if (user != null) {
       return cartRepository.updateItemIfExists(user.uid, item);
     } else {
@@ -58,7 +58,7 @@ class CartService {
   }
 
   Future<void> copyItemsToRemote() async {
-    final user = authService.currentUser;
+    final user = authRepository.currentUser;
     if (user != null) {
       try {
         final items = await localCartRepository.getItemsList();
@@ -74,7 +74,7 @@ class CartService {
   }
 
   Future<Order> placeOrder() async {
-    final user = authService.currentUser;
+    final user = authRepository.currentUser;
     if (user != null) {
       return await cloudFunctions.placeOrder(user.uid);
     } else {
@@ -89,7 +89,7 @@ final cartServiceProvider = Provider<CartService>((ref) {
   final authService = ref.watch(authRepositoryProvider);
   final cloudFunctions = ref.watch(cloudFunctionsRepositoryProvider);
   return CartService(
-    authService: authService,
+    authRepository: authService,
     cartRepository: cartRepository,
     localCartRepository: localCartRepository,
     cloudFunctions: cloudFunctions,
