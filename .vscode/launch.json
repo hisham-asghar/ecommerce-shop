@@ -39,6 +39,13 @@
       "type": "dart",
       "program": "lib/main_production.dart",
       "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
-    }
+    },
+    {
+      "name": "Launch integration tests",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_production.dart",
+      "args": ["--driver", "test_driver/integration_test.dart", "--target", "integration_test/integration_basic_test.dart"]
+    }    
   ]
 }
