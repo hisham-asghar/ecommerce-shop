@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/app.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/more_menu_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/shopping_cart_icon.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
@@ -43,7 +44,7 @@ class Robot {
   Future<void> pumpWidgetAppWithMocks(
       {bool initTestProducts = true, bool settle = true}) async {
     const addDelay = false;
-    final authRepository = FakeAuthRepository();
+    final authRepository = FakeAuthRepository(addDelay: addDelay);
     final addressRepository = FakeAddressRepository(addDelay: addDelay);
     final productsRepository = FakeProductsRepository(addDelay: addDelay);
     if (initTestProducts) {
@@ -319,5 +320,45 @@ class Robot {
     expect(finder, findsOneWidget);
     await tester.tap(finder);
     await tester.pumpAndSettle();
+  }
+
+  Future<void> showMenu() async {
+    final finder = find.bySemanticsLabel('Show menu');
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> openAccountPage() async {
+    final finder = find.byKey(MoreMenuButton.accountKey);
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> logout() async {
+    final finder = find.text('Logout');
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  // Full purchase flow
+  Future<void> fullPurchaseFlow() async {
+    await selectProduct();
+    await setProductQuantity(3);
+    await addToCart();
+    await openCart();
+    expectFindNCartItems(1);
+    await startCheckout();
+    await createAccount();
+    await enterAddress();
+    await startPayment();
+    await payWithCard();
+    expectPaymentComplete();
+    await closePage();
+    await showMenu();
+    await openAccountPage();
+    await logout();
   }
 }

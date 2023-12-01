@@ -14,6 +14,11 @@ enum PopupMenuOption {
 class MoreMenuButton extends ConsumerWidget {
   const MoreMenuButton({Key? key}) : super(key: key);
 
+  static const signInKey = Key('menuSignIn');
+  static const ordersKey = Key('menuOrders');
+  static const accountKey = Key('menuAccount');
+  static const adminKey = Key('menuAdmin');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authStateChangesValue = ref.watch(authStateChangesProvider);
@@ -44,22 +49,26 @@ class MoreMenuButton extends ConsumerWidget {
         return user != null
             ? <PopupMenuEntry<PopupMenuOption>>[
                 const PopupMenuItem(
+                  key: ordersKey,
                   child: Text('Orders'),
                   value: PopupMenuOption.orders,
                 ),
                 const PopupMenuItem(
+                  key: accountKey,
                   child: Text('Account'),
                   value: PopupMenuOption.account,
                 ),
                 // only show this if user has admin custom claim
                 if (isAdminUser == true)
                   const PopupMenuItem(
+                    key: adminKey,
                     child: Text('Admin'),
                     value: PopupMenuOption.admin,
                   ),
               ]
             : <PopupMenuEntry<PopupMenuOption>>[
                 const PopupMenuItem(
+                  key: signInKey,
                   child: Text('Sign In'),
                   value: PopupMenuOption.signIn,
                 ),

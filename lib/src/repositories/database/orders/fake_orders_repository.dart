@@ -1,6 +1,6 @@
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:rxdart/rxdart.dart';

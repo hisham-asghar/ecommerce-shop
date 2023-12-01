@@ -11,17 +11,6 @@ void main() {
   testWidgets('integration - full purchase flow', (tester) async {
     final r = Robot(tester);
     await r.pumpWidgetAppWithMocks();
-    await r.selectProduct();
-    await r.setProductQuantity(3);
-    await r.addToCart();
-    await r.openCart();
-    r.expectFindNCartItems(1);
-    await r.startCheckout();
-    await r.createAccount();
-    await r.enterAddress();
-    await r.startPayment();
-    await r.payWithCard();
-    r.expectPaymentComplete();
-    await r.closePage();
+    await r.fullPurchaseFlow();
   });
 }

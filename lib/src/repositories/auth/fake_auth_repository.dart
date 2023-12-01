@@ -2,6 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 
 class FakeAppUser implements AppUser {
   FakeAppUser({
@@ -43,6 +44,9 @@ class FakeAppUser implements AppUser {
 }
 
 class FakeAuthRepository implements AuthRepository {
+  FakeAuthRepository({this.addDelay = true});
+  final bool addDelay;
+
   @override
   AppUser? currentUser;
 
@@ -60,7 +64,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> signInAnonymously() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await delay(addDelay);
     if (currentUser != null) {
       throw UnsupportedError(
           'User is already signed in and can\'t sign in as anonymously');
@@ -70,7 +74,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await delay(addDelay);
     if (currentUser == null) {
       _createNewUser();
     }
@@ -79,7 +83,7 @@ class FakeAuthRepository implements AuthRepository {
   @override
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await delay(addDelay);
     if (currentUser == null) {
       _createNewUser();
     }
@@ -87,12 +91,12 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<void> sendPasswordResetEmail(String email) {
-    return Future.delayed(const Duration(seconds: 2));
+    return delay(addDelay);
   }
 
   @override
   Future<void> signOut() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await delay(addDelay);
     currentUser = null;
   }
 

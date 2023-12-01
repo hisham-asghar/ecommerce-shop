@@ -1,7 +1,7 @@
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 
 class FakeAddressRepository implements AddressRepository {
   FakeAddressRepository({this.addDelay = true});
