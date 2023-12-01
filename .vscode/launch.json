@@ -41,7 +41,7 @@
       "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
     },
     {
-      "name": "Launch integration tests",
+      "name": "Launch integration tests (mocks)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_development.dart",
@@ -50,6 +50,18 @@
         "development",
         "--target",
         "integration_test/purchase_flow_test.dart"
+      ]
+    },
+    {
+      "name": "Launch integration tests (Firebase emulator)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_development.dart",
+      "args": [
+        "--flavor",
+        "development",
+        "--target",
+        "integration_test/purchase_flow_firebase_emulator_test.dart"
       ]
     }    
   ]

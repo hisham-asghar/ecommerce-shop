@@ -11,7 +11,9 @@ import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
 class EmailPasswordSignInScreen extends ConsumerWidget {
-  const EmailPasswordSignInScreen({Key? key}) : super(key: key);
+  const EmailPasswordSignInScreen({Key? key, required this.formType})
+      : super(key: key);
+  final EmailPasswordSignInFormType formType;
 
   static const emailKey = Key('email');
   static const passwordKey = Key('password');
@@ -22,7 +24,10 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Sign In')),
       body: EmailPasswordSignInContents(
-        model: EmailPasswordSignInModel(authService: authService),
+        model: EmailPasswordSignInModel(
+          authService: authService,
+          formType: formType,
+        ),
         onSignedIn: () async {
           try {
             await ref.read(cartServiceProvider).copyItemsToRemote();

@@ -227,7 +227,7 @@ class Robot {
   }
 
   // sign in
-  Future<void> signIn() async {
+  Future<void> enterEmailAndPassword() async {
     final emailFinder = find.byKey(EmailPasswordSignInScreen.emailKey);
     expect(emailFinder, findsOneWidget);
     await tester.enterText(emailFinder, 'test@test.com');
@@ -235,8 +235,21 @@ class Robot {
     final passwordFinder = find.byKey(EmailPasswordSignInScreen.passwordKey);
     expect(passwordFinder, findsOneWidget);
     await tester.enterText(passwordFinder, 'test@test.com');
+  }
+
+  Future<void> signIn() async {
+    await enterEmailAndPassword();
 
     final ctaFinder = find.text('Sign in');
+    expect(ctaFinder, findsOneWidget);
+    await tester.tap(ctaFinder);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> createAccount() async {
+    await enterEmailAndPassword();
+
+    final ctaFinder = find.text('Create an account');
     expect(ctaFinder, findsOneWidget);
     await tester.tap(ctaFinder);
     await tester.pumpAndSettle();

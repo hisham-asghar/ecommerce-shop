@@ -17,7 +17,7 @@ void main() {
     await r.openCart();
     r.expectFindNCartItems(1);
     await r.startCheckout();
-    await r.signIn();
+    await r.createAccount();
     await r.enterAddress();
     await r.startPayment();
     await r.payWithCard();
