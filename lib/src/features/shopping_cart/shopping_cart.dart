@@ -67,7 +67,10 @@ class ShoppingCartContents extends ConsumerWidget {
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
                               final item = items[index];
-                              return ShoppingCartItem(item: item);
+                              return ShoppingCartItem(
+                                item: item,
+                                itemIndex: index,
+                              );
                             },
                             childCount: items.length,
                           ),
@@ -102,7 +105,10 @@ class ShoppingCartContents extends ConsumerWidget {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final item = items[index];
-                        return ShoppingCartItem(item: item);
+                        return ShoppingCartItem(
+                          item: item,
+                          itemIndex: index,
+                        );
                       },
                       childCount: items.length,
                     ),

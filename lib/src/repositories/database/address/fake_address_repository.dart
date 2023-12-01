@@ -4,6 +4,9 @@ import 'package:rxdart/rxdart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
 
 class FakeAddressRepository implements AddressRepository {
+  FakeAddressRepository({this.addDelay = true});
+  final bool addDelay;
+
   final Map<String, Address> _addressData = {};
   final _addressDataSubject = BehaviorSubject<Map<String, Address>>.seeded({});
   Stream<Map<String, Address>> get _addressDataStream =>
@@ -21,7 +24,7 @@ class FakeAddressRepository implements AddressRepository {
 
   @override
   Future<void> submitAddress(String uid, Address address) async {
-    await delay();
+    await delay(addDelay);
     _addressData[uid] = address;
     _addressDataSubject.add(_addressData);
   }

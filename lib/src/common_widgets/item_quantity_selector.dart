@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
 class ItemQuantitySelector extends StatelessWidget {
-  const ItemQuantitySelector(
-      {Key? key, required this.quantity, this.maxQuantity = 10, this.onChanged})
-      : super(key: key);
+  const ItemQuantitySelector({
+    Key? key,
+    required this.quantity,
+    this.maxQuantity = 10,
+    this.itemIndex,
+    this.onChanged,
+  }) : super(key: key);
   final int quantity;
   final int maxQuantity;
+  final int? itemIndex;
   final ValueChanged<int>? onChanged;
+
+  static Key decrementKey([int? index]) =>
+      index != null ? Key('decrement-$index') : const Key('decrement');
+  static Key quantityKey([int? index]) =>
+      index != null ? Key('quantity-$index') : const Key('quantity');
+  static Key incrementKey([int? index]) =>
+      index != null ? Key('increment-$index') : const Key('increment');
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +36,7 @@ class ItemQuantitySelector extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
+            key: decrementKey(itemIndex),
             icon: const Icon(Icons.remove),
             onPressed: onChanged != null && quantity > 1
                 ? () => onChanged!.call(quantity - 1)
@@ -33,11 +46,13 @@ class ItemQuantitySelector extends StatelessWidget {
             width: 30.0,
             child: Text(
               '$quantity',
+              key: quantityKey(itemIndex),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1,
             ),
           ),
           IconButton(
+            key: incrementKey(itemIndex),
             icon: const Icon(Icons.add),
             onPressed: onChanged != null && quantity < maxQuantity
                 ? () => onChanged!.call(quantity + 1)

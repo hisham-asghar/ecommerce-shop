@@ -14,9 +14,14 @@ import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class ShoppingCartItem extends ConsumerWidget {
-  const ShoppingCartItem({Key? key, required this.item, this.isEditable = true})
-      : super(key: key);
+  const ShoppingCartItem({
+    Key? key,
+    required this.item,
+    required this.itemIndex,
+    this.isEditable = true,
+  }) : super(key: key);
   final Item item;
+  final int itemIndex;
   final bool isEditable;
 
   @override
@@ -32,6 +37,7 @@ class ShoppingCartItem extends ConsumerWidget {
             data: (product) => ShoppingCartItemContents(
               product: product,
               item: item,
+              itemIndex: itemIndex,
               isEditable: isEditable,
             ),
           ),
@@ -42,15 +48,19 @@ class ShoppingCartItem extends ConsumerWidget {
 }
 
 class ShoppingCartItemContents extends ConsumerWidget {
-  const ShoppingCartItemContents(
-      {Key? key,
-      required this.product,
-      required this.item,
-      required this.isEditable})
-      : super(key: key);
+  const ShoppingCartItemContents({
+    Key? key,
+    required this.product,
+    required this.item,
+    required this.itemIndex,
+    required this.isEditable,
+  }) : super(key: key);
   final Product product;
   final Item item;
+  final int itemIndex;
   final bool isEditable;
+
+  static Key deleteKey(int index) => Key('delete-$index');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,6 +92,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     ItemQuantitySelector(
                       quantity: item.quantity,
                       maxQuantity: min(product.availableQuantity, 10),
+                      itemIndex: itemIndex,
                       onChanged: state.isLoading
                           ? null
                           : (quantity) => ref
@@ -89,6 +100,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                               .updateQuantity(item, quantity),
                     ),
                     IconButton(
+                      key: deleteKey(itemIndex),
                       icon: Icon(Icons.delete, color: Colors.red[700]),
                       onPressed: state.isLoading
                           ? null

@@ -33,6 +33,7 @@ class PaymentPage extends ConsumerWidget {
                   final item = items[index];
                   return ShoppingCartItem(
                     item: item,
+                    itemIndex: index,
                     // make item non editable so that user can't empty cart completely
                     isEditable: false,
                   );

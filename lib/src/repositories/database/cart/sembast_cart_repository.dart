@@ -18,10 +18,10 @@ class SembastCartRepository implements LocalCartRepository {
   // Create data store on predefined location
   static Future<SembastCartRepository> makeDefault() async {
     final appDocDir = await getApplicationDocumentsDirectory();
-    return SembastCartRepository(
-      // We use the database factory to open the database
-      await dbFactory.openDatabase('${appDocDir.path}/default.db'),
-    );
+    // We use the database factory to open the database
+    final database =
+        await dbFactory.openDatabase('${appDocDir.path}/default.db');
+    return SembastCartRepository(database);
   }
 
   // Create data store on custom location

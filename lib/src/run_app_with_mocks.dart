@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/app.dart';
@@ -18,30 +21,41 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
 
 Future<void> runAppWithMocks() async {
-  final authRepository = FakeAuthRepository();
-  final addressRepository = FakeAddressRepository();
-  final productsRepository = FakeProductsRepository();
-  final cartRepository =
-      FakeCartRepository(productsRepository: productsRepository);
-  final ordersRepository = FakeOrdersRepository(
-    productsRepository: productsRepository,
-    cartRepository: cartRepository,
-  );
-  final localCartRepository = await SembastCartRepository.makeDefault();
-  final cloudFunctionsRepository =
-      FakeCloudFunctionsRepository(ordersRepository: ordersRepository);
-  runApp(ProviderScope(
-    overrides: [
-      authRepositoryProvider.overrideWithValue(authRepository),
-      addressRepositoryProvider.overrideWithValue(addressRepository),
-      productsRepositoryProvider.overrideWithValue(productsRepository),
-      cartRepositoryProvider.overrideWithValue(cartRepository),
-      ordersRepositoryProvider.overrideWithValue(ordersRepository),
-      localCartRepositoryProvider.overrideWithValue(localCartRepository),
-      cloudFunctionsRepositoryProvider
-          .overrideWithValue(cloudFunctionsRepository),
-    ],
-    observers: [ProviderLogger()],
-    child: MyApp(),
-  ));
+  // https://docs.flutter.dev/testing/errors
+  await runZonedGuarded(() async {
+    final authRepository = FakeAuthRepository();
+    final addressRepository = FakeAddressRepository();
+    final productsRepository = FakeProductsRepository()..initWithTestProducts();
+    final cartRepository =
+        FakeCartRepository(productsRepository: productsRepository);
+    final ordersRepository = FakeOrdersRepository(
+      productsRepository: productsRepository,
+      cartRepository: cartRepository,
+    );
+    final localCartRepository = await SembastCartRepository.makeDefault();
+    final cloudFunctionsRepository =
+        FakeCloudFunctionsRepository(ordersRepository: ordersRepository);
+    runApp(ProviderScope(
+      overrides: [
+        authRepositoryProvider.overrideWithValue(authRepository),
+        addressRepositoryProvider.overrideWithValue(addressRepository),
+        productsRepositoryProvider.overrideWithValue(productsRepository),
+        cartRepositoryProvider.overrideWithValue(cartRepository),
+        ordersRepositoryProvider.overrideWithValue(ordersRepository),
+        localCartRepositoryProvider.overrideWithValue(localCartRepository),
+        cloudFunctionsRepositoryProvider
+            .overrideWithValue(cloudFunctionsRepository),
+      ],
+      observers: [ProviderLogger()],
+      child: const MyApp(),
+    ));
+
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.presentError(details);
+      exit(1);
+    };
+  }, (Object error, StackTrace stack) {
+    print(error);
+    exit(1);
+  });
 }

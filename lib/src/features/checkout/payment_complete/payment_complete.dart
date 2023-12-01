@@ -37,6 +37,7 @@ class PaymentCompleteScreen extends ConsumerWidget {
                       final item = items[index];
                       return ShoppingCartItem(
                         item: item,
+                        itemIndex: index,
                         isEditable: false,
                       );
                     },

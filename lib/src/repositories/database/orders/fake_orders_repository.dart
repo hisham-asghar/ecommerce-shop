@@ -7,10 +7,14 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 class FakeOrdersRepository implements OrdersRepository {
-  FakeOrdersRepository(
-      {required this.productsRepository, required this.cartRepository});
+  FakeOrdersRepository({
+    required this.productsRepository,
+    required this.cartRepository,
+    this.addDelay = true,
+  });
   final FakeProductsRepository productsRepository;
   final FakeCartRepository cartRepository;
+  final bool addDelay;
 
   Map<String, List<Order>> ordersData = {};
   final _ordersDataSubject =
@@ -41,7 +45,7 @@ class FakeOrdersRepository implements OrdersRepository {
   // Not overridden, only available from FakeCloudFunctions
   Future<Order> placeOrder(String uid) async {
     // TODO: This should pull all the data from the shopping cart
-    await delay();
+    await delay(addDelay);
     final items = await cartRepository.getItemsList(uid);
     // First, make sure all items are available
     for (var item in items) {
@@ -80,7 +84,7 @@ class FakeOrdersRepository implements OrdersRepository {
 
   @override
   Future<void> updateOrderStatus(Order order) async {
-    await delay();
+    await delay(addDelay);
     final userOrders = ordersData[order.userId] ?? [];
     // TODO: Do this at the call site?
     final index = userOrders.indexWhere((element) => element.id == order.id);

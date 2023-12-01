@@ -11,6 +11,8 @@ import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 class ShoppingCartIcon extends ConsumerWidget {
   const ShoppingCartIcon({Key? key}) : super(key: key);
 
+  static const shoppingCartIconKey = Key('shopping-cart');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final itemsValue = ref.watch(cartItemsListProvider);
@@ -20,7 +22,7 @@ class ShoppingCartIcon extends ConsumerWidget {
       children: [
         Center(
           child: IconButton(
-            // TODO: show item count
+            key: shoppingCartIconKey,
             icon: const Icon(Icons.shopping_cart),
             onPressed: () => context.pushNamed(AppRoute.cart.name),
           ),

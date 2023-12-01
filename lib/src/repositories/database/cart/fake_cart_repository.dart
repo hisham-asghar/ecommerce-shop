@@ -7,8 +7,9 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fak
 import 'package:rxdart/rxdart.dart';
 
 class FakeCartRepository implements CartRepository {
-  FakeCartRepository({required this.productsRepository});
+  FakeCartRepository({required this.productsRepository, this.addDelay = true});
   final FakeProductsRepository productsRepository;
+  final bool addDelay;
 
   Map<String, List<Item>> cartData = {};
   final _cartDataSubject = BehaviorSubject<Map<String, List<Item>>>.seeded({});
@@ -29,7 +30,7 @@ class FakeCartRepository implements CartRepository {
 
   @override
   Future<void> addItem(String uid, Item item) async {
-    await delay();
+    await delay(addDelay);
     final cart = FakeCart(cartData[uid] ?? []);
     cart.addItem(item);
     cartData[uid] = cart.items;
@@ -38,7 +39,7 @@ class FakeCartRepository implements CartRepository {
 
   @override
   Future<void> removeItem(String uid, Item item) async {
-    await delay();
+    await delay(addDelay);
     final cart = FakeCart(cartData[uid] ?? []);
     cart.removeItem(item);
     cartData[uid] = cart.items;
@@ -47,7 +48,7 @@ class FakeCartRepository implements CartRepository {
 
   @override
   Future<void> updateItemIfExists(String uid, Item item) async {
-    await delay(300);
+    await delay(addDelay, 300);
     final cart = FakeCart(cartData[uid] ?? []);
     final result = cart.updateItemIfExists(item);
     if (result) {
@@ -67,7 +68,7 @@ class FakeCartRepository implements CartRepository {
 
   @override
   Future<void> addAllItems(String uid, List<Item> items) async {
-    await delay();
+    await delay(addDelay);
     final cart = FakeCart(cartData[uid] ?? []);
     for (var item in items) {
       cart.addItem(item);
@@ -77,7 +78,7 @@ class FakeCartRepository implements CartRepository {
   }
 
   Future<void> removeAllItems(String uid) async {
-    await delay();
+    await delay(addDelay);
     cartData[uid] = [];
     _cartDataSubject.add(cartData);
   }

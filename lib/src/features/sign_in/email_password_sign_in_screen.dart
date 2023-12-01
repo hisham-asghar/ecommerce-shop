@@ -13,6 +13,9 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.
 class EmailPasswordSignInScreen extends ConsumerWidget {
   const EmailPasswordSignInScreen({Key? key}) : super(key: key);
 
+  static const emailKey = Key('email');
+  static const passwordKey = Key('password');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authService = ref.watch(authRepositoryProvider);
@@ -112,7 +115,7 @@ class _EmailPasswordSignInContentsState
 
   Widget _buildEmailField() {
     return TextFormField(
-      key: const Key('email'),
+      key: EmailPasswordSignInScreen.emailKey,
       controller: _emailController,
       decoration: InputDecoration(
         labelText: EmailPasswordSignInStrings.emailLabel,
@@ -133,7 +136,7 @@ class _EmailPasswordSignInContentsState
 
   Widget _buildPasswordField() {
     return TextFormField(
-      key: const Key('password'),
+      key: EmailPasswordSignInScreen.passwordKey,
       controller: _passwordController,
       decoration: InputDecoration(
         labelText: model.passwordLabelText,

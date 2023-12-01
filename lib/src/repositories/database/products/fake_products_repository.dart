@@ -7,13 +7,19 @@ import 'package:uuid/uuid.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/delay.dart';
 
 class FakeProductsRepository implements ProductsRepository {
-  // -------------------------------------
-  // Products
-  // -------------------------------------
+  FakeProductsRepository({this.addDelay = true});
+  final bool addDelay;
+
   // default list of products when the app loads
-  final List<Product> _products = kTestProducts;
-  final _productsSubject = BehaviorSubject<List<Product>>.seeded(kTestProducts);
+  final List<Product> _products = [];
+  final _productsSubject = BehaviorSubject<List<Product>>.seeded([]);
   Stream<List<Product>> get _productsStream => _productsSubject.stream;
+
+  // initialize with some tet products
+  void initWithTestProducts() {
+    _products.addAll(kTestProducts);
+    _productsSubject.add(_products);
+  }
 
   @override
   Stream<List<Product>> productsList() {
@@ -28,7 +34,7 @@ class FakeProductsRepository implements ProductsRepository {
 
   @override
   Future<void> addProduct(Product product) async {
-    await delay();
+    await delay(addDelay);
     final productWithId = product.copyWith(id: const Uuid().v1());
     _products.add(productWithId);
     _productsSubject.add(_products);
@@ -36,7 +42,7 @@ class FakeProductsRepository implements ProductsRepository {
 
   @override
   Future<void> editProduct(Product product) async {
-    await delay();
+    await delay(addDelay);
     final index = _products.indexWhere((item) => item.id == product.id);
     if (index == -1) {
       throw AssertionError('Product not found (id: ${product.id}');
@@ -45,9 +51,8 @@ class FakeProductsRepository implements ProductsRepository {
     _productsSubject.add(_products);
   }
 
-  // TODO: Methods to edit products
-  /// Throws error if not found
   Product getProduct(String id) {
+    /// Throws error if not found
     return _products.firstWhere((product) => product.id == id);
   }
 }

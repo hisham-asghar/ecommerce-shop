@@ -10,6 +10,12 @@ class AddressPage extends ConsumerStatefulWidget {
   const AddressPage({Key? key, this.onDataSubmitted}) : super(key: key);
   final VoidCallback? onDataSubmitted;
 
+  static const addressKey = Key('address');
+  static const townCityKey = Key('townCity');
+  static const stateKey = Key('state');
+  static const postalCodeKey = Key('postalCode');
+  static const countryKey = Key('country');
+
   @override
   _AddressPageState createState() => _AddressPageState();
 }
@@ -55,6 +61,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AddressFormField(
+              formFieldKey: AddressPage.addressKey,
               controller: _addressController,
               labelText: 'Address',
               keyboardType: TextInputType.streetAddress,
@@ -63,6 +70,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             ),
             const SizedBox(height: Sizes.p8),
             AddressFormField(
+              formFieldKey: AddressPage.townCityKey,
               controller: _cityController,
               labelText: 'Town/City',
               keyboardType: TextInputType.streetAddress,
@@ -71,6 +79,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             ),
             const SizedBox(height: Sizes.p8),
             AddressFormField(
+              formFieldKey: AddressPage.stateKey,
               controller: _stateController,
               labelText: 'State',
               keyboardType: TextInputType.streetAddress,
@@ -79,6 +88,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             ),
             const SizedBox(height: Sizes.p8),
             AddressFormField(
+              formFieldKey: AddressPage.postalCodeKey,
               controller: _postalCodeController,
               labelText: 'Postal Code',
               keyboardType: TextInputType.streetAddress,
@@ -87,6 +97,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             ),
             const SizedBox(height: Sizes.p8),
             AddressFormField(
+              formFieldKey: AddressPage.countryKey,
               controller: _countryController,
               labelText: 'Country',
               keyboardType: TextInputType.streetAddress,
@@ -114,16 +125,19 @@ class AddressFormField extends StatelessWidget {
     this.keyboardType,
     this.enabled = true,
     this.submitted = false,
+    this.formFieldKey,
   }) : super(key: key);
   final TextEditingController controller;
   final String labelText;
   final TextInputType? keyboardType;
   final bool enabled;
   final bool submitted;
+  final Key? formFieldKey;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: formFieldKey,
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,

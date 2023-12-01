@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,28 +24,39 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
 
 Future<void> runAppWithFirebase() async {
-  final authRepository = FirebaseAuthRepository(FirebaseAuth.instance);
-  final addressRepository =
-      FirebaseAddressRepository(FirebaseFirestore.instance);
-  final productsRepository =
-      FirebaseProductsRepository(FirebaseFirestore.instance);
-  final cartRepository = FirebaseCartRepository(FirebaseFirestore.instance);
-  final ordersRepository = FirebaseOrdersRepository(FirebaseFirestore.instance);
-  final localCartRepository = await SembastCartRepository.makeDefault();
-  final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
-      FirebaseFunctions.instanceFor(region: 'us-central1'));
-  runApp(ProviderScope(
-    overrides: [
-      authRepositoryProvider.overrideWithValue(authRepository),
-      addressRepositoryProvider.overrideWithValue(addressRepository),
-      productsRepositoryProvider.overrideWithValue(productsRepository),
-      cartRepositoryProvider.overrideWithValue(cartRepository),
-      ordersRepositoryProvider.overrideWithValue(ordersRepository),
-      localCartRepositoryProvider.overrideWithValue(localCartRepository),
-      cloudFunctionsRepositoryProvider
-          .overrideWithValue(cloudFunctionsRepository),
-    ],
-    observers: [ProviderLogger()],
-    child: MyApp(),
-  ));
+  // https://docs.flutter.dev/testing/errors
+  await runZonedGuarded(() async {
+    final authRepository = FirebaseAuthRepository(FirebaseAuth.instance);
+    final addressRepository =
+        FirebaseAddressRepository(FirebaseFirestore.instance);
+    final productsRepository =
+        FirebaseProductsRepository(FirebaseFirestore.instance);
+    final cartRepository = FirebaseCartRepository(FirebaseFirestore.instance);
+    final ordersRepository =
+        FirebaseOrdersRepository(FirebaseFirestore.instance);
+    final localCartRepository = await SembastCartRepository.makeDefault();
+    final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
+        FirebaseFunctions.instanceFor(region: 'us-central1'));
+    runApp(ProviderScope(
+      overrides: [
+        authRepositoryProvider.overrideWithValue(authRepository),
+        addressRepositoryProvider.overrideWithValue(addressRepository),
+        productsRepositoryProvider.overrideWithValue(productsRepository),
+        cartRepositoryProvider.overrideWithValue(cartRepository),
+        ordersRepositoryProvider.overrideWithValue(ordersRepository),
+        localCartRepositoryProvider.overrideWithValue(localCartRepository),
+        cloudFunctionsRepositoryProvider
+            .overrideWithValue(cloudFunctionsRepository),
+      ],
+      observers: [ProviderLogger()],
+      child: const MyApp(),
+    ));
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.presentError(details);
+      exit(1);
+    };
+  }, (Object error, StackTrace stack) {
+    print(error);
+    exit(1);
+  });
 }

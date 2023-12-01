@@ -10,12 +10,15 @@ class ProductCard extends ConsumerWidget {
   final Product product;
   final VoidCallback? onPressed;
 
+  static const productCardKey = Key('product-card');
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final priceFormatted =
         ref.watch(currencyFormatterProvider).format(product.price);
     return Card(
       child: InkWell(
+        key: productCardKey,
         onTap: onPressed,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
