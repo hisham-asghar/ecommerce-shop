@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/order_payment_options.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
@@ -19,32 +20,40 @@ class PaymentPage extends ConsumerWidget {
     final itemsValue = ref.watch(cartItemsListProvider);
     return AsyncValueWidget<List<Item>>(
       value: itemsValue,
-      data: (items) => CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          const SliverToBoxAdapter(
-            child: SizedBox(height: Sizes.p16),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(Sizes.p16),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final item = items[index];
-                  return ShoppingCartItem(
-                    item: item,
-                    itemIndex: index,
-                    // make item non editable so that user can't empty cart completely
-                    isEditable: false,
-                  );
-                },
-                childCount: items.length,
-              ),
+      data: (items) => Column(
+        children: [
+          Expanded(
+            // TODO: Should this be ScrollablePage?
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: Sizes.p16),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.all(Sizes.p16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final item = items[index];
+                        return ShoppingCartItem(
+                          item: item,
+                          itemIndex: index,
+                          // make item non editable so that user can't empty cart completely
+                          isEditable: false,
+                        );
+                      },
+                      childCount: items.length,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          const SliverToBoxAdapter(
+          // TODO: Test this on desktop
+          const DecoratedBoxWithShadow(
             child: OrderPaymentOptions(),
-          ),
+          )
         ],
       ),
     );

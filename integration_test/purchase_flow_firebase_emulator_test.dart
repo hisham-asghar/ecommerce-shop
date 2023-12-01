@@ -10,7 +10,7 @@ void main() {
 
   testWidgets('integration - full purchase flow', (tester) async {
     final r = Robot(tester);
-    await r.pumpWidgetAppWithMocks();
+    await r.pumpWidgetAppWithFirebaseEmulator();
     await r.selectProduct();
     await r.setProductQuantity(3);
     await r.addToCart();

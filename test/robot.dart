@@ -1,3 +1,9 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,19 +16,25 @@ import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_ca
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/fake_auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/firebase_auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/fake_cloud_functions_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/firebase_cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/fake_address_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/firebase_address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/firebase_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/sembast_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/fake_orders_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/firebase_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
 
 class Robot {
   Robot(this.tester);
@@ -61,6 +73,51 @@ class Robot {
       ],
       child: const MyApp(),
     ));
+    if (settle) {
+      await tester.pumpAndSettle();
+    }
+  }
+
+  Future<void> pumpWidgetAppWithFirebaseEmulator({bool settle = true}) async {
+    await Firebase.initializeApp();
+    // Use local Auth emulator
+    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    // Use local Firestore emulator
+    final firestore = FirebaseFirestore.instance;
+    firestore.settings =
+        const Settings(persistenceEnabled: false, sslEnabled: false);
+    firestore.useFirestoreEmulator('localhost', 8080);
+    // Use local Functions emulator
+    FirebaseFunctions.instance.useFunctionsEmulator('localhost', 8081);
+
+    final authRepository = FirebaseAuthRepository(FirebaseAuth.instance);
+    final addressRepository =
+        FirebaseAddressRepository(FirebaseFirestore.instance);
+    final productsRepository =
+        FirebaseProductsRepository(FirebaseFirestore.instance);
+    final cartRepository = FirebaseCartRepository(FirebaseFirestore.instance);
+    final ordersRepository =
+        FirebaseOrdersRepository(FirebaseFirestore.instance);
+    final localCartRepository = await SembastCartRepository.makeDefault();
+    final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
+        FirebaseFunctions.instanceFor(region: 'us-central1'));
+    runApp(ProviderScope(
+      overrides: [
+        authRepositoryProvider.overrideWithValue(authRepository),
+        addressRepositoryProvider.overrideWithValue(addressRepository),
+        productsRepositoryProvider.overrideWithValue(productsRepository),
+        cartRepositoryProvider.overrideWithValue(cartRepository),
+        ordersRepositoryProvider.overrideWithValue(ordersRepository),
+        localCartRepositoryProvider.overrideWithValue(localCartRepository),
+        cloudFunctionsRepositoryProvider
+            .overrideWithValue(cloudFunctionsRepository),
+      ],
+      child: const MyApp(),
+    ));
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.presentError(details);
+      exit(1);
+    };
     if (settle) {
       await tester.pumpAndSettle();
     }
@@ -199,8 +256,18 @@ class Robot {
       await tester.enterText(finder, 'a');
     }
 
-    final ctaFinder = find.text('Submit');
-    expect(ctaFinder, findsOneWidget);
+    // https://stackoverflow.com/questions/67128148/flutter-widget-test-finder-fails-because-the-widget-is-outside-the-bounds-of-the
+    // https://stackoverflow.com/questions/68366138/flutter-widget-test-tap-would-not-hit-test-on-the-specified-widget
+    // https://stackoverflow.com/questions/56291806/flutter-how-to-test-the-scroll/67990754#67990754
+    // scroll down so that the submit button is visible
+    final scrollableFinder = find.byKey(AddressPage.scrollableKey);
+    expect(scrollableFinder, findsOneWidget);
+    final ctaFinder = find.text('Submit', skipOffstage: false);
+    await tester.dragUntilVisible(
+      ctaFinder, // what you want to find
+      scrollableFinder, // widget you want to scroll
+      const Offset(0, -100), // delta to move
+    );
     await tester.tap(ctaFinder);
     await tester.pumpAndSettle();
   }

@@ -44,8 +44,13 @@
       "name": "Launch integration tests",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main_production.dart",
-      "args": ["--driver", "test_driver/integration_test.dart", "--target", "integration_test/integration_basic_test.dart"]
+      "program": "lib/main_development.dart",
+      "args": [
+        "--flavor",
+        "development",
+        "--target",
+        "integration_test/purchase_flow_test.dart"
+      ]
     }    
   ]
 }

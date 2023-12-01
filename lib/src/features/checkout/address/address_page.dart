@@ -16,6 +16,8 @@ class AddressPage extends ConsumerStatefulWidget {
   static const postalCodeKey = Key('postalCode');
   static const countryKey = Key('country');
 
+  static const scrollableKey = Key('addressPageScrollable');
+
   @override
   _AddressPageState createState() => _AddressPageState();
 }
@@ -37,6 +39,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
     // TODO: Move all this logic into a controller
     setState(() => _isSubmitted = true);
     if (_formKey.currentState!.validate()) {
+      FocusScope.of(context).unfocus();
       final address = Address(
         address: _addressController.value.text,
         city: _cityController.value.text,
@@ -55,6 +58,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
   @override
   Widget build(BuildContext context) {
     return ScrollablePage(
+      key: AddressPage.scrollableKey,
       child: Form(
         key: _formKey,
         child: Column(

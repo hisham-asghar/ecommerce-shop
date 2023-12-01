@@ -8,7 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/admin/orders/admin_orders
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_products_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/placeholder_card_payment_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment_complete/payment_complete.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/not_found/not_found_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/orders_list_screen.dart';
@@ -169,7 +169,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => MaterialPage(
                   key: state.pageKey,
                   fullscreenDialog: true,
-                  child: const CardPaymentScreen(),
+                  child: const PlaceholderCardPaymentScreen(),
+                  //child: const CardPaymentScreen(),
                 ),
               ),
             ],

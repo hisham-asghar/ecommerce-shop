@@ -32,8 +32,6 @@ class OrderPaymentOptions extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: Sizes.p24),
-              const Divider(),
-              const SizedBox(height: Sizes.p24),
               PrimaryButton(
                 text: 'Pay by card',
                 onPressed: () => context.goNamed(AppRoute.pay.name),

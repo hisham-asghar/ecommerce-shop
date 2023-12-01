@@ -12,7 +12,7 @@ void main() {
     final r = Robot(tester);
     await r.pumpWidgetAppWithMocks();
     await r.selectProduct();
-    await r.setProductQuantity(5);
+    await r.setProductQuantity(3);
     await r.addToCart();
     await r.openCart();
     r.expectFindNCartItems(1);
