@@ -3,8 +3,10 @@
 # Start emulator with seed data
 firebase emulators:start --import=./firebase-exports/seed-test-products &
 
-# Run integration tests
+# Run integration tests (Android emulator)
 flutter drive --driver=test_driver/integration_test.dart --target=integration_test/purchase_flow_firebase_emulator_test.dart --flavor=development -d emulator-5554
+# Run integration tests (iOS Simulator)
+#flutter drive --driver=test_driver/integration_test.dart --target=integration_test/purchase_flow_firebase_emulator_test.dart --flavor=development -d 628E745E-6A0E-48CA-8CDF-7943DC1ECE8A
 
 ## Kill emulator when done
 lsof -ti :8081 | xargs kill # functions

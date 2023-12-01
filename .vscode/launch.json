@@ -41,7 +41,17 @@
       "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
     },
     {
-      "name": "Launch integration tests (mocks)",
+      "name": "Launch integration tests (mocks - no flavor)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--target",
+        "integration_test/purchase_flow_test.dart"
+      ]
+    },
+    {
+      "name": "Launch integration tests (mocks - dev)",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_development.dart",
