@@ -128,7 +128,6 @@ class Robot {
   Future<void> selectProduct({int atIndex = 0}) async {
     final finder = find.byKey(ProductCard.productCardKey);
     await tester.tap(finder.at(atIndex));
-    // wait for navigation
     await tester.pumpAndSettle();
   }
 
@@ -199,7 +198,7 @@ class Robot {
     expect(finder, findsOneWidget);
   }
 
-  void expectShoppingCartEmpty() {
+  void expectShoppingCartIsEmpty() {
     final finder = find.text('Shopping Cart is empty');
     expect(finder, findsOneWidget);
   }

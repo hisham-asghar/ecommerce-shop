@@ -26,7 +26,7 @@ void main() {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
       await r.openCart();
-      r.expectShoppingCartEmpty();
+      r.expectShoppingCartIsEmpty();
     });
 
     testWidgets(
@@ -114,7 +114,7 @@ void main() {
       await r.addToCart();
       await r.openCart();
       await r.deleteCartItem(atIndex: 0);
-      r.expectShoppingCartEmpty();
+      r.expectShoppingCartIsEmpty();
     });
 
     testWidgets('Given add item with quantity = 5 Then item is out of stock',
