@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/order_payment_intent.dart';
 
 abstract class CloudFunctionsRepository {
-  Future<Order> placeOrder(String uid);
+  Future<OrderPaymentIntent> createOrderPaymentIntent(String uid);
 }
 
 final cloudFunctionsRepositoryProvider =

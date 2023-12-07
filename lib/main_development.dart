@@ -3,12 +3,11 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/run_app_with_firebase.dart';
 
 void main() async {
-  // TODO: Uncomment this when implementing Stripe payments
-  // TODO: Add platform checks to disable on desktop
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // Use local Auth emulator
@@ -22,11 +21,12 @@ void main() async {
   FirebaseFunctions.instance.useFunctionsEmulator('localhost', 8081);
   // Stripe setup
   if (PlatformIs.iOS || PlatformIs.android) {
-    // TODO: Provide key
-    //Stripe.publishableKey = stripePublishableKey;
-    // Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
-    // Stripe.urlScheme = 'flutterstripe';
-    // await Stripe.instance.applySettings();
+    const publicKey = String.fromEnvironment('STRIPE_PUBLISHABLE_KEY');
+    if (publicKey.isEmpty) {
+      throw AssertionError('STRIPE_PUBLISHABLE_KEY is not set');
+    }
+    Stripe.publishableKey = publicKey;
+    await Stripe.instance.applySettings();
   }
 
   runAppWithFirebase();

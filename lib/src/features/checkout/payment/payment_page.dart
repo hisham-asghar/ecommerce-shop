@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/order_payment_options.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page_pay.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
@@ -17,6 +17,7 @@ class PaymentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // TODO: back to home page once a new order has been created (cart is empty)
     final itemsValue = ref.watch(cartItemsListProvider);
     return AsyncValueWidget<List<Item>>(
       value: itemsValue,
@@ -52,7 +53,7 @@ class PaymentPage extends ConsumerWidget {
           ),
           // TODO: Test this on desktop
           const DecoratedBoxWithShadow(
-            child: OrderPaymentOptions(),
+            child: PaymentPagePay(),
           )
         ],
       ),

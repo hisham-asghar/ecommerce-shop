@@ -59,7 +59,7 @@ class Address {
 
   @override
   String toString() {
-    return 'Address(address: $address, city: $city, state: $state, postalCode: $postalCode, country: $country)';
+    return 'UserAddress(address: $address, city: $city, state: $state, postalCode: $postalCode, country: $country)';
   }
 
   @override

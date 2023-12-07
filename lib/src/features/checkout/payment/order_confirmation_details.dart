@@ -5,6 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
+// TODO: No longer used?
 class OrderConfirmationDetails extends ConsumerWidget {
   const OrderConfirmationDetails({Key? key, required this.order})
       : super(key: key);
