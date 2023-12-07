@@ -7,7 +7,6 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() => WidgetController.hitTestWarningShouldBeFatal = true);
-
   testWidgets('integration - full purchase flow', (tester) async {
     final r = Robot(tester);
     await r.pumpWidgetAppWithMocks();

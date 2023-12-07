@@ -101,10 +101,7 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   void _createNewUser() {
-    currentUser = FakeAppUser(
-      uid: const Uuid().v1(),
-    );
+    currentUser = FakeAppUser(uid: const Uuid().v1(), email: 'test@test.com');
     _authStateChangesController.add(currentUser);
-    print('New uid: ${currentUser!.uid}');
   }
 }

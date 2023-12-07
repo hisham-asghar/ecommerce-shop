@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/app.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
@@ -36,6 +37,9 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/fake_payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
 
 class Robot {
   Robot(this.tester);
@@ -61,6 +65,11 @@ class Robot {
         productsRepository: productsRepository, addDelay: addDelay);
     final cloudFunctionsRepository =
         FakeCloudFunctionsRepository(ordersRepository: ordersRepository);
+    final paymentRepository = FakePaymentsRepository(
+      authRepository: authRepository,
+      ordersRepository: ordersRepository,
+      addDelay: addDelay,
+    );
     await tester.pumpWidget(ProviderScope(
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),
@@ -71,6 +80,7 @@ class Robot {
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
+        paymentsRepositoryProvider.overrideWithValue(paymentRepository),
       ],
       child: const MyApp(),
     ));
@@ -102,6 +112,8 @@ class Robot {
     final localCartRepository = await SembastCartRepository.makeDefault();
     final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
         FirebaseFunctions.instanceFor(region: 'us-central1'));
+    // TODO: Can we mock this to short-circuit purchase path and write order in Firestore?
+    final paymentRepository = StripeRepository(Stripe.instance);
     runApp(ProviderScope(
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),
@@ -112,6 +124,7 @@ class Robot {
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
+        paymentsRepositoryProvider.overrideWithValue(paymentRepository),
       ],
       child: const MyApp(),
     ));
@@ -203,6 +216,11 @@ class Robot {
     expect(finder, findsOneWidget);
   }
 
+  void expectFindZeroCartItems() {
+    final finder = find.byType(ShoppingCartItem);
+    expect(finder, findsNothing);
+  }
+
   void expectFindNCartItems(int count) {
     final finder = find.byType(ShoppingCartItem);
     expect(finder, findsNWidgets(count));
@@ -287,22 +305,10 @@ class Robot {
 
   // payment
   Future<void> startPayment() async {
-    final finder = find.text('Pay by card');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  Future<void> payWithCard() async {
     final finder = find.text('Pay');
     expect(finder, findsOneWidget);
     await tester.tap(finder);
     await tester.pumpAndSettle();
-  }
-
-  void expectPaymentComplete() {
-    // app bar title
-    expect(find.text('Payment Complete'), findsOneWidget);
   }
 
   // navigation
@@ -352,10 +358,11 @@ class Robot {
     await startCheckout();
     await createAccount();
     await enterAddress();
+    expectFindNCartItems(1);
     await startPayment();
-    await payWithCard();
-    expectPaymentComplete();
-    await closePage();
+    expectFindZeroCartItems();
+    await closePage(); // payment page
+    await closePage(); // shopping cart
     await showMenu();
     await openAccountPage();
     await logout();

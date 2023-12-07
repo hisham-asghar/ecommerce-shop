@@ -4,7 +4,6 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
@@ -14,13 +13,9 @@ class PaymentPagePay extends ConsumerWidget {
   const PaymentPagePay({Key? key}) : super(key: key);
 
   Future<void> _pay(WidgetRef ref) async {
-    if (PlatformIs.android || PlatformIs.iOS) {
-      final model = ref.read(paymentPageControllerProvider.notifier);
-      await model.pay();
-      // note: back navigation happens once the order is fullfilled (webhook logic)
-    } else {
-      // TODO: show alert dialog and fallthrough
-    }
+    // TODO: Only run Stripe code on supported platforms, fallback on others
+    final model = ref.read(paymentPageControllerProvider.notifier);
+    await model.pay();
   }
 
   @override
