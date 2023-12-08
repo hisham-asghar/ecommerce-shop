@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
 
 // TODO: Delete this page
@@ -11,7 +11,7 @@ class PlaceholderCardPaymentScreen extends ConsumerWidget {
   const PlaceholderCardPaymentScreen({Key? key}) : super(key: key);
 
   void _placeOrder(BuildContext context, WidgetRef ref) async {
-    final model = ref.read(paymentPageControllerProvider.notifier);
+    final model = ref.read(paymentButtonControllerProvider.notifier);
     final order = await model.pay();
     // TODO: Use ref.listen on order data instead
     // if (order != null) {
@@ -23,10 +23,10 @@ class PlaceholderCardPaymentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
     ref.listen<WidgetBasicState>(
-      paymentPageControllerProvider,
-      (_, state) => widgetStateErrorListener(context, state),
+      paymentButtonControllerProvider,
+      (_, state) => state.showSnackBarOnError(context),
     );
-    final state = ref.watch(paymentPageControllerProvider);
+    final state = ref.watch(paymentButtonControllerProvider);
     return Scaffold(
       appBar: AppBar(),
       body: ScrollablePage(

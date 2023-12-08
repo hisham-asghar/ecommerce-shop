@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page_pay.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class PaymentPage extends ConsumerWidget {
   PaymentPage({Key? key}) : super(key: key);
@@ -57,6 +59,37 @@ class PaymentPage extends ConsumerWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class PaymentPagePay extends ConsumerWidget {
+  const PaymentPagePay({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartTotalValue = ref.watch(cartTotalProvider);
+    return AsyncValueWidget<CartTotal>(
+      value: cartTotalValue,
+      data: (cartTotal) {
+        final totalFormatted =
+            ref.watch(currencyFormatterProvider).format(cartTotal.total);
+        return Padding(
+          padding: const EdgeInsets.all(Sizes.p16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Order total: $totalFormatted',
+                style: Theme.of(context).textTheme.headline5,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: Sizes.p24),
+              const PaymentButton(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

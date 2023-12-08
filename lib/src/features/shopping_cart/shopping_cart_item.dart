@@ -67,7 +67,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
     // error handling
     ref.listen<WidgetBasicState>(
       shoppingCartItemControllerProvider,
-      (_, state) => widgetStateErrorListener(context, state),
+      (_, state) => state.showSnackBarOnError(context),
     );
     final state = ref.watch(shoppingCartItemControllerProvider);
     final priceFormatted =

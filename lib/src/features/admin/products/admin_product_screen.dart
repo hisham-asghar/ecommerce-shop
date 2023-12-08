@@ -42,7 +42,7 @@ class _AdminProductScreenContentsState
     // error handling
     ref.listen<WidgetBasicState>(
       adminProductScreenControllerProvider(widget.product),
-      (_, state) => widgetStateErrorListener(context, state),
+      (_, state) => state.showSnackBarOnError(context),
     );
     final model = ref
         .watch(adminProductScreenControllerProvider(widget.product).notifier);
