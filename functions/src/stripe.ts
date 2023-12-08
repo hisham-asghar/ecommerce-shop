@@ -6,7 +6,7 @@ import Stripe from 'stripe'
 const stripeSecretKey = functions.config().stripe?.secret_key
 const stripeWebhookSecretKey = functions.config().stripe?.webhook_secret_key
 
-import { fullfillOrder } from './cart'
+import { fullfillOrder, setCustomerUid } from './cart'
 
 // for testing purposes
 // export async function getStripePublicKeyHttps(response: functions.Response<any>) {
@@ -47,16 +47,6 @@ export async function findOrCreateStripeCustomer(uid: string) {
         await setCustomerUid(customer.id, uid)
         return customer
     }
-}
-
-import { customerPath } from './cart'
-
-async function setCustomerUid(customerId: string, uid: string) {
-
-    const firestore = admin.firestore()
-    await firestore.doc(customerPath(customerId)).set({
-        uid: uid
-    })
 }
 
 export async function createPaymentIntent(amount: number, customer: Stripe.Customer) {

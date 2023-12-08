@@ -12,14 +12,16 @@ export function productPath(productId: string): string { return `products/${prod
 export function customerPath(customerId: string): string { return `customers/${customerId}` }
 
 export async function updateCartTotal(context: functions.EventContext) {
-    // TODO: This should not be triggered when an order is fullfilled
-    const uid = context.params.uid;
     const firestore = admin.firestore()
-    const cartTotal = await calculateCartTotal(uid, firestore)
-    console.log(`Updated cart total: ${cartTotal}`)
-    return await firestore.doc(cartPath(uid)).set({
-        'total': cartTotal
-    }, { merge: true })
+    firestore.runTransaction(async (transaction) => {
+        const uid = context.params.uid;
+        const cartTotal = await calculateCartTotal(uid, firestore, transaction)
+        console.log(`Updated cart total: ${cartTotal}`)
+        return transaction.set(firestore.doc(cartPath(uid)), {
+            'total': cartTotal
+        }, { merge: true })
+    
+    })
 }
 
 export async function createOrderPaymentIntent(data: any, context: functions.https.CallableContext) {
@@ -30,15 +32,16 @@ export async function createOrderPaymentIntent(data: any, context: functions.htt
                 'The user is not authenticated.')
         }
         const firestore = admin.firestore()
-        // check if all items are in stock (throws in case of error)
-        await checkItemsInStock(uid, firestore)
-        // calculate total
-        const cartTotal = await calculateCartTotal(uid, firestore)
-        
+        const cartTotal = await firestore.runTransaction(async (transaction) => {
+            // check if all items are in stock (throws in case of error)
+            await checkItemsInStock(uid, firestore, transaction)
+            // calculate total
+            return calculateCartTotal(uid, firestore, transaction)
+        })
         const customer = await findOrCreateStripeCustomer(uid)
         // map with paymentIntent, ephemeralKey, customer
         return createPaymentIntent(cartTotal, customer)
-        
+    
         // note: the rest of the process will complete via webhook
 
     } catch (error) {
@@ -47,15 +50,15 @@ export async function createOrderPaymentIntent(data: any, context: functions.htt
     }
 }
 
-async function checkItemsInStock(uid: string, firestore: FirebaseFirestore.Firestore) {
+async function checkItemsInStock(uid: string, firestore: FirebaseFirestore.Firestore, transaction: FirebaseFirestore.Transaction) {
     // First check that all products have sufficient stock
     const cartItemsCollectionRef = firestore.collection(cartItemsPath(uid))
-    const cartItemsCollection = await cartItemsCollectionRef.get()
+    const cartItemsCollection = await transaction.get(cartItemsCollectionRef)
     for (const doc of cartItemsCollection.docs) {
         // extract the items data
         const { productId, quantity } = doc.data()
         // find a matching product
-        const product = await firestore.doc(productPath(productId)).get();
+        const product = await transaction.get(firestore.doc(productPath(productId)))
         if (product !== undefined) {
             const { availableQuantity } = product.data()!
             if (availableQuantity < quantity) {
@@ -71,85 +74,91 @@ async function checkItemsInStock(uid: string, firestore: FirebaseFirestore.Fires
 
 export async function fullfillOrder(pi: Stripe.PaymentIntent) {
     const customerId = pi.customer
-    try {
-        // TODO: Run all this as a transaction
-        const firestore = admin.firestore()
-        const customerDoc = await firestore.doc(customerPath(customerId as string)).get()
-        const customerData = customerDoc.data()
-        if (customerData == undefined) {
-            console.error(`customer not found at ` + customerPath(customerId as string))
-            return
-        }
-        const { uid } = customerData
+    const firestore = admin.firestore()
+    await firestore.runTransaction(async (transaction) => {
+        try {
+            // ALL READS
+            const customerRef = firestore.doc(customerPath(customerId as string))
+            const customerDoc = await transaction.get(customerRef)
+            const customerData = customerDoc.data()
+            if (customerData == undefined) {
+                console.error(`customer not found at ` + customerPath(customerId as string))
+                return
+            }
+            const { uid } = customerData
 
-        // TODO: this should match pi.amount / 100
-        const cartTotal = await calculateCartTotal(uid, firestore)
+            // this should match pi.amount / 100
+            const cartTotal = await calculateCartTotal(uid, firestore, transaction)
 
-        const cartItemsCollectionRef = firestore.collection(cartItemsPath(uid))
-        const cartItemsCollection = await cartItemsCollectionRef.get()
-
-        // Then, update product stock levels and empty the cart data
-        var items = new Array()
-        for (const doc of cartItemsCollection.docs) {
-            // extract the items data
-            const { productId, quantity } = doc.data()
-            // find a matching product
-            const productRef = firestore.doc(productPath(productId))
-            const product = await productRef.get();
-            if (product !== undefined) {
-                const { availableQuantity } = product.data()!
-                // TODO: available quantity check?
+            const cartItemsCollectionRef = firestore.collection(cartItemsPath(uid))
+            const cartItemsCollection = await transaction.get(cartItemsCollectionRef)
+            
+            // Get all items and list all products
+            var items = new Array()
+            var products = new Array()
+            for (const doc of cartItemsCollection.docs) {
+                // extract the items data
+                const { productId, quantity } = doc.data()
+                // find a matching product
+                const productRef = firestore.doc(productPath(productId))
+                const product = await transaction.get(productRef)
+                if (product !== undefined) {
+                    items.push({ productId, quantity })
+                    const { availableQuantity } = product.data()!
+                    products.push({ productRef, 'availableQuantity': availableQuantity - quantity })
+                }
+            }
+            // ALL WRITES
+            // Update product quantities. We need to do this in a separate loop because
+            // Firestore transactions require all reads to be executed before all writes.
+            for (const product of products) {
+                const { productRef, availableQuantity } = product
                 // Update available quantity
-                await productRef.update({
-                    'availableQuantity': availableQuantity - quantity
-                })
-                // update items
-                items.push({
-                    'productId': productId,
-                    'quantity': quantity,
+                await transaction.update(productRef, {
+                    'availableQuantity': availableQuantity
                 })
             }
-            // Delete document from cart
-            // TODO: Is it valid to delete inside this loop?
-            // Will this trigger a cart total update?
-            await doc.ref.delete()
+            // Delete all cart items
+            for (const doc of cartItemsCollection.docs) {
+                await transaction.delete(doc.ref)
+            }
+            // Delete cart (a new one will be created when the user adds items again)
+            await transaction.delete(firestore.doc(cartPath(uid)))
+
+            // save order document data so it can be returned at the end
+            const orderData = {
+                'userId': uid,
+                'total': cartTotal,
+                'orderStatus': 'confirmed',
+                'orderDate': new Date().toISOString(),
+                'items': items,
+                'payment': {
+                    'id': pi.id,
+                    'amount': pi.amount,
+                    'source': pi.source,
+                    'invoice': pi.invoice                
+                }            
+            }
+            const newDocRef = firestore.collection(userOrdersPath(uid)).doc()
+            await transaction.set(newDocRef, orderData)
+
+        } catch (error) {
+            console.warn(`Could not fullfill order: ${customerId}`, error);
+            throw error;
         }
-
-        // save order document data so it can be returned at the end
-        const orderData = {
-            'userId': uid,
-            'total': cartTotal,
-            'orderStatus': 'confirmed',
-            'orderDate': new Date().toISOString(),
-            'items': items,
-            'payment': {
-                'id': pi.id,
-                'amount': pi.amount,
-                'source': pi.source,
-                'invoice': pi.invoice                
-            }            
-        }
-        await firestore.collection(userOrdersPath(uid)).add(orderData)
-
-        // finally, remove the cart document (a new one will be created when the user adds items again)
-        await firestore.doc(cartPath(uid)).delete()
-
-    } catch (error) {
-        console.warn(`Could not fullfill order: ${customerId}`, error);
-        throw error;
-    }
+    })
 }
 
 
-async function calculateCartTotal(uid: string, firestore: FirebaseFirestore.Firestore) {
+async function calculateCartTotal(uid: string, firestore: FirebaseFirestore.Firestore, transaction: FirebaseFirestore.Transaction) {
     var updatedPrice = 0;
     // iterate through all the cart items
-    const collection = await firestore.collection(cartItemsPath(uid)).get()
+    const collection = await transaction.get(firestore.collection(cartItemsPath(uid)))
     for (const doc of collection.docs) {
         // extract the items data
         const { productId, quantity } = doc.data()
         // find a matching product
-        const product = await firestore.doc(productPath(productId)).get()
+        const product = await transaction.get(firestore.doc(productPath(productId)))
         if (product !== undefined) {
             const { price } = product.data()!
             const itemPrice = price * quantity
@@ -160,4 +169,12 @@ async function calculateCartTotal(uid: string, firestore: FirebaseFirestore.Fire
         }
     }
     return updatedPrice
+}
+
+export async function setCustomerUid(customerId: string, uid: string) {
+
+    const firestore = admin.firestore()
+    await firestore.doc(customerPath(customerId)).set({
+        uid: uid
+    })
 }
