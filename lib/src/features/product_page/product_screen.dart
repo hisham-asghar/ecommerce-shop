@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
@@ -50,7 +51,7 @@ class ProductScreenContents extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
           // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
-          child: Image.network(product.imageUrl),
+          child: CachedNetworkImage(imageUrl: product.imageUrl),
         ),
       ),
       spacing: Sizes.p16,

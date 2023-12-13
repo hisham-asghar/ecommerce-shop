@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
@@ -22,7 +23,7 @@ class OrderItemListTile extends ConsumerWidget {
           children: [
             Flexible(
               flex: 1,
-              child: Image.network(product.imageUrl),
+              child: CachedNetworkImage(imageUrl: product.imageUrl),
             ),
             const SizedBox(width: Sizes.p8),
             Flexible(

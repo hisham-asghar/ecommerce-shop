@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -26,7 +27,7 @@ class ProductCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
-              Image.network(product.imageUrl),
+              CachedNetworkImage(imageUrl: product.imageUrl),
               const SizedBox(height: Sizes.p8),
               const Divider(),
               const SizedBox(height: Sizes.p8),
