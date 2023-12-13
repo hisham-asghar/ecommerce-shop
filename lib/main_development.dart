@@ -27,6 +27,9 @@ void main() async {
       throw AssertionError('STRIPE_PUBLISHABLE_KEY is not set');
     }
     Stripe.publishableKey = publicKey;
+    // TODO: Update to production values
+    Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+    Stripe.urlScheme = 'flutterstripe';
     await Stripe.instance.applySettings();
   }
 

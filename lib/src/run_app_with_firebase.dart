@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -58,10 +57,8 @@ Future<void> runAppWithFirebase() async {
     ));
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
-      exit(1);
     };
   }, (Object error, StackTrace stack) {
     print(error);
-    exit(1);
   });
 }

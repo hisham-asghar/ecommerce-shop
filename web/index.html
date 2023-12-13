@@ -35,6 +35,25 @@
 </head>
 
 <body>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-functions.js"></script>
+  
+  <script>
+    // Working setup instructions are here:
+    // https://firebase.flutter.dev/docs/manual-installation/web
+    const firebaseConfig = {
+      apiKey: "AIzaSyCb-lptdYu-yFcWMozN9SOY3KSgFx-7ciU",
+      authDomain: "my-shop-ecommerce-dev.firebaseapp.com",
+      projectId: "my-shop-ecommerce-dev",
+      storageBucket: "my-shop-ecommerce-dev.appspot.com",
+      messagingSenderId: "80539328080",
+      appId: "1:80539328080:web:3c67c7f0ff80a035263b55"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->

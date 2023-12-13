@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,10 +51,8 @@ Future<void> runAppWithMocks() async {
 
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
-      exit(1);
     };
   }, (Object error, StackTrace stack) {
     print(error);
-    exit(1);
   });
 }

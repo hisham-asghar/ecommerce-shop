@@ -32,7 +32,7 @@ class StripeRepository implements PaymentsRepository {
       paymentSheetParameters: SetupPaymentSheetParameters(
         // Main params
         paymentIntentClientSecret: orderPaymentIntent.paymentIntent,
-        merchantDisplayName: 'Flutter Stripe Store Demo',
+        merchantDisplayName: 'MyShop',
         // Customer params
         customerId: orderPaymentIntent.customer,
         customerEphemeralKeySecret: orderPaymentIntent.ephemeralKey,

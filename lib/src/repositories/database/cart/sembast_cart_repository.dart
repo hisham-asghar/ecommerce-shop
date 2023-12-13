@@ -1,3 +1,4 @@
+import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
@@ -7,29 +8,26 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_ca
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:sembast_web/sembast_web.dart';
 
 class SembastCartRepository implements LocalCartRepository {
-  static DatabaseFactory dbFactory = databaseFactoryIo;
-
   SembastCartRepository(this.db);
   final Database db;
   final store = StoreRef.main();
 
   // Create data store on predefined location
   static Future<SembastCartRepository> makeDefault() async {
-    final appDocDir = await getApplicationDocumentsDirectory();
-    // We use the database factory to open the database
-    final database =
-        await dbFactory.openDatabase('${appDocDir.path}/default.db');
-    return SembastCartRepository(database);
+    if (!PlatformIs.web) {
+      final appDocDir = await getApplicationDocumentsDirectory();
+      // We use the database factory to open the database
+      final database =
+          await databaseFactoryIo.openDatabase('${appDocDir.path}/default.db');
+      return SembastCartRepository(database);
+    } else {
+      final database = await databaseFactoryWeb.openDatabase('default.db');
+      return SembastCartRepository(database);
+    }
   }
-
-  // Create data store on custom location
-  static Future<SembastCartRepository> init(String dbPath) async =>
-      SembastCartRepository(
-        // We use the database factory to open the database
-        await dbFactory.openDatabase(dbPath),
-      );
 
   static const cartItemsKey = 'cartItems';
 

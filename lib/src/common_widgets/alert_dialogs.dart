@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 
 Future<bool?> showAlertDialog({
   required BuildContext context,
@@ -12,7 +10,7 @@ Future<bool?> showAlertDialog({
   String? cancelActionText,
   required String defaultActionText,
 }) async {
-  if (kIsWeb || !Platform.isIOS) {
+  if (!PlatformIs.iOS) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
