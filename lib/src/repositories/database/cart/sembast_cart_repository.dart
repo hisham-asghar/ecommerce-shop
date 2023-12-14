@@ -46,31 +46,6 @@ class SembastCartRepository implements LocalCartRepository {
   }
 
   @override
-  Stream<double> cartTotal(List<Product> products) {
-    final record = store.record(cartItemsKey);
-    return record.onSnapshot(db).map((snapshot) {
-      if (snapshot != null) {
-        final items = ItemsList.fromJson(snapshot.value).items;
-        final total = items.isEmpty
-            ? 0.0
-            : items
-                // first extract quantity * price for each item
-                .map((item) =>
-                    item.quantity * _getProduct(products, item.productId).price)
-                // then add them up
-                .reduce((value, element) => value + element);
-        return total;
-      } else {
-        return 0.0;
-      }
-    });
-  }
-
-  Product _getProduct(List<Product> products, String id) {
-    return products.firstWhere((product) => product.id == id);
-  }
-
-  @override
   Future<List<Item>> getItemsList() async {
     final itemsJson = await store.record(cartItemsKey).get(db) as String?;
     if (itemsJson != null) {

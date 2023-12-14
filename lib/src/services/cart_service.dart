@@ -4,10 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
-import 'package:rxdart/rxdart.dart';
 
 class CartService {
   CartService(
@@ -101,39 +98,29 @@ final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
 });
 
 final cartTotalProvider = StreamProvider.autoDispose<double>((ref) {
+  // TODO: refactor this to use cartItemsListProvider
+  // local function
+  Stream<List<Item>> itemsList(AppUser? user) {
+    if (user != null) {
+      final cartRepository = ref.watch(cartRepositoryProvider);
+      return cartRepository.itemsList(user.uid);
+    } else {
+      final localCartRepository = ref.watch(localCartRepositoryProvider);
+      return localCartRepository.itemsList();
+    }
+  }
+
   final userValue = ref.watch(authStateChangesProvider);
   final user = userValue.asData?.value;
-  if (user != null) {
-    final cartRepository = ref.watch(cartRepositoryProvider);
-    final productsRepository = ref.watch(productsRepositoryProvider);
-    return cartTotalStream(
-      productsRepository: productsRepository,
-      cartRepository: cartRepository,
-      uid: user.uid,
-    );
-  } else {
-    final productsListValue = ref.watch(productsListProvider);
-    final productsList = productsListValue.asData?.value ?? [];
-    final localCartRepository = ref.watch(localCartRepositoryProvider);
-    return localCartRepository.cartTotal(productsList);
-  }
-});
-
-Stream<double> cartTotalStream({
-  required ProductsRepository productsRepository,
-  required CartRepository cartRepository,
-  required String uid,
-}) {
-  return Rx.combineLatest2(
-      productsRepository.productsList(), cartRepository.itemsList(uid),
-      (List<Product> products, List<Item> items) {
+  final productsListValue = ref.watch(productsListProvider);
+  final productsList = productsListValue.asData?.value ?? [];
+  return itemsList(user).map((List<Item> items) {
     if (items.isNotEmpty) {
       final itemPrices = items.map((item) {
         final product =
-            products.firstWhere((product) => product.id == item.productId);
+            productsList.firstWhere((product) => product.id == item.productId);
         return product.price * item.quantity;
       }).toList();
-
       return itemPrices.reduce((value, itemPrice) {
         return value + itemPrice;
       });
@@ -141,4 +128,4 @@ Stream<double> cartTotalStream({
       return 0.0;
     }
   });
-}
+});
