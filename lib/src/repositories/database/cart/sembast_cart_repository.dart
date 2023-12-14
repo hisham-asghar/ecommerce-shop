@@ -1,5 +1,4 @@
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/items_list.dart';
@@ -47,7 +46,7 @@ class SembastCartRepository implements LocalCartRepository {
   }
 
   @override
-  Stream<CartTotal> cartTotal(List<Product> products) {
+  Stream<double> cartTotal(List<Product> products) {
     final record = store.record(cartItemsKey);
     return record.onSnapshot(db).map((snapshot) {
       if (snapshot != null) {
@@ -60,9 +59,9 @@ class SembastCartRepository implements LocalCartRepository {
                     item.quantity * _getProduct(products, item.productId).price)
                 // then add them up
                 .reduce((value, element) => value + element);
-        return CartTotal(total: total);
+        return total;
       } else {
-        return CartTotal(total: 0.0);
+        return 0.0;
       }
     });
   }

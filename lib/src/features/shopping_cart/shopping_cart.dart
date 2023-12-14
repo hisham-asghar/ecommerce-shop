@@ -6,7 +6,6 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
@@ -132,11 +131,11 @@ class ShoppingCartCheckout extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartTotalValue = ref.watch(cartTotalProvider);
-    return AsyncValueWidget<CartTotal>(
+    return AsyncValueWidget<double>(
       value: cartTotalValue,
       data: (cartTotal) {
         final totalFormatted =
-            ref.watch(currencyFormatterProvider).format(cartTotal.total);
+            ref.watch(currencyFormatterProvider).format(cartTotal);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

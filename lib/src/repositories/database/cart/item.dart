@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 /// A product along with a quantity that can be added to an order/cart
 class Item {
   Item({

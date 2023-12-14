@@ -6,23 +6,9 @@ import { findOrCreateStripeCustomer, createPaymentIntent } from './stripe'
 
 export function userOrdersPath(uid: string): string { return `users/${uid}/orders` }
 export function userOrderPath(uid: string, orderId: string): string { return `users/${uid}/orders/${orderId}` }
-export function cartPath(uid: string): string { return `users/${uid}/private/cart` }
 export function cartItemsPath(uid: string): string { return `users/${uid}/cartItems` }
 export function productPath(productId: string): string { return `products/${productId}` }
 export function customerPath(customerId: string): string { return `customers/${customerId}` }
-
-export async function updateCartTotal(context: functions.EventContext) {
-    const firestore = admin.firestore()
-    firestore.runTransaction(async (transaction) => {
-        const uid = context.params.uid;
-        const cartTotal = await calculateCartTotal(uid, firestore, transaction)
-        console.log(`Updated cart total: ${cartTotal}`)
-        return transaction.set(firestore.doc(cartPath(uid)), {
-            'total': cartTotal
-        }, { merge: true })
-    
-    })
-}
 
 export async function createOrderPaymentIntent(data: any, context: functions.https.CallableContext) {
     const uid = context.auth?.uid
@@ -122,8 +108,6 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
             for (const doc of cartItemsCollection.docs) {
                 await transaction.delete(doc.ref)
             }
-            // Delete cart (a new one will be created when the user adds items again)
-            await transaction.delete(firestore.doc(cartPath(uid)))
 
             // save order document data so it can be returned at the end
             const orderData = {

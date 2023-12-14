@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
+//import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
@@ -7,8 +7,6 @@ class FirebaseCartRepository implements CartRepository {
   FirebaseCartRepository(this._firestore);
   final FirebaseFirestore _firestore;
 
-  static String cartPath(String uid) =>
-      'users/$uid/private/cart'; // contains total
   static String cartItemsPath(String uid) => 'users/$uid/cartItems';
   static String cartItemPath(String uid, String id) =>
       'users/$uid/cartItems/$id';
@@ -79,18 +77,5 @@ class FirebaseCartRepository implements CartRepository {
       _firestore.doc(cartItemPath(uid, productId)).withConverter(
             fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
             toFirestore: (Item item, options) => item.toMap(),
-          );
-
-  @override
-  Stream<CartTotal> cartTotal(String uid) {
-    return _cartTotalRef(uid)
-        .snapshots()
-        .map((snapshot) => snapshot.data() ?? CartTotal(total: 0));
-  }
-
-  DocumentReference<CartTotal> _cartTotalRef(String uid) =>
-      _firestore.doc(cartPath(uid)).withConverter(
-            fromFirestore: (doc, _) => CartTotal.fromMap(doc.data()),
-            toFirestore: (CartTotal cartTotal, options) => cartTotal.toMap(),
           );
 }

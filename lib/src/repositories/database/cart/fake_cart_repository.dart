@@ -1,4 +1,3 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
@@ -55,15 +54,6 @@ class FakeCartRepository implements CartRepository {
       cartData[uid] = cart.items;
       _cartDataSubject.add(cartData);
     }
-  }
-
-  @override
-  Stream<CartTotal> cartTotal(String uid) {
-    return _cartDataStream.map((cartData) {
-      final items = cartData[uid] ?? [];
-      final total = totalPrice(items);
-      return CartTotal(total: total);
-    });
   }
 
   @override

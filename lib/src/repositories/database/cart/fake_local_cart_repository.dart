@@ -1,4 +1,3 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
@@ -55,11 +54,10 @@ class FakeLocalCartRepository implements LocalCartRepository {
   }
 
   @override
-  Stream<CartTotal> cartTotal(List<Product> products) {
+  Stream<double> cartTotal(List<Product> products) {
     return _cartDataStream.map((cartData) {
       final items = cartData;
-      final total = totalPrice(items);
-      return CartTotal(total: total);
+      return totalPrice(items);
     });
   }
 

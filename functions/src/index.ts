@@ -13,12 +13,7 @@ exports.promoteToAdminIfWhitelisted = functions.region(region).auth.user().onCre
 })
 
 // Cart
-import { updateCartTotal, createOrderPaymentIntent } from './cart'
-
-exports.updateCartTotal = functions.region(region).firestore
-    .document(`users/{uid}/cartItems/{itemId}`).onWrite((_, context) => {
-      return updateCartTotal(context);
-    })
+import { createOrderPaymentIntent } from './cart'
 
 exports.createOrderPaymentIntent = functions.region(region).https.onCall(createOrderPaymentIntent)
 

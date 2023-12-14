@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
-// TODO: This is no longer needed?
+// Needed by SembastCartRepository
 class ItemsList {
   ItemsList(this.items);
   final List<Item> items;

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
@@ -8,7 +7,7 @@ abstract class LocalCartRepository {
 
   Stream<List<Item>> itemsList();
 
-  Stream<CartTotal> cartTotal(List<Product> products);
+  Stream<double> cartTotal(List<Product> products);
 
   Future<void> addItem(Item item);
 

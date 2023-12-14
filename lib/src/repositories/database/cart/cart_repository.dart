@@ -1,13 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
 abstract class CartRepository {
   Future<List<Item>> getItemsList(String uid);
 
   Stream<List<Item>> itemsList(String uid);
-
-  Stream<CartTotal> cartTotal(String uid);
 
   Future<void> addItem(String uid, Item item);
 
