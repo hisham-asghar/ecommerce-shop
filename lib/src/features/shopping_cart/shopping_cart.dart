@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/shopping_cart_total_widget.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_with_cta.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
@@ -130,7 +130,7 @@ class ShoppingCartCheckout extends ConsumerWidget {
   const ShoppingCartCheckout({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ShoppingCartTotalWidget(
+    return CartTotalWithCTA(
       ctaBuilder: (_) => PrimaryButton(
         text: 'Checkout',
         onPressed: () => context.pushNamed(AppRoute.checkout.name),
