@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/shopping_cart_total_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
@@ -127,31 +128,13 @@ class ShoppingCartContents extends ConsumerWidget {
 
 class ShoppingCartCheckout extends ConsumerWidget {
   const ShoppingCartCheckout({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartTotalValue = ref.watch(cartTotalProvider);
-    return AsyncValueWidget<double>(
-      value: cartTotalValue,
-      data: (cartTotal) {
-        final totalFormatted =
-            ref.watch(currencyFormatterProvider).format(cartTotal);
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Total: $totalFormatted',
-              style: Theme.of(context).textTheme.headline5,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: Sizes.p16),
-            PrimaryButton(
-              text: 'Checkout',
-              onPressed: () => context.pushNamed(AppRoute.checkout.name),
-            ),
-          ],
-        );
-      },
+    return ShoppingCartTotalWidget(
+      ctaBuilder: (_) => PrimaryButton(
+        text: 'Checkout',
+        onPressed: () => context.pushNamed(AppRoute.checkout.name),
+      ),
     );
   }
 }

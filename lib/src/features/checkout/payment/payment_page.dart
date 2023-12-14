@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_with_cta.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
@@ -53,42 +54,13 @@ class PaymentPage extends ConsumerWidget {
             ),
           ),
           // TODO: Test this on desktop
-          const DecoratedBoxWithShadow(
-            child: PaymentPagePay(),
+          DecoratedBoxWithShadow(
+            child: CartTotalWithCTA(
+              ctaBuilder: (_) => const PaymentButton(),
+            ),
           )
         ],
       ),
-    );
-  }
-}
-
-class PaymentPagePay extends ConsumerWidget {
-  const PaymentPagePay({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cartTotalValue = ref.watch(cartTotalProvider);
-    return AsyncValueWidget<double>(
-      value: cartTotalValue,
-      data: (cartTotal) {
-        final totalFormatted =
-            ref.watch(currencyFormatterProvider).format(cartTotal);
-        return Padding(
-          padding: const EdgeInsets.all(Sizes.p16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Order total: $totalFormatted',
-                style: Theme.of(context).textTheme.headline5,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: Sizes.p24),
-              const PaymentButton(),
-            ],
-          ),
-        );
-      },
     );
   }
 }
