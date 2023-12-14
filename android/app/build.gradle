@@ -119,7 +119,10 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.0'
-    implementation 'com.google.android.gms:play-services-wallet:18.1.3'
-    implementation 'com.stripe:stripe-wechatpay:17.1.0'
+    // https://stackoverflow.com/questions/64668851/why-the-firestore-isnt-working-on-android-studio
+    implementation "io.grpc:grpc-okhttp:1.32.2"
+    // TODO: Are these needed?
+    implementation "com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.0"
+    implementation "com.google.android.gms:play-services-wallet:18.1.3"
+    implementation "com.stripe:stripe-wechatpay:17.1.0"
 }

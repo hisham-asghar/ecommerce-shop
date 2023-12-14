@@ -11,15 +11,7 @@ import 'package:my_shop_ecommerce_flutter/src/run_app_with_firebase.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Use local Auth emulator
-  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  // Use local Firestore emulator
-  final firestore = FirebaseFirestore.instance;
-  firestore.settings =
-      const Settings(persistenceEnabled: false, sslEnabled: false);
-  firestore.useFirestoreEmulator('localhost', 8080);
-  // Use local Functions emulator
-  FirebaseFunctions.instance.useFunctionsEmulator('localhost', 8081);
+  //setupEmulators();
   // Stripe setup
   if (PlatformIs.iOS || PlatformIs.android) {
     const publicKey = String.fromEnvironment('STRIPE_PUBLISHABLE_KEY');
@@ -34,4 +26,16 @@ void main() async {
   }
 
   runAppWithFirebase();
+}
+
+void setupEmulators() {
+  // Use local Auth emulator
+  FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // Use local Firestore emulator
+  final firestore = FirebaseFirestore.instance;
+  firestore.settings =
+      const Settings(persistenceEnabled: false, sslEnabled: false);
+  firestore.useFirestoreEmulator('localhost', 8080);
+  // Use local Functions emulator
+  FirebaseFunctions.instance.useFunctionsEmulator('localhost', 8081);
 }
