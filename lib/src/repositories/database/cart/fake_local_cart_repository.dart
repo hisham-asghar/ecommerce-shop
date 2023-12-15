@@ -1,9 +1,8 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mutable_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FakeLocalCartRepository implements LocalCartRepository {
@@ -27,7 +26,7 @@ class FakeLocalCartRepository implements LocalCartRepository {
   @override
   Future<void> addItem(Item item) async {
     await delay(addDelay);
-    final cart = FakeCart(cartData);
+    final cart = MutableCart(cartData);
     cart.addItem(item);
     cartData = cart.items;
     _cartDataSubject.add(cartData);
@@ -36,7 +35,7 @@ class FakeLocalCartRepository implements LocalCartRepository {
   @override
   Future<void> removeItem(Item item) async {
     await delay(addDelay);
-    final cart = FakeCart(cartData);
+    final cart = MutableCart(cartData);
     cart.removeItem(item);
     cartData = cart.items;
     _cartDataSubject.add(cartData);
@@ -45,20 +44,12 @@ class FakeLocalCartRepository implements LocalCartRepository {
   @override
   Future<void> updateItemIfExists(Item item) async {
     await delay(addDelay, 300);
-    final cart = FakeCart(cartData);
+    final cart = MutableCart(cartData);
     final result = cart.updateItemIfExists(item);
     if (result) {
       cartData = cart.items;
       _cartDataSubject.add(cartData);
     }
-  }
-
-  @override
-  Stream<double> cartTotal(List<Product> products) {
-    return _cartDataStream.map((cartData) {
-      final items = cartData;
-      return totalPrice(items);
-    });
   }
 
   @override

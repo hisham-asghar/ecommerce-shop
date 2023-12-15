@@ -97,35 +97,22 @@ final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
   }
 });
 
-final cartTotalProvider = StreamProvider.autoDispose<double>((ref) {
-  // TODO: refactor this to use cartItemsListProvider
-  // local function
-  Stream<List<Item>> itemsList(AppUser? user) {
-    if (user != null) {
-      final cartRepository = ref.watch(cartRepositoryProvider);
-      return cartRepository.itemsList(user.uid);
-    } else {
-      final localCartRepository = ref.watch(localCartRepositoryProvider);
-      return localCartRepository.itemsList();
-    }
-  }
-
-  final userValue = ref.watch(authStateChangesProvider);
-  final user = userValue.asData?.value;
+// TODO: Should this be a StreamProvider?
+final cartTotalProvider = StateProvider.autoDispose<double>((ref) {
   final productsListValue = ref.watch(productsListProvider);
   final productsList = productsListValue.asData?.value ?? [];
-  return itemsList(user).map((List<Item> items) {
-    if (items.isNotEmpty) {
-      final itemPrices = items.map((item) {
-        final product =
-            productsList.firstWhere((product) => product.id == item.productId);
-        return product.price * item.quantity;
-      }).toList();
-      return itemPrices.reduce((value, itemPrice) {
-        return value + itemPrice;
-      });
-    } else {
-      return 0.0;
-    }
-  });
+  final itemsValue = ref.watch(cartItemsListProvider);
+  final items = itemsValue.value ?? [];
+  if (items.isNotEmpty) {
+    final itemPrices = items.map((item) {
+      final product =
+          productsList.firstWhere((product) => product.id == item.productId);
+      return product.price * item.quantity;
+    }).toList();
+    return itemPrices.reduce((value, itemPrice) {
+      return value + itemPrice;
+    });
+  } else {
+    return 0.0;
+  }
 });

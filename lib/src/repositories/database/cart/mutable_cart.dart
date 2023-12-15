@@ -1,8 +1,8 @@
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
 /// Helper class used by FakeCartRepository
-class FakeCart {
-  FakeCart(this.items);
+class MutableCart {
+  MutableCart(this.items);
   List<Item> items;
 
   void addItem(Item item) {

@@ -16,12 +16,6 @@ service cloud.firestore {
     }
     // cart
     match /users/{uid}/private/cart {
-      allow read: if request.auth.uid == uid;
-    }
-    match /users/{uid}/cartItems {
-      allow read, write: if request.auth.uid == uid;
-    }
-    match /users/{uid}/cartItems/{id} {
       allow read, write: if request.auth.uid == uid;
     }
     // orders

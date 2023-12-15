@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_with_cta.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_with_cta.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class ShoppingCartScreen extends ConsumerWidget {
   const ShoppingCartScreen({Key? key}) : super(key: key);

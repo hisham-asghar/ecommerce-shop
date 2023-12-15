@@ -3,7 +3,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/items_list.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mutable_cart.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
@@ -35,7 +35,7 @@ class SembastCartRepository implements LocalCartRepository {
     final itemsJson = await store.record(cartItemsKey).get(db) as String?;
     if (itemsJson != null) {
       final itemsList = ItemsList.fromJson(itemsJson);
-      final fakeCart = FakeCart(itemsList.items);
+      final fakeCart = MutableCart(itemsList.items);
       fakeCart.addItem(item);
       final newItems = ItemsList(fakeCart.items);
       await store.record(cartItemsKey).put(db, newItems.toJson());
@@ -49,8 +49,7 @@ class SembastCartRepository implements LocalCartRepository {
   Future<List<Item>> getItemsList() async {
     final itemsJson = await store.record(cartItemsKey).get(db) as String?;
     if (itemsJson != null) {
-      final itemsList = ItemsList.fromJson(itemsJson);
-      return itemsList.items;
+      return ItemsList.fromJson(itemsJson).items;
     } else {
       return [];
     }
@@ -73,7 +72,7 @@ class SembastCartRepository implements LocalCartRepository {
     final itemsJson = await store.record(cartItemsKey).get(db) as String?;
     if (itemsJson != null) {
       final itemsList = ItemsList.fromJson(itemsJson);
-      final fakeCart = FakeCart(itemsList.items);
+      final fakeCart = MutableCart(itemsList.items);
       fakeCart.removeItem(item);
       final newItems = ItemsList(fakeCart.items);
       await store.record(cartItemsKey).put(db, newItems.toJson());
@@ -85,7 +84,7 @@ class SembastCartRepository implements LocalCartRepository {
     final itemsJson = await store.record(cartItemsKey).get(db) as String?;
     if (itemsJson != null) {
       final itemsList = ItemsList.fromJson(itemsJson);
-      final fakeCart = FakeCart(itemsList.items);
+      final fakeCart = MutableCart(itemsList.items);
       if (fakeCart.updateItemIfExists(item)) {
         final newItems = ItemsList(fakeCart.items);
         await store.record(cartItemsKey).put(db, newItems.toJson());

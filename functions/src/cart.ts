@@ -6,7 +6,7 @@ import { findOrCreateStripeCustomer, createPaymentIntent } from './stripe'
 
 export function userOrdersPath(uid: string): string { return `users/${uid}/orders` }
 export function userOrderPath(uid: string, orderId: string): string { return `users/${uid}/orders/${orderId}` }
-export function cartItemsPath(uid: string): string { return `users/${uid}/cartItems` }
+export function cartPath(uid: string): string { return `users/${uid}/private/cart` }
 export function productPath(productId: string): string { return `products/${productId}` }
 export function customerPath(customerId: string): string { return `customers/${customerId}` }
 
@@ -38,11 +38,12 @@ export async function createOrderPaymentIntent(data: any, context: functions.htt
 
 async function checkItemsInStock(uid: string, firestore: FirebaseFirestore.Firestore, transaction: FirebaseFirestore.Transaction) {
     // First check that all products have sufficient stock
-    const cartItemsCollectionRef = firestore.collection(cartItemsPath(uid))
-    const cartItemsCollection = await transaction.get(cartItemsCollectionRef)
-    for (const doc of cartItemsCollection.docs) {
+    const cartDocRef = firestore.doc(cartPath(uid))
+    const cartDoc = await transaction.get(cartDocRef)
+    const { items } = cartDoc.data() ?? []
+    for (const item of items) {
         // extract the items data
-        const { productId, quantity } = doc.data()
+        const { productId, quantity } = item
         // find a matching product
         const product = await transaction.get(firestore.doc(productPath(productId)))
         if (product !== undefined) {
@@ -76,20 +77,19 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
             // this should match pi.amount / 100
             const cartTotal = await calculateCartTotal(uid, firestore, transaction)
 
-            const cartItemsCollectionRef = firestore.collection(cartItemsPath(uid))
-            const cartItemsCollection = await transaction.get(cartItemsCollectionRef)
-            
-            // Get all items and list all products
-            var items = new Array()
+            const cartDocRef = firestore.doc(cartPath(uid))
+            const cartDoc = await transaction.get(cartDocRef)
+            const { items } = cartDoc.data() ?? []
+                    
+            // Calculate new available quantity for products
             var products = new Array()
-            for (const doc of cartItemsCollection.docs) {
+            for (const item of items) {
                 // extract the items data
-                const { productId, quantity } = doc.data()
+                const { productId, quantity } = item
                 // find a matching product
                 const productRef = firestore.doc(productPath(productId))
                 const product = await transaction.get(productRef)
                 if (product !== undefined) {
-                    items.push({ productId, quantity })
                     const { availableQuantity } = product.data()!
                     products.push({ productRef, 'availableQuantity': availableQuantity - quantity })
                 }
@@ -105,9 +105,7 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
                 })
             }
             // Delete all cart items
-            for (const doc of cartItemsCollection.docs) {
-                await transaction.delete(doc.ref)
-            }
+            await transaction.delete(cartDocRef)
 
             // save order document data so it can be returned at the end
             const orderData = {
@@ -137,10 +135,12 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
 async function calculateCartTotal(uid: string, firestore: FirebaseFirestore.Firestore, transaction: FirebaseFirestore.Transaction) {
     var updatedPrice = 0;
     // iterate through all the cart items
-    const collection = await transaction.get(firestore.collection(cartItemsPath(uid)))
-    for (const doc of collection.docs) {
+    const cartDocRef = firestore.doc(cartPath(uid))
+    const cartDoc = await transaction.get(cartDocRef)
+    const { items } = cartDoc.data() ?? []
+    for (const item of items) {
         // extract the items data
-        const { productId, quantity } = doc.data()
+        const { productId, quantity } = item
         // find a matching product
         const product = await transaction.get(firestore.doc(productPath(productId)))
         if (product !== undefined) {

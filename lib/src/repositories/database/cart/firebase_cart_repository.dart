@@ -1,81 +1,65 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_total.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/items_list.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mutable_cart.dart';
 
 class FirebaseCartRepository implements CartRepository {
   FirebaseCartRepository(this._firestore);
   final FirebaseFirestore _firestore;
 
-  static String cartItemsPath(String uid) => 'users/$uid/cartItems';
-  static String cartItemPath(String uid, String id) =>
-      'users/$uid/cartItems/$id';
+  static String cartPath(String uid) => 'users/$uid/private/cart';
 
   @override
   Future<List<Item>> getItemsList(String uid) async {
-    final ref = _itemsListRef(uid);
+    final ref = _cartItemsRef(uid);
     final snapshot = await ref.get();
-    return snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
+    return snapshot.data()?.items ?? [];
   }
 
   @override
   Stream<List<Item>> itemsList(String uid) {
-    final ref = _itemsListRef(uid);
-    return ref.snapshots().map((snapshot) =>
-        snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
+    final ref = _cartItemsRef(uid);
+    return ref.snapshots().map((snapshot) => snapshot.data()?.items ?? []);
   }
 
   @override
   Future<void> addItem(String uid, Item item) async {
-    final existingItem = await _getItem(uid, item.productId);
-    final updatedQuantity = existingItem != null
-        ? item.quantity + existingItem.quantity
-        : item.quantity;
-    final updatedItem = item.copyWith(quantity: updatedQuantity);
-    return _firestore
-        .doc(cartItemPath(uid, updatedItem.productId))
-        .set(updatedItem.toMap());
-  }
-
-  Future<Item?> _getItem(String uid, String productId) async {
-    final ref = _itemRef(uid, productId);
-    final snapshot = await ref.get();
-    if (snapshot.exists) {
-      return snapshot.data()!;
-    } else {
-      return null;
-    }
+    final itemsList = await getItemsList(uid);
+    final cart = MutableCart(itemsList);
+    cart.addItem(item);
+    await _cartItemsRef(uid).set(ItemsList(cart.items));
   }
 
   @override
   Future<void> removeItem(String uid, Item item) async {
-    final ref = _itemRef(uid, item.productId);
-    return ref.delete();
+    final itemsList = await getItemsList(uid);
+    final cart = MutableCart(itemsList);
+    cart.removeItem(item);
+    await _cartItemsRef(uid).set(ItemsList(cart.items));
   }
 
   @override
   Future<void> updateItemIfExists(String uid, Item item) async {
-    final ref = _itemRef(uid, item.productId);
-    return ref.set(item);
+    final itemsList = await getItemsList(uid);
+    final cart = MutableCart(itemsList);
+    cart.updateItemIfExists(item);
+    await _cartItemsRef(uid).set(ItemsList(cart.items));
   }
 
   @override
   Future<void> addAllItems(String uid, List<Item> items) async {
-    final ref = _itemsListRef(uid);
+    final itemsList = await getItemsList(uid);
+    final cart = MutableCart(itemsList);
     for (var item in items) {
-      await ref.add(item);
+      cart.addItem(item);
     }
+    await _cartItemsRef(uid).set(ItemsList(cart.items));
   }
 
-  CollectionReference<Item> _itemsListRef(String uid) =>
-      _firestore.collection(cartItemsPath(uid)).withConverter(
-            fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
-            toFirestore: (Item item, options) => item.toMap(),
-          );
-
-  DocumentReference<Item> _itemRef(String uid, String productId) =>
-      _firestore.doc(cartItemPath(uid, productId)).withConverter(
-            fromFirestore: (doc, _) => Item.fromMap(doc.data()!),
-            toFirestore: (Item item, options) => item.toMap(),
+  DocumentReference<ItemsList> _cartItemsRef(String uid) =>
+      _firestore.doc(cartPath(uid)).withConverter(
+            fromFirestore: (doc, _) => ItemsList.fromMap(doc.data()!),
+            toFirestore: (ItemsList items, options) => items.toMap(),
           );
 }

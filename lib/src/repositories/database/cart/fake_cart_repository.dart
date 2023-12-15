@@ -1,8 +1,8 @@
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mutable_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FakeCartRepository implements CartRepository {
@@ -30,7 +30,7 @@ class FakeCartRepository implements CartRepository {
   @override
   Future<void> addItem(String uid, Item item) async {
     await delay(addDelay);
-    final cart = FakeCart(cartData[uid] ?? []);
+    final cart = MutableCart(cartData[uid] ?? []);
     cart.addItem(item);
     cartData[uid] = cart.items;
     _cartDataSubject.add(cartData);
@@ -39,7 +39,7 @@ class FakeCartRepository implements CartRepository {
   @override
   Future<void> removeItem(String uid, Item item) async {
     await delay(addDelay);
-    final cart = FakeCart(cartData[uid] ?? []);
+    final cart = MutableCart(cartData[uid] ?? []);
     cart.removeItem(item);
     cartData[uid] = cart.items;
     _cartDataSubject.add(cartData);
@@ -48,7 +48,7 @@ class FakeCartRepository implements CartRepository {
   @override
   Future<void> updateItemIfExists(String uid, Item item) async {
     await delay(addDelay, 300);
-    final cart = FakeCart(cartData[uid] ?? []);
+    final cart = MutableCart(cartData[uid] ?? []);
     final result = cart.updateItemIfExists(item);
     if (result) {
       cartData[uid] = cart.items;
@@ -59,7 +59,7 @@ class FakeCartRepository implements CartRepository {
   @override
   Future<void> addAllItems(String uid, List<Item> items) async {
     await delay(addDelay);
-    final cart = FakeCart(cartData[uid] ?? []);
+    final cart = MutableCart(cartData[uid] ?? []);
     for (var item in items) {
       cart.addItem(item);
     }
