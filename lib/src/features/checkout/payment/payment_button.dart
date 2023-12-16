@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class PaymentButton extends ConsumerWidget {
   const PaymentButton({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class PaymentButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
-    ref.listen<WidgetBasicState>(
+    ref.listen<VoidAsyncValue>(
       paymentButtonControllerProvider,
       // TODO: Custom error handling
       (_, state) => state.showSnackBarOnError(context),

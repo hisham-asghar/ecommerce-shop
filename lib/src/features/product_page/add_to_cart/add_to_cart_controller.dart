@@ -3,13 +3,13 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class AddToCartController extends StateNotifier<AddToCartState> {
   AddToCartController({required this.cartService})
       : super(AddToCartState(
           quantity: 1,
-          widgetState: const WidgetBasicState.notLoading(),
+          widgetState: const VoidAsyncValue.data(null),
         ));
   final CartService cartService;
 
@@ -19,7 +19,7 @@ class AddToCartController extends StateNotifier<AddToCartState> {
 
   Future<void> addItem(Product product) async {
     try {
-      state = state.copyWith(widgetState: const WidgetBasicState.loading());
+      state = state.copyWith(widgetState: const VoidAsyncValue.loading());
       final item = Item(
         productId: product.id,
         quantity: state.quantity,
@@ -27,16 +27,16 @@ class AddToCartController extends StateNotifier<AddToCartState> {
       await cartService.addItem(item);
       state = state.copyWith(
         quantity: 1,
-        widgetState: const WidgetBasicState.notLoading(),
+        widgetState: const VoidAsyncValue.data(null),
       );
     } catch (e) {
       // first, emit an error
       state = state.copyWith(
-        widgetState: const WidgetBasicState.error('Can\'t add item to cart'),
+        widgetState: const VoidAsyncValue.error('Can\'t add item to cart'),
       );
       // then, emit notLoading
       state = state.copyWith(
-        widgetState: const WidgetBasicState.notLoading(),
+        widgetState: const VoidAsyncValue.data(null),
       );
     }
   }

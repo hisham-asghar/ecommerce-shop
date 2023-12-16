@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 // TODO: Delete this page
 class PlaceholderCardPaymentScreen extends ConsumerWidget {
@@ -22,7 +22,7 @@ class PlaceholderCardPaymentScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
-    ref.listen<WidgetBasicState>(
+    ref.listen<VoidAsyncValue>(
       paymentButtonControllerProvider,
       (_, state) => state.showSnackBarOnError(context),
     );

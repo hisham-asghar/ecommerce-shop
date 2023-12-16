@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
-class AdminProductScreenController extends StateNotifier<WidgetBasicState> {
+class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
   AdminProductScreenController({required this.productsService, this.product})
-      : super(const WidgetBasicState.notLoading()) {
+      : super(const VoidAsyncValue.data(null)) {
     init();
   }
   // TODO: Force rebuild or avoid mutable state?
@@ -35,7 +35,7 @@ class AdminProductScreenController extends StateNotifier<WidgetBasicState> {
 
   Future<void> submit() async {
     try {
-      state = const WidgetBasicState.loading();
+      state = const VoidAsyncValue.loading();
       if (product == null) {
         final newProduct = Product(
           id: "",
@@ -59,9 +59,9 @@ class AdminProductScreenController extends StateNotifier<WidgetBasicState> {
         await productsService.editProduct(updatedProduct);
       }
     } catch (e) {
-      state = const WidgetBasicState.error('Could not save product data');
+      state = const VoidAsyncValue.error('Could not save product data');
     } finally {
-      state = const WidgetBasicState.notLoading();
+      state = const VoidAsyncValue.data(null);
     }
   }
 
@@ -133,7 +133,7 @@ class AdminProductScreenController extends StateNotifier<WidgetBasicState> {
 }
 
 final adminProductScreenControllerProvider = StateNotifierProvider.family<
-    AdminProductScreenController, WidgetBasicState, Product?>((ref, product) {
+    AdminProductScreenController, VoidAsyncValue, Product?>((ref, product) {
   final productsRepository = ref.watch(productsServiceProvider);
   return AdminProductScreenController(
       productsService: productsRepository, product: product);

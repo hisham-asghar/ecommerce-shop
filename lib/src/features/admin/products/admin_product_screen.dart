@@ -9,7 +9,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class AdminProductScreen extends ConsumerWidget {
   const AdminProductScreen({Key? key, this.productId}) : super(key: key);
@@ -41,7 +41,7 @@ class _AdminProductScreenContentsState
   @override
   Widget build(BuildContext context) {
     // error handling
-    ref.listen<WidgetBasicState>(
+    ref.listen<VoidAsyncValue>(
       adminProductScreenControllerProvider(widget.product),
       (_, state) => state.showSnackBarOnError(context),
     );
@@ -96,7 +96,7 @@ class _AdminProductScreenContentsState
                             CachedNetworkImage(imageUrl: model.imageUrl),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
-                            enabled: state != const WidgetBasicState.loading(),
+                            enabled: !state.isLoading,
                             initialValue: model.imageUrl,
                             decoration: const InputDecoration(
                               label: Text('Image URL'),
@@ -118,7 +118,7 @@ class _AdminProductScreenContentsState
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           TextFormField(
-                            enabled: state != const WidgetBasicState.loading(),
+                            enabled: !state.isLoading,
                             initialValue: model.title,
                             decoration: const InputDecoration(
                               label: Text('Title'),
@@ -130,7 +130,7 @@ class _AdminProductScreenContentsState
                           ),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
-                            enabled: state != const WidgetBasicState.loading(),
+                            enabled: !state.isLoading,
                             initialValue: model.description,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
@@ -144,7 +144,7 @@ class _AdminProductScreenContentsState
                           ),
                           const SizedBox(height: Sizes.p8),
                           TextFormField(
-                            enabled: state != const WidgetBasicState.loading(),
+                            enabled: !state.isLoading,
                             initialValue:
                                 model.price != 0 ? model.price.toString() : '',
                             decoration: const InputDecoration(
@@ -157,7 +157,7 @@ class _AdminProductScreenContentsState
                                 model.price = double.parse(value!),
                           ),
                           TextFormField(
-                            enabled: state != const WidgetBasicState.loading(),
+                            enabled: !state.isLoading,
                             initialValue: model.availableQuantity.toString(),
                             decoration: const InputDecoration(
                               label: Text('Available quantity'),

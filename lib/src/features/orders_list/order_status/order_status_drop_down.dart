@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class OrderStatusDropDown extends ConsumerWidget {
   const OrderStatusDropDown({Key? key, required this.order}) : super(key: key);
@@ -14,7 +14,7 @@ class OrderStatusDropDown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
-    ref.listen<WidgetBasicState>(
+    ref.listen<VoidAsyncValue>(
       orderStatusDropDownControllerProvider(order),
       (_, state) => state.showSnackBarOnError(context),
     );

@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/admin_orders_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class MockAdminOrdersService extends Mock implements AdminOrdersService {}
 
@@ -27,7 +27,7 @@ void main() {
       // simulate success
       when(() => service.updateOrderStatus(updatedOrder))
           .thenAnswer((_) => Future<void>.value());
-      final observedStates = <WidgetBasicState>[];
+      final observedStates = <VoidAsyncValue>[];
       final model = OrderStatusDropDownController(
         adminOrdersService: service,
         order: order,
@@ -39,9 +39,9 @@ void main() {
       // verify
       verify(() => service.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
-        WidgetBasicState.notLoading(), // initial state
-        WidgetBasicState.loading(), // updateOrderStatus - try
-        WidgetBasicState.notLoading(), // updateOrderStatus - finally
+        VoidAsyncValue.data(null), // initial state
+        VoidAsyncValue.loading(), // updateOrderStatus - try
+        VoidAsyncValue.data(null), // updateOrderStatus - finally
       ]);
     });
     test('failure', () async {
@@ -53,7 +53,7 @@ void main() {
       // simulate failure: throw error
       when(() => service.updateOrderStatus(updatedOrder))
           .thenThrow(StateError('User is not signed in'));
-      final observedStates = <WidgetBasicState>[];
+      final observedStates = <VoidAsyncValue>[];
       final model = OrderStatusDropDownController(
         adminOrdersService: service,
         order: _fakeOrder(),
@@ -65,10 +65,10 @@ void main() {
       // verify
       verify(() => service.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
-        WidgetBasicState.notLoading(), // initial state
-        WidgetBasicState.loading(), // updateOrderStatus - try
-        WidgetBasicState.error('Could not update order status'),
-        WidgetBasicState.notLoading(), // updateOrderStatus - finally
+        VoidAsyncValue.data(null), // initial state
+        VoidAsyncValue.loading(), // updateOrderStatus - try
+        VoidAsyncValue.error('Could not update order status'),
+        VoidAsyncValue.data(null), // updateOrderStatus - finally
       ]);
     });
   });

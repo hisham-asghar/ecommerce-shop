@@ -11,7 +11,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_ca
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
 class ShoppingCartItem extends ConsumerWidget {
@@ -66,7 +66,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // error handling
-    ref.listen<WidgetBasicState>(
+    ref.listen<VoidAsyncValue>(
       shoppingCartItemControllerProvider,
       (_, state) => state.showSnackBarOnError(context),
     );

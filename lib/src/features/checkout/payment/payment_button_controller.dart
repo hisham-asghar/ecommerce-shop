@@ -1,27 +1,26 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
-class PaymentButtonController extends StateNotifier<WidgetBasicState> {
+class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
   PaymentButtonController({required this.checkoutService})
-      : super(const WidgetBasicState.notLoading());
+      : super(const AsyncValue.data(null));
   final CheckoutService checkoutService;
 
   Future<void> pay() async {
     try {
-      state = const WidgetBasicState.loading();
+      state = const AsyncValue.loading();
       await checkoutService.pay();
-      state = const WidgetBasicState.notLoading();
     } catch (e) {
-      state = const WidgetBasicState.error('Could not place order');
+      state = const AsyncValue.error('Could not place order');
     } finally {
-      state = const WidgetBasicState.notLoading();
+      state = const AsyncValue.data(null);
     }
   }
 }
 
 final paymentButtonControllerProvider =
-    StateNotifierProvider<PaymentButtonController, WidgetBasicState>((ref) {
+    StateNotifierProvider<PaymentButtonController, VoidAsyncValue>((ref) {
   final checkoutService = ref.watch(checkoutServiceProvider);
   return PaymentButtonController(checkoutService: checkoutService);
 });

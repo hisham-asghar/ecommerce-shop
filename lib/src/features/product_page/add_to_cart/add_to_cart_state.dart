@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/state/widget_basic_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class AddToCartState {
   AddToCartState({
@@ -6,11 +6,11 @@ class AddToCartState {
     required this.widgetState,
   });
   final int quantity;
-  final WidgetBasicState widgetState;
+  final VoidAsyncValue widgetState;
 
   AddToCartState copyWith({
     int? quantity,
-    WidgetBasicState? widgetState,
+    VoidAsyncValue? widgetState,
   }) {
     return AddToCartState(
       quantity: quantity ?? this.quantity,
