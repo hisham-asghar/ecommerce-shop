@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
@@ -50,18 +48,4 @@ final addToCartControllerProvider =
         (ref, product) {
   final cartRepository = ref.watch(cartServiceProvider);
   return AddToCartController(cartService: cartRepository, product: product);
-});
-
-// calculates the available quantity of the product
-// given how many items are already in the cart
-final itemAvailableQuantityProvider =
-    FutureProvider.autoDispose.family<int, Product>((ref, product) async {
-  // simple example of how this works:
-  // https://dartpad.dev/?null_safety=true&id=0d065491139efd11c711ca6aa016d5e8
-  // explain that it could also be done with `.whenData`
-  final cartItems = await ref.watch(cartItemsListProvider.future);
-  final matching = cartItems.where((item) => item.productId == product.id);
-  final item = matching.isNotEmpty ? matching.first : null;
-  final alreadyInCartQuantity = item != null ? item.quantity : 0;
-  return max(0, product.availableQuantity - alreadyInCartQuantity);
 });

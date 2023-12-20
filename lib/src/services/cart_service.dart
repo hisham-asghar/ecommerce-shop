@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
@@ -98,10 +100,10 @@ final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
   }
 });
 
-// TODO: Implement this just like itemAvailableQuantityProvider
+// Using a StateProvider so that we don't have to deal with async UI updates
 final cartTotalProvider = StateProvider.autoDispose<double>((ref) {
   final productsListValue = ref.watch(productsListProvider);
-  final productsList = productsListValue.asData?.value ?? [];
+  final productsList = productsListValue.value ?? [];
   final itemsValue = ref.watch(cartItemsListProvider);
   final items = itemsValue.value ?? [];
   if (items.isNotEmpty) {
@@ -116,4 +118,18 @@ final cartTotalProvider = StateProvider.autoDispose<double>((ref) {
   } else {
     return 0.0;
   }
+});
+
+// calculates the available quantity of the product
+// given how many items are already in the cart
+final itemAvailableQuantityProvider =
+    FutureProvider.autoDispose.family<int, Product>((ref, product) async {
+  // simple example of how this works:
+  // https://dartpad.dev/?null_safety=true&id=0d065491139efd11c711ca6aa016d5e8
+  // explain that it could also be done with `.whenData`
+  final cartItems = await ref.watch(cartItemsListProvider.future);
+  final matching = cartItems.where((item) => item.productId == product.id);
+  final item = matching.isNotEmpty ? matching.first : null;
+  final alreadyInCartQuantity = item != null ? item.quantity : 0;
+  return max(0, product.availableQuantity - alreadyInCartQuantity);
 });
