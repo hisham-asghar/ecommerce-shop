@@ -17,28 +17,20 @@ class AddToCartWidget extends ConsumerWidget {
   const AddToCartWidget({Key? key, required this.product}) : super(key: key);
   final Product product;
 
-  // TODO: move this logic to view model?
-  // How to test it?
-  int getAvailableQuantity(List<Item> items) {
-    final alreadyInCartItems =
-        items.where((element) => element.productId == product.id);
-    final alreadyInCartQuantity =
-        alreadyInCartItems.isNotEmpty ? alreadyInCartItems.first.quantity : 0;
-    return product.availableQuantity - alreadyInCartQuantity;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AddToCartState>(
-      addToCartControllerProvider,
+      addToCartControllerProvider(product),
       (_, state) => state.widgetState.showSnackBarOnError(context),
     );
-    final state = ref.watch(addToCartControllerProvider);
+    final state = ref.watch(addToCartControllerProvider(product));
     final itemsValue = ref.watch(cartItemsListProvider);
     return AsyncValueWidget<List<Item>>(
       value: itemsValue,
       data: (items) {
-        final availableQuantity = getAvailableQuantity(items);
+        final controller =
+            ref.watch(addToCartControllerProvider(product).notifier);
+        final availableQuantity = controller.getAvailableQuantity(items);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -52,11 +44,9 @@ class AddToCartWidget extends ConsumerWidget {
                   maxQuantity: min(availableQuantity, 10),
                   onChanged: state.widgetState.isLoading
                       ? null
-                      : (quantity) {
-                          final model =
-                              ref.read(addToCartControllerProvider.notifier);
-                          model.updateQuantity(quantity);
-                        },
+                      : (quantity) => ref
+                          .read(addToCartControllerProvider(product).notifier)
+                          .updateQuantity(quantity),
                 ),
               ],
             ),
@@ -67,8 +57,8 @@ class AddToCartWidget extends ConsumerWidget {
               isLoading: state.widgetState.isLoading,
               onPressed: availableQuantity > 0
                   ? () => ref
-                      .read(addToCartControllerProvider.notifier)
-                      .addItem(product)
+                      .read(addToCartControllerProvider(product).notifier)
+                      .addItem()
                   : null,
               text: availableQuantity > 0 ? 'Add to Cart' : 'Out of Stock',
             ),
