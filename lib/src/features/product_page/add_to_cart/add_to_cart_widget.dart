@@ -24,13 +24,11 @@ class AddToCartWidget extends ConsumerWidget {
       (_, state) => state.widgetState.showSnackBarOnError(context),
     );
     final state = ref.watch(addToCartControllerProvider(product));
-    final itemsValue = ref.watch(cartItemsListProvider);
-    return AsyncValueWidget<List<Item>>(
-      value: itemsValue,
-      data: (items) {
-        final controller =
-            ref.watch(addToCartControllerProvider(product).notifier);
-        final availableQuantity = controller.getAvailableQuantity(items);
+    final itemAvailableQuantity =
+        ref.watch(itemAvailableQuantityProvider(product));
+    return AsyncValueWidget<int>(
+      value: itemAvailableQuantity,
+      data: (availableQuantity) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

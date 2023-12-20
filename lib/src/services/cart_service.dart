@@ -4,6 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 
 class CartService {
@@ -97,7 +98,7 @@ final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
   }
 });
 
-// TODO: Should this be a StreamProvider?
+// TODO: Implement this just like itemAvailableQuantityProvider
 final cartTotalProvider = StateProvider.autoDispose<double>((ref) {
   final productsListValue = ref.watch(productsListProvider);
   final productsList = productsListValue.asData?.value ?? [];
