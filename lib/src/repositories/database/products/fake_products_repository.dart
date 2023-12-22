@@ -22,6 +22,11 @@ class FakeProductsRepository implements ProductsRepository {
   }
 
   @override
+  Future<List<Product>> getProductsList() {
+    return Future.value(_products);
+  }
+
+  @override
   Stream<List<Product>> productsList() {
     return _productsStream;
   }

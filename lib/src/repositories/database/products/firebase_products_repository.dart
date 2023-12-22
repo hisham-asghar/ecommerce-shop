@@ -10,6 +10,13 @@ class FirebaseProductsRepository implements ProductsRepository {
   static String productPath(String id) => 'products/$id';
 
   @override
+  Future<List<Product>> getProductsList() async {
+    final ref = _productsRef();
+    final snapshot = await ref.get();
+    return snapshot.docs.map((snapshot) => snapshot.data()).toList();
+  }
+
+  @override
   Stream<List<Product>> productsList() {
     final ref = _productsRef();
     return ref.snapshots().map((snapshot) =>

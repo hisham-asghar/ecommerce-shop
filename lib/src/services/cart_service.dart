@@ -7,6 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_re
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 
 class CartService {
@@ -14,10 +15,12 @@ class CartService {
       {required this.authRepository,
       required this.cartRepository,
       required this.localCartRepository,
+      required this.productsRepository,
       required this.cloudFunctions});
   final AuthRepository authRepository;
   final CartRepository cartRepository;
   final LocalCartRepository localCartRepository;
+  final ProductsRepository productsRepository;
   final CloudFunctionsRepository cloudFunctions;
 
   Future<List<Item>> getItemsList() {
@@ -62,9 +65,38 @@ class CartService {
     final user = authRepository.currentUser;
     if (user != null) {
       try {
-        final items = await localCartRepository.getItemsList();
-        await cartRepository.addAllItems(user.uid, items);
-        await localCartRepository.clear();
+        final localItems = await localCartRepository.getItemsList();
+        if (localItems.isNotEmpty) {
+          // Get the available quantity for each product (by id)
+          final products = await productsRepository.getProductsList();
+          var availableQuantities = <String, int>{};
+          for (final product in products) {
+            availableQuantities[product.id] = product.availableQuantity;
+          }
+          // Cap the quantity of each item to the available quantity
+          final remoteItems = await cartRepository.getItemsList(user.uid);
+          final localItemsToAdd = <Item>[];
+          for (final item in localItems) {
+            final matching =
+                remoteItems.where((item) => item.productId == item.productId);
+            final remoteItemQuantity =
+                matching.isNotEmpty ? matching.first.quantity : 0;
+            final availableQuantity = availableQuantities[item.productId];
+            if (availableQuantity != null) {
+              final newAvailableQuantity =
+                  availableQuantity - remoteItemQuantity;
+              final localItem = item.copyWith(
+                  quantity: min(item.quantity, newAvailableQuantity));
+              localItemsToAdd.add(localItem);
+            } else {
+              print('Product with id ${item.productId} not found');
+            }
+          }
+          // Add all items to the remote cart
+          await cartRepository.addAllItems(user.uid, localItemsToAdd);
+          // Remove all items from the local cart
+          await localCartRepository.clear();
+        }
       } catch (e, _) {
         // TODO: Report error
         print(e);
@@ -78,12 +110,14 @@ class CartService {
 final cartServiceProvider = Provider<CartService>((ref) {
   final cartRepository = ref.watch(cartRepositoryProvider);
   final localCartRepository = ref.watch(localCartRepositoryProvider);
+  final productsRepository = ref.watch(productsRepositoryProvider);
   final authService = ref.watch(authRepositoryProvider);
   final cloudFunctions = ref.watch(cloudFunctionsRepositoryProvider);
   return CartService(
     authRepository: authService,
     cartRepository: cartRepository,
     localCartRepository: localCartRepository,
+    productsRepository: productsRepository,
     cloudFunctions: cloudFunctions,
   );
 });

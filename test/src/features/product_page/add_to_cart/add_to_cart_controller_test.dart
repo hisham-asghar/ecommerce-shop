@@ -3,12 +3,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
+import '../../../../mocks.dart';
 import '../../../../utils.dart';
-
-class MockCartService extends Mock implements CartService {}
 
 void main() {
   group('addItem', () {
@@ -19,7 +17,7 @@ void main() {
       when(() => cartService.addItem(item)).thenAnswer((_) => Future.value());
       final controller = AddToCartController(
         cartService: cartService,
-        product: makeProduct('1', 5),
+        product: makeProduct(id: '1', availableQuantity: 5),
       );
       expect(
         controller.debugState,
@@ -56,7 +54,7 @@ void main() {
           .thenAnswer((_) => throw StateError('could not add item'));
       final controller = AddToCartController(
         cartService: cartService,
-        product: makeProduct('1', 5),
+        product: makeProduct(id: '1', availableQuantity: 5),
       );
       expect(
         controller.debugState,

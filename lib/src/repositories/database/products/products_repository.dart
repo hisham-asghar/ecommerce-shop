@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 
 abstract class ProductsRepository {
+  Future<List<Product>> getProductsList();
+
   Stream<List<Product>> productsList();
 
   Stream<Product> product(String id);

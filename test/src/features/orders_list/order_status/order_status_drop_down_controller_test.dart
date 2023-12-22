@@ -2,10 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/admin_orders_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
-class MockAdminOrdersService extends Mock implements AdminOrdersService {}
+import '../../../../mocks.dart';
 
 Order _fakeOrder() => Order(
       id: '123',
