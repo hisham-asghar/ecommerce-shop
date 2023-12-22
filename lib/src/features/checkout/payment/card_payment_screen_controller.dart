@@ -3,15 +3,16 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
-class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
-  PaymentButtonController({required this.checkoutService})
+class CardPaymentScreenController extends StateNotifier<VoidAsyncValue> {
+  CardPaymentScreenController({required this.checkoutService})
       : super(const AsyncValue.data(null));
   final CheckoutService checkoutService;
 
-  Future<void> pay() async {
+  Future<bool> pay(bool saveCard) async {
     try {
       state = const AsyncValue.loading();
-      await checkoutService.payWithPaymentSheet();
+      await checkoutService.payByCard(saveCard);
+      return true;
     } on StripeException catch (e) {
       // TODO: Use Stripe-agnostic failure type
       if (e.error.code == FailureCode.Failed) {
@@ -30,11 +31,12 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
     } finally {
       state = const AsyncValue.data(null);
     }
+    return false;
   }
 }
 
-final paymentButtonControllerProvider =
-    StateNotifierProvider<PaymentButtonController, VoidAsyncValue>((ref) {
+final cardPaymentScreenControllerProvider =
+    StateNotifierProvider<CardPaymentScreenController, VoidAsyncValue>((ref) {
   final checkoutService = ref.watch(checkoutServiceProvider);
-  return PaymentButtonController(checkoutService: checkoutService);
+  return CardPaymentScreenController(checkoutService: checkoutService);
 });

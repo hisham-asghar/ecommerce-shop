@@ -13,7 +13,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //setupEmulators();
   // Stripe setup
-  if (PlatformIs.iOS || PlatformIs.android) {
+  if (PlatformIs.iOS || PlatformIs.android || PlatformIs.web) {
     const publicKey = String.fromEnvironment('STRIPE_PUBLISHABLE_KEY');
     if (publicKey.isEmpty) {
       throw AssertionError('STRIPE_PUBLISHABLE_KEY is not set');

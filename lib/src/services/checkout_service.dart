@@ -16,7 +16,7 @@ class CheckoutService {
   final AuthRepository authRepository;
   final AddressRepository addressRepository;
 
-  Future<void> pay() async {
+  Future<void> payWithPaymentSheet() async {
     // 1. Creates order document, sets up stripe payment intent
     final user = authRepository.currentUser!;
     final paymentIntent =
@@ -34,8 +34,26 @@ class CheckoutService {
     );
 
     // 3. Present payment sheet
-    // TODO: Should this be done in the UI?
     await paymentsRepository.presentPaymentSheet();
+  }
+
+  Future<void> payByCard(bool saveCard) async {
+    // 1. Creates order document, sets up stripe payment intent
+    final user = authRepository.currentUser!;
+    final paymentIntent =
+        await cloudFunctionsRepository.createOrderPaymentIntent(user.uid);
+
+    // 2. initialize the payment sheet
+    final address = await addressRepository.getAddress(user.uid);
+    if (address == null) {
+      throw AssertionError('Address is null');
+    }
+    await paymentsRepository.confirmPayment(
+      orderPaymentIntent: paymentIntent,
+      email: user.email!,
+      address: address,
+      saveCard: saveCard,
+    );
   }
 }
 

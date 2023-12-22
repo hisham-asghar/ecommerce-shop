@@ -8,7 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/admin/orders/admin_orders
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_products_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment_complete/payment_complete.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/not_found/not_found_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/orders_list_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_list.dart';
@@ -31,6 +31,7 @@ enum AppRoute {
   cart,
   checkout,
   pay,
+  cardPayment,
 }
 
 extension AppRouteName on AppRoute {
@@ -57,18 +58,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               return MaterialPage(
                 key: state.pageKey,
                 child: ProductScreen(productId: productId),
-              );
-            },
-          ),
-          GoRoute(
-            path: 'paymentComplete/:id',
-            name: AppRoute.paymentComplete.name,
-            pageBuilder: (context, state) {
-              final orderId = state.params['id']!;
-              return MaterialPage(
-                key: state.pageKey,
-                fullscreenDialog: true,
-                child: PaymentCompleteScreen(orderId: orderId),
               );
             },
           ),
@@ -164,6 +153,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               fullscreenDialog: true,
               child: const CheckoutScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: 'card',
+                name: AppRoute.cardPayment.name,
+                pageBuilder: (context, state) => MaterialPage(
+                  key: state.pageKey,
+                  fullscreenDialog: true,
+                  child: const CardPaymentScreen(),
+                ),
+              ),
+            ],
           ),
         ],
       ),

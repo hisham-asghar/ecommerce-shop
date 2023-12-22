@@ -31,4 +31,16 @@ class FakePaymentsRepository implements PaymentsRepository {
     final uid = authRepository.currentUser!.uid;
     await ordersRepository.placeOrder(uid);
   }
+
+  @override
+  Future<void> confirmPayment({
+    required OrderPaymentIntent orderPaymentIntent,
+    required String email,
+    required app.Address address,
+    required bool saveCard,
+  }) async {
+    await delay(addDelay);
+    final uid = authRepository.currentUser!.uid;
+    await ordersRepository.placeOrder(uid);
+  }
 }

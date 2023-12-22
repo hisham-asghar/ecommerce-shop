@@ -9,15 +9,9 @@ class StripeRepository implements PaymentsRepository {
   StripeRepository(this._stripe);
   final Stripe _stripe;
 
-  @override
-  Future<void> initPaymentSheet({
-    required OrderPaymentIntent orderPaymentIntent,
-    required String email,
-    required app.Address address,
-  }) async {
-    final billingDetails = BillingDetails(
+  BillingDetails _getBillingDetails(String email, app.Address address) {
+    return BillingDetails(
       email: email,
-      //phone: '+48888000888',
       address: Address(
         city: address.city,
         country: address.country,
@@ -26,7 +20,16 @@ class StripeRepository implements PaymentsRepository {
         state: '',
         postalCode: address.postalCode,
       ),
-    ); // mocked data for tests
+    );
+  }
+
+  @override
+  Future<void> initPaymentSheet({
+    required OrderPaymentIntent orderPaymentIntent,
+    required String email,
+    required app.Address address,
+  }) async {
+    final billingDetails = _getBillingDetails(email, address);
 
     await _stripe.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(
@@ -51,5 +54,23 @@ class StripeRepository implements PaymentsRepository {
   @override
   Future<void> presentPaymentSheet() async {
     return _stripe.presentPaymentSheet();
+  }
+
+  @override
+  Future<void> confirmPayment({
+    required OrderPaymentIntent orderPaymentIntent,
+    required String email,
+    required app.Address address,
+    required bool saveCard,
+  }) {
+    final billingDetails = _getBillingDetails(email, address);
+
+    return _stripe.confirmPayment(
+        orderPaymentIntent.paymentIntent,
+        PaymentMethodParams.card(
+          billingDetails: billingDetails,
+          setupFutureUsage:
+              saveCard == true ? PaymentIntentsFutureUsage.OffSession : null,
+        ));
   }
 }

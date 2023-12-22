@@ -10,6 +10,13 @@ abstract class PaymentsRepository {
   });
 
   Future<void> presentPaymentSheet();
+
+  Future<void> confirmPayment({
+    required OrderPaymentIntent orderPaymentIntent,
+    required String email,
+    required Address address,
+    required bool saveCard,
+  });
 }
 
 final paymentsRepositoryProvider = Provider<PaymentsRepository>((ref) {

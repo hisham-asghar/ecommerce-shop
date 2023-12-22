@@ -140,7 +140,7 @@ final cartTotalProvider = Provider.autoDispose<double>((ref) {
   final productsList = productsListValue.value ?? [];
   final itemsValue = ref.watch(cartItemsListProvider);
   final items = itemsValue.value ?? [];
-  if (items.isNotEmpty) {
+  if (items.isNotEmpty && productsList.isNotEmpty) {
     final itemPrices = items.map((item) {
       final product =
           productsList.firstWhere((product) => product.id == item.productId);

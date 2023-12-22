@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class PaymentButton extends ConsumerWidget {
   const PaymentButton({Key? key}) : super(key: key);
 
-  Future<void> _pay(WidgetRef ref) async {
-    // TODO: Only run Stripe code on supported platforms, fallback on others
-    final controller = ref.read(paymentButtonControllerProvider.notifier);
-    await controller.pay();
+  Future<void> _pay(BuildContext context, WidgetRef ref) async {
+    if (PlatformIs.web) {
+      context.goNamed(AppRoute.cardPayment.name);
+    } else {
+      final controller = ref.read(paymentButtonControllerProvider.notifier);
+      await controller.pay();
+    }
   }
 
   @override
@@ -25,7 +31,7 @@ class PaymentButton extends ConsumerWidget {
     return PrimaryButton(
       text: 'Pay',
       isLoading: paymentState.isLoading,
-      onPressed: paymentState.isLoading ? null : () => _pay(ref),
+      onPressed: paymentState.isLoading ? null : () => _pay(context, ref),
     );
   }
 }

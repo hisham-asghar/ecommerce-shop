@@ -1,26 +1,28 @@
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 import '../../../../mocks.dart';
 
 void main() {
   test('payment successful', () async {
+    const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payWithPaymentSheet())
+    when(() => mockCheckoutService.payByCard(saveCard))
         .thenAnswer((_) async => Future.value());
     final controller =
-        PaymentButtonController(checkoutService: mockCheckoutService);
-    await controller.pay();
-    verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
+        CardPaymentScreenController(checkoutService: mockCheckoutService);
+    await controller.pay(saveCard);
+    verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
     expect(controller.debugState, const VoidAsyncValue.data(null));
   });
 
   test('payment failure (Stripe)', () async {
+    const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payWithPaymentSheet()).thenThrow(
+    when(() => mockCheckoutService.payByCard(saveCard)).thenThrow(
       const StripeException(
         error: LocalizedErrorMessage(
           code: FailureCode.Failed,
@@ -29,7 +31,7 @@ void main() {
       ),
     );
     final controller =
-        PaymentButtonController(checkoutService: mockCheckoutService);
+        CardPaymentScreenController(checkoutService: mockCheckoutService);
     expect(
         controller.stream,
         emitsInOrder([
@@ -37,13 +39,14 @@ void main() {
           const VoidAsyncValue.error('Payment failed'),
           const VoidAsyncValue.data(null),
         ]));
-    await controller.pay();
-    verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
+    await controller.pay(saveCard);
+    verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
   });
 
   test('payment canceled (Stripe)', () async {
+    const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payWithPaymentSheet()).thenThrow(
+    when(() => mockCheckoutService.payByCard(saveCard)).thenThrow(
       const StripeException(
         error: LocalizedErrorMessage(
           code: FailureCode.Canceled,
@@ -52,24 +55,25 @@ void main() {
       ),
     );
     final controller =
-        PaymentButtonController(checkoutService: mockCheckoutService);
+        CardPaymentScreenController(checkoutService: mockCheckoutService);
     expect(
         controller.stream,
         emitsInOrder([
           const VoidAsyncValue.loading(),
           const VoidAsyncValue.data(null),
         ]));
-    await controller.pay();
-    verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
+    await controller.pay(saveCard);
+    verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
   });
 
   test('payment failure (generic)', () async {
+    const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payWithPaymentSheet()).thenThrow(
+    when(() => mockCheckoutService.payByCard(saveCard)).thenThrow(
       Exception('Something went wrong'),
     );
     final controller =
-        PaymentButtonController(checkoutService: mockCheckoutService);
+        CardPaymentScreenController(checkoutService: mockCheckoutService);
     expect(
         controller.stream,
         emitsInOrder([
@@ -77,7 +81,7 @@ void main() {
           const VoidAsyncValue.error('Could not place order'),
           const VoidAsyncValue.data(null),
         ]));
-    await controller.pay();
-    verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
+    await controller.pay(saveCard);
+    verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
   });
 }

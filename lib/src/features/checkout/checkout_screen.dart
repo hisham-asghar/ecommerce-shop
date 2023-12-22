@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
@@ -7,8 +8,6 @@ import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_si
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
-
-import 'address/address_page.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
@@ -31,9 +30,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
           },
           orElse: () {});
     });
-    final checkoutScreenModelState =
-        ref.watch(checkoutScreenControllerProvider);
-    return checkoutScreenModelState.when(
+    final state = ref.watch(checkoutScreenControllerProvider);
+    return state.when(
       noTabs: () => Scaffold(
         appBar: AppBar(title: const Text('Payment')),
         body: PaymentPage(),
@@ -42,7 +40,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
         tabController: _tabController,
         tabIndex: index,
       ),
-      loading: () => const CircularProgressIndicator(),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }
