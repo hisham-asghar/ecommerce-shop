@@ -134,8 +134,8 @@ final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
   }
 });
 
-// Using a StateProvider so that we don't have to deal with async UI updates
-final cartTotalProvider = StateProvider.autoDispose<double>((ref) {
+// Using a regular Provider so that we don't have to deal with async UI updates
+final cartTotalProvider = Provider.autoDispose<double>((ref) {
   final productsListValue = ref.watch(productsListProvider);
   final productsList = productsListValue.value ?? [];
   final itemsValue = ref.watch(cartItemsListProvider);
