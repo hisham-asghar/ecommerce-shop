@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
@@ -11,7 +12,16 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
     try {
       state = const AsyncValue.loading();
       await checkoutService.pay();
+    } on StripeException catch (e) {
+      // TODO: Use Stripe-agnostic failure type
+      if (e.error.code == FailureCode.Failed) {
+        state = AsyncValue.error(
+            e.error.localizedMessage ?? 'Could not place order');
+      } else if (e.error.code == FailureCode.Canceled) {
+        // no op
+      }
     } catch (e) {
+      // fallback
       state = const AsyncValue.error('Could not place order');
     } finally {
       state = const AsyncValue.data(null);

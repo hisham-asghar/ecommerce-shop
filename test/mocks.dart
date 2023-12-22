@@ -6,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_c
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/admin_orders_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
@@ -21,3 +22,5 @@ class MockCloudFunctionsRepository extends Mock
 class MockCartService extends Mock implements CartService {}
 
 class MockAdminOrdersService extends Mock implements AdminOrdersService {}
+
+class MockCheckoutService extends Mock implements CheckoutService {}
