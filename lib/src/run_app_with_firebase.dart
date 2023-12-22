@@ -55,7 +55,7 @@ Future<void> runAppWithFirebase() async {
             .overrideWithValue(cloudFunctionsRepository),
         paymentsRepositoryProvider.overrideWithValue(paymentRepository),
       ],
-      observers: [ProviderLogger()],
+      //observers: [ProviderLogger()],
       child: const MyApp(),
     ));
     FlutterError.onError = (FlutterErrorDetails details) {

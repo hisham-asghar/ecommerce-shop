@@ -16,6 +16,8 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_scre
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/app_router_listenable.dart';
 
 enum AppRoute {
   home,
@@ -39,8 +41,28 @@ extension AppRouteName on AppRoute {
 }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
+  final appRouterListenable = ref.watch(appRouterListenableProvider);
   return GoRouter(
     initialLocation: '/',
+    refreshListenable: appRouterListenable,
+    redirect: (state) {
+      if (!appRouterListenable.isLoggedIn) {
+        // TODO: Only allow admin pages if user is admin
+        if (state.location.startsWith('/admin') ||
+            state.location.startsWith('/orders') ||
+            state.location.startsWith('/cart/checkout') ||
+            state.location == '/account') {
+          return '/';
+        }
+      }
+      // disallow card payment screen if not on web
+      if (!PlatformIs.web) {
+        if (state.location == '/cart/checkout/card') {
+          return '/cart/checkout';
+        }
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/',
@@ -89,28 +111,29 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             ),
             routes: [
               GoRoute(
-                  path: 'products',
-                  name: AppRoute.adminProducts.name,
-                  pageBuilder: (context, state) => MaterialPage(
+                path: 'products',
+                name: AppRoute.adminProducts.name,
+                pageBuilder: (context, state) => MaterialPage(
+                  key: state.pageKey,
+                  fullscreenDialog: true,
+                  child: const AdminProductsScreen(),
+                ),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    name: AppRoute.adminProduct.name,
+                    pageBuilder: (context, state) {
+                      final productId = state.params['id']!;
+                      return MaterialPage(
                         key: state.pageKey,
                         fullscreenDialog: true,
-                        child: const AdminProductsScreen(),
-                      ),
-                  routes: [
-                    GoRoute(
-                      path: ':id',
-                      name: AppRoute.adminProduct.name,
-                      pageBuilder: (context, state) {
-                        final productId = state.params['id']!;
-                        return MaterialPage(
-                          key: state.pageKey,
-                          fullscreenDialog: true,
-                          child: AdminProductScreen(
-                              productId: productId == 'new' ? null : productId),
-                        );
-                      },
-                    ),
-                  ]),
+                        child: AdminProductScreen(
+                            productId: productId == 'new' ? null : productId),
+                      );
+                    },
+                  ),
+                ],
+              ),
               GoRoute(
                 path: 'orders',
                 name: AppRoute.adminOrders.name,
@@ -168,8 +191,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
     ],
-    // TODO: use error?
-    errorPageBuilder: (_, state) => MaterialPage<void>(
+    errorPageBuilder: (_, state) => MaterialPage(
       key: state.pageKey,
       child: const NotFoundScreen(),
     ),
