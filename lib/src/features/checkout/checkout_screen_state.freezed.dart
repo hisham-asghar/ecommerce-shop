@@ -129,7 +129,8 @@ class _$_Loading implements _Loading {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Loading);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _Loading);
   }
 
   @override
@@ -237,7 +238,8 @@ class _$_NoTabs implements _NoTabs {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _NoTabs);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _NoTabs);
   }
 
   @override
@@ -361,15 +363,14 @@ class _$_Tab implements _Tab {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Tab &&
-            (identical(other.tabIndex, tabIndex) ||
-                const DeepCollectionEquality()
-                    .equals(other.tabIndex, tabIndex)));
+        (other.runtimeType == runtimeType &&
+            other is _Tab &&
+            const DeepCollectionEquality().equals(other.tabIndex, tabIndex));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(tabIndex);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(tabIndex));
 
   @JsonKey(ignore: true)
   @override
@@ -448,7 +449,7 @@ class _$_Tab implements _Tab {
 abstract class _Tab implements CheckoutScreenState {
   const factory _Tab(int tabIndex) = _$_Tab;
 
-  int get tabIndex => throw _privateConstructorUsedError;
+  int get tabIndex;
   @JsonKey(ignore: true)
   _$TabCopyWith<_Tab> get copyWith => throw _privateConstructorUsedError;
 }

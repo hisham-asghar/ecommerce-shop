@@ -9,8 +9,8 @@ class PaymentButton extends ConsumerWidget {
 
   Future<void> _pay(WidgetRef ref) async {
     // TODO: Only run Stripe code on supported platforms, fallback on others
-    final model = ref.read(paymentButtonControllerProvider.notifier);
-    await model.pay();
+    final controller = ref.read(paymentButtonControllerProvider.notifier);
+    await controller.pay();
   }
 
   @override

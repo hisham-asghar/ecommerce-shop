@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/app.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/firebase_auth_repository.dart';
@@ -40,6 +41,8 @@ Future<void> runAppWithFirebase() async {
     final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
         FirebaseFunctions.instanceFor(region: 'us-central1'));
     final paymentRepository = StripeRepository(Stripe.instance);
+    // https://gorouter.dev/url-path-strategy#turning-off-the-hash
+    GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
     runApp(ProviderScope(
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),

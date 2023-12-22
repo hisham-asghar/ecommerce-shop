@@ -20,6 +20,10 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
       } else if (e.error.code == FailureCode.Canceled) {
         // no op
       }
+    } on AssertionError catch (e) {
+      // TODO: Log error
+      print(e.toString());
+      state = AsyncValue.error(e.message as String);
     } catch (e) {
       // fallback
       state = const AsyncValue.error('Could not place order');

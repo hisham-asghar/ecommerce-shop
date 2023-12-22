@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/app.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/fake_auth_repository.dart';
@@ -34,6 +35,8 @@ Future<void> runAppWithMocks() async {
     final localCartRepository = await SembastCartRepository.makeDefault();
     final cloudFunctionsRepository =
         FakeCloudFunctionsRepository(ordersRepository: ordersRepository);
+    // https://gorouter.dev/url-path-strategy#turning-off-the-hash
+    GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
     runApp(ProviderScope(
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),
