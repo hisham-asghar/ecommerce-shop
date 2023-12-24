@@ -60,10 +60,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return '/';
         }
         // TODO: Only allow admin pages if user is admin (#125)
-        // if (state.location.startsWith('/admin') ||
-        //     state.location.startsWith('/orders')) {
-        //   return '/';
-        // }
+        if (state.location.startsWith('/admin') ||
+            state.location.startsWith('/orders')) {
+          return '/';
+        }
       }
       // disallow card payment screen if not on web
       if (!PlatformIs.web) {
