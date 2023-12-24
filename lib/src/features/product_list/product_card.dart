@@ -26,7 +26,6 @@ class ProductCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
               CachedNetworkImage(imageUrl: product.imageUrl),
               const SizedBox(height: Sizes.p8),
               const Divider(),

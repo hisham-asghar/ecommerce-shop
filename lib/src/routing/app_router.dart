@@ -18,6 +18,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_si
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router_listenable.dart';
+import 'package:my_shop_ecommerce_flutter/src/routing/fade_transition_page.dart';
 
 enum AppRoute {
   home,
@@ -50,7 +51,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         // TODO: Only allow admin pages if user is admin
         if (state.location.startsWith('/admin') ||
             state.location.startsWith('/orders') ||
-            state.location.startsWith('/cart/checkout') ||
             state.location == '/account') {
           return '/';
         }
