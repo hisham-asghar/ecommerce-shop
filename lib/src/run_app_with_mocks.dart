@@ -48,7 +48,7 @@ Future<void> runAppWithMocks() async {
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
       ],
-      observers: [ProviderLogger()],
+      //observers: [ProviderLogger()],
       child: const MyApp(),
     ));
 

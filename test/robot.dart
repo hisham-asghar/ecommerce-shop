@@ -329,9 +329,14 @@ class Robot {
 
   Future<void> showMenu() async {
     final finder = find.bySemanticsLabel('Show menu');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
+    final matches = finder.evaluate();
+    // if an item is found, it means that we're running on mobile and can tap
+    // to reveal the menu
+    if (matches.isNotEmpty) {
+      await tester.tap(finder);
+      await tester.pumpAndSettle();
+    }
+    // else no-op, as the items are already visible
   }
 
   Future<void> openAccountPage() async {

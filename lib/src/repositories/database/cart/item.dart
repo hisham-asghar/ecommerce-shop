@@ -3,7 +3,7 @@ class Item {
   Item({
     required this.productId,
     required this.quantity,
-  }) : assert(quantity > 0);
+  });
   final String productId;
   final int quantity;
 

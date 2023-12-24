@@ -17,8 +17,8 @@ import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_ca
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router_listenable.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/fade_transition_page.dart';
 
 enum AppRoute {
   home,
@@ -42,18 +42,28 @@ extension AppRouteName on AppRoute {
 }
 
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final appRouterListenable = ref.watch(appRouterListenableProvider);
+  final authRepository = ref.watch(authRepositoryProvider);
+  final appRouterListenable =
+      AppRouterListenable(authRepository: authRepository);
   return GoRouter(
+    debugLogDiagnostics: false,
     initialLocation: '/',
-    refreshListenable: appRouterListenable,
     redirect: (state) {
-      if (!appRouterListenable.isLoggedIn) {
-        // TODO: Only allow admin pages if user is admin
-        if (state.location.startsWith('/admin') ||
-            state.location.startsWith('/orders') ||
-            state.location == '/account') {
+      if (appRouterListenable.isLoggedIn) {
+        // on login complete, redirect to home
+        if (state.location == '/signIn') {
           return '/';
         }
+      } else {
+        // on logout complete, redirect to home
+        if (state.location == '/account') {
+          return '/';
+        }
+        // TODO: Only allow admin pages if user is admin (#125)
+        // if (state.location.startsWith('/admin') ||
+        //     state.location.startsWith('/orders')) {
+        //   return '/';
+        // }
       }
       // disallow card payment screen if not on web
       if (!PlatformIs.web) {

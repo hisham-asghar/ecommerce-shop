@@ -98,6 +98,7 @@ class FakeAuthRepository implements AuthRepository {
   Future<void> signOut() async {
     await delay(addDelay);
     currentUser = null;
+    _authStateChangesController.add(currentUser);
   }
 
   void _createNewUser() {
