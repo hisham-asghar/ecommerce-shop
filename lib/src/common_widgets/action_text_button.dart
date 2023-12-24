@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
 class ActionTextButton extends StatelessWidget {
   const ActionTextButton({Key? key, required this.text, this.onPressed})
@@ -7,13 +8,16 @@ class ActionTextButton extends StatelessWidget {
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      child: Text(text,
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(color: Colors.white)),
-      onPressed: onPressed,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
+      child: TextButton(
+        child: Text(text,
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(color: Colors.white)),
+        onPressed: onPressed,
+      ),
     );
   }
 }

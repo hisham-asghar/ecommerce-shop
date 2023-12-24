@@ -11,8 +11,11 @@ enum PopupMenuOption {
   admin,
 }
 
-class MoreMenuButton extends ConsumerWidget {
-  const MoreMenuButton({Key? key}) : super(key: key);
+class MoreMenuButton extends StatelessWidget {
+  const MoreMenuButton({Key? key, this.user, this.isAdminUser = false})
+      : super(key: key);
+  final AppUser? user;
+  final bool isAdminUser;
 
   static const signInKey = Key('menuSignIn');
   static const ordersKey = Key('menuOrders');
@@ -20,11 +23,7 @@ class MoreMenuButton extends ConsumerWidget {
   static const adminKey = Key('menuAdmin');
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authStateChangesValue = ref.watch(authStateChangesProvider);
-    final user = authStateChangesValue.asData?.value;
-    final isAdminUserValue = ref.watch(isAdminUserProvider);
-    final isAdminUser = isAdminUserValue.asData?.value;
+  Widget build(BuildContext context) {
     return PopupMenuButton(
       onSelected: (option) {
         // TODO: should these use goNamed?
