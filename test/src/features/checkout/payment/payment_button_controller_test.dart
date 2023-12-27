@@ -15,7 +15,7 @@ void main() {
         PaymentButtonController(checkoutService: mockCheckoutService);
     await controller.pay();
     verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
-    expect(controller.debugState, const VoidAsyncValue.data(null));
+    expect(controller.debugState, const VoidAsyncValue.loading());
   });
 
   test('payment failure (Stripe)', () async {

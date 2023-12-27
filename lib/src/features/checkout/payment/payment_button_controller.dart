@@ -10,37 +10,53 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
   final CheckoutService checkoutService;
 
   Future<void> pay() async {
+    var success = false;
     try {
       state = const AsyncValue.loading();
       await checkoutService.payWithPaymentSheet();
+      success = true;
     } on StripeException catch (e) {
       // TODO: Use Stripe-agnostic failure type
       if (e.error.code == FailureCode.Failed) {
-        state = AsyncValue.error(
-            e.error.localizedMessage ?? 'Could not place order');
+        if (mounted) {
+          state = AsyncValue.error(
+              e.error.localizedMessage ?? 'Could not place order');
+        }
       } else if (e.error.code == FailureCode.Canceled) {
         // no op
       }
     } on FirebaseFunctionsException catch (e) {
       // TODO: Use Firebase-agnostic failure type
-      state = AsyncValue.error(e.message ?? 'Could not place order');
+      if (mounted) {
+        state = AsyncValue.error(e.message ?? 'Could not place order');
+      }
     } on AssertionError catch (e) {
-      state = AsyncValue.error(e.message as String);
+      if (mounted) {
+        state = AsyncValue.error(e.message as String);
+      }
     } catch (e) {
       // fallback
-      state = const AsyncValue.error('Could not place order');
+      if (mounted) {
+        state = const AsyncValue.error('Could not place order');
+      }
     } finally {
-      // TODO: this should be no op if the payment has been successful,
-      // since order fullfillment is still in progress.
-      // However, leaving the state as AsyncValue.loading() will cause
-      // the button to be in loading state the next time we open the payment page.
-      const AsyncValue.data(null);
+      if (success) {
+        // no op if the payment has been successful,
+        // since order fullfillment is still in progress.
+      } else {
+        // note: since the provider below uses autoDispose, we need to check
+        // if dispose was called (via mounted) before setting the state
+        if (mounted) {
+          state = const AsyncValue.data(null);
+        }
+      }
     }
   }
 }
 
 final paymentButtonControllerProvider =
-    StateNotifierProvider<PaymentButtonController, VoidAsyncValue>((ref) {
+    StateNotifierProvider.autoDispose<PaymentButtonController, VoidAsyncValue>(
+        (ref) {
   final checkoutService = ref.watch(checkoutServiceProvider);
   return PaymentButtonController(checkoutService: checkoutService);
 });
