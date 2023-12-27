@@ -124,7 +124,7 @@ final cartServiceProvider = Provider<CartService>((ref) {
 
 final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
   final userValue = ref.watch(authStateChangesProvider);
-  final user = userValue.asData?.value;
+  final user = userValue.value;
   if (user != null) {
     final cartRepository = ref.watch(cartRepositoryProvider);
     return cartRepository.itemsList(user.uid);
@@ -161,7 +161,9 @@ final itemAvailableQuantityProvider =
   // simple example of how this works:
   // https://dartpad.dev/?null_safety=true&id=0d065491139efd11c711ca6aa016d5e8
   // explain that it could also be done with `.whenData`
-  final cartItems = await ref.watch(cartItemsListProvider.future);
+  // TODO: Fix #133: The provider AutoDisposeStreamProvider was disposed before a value was emitted
+  //final cartItems = await ref.watch(cartItemsListProvider.future);
+  final cartItems = ref.watch(cartItemsListProvider).value ?? [];
   final matching = cartItems.where((item) => item.productId == product.id);
   final item = matching.isNotEmpty ? matching.first : null;
   final alreadyInCartQuantity = item != null ? item.quantity : 0;
