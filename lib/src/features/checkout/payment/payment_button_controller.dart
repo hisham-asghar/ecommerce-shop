@@ -30,7 +30,11 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
       // fallback
       state = const AsyncValue.error('Could not place order');
     } finally {
-      state = const AsyncValue.data(null);
+      // TODO: this should be no op if the payment has been successful,
+      // since order fullfillment is still in progress.
+      // However, leaving the state as AsyncValue.loading() will cause
+      // the button to be in loading state the next time we open the payment page.
+      const AsyncValue.data(null);
     }
   }
 }

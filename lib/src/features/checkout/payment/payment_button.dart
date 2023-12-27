@@ -24,7 +24,6 @@ class PaymentButton extends ConsumerWidget {
     // error handling
     ref.listen<VoidAsyncValue>(
       paymentButtonControllerProvider,
-      // TODO: Custom error handling
       (_, state) => state.showSnackBarOnError(context),
     );
     final paymentState = ref.watch(paymentButtonControllerProvider);
