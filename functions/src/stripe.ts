@@ -77,29 +77,26 @@ export async function stripeWebhook(req: functions.https.Request, res: functions
         console.error(`⚠️  Stripe webhook secret is not set`)
         res.sendStatus(400)
     }
-    const event: Stripe.Event = req.body
-
-    // TODO: Enable signature verification
     // Retrieve the event by verifying the signature using the raw body and secret.
-    // let event: Stripe.Event;
-    // const stripe = getStripe()
-    // console.log('webhook body:', req.body)
+    let event: Stripe.Event;
+    const stripe = getStripe()
+    // console.log('webhook body:', req.rawBody)
     // console.log('webhook headers:', req.headers['stripe-signature'])
     // console.log('webhook secret:', stripeWebhookSecretKey)
-    // try {
-    //     // https://codeburst.io/express-js-on-cloud-functions-for-firebase-86ed26f9144c
-    //     // https://dev.to/ting682/e-commerce-payments-using-firebase-nodejs-and-square-api-40jn
-    //     // https://stackoverflow.com/questions/70159949/webhook-signature-verification-failed-with-express-stripe
-    //     event = stripe.webhooks.constructEvent(
-    //       req.body, // TODO: need body parser?
-    //       req.headers['stripe-signature'] || [],
-    //       stripeWebhookSecretKey
-    //     )
-    // } catch (err) {
-    //     console.log(`⚠️  Webhook signature verification failed.`)
-    //     res.sendStatus(400)
-    //     return
-    // }
+    try {
+        event = stripe.webhooks.constructEvent(
+          // Note: to perform the verfication correctlly, we *must* use the rawBody
+          // See: https://medium.com/@GaryHarrower/working-with-stripe-webhooks-firebase-cloud-functions-5366c206c6c
+          req.rawBody,
+          req.headers['stripe-signature'] || [],
+          stripeWebhookSecretKey
+        )
+    } catch (err) {
+        console.log(`⚠️  Webhook signature verification failed.`)
+        res.sendStatus(400)
+        return
+    }
+
     // Extract the data from the event.
     const data: Stripe.Event.Data = event.data
     const eventType: string = event.type
