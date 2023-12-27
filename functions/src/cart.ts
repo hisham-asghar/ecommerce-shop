@@ -14,8 +14,10 @@ export async function createOrderPaymentIntent(data: any, context: functions.htt
     const uid = context.auth?.uid
     try {
         if (uid === null || uid === undefined) {
-            throw new functions.https.HttpsError('unauthenticated',
-                'The user is not authenticated.')
+            throw new functions.https.HttpsError(
+                'unauthenticated',
+                'The user is not authenticated.'
+            )
         }
         const firestore = admin.firestore()
         const cartTotal = await firestore.runTransaction(async (transaction) => {
@@ -32,7 +34,7 @@ export async function createOrderPaymentIntent(data: any, context: functions.htt
 
     } catch (error) {
         console.warn(`Could not place order for user: ${uid}`, error);
-        throw error;
+        throw error
     }
 }
 
@@ -47,14 +49,22 @@ async function checkItemsInStock(uid: string, firestore: FirebaseFirestore.Fires
         // find a matching product
         const product = await transaction.get(firestore.doc(productPath(productId)))
         if (product !== undefined) {
-            const { availableQuantity } = product.data()!
+            const { availableQuantity, title } = product.data()!
+            if (availableQuantity == 0) {
+            }
             if (availableQuantity < quantity) {
-                throw new functions.https.HttpsError('aborted',
-                `Item ${productId} doesn't have enough stock`)
+                console.log(`"${title}" is out of stock (requested ${quantity} items but only ${availableQuantity} are available)'`)
+                throw new functions.https.HttpsError(
+                    'aborted',
+                    `"${title}" is out of stock. Please remove it from your cart or try again later.`
+                )
             }
         } else {
-            throw new functions.https.HttpsError('aborted',
-            `Could not find product with id: ${productId}`)
+            console.log(`Attempted to purchase product with id: "${productId}", which is no longer available.`)
+            throw new functions.https.HttpsError(
+                'aborted',
+                `Attempted to purchase product with id: "${productId}", which is no longer available.`
+            )
         }
     }
 }
@@ -148,8 +158,11 @@ async function calculateCartTotal(uid: string, firestore: FirebaseFirestore.Fire
             const itemPrice = price * quantity
             updatedPrice += itemPrice
         } else {
-            throw new functions.https.HttpsError('aborted',
-            `Could not find product with id: ${productId}`)
+            console.warn(`Could not find product with id: ${productId}`)
+            throw new functions.https.HttpsError(
+                'aborted',
+                `Could not find product with id: ${productId}`
+            )
         }
     }
     return updatedPrice

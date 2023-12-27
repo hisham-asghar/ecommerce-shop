@@ -119,14 +119,14 @@ export async function stripeWebhook(req: functions.https.Request, res: functions
             await fullfillOrder(pi)
             console.log('🔔 Order fullfillment succeeded.')
         } catch (e) {
-            console.log(`❌ Order fullfillment failed: ${e}`)
+            console.warn(`❌ Order fullfillment failed: ${e}`)
         }
     }
     if (eventType === 'payment_intent.payment_failed') {
         // Cast the event into a PaymentIntent to make use of the types.
         const pi: Stripe.PaymentIntent = data.object as Stripe.PaymentIntent
         console.log(`🔔  Webhook received: ${pi.object} ${pi.status}!`)
-        console.log('❌ Payment failed.')
+        console.warn('❌ Payment failed.')
     }
   
     if (eventType === 'setup_intent.setup_failed') {
