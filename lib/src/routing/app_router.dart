@@ -89,6 +89,49 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             },
           ),
           GoRoute(
+            path: 'signIn',
+            name: AppRoute.signIn.name,
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              fullscreenDialog: true,
+              child: const EmailPasswordSignInScreen(
+                formType: EmailPasswordSignInFormType.signIn,
+              ),
+            ),
+          ),
+          GoRoute(
+            path: 'cart',
+            name: AppRoute.cart.name,
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              fullscreenDialog: true,
+              child: const ShoppingCartScreen(),
+            ),
+            routes: [
+              // checkout
+              GoRoute(
+                path: 'checkout',
+                name: AppRoute.checkout.name,
+                pageBuilder: (context, state) => MaterialPage(
+                  key: state.pageKey,
+                  fullscreenDialog: true,
+                  child: const CheckoutScreen(),
+                ),
+                routes: [
+                  GoRoute(
+                    path: 'card',
+                    name: AppRoute.cardPayment.name,
+                    pageBuilder: (context, state) => MaterialPage(
+                      key: state.pageKey,
+                      fullscreenDialog: true,
+                      child: const CardPaymentScreen(),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GoRoute(
             path: 'orders',
             name: AppRoute.orders.name,
             pageBuilder: (context, state) => MaterialPage(
@@ -146,49 +189,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   key: state.pageKey,
                   fullscreenDialog: true,
                   child: const AdminOrdersScreen(),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      GoRoute(
-        path: '/signIn',
-        name: AppRoute.signIn.name,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          fullscreenDialog: true,
-          child: const EmailPasswordSignInScreen(
-            formType: EmailPasswordSignInFormType.signIn,
-          ),
-        ),
-      ),
-      GoRoute(
-        path: '/cart',
-        name: AppRoute.cart.name,
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          fullscreenDialog: true,
-          child: const ShoppingCartScreen(),
-        ),
-        routes: [
-          // checkout
-          GoRoute(
-            path: 'checkout',
-            name: AppRoute.checkout.name,
-            pageBuilder: (context, state) => MaterialPage(
-              key: state.pageKey,
-              fullscreenDialog: true,
-              child: const CheckoutScreen(),
-            ),
-            routes: [
-              GoRoute(
-                path: 'card',
-                name: AppRoute.cardPayment.name,
-                pageBuilder: (context, state) => MaterialPage(
-                  key: state.pageKey,
-                  fullscreenDialog: true,
-                  child: const CardPaymentScreen(),
                 ),
               ),
             ],
