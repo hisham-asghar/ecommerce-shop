@@ -37,8 +37,8 @@ exports.stripeWebhook = functions.region(region).https.onRequest((request, respo
 // products management
 import { generateProductList, clearProductList } from './generate_product_list'
 
-exports.generateProductList = functions.region(region).https.onRequest((_, response) => {
-  generateProductList(response)
+exports.generateProductList = functions.region(region).https.onRequest((request, response) => {
+  generateProductList(request, response)
 })
 
 exports.clearProductList = functions.region(region).https.onRequest((_, response) => {

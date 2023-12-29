@@ -100,6 +100,8 @@ public/
 # Firebase configuration files
 ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
+android/app/src/staging/google-services.json
+android/app/src/development/google-services.json
 lib/firebase_options*.dart
 
 # Firebase local emulator exports

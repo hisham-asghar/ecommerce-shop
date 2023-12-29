@@ -33,7 +33,14 @@
         "request": "launch",
         "type": "dart",
         "program": "lib/main_staging.dart",
-        "args": ["--flavor", "staging", "--target", "lib/main_staging.dart"]
+        "args": [
+          "--flavor",
+          "staging",
+          "--target",
+          "lib/main_staging.dart",
+          "--dart-define",
+          "STRIPE_PUBLISHABLE_KEY=pk_test_51K3dgkIx8Zcghu6hRGpkk1AshodBflV2RBP5CcZTt9GzXKB9HeeK7oknOQw2TRdKGHOayEfeUN8JGq62s0SYreyv00uxM1oZIb"
+        ]
       },
       {
         "name": "Launch production",

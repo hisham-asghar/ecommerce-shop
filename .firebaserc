@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "my-shop-ecommerce-dev"
-  }
+    "default": "my-shop-ecommerce-dev",
+    "staging": "my-shop-ecommerce-stg"
+  },
+  "targets": {}
 }
