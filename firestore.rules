@@ -30,7 +30,8 @@ service cloud.firestore {
       allow read, write: if request.auth.token.admin == true;
     }
     match /orders/{id} {
-      allow read, write: if request.auth.token.admin == true;
+      allow read: if resource.data.userId == request.auth.uid || request.auth.token.admin == true;
+      allow write: if request.auth.token.admin == true;
     }
   }
 }

@@ -44,16 +44,3 @@ exports.generateProductList = functions.region(region).https.onRequest((request,
 exports.clearProductList = functions.region(region).https.onRequest((_, response) => {
   clearProductList(response)
 })
-
-// orders management
-import { copyOrderToAdmin, copyOrderToUser } from './orders'
-
-exports.copyOrderToAdmin = functions.region(region).firestore
-  .document(`users/{uid}/orders/{orderId}`).onCreate((snapshot, context) => {
-    return copyOrderToAdmin(snapshot);
-  })
-
-exports.copyOrderToUser = functions.region(region).firestore
-  .document(`orders/{orderId}`).onUpdate((change, context) => {
-    return copyOrderToUser(change.after);
-  })

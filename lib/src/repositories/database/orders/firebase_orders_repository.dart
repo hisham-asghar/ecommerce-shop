@@ -6,16 +6,8 @@ class FirebaseOrdersRepository implements OrdersRepository {
   FirebaseOrdersRepository(this._firestore);
   final FirebaseFirestore _firestore;
 
-  static String userOrdersPath(String uid) => 'users/$uid/orders';
-  static String userOrderPath(String uid, String id) => 'users/$uid/orders/$id';
   static String adminOrdersPath() => 'orders';
   static String adminOrderPath(String id) => 'orders/$id';
-
-  @override
-  Stream<Order> userOrder(String uid, String orderId) {
-    final ref = _userOrderRef(uid, orderId);
-    return ref.snapshots().map((snapshot) => snapshot.data()!);
-  }
 
   @override
   Stream<List<Order>> userOrders(String uid) {
@@ -38,18 +30,13 @@ class FirebaseOrdersRepository implements OrdersRepository {
   }
 
   Query<Order> _userOrdersRef(String uid) => _firestore
-      .collection(userOrdersPath(uid))
+      .collection(adminOrdersPath())
+      .where('userId', isEqualTo: uid)
       .orderBy('orderDate', descending: true)
       .withConverter(
         fromFirestore: (doc, _) => Order.fromMap(doc.data()!, doc.id),
         toFirestore: (Order order, options) => order.toMap(),
       );
-
-  DocumentReference<Order> _userOrderRef(String uid, String orderId) =>
-      _firestore.doc(userOrderPath(uid, orderId)).withConverter(
-            fromFirestore: (doc, _) => Order.fromMap(doc.data()!, orderId),
-            toFirestore: (Order order, options) => order.toMap(),
-          );
 
   Query<Order> _adminOrdersRef() => _firestore
       .collection(adminOrdersPath())

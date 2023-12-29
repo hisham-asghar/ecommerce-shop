@@ -2,8 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 
 abstract class OrdersRepository {
-  Stream<Order> userOrder(String uid, String orderId);
-
   Stream<List<Order>> userOrders(String uid);
 
   Future<void> updateOrderStatus(Order order);
