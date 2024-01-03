@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
 class AsyncValueWidget<T> extends StatelessWidget {
   const AsyncValueWidget({Key? key, required this.value, required this.data})
@@ -12,15 +13,7 @@ class AsyncValueWidget<T> extends StatelessWidget {
     return value.when(
       data: data,
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, st) => Center(
-        child: Text(
-          e.toString(),
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(color: Colors.red),
-        ),
-      ),
+      error: (e, st) => AsyncValueErrorWidget(e, st),
     );
   }
 }
@@ -39,15 +32,37 @@ class AsyncValueSliverWidget<T> extends StatelessWidget {
       loading: () => const SliverToBoxAdapter(
           child: Center(child: CircularProgressIndicator())),
       error: (e, st) => SliverToBoxAdapter(
-        child: Center(
-          child: Text(
-            e.toString(),
+        child: AsyncValueErrorWidget(e, st),
+      ),
+    );
+  }
+}
+
+class AsyncValueErrorWidget extends StatelessWidget {
+  const AsyncValueErrorWidget(this.error, this.stackTrace, {Key? key})
+      : super(key: key);
+  final Object error;
+  final StackTrace? stackTrace;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            error.toString(),
             style: Theme.of(context)
                 .textTheme
                 .headline6!
                 .copyWith(color: Colors.red),
           ),
-        ),
+          if (stackTrace != null) ...[
+            const SizedBox(height: Sizes.p8),
+            Text(stackTrace.toString()),
+          ]
+        ],
       ),
     );
   }
