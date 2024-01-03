@@ -15,7 +15,7 @@ class FakeProductsRepository implements ProductsRepository {
   final _productsSubject = BehaviorSubject<List<Product>>.seeded([]);
   Stream<List<Product>> get _productsStream => _productsSubject.stream;
 
-  // initialize with some tet products
+  // initialize with some test products
   void initWithTestProducts() {
     _products.addAll(kTestProducts);
     _productsSubject.add(_products);

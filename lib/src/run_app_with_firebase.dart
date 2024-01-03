@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/fireb
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/search/algolia_search_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
@@ -41,6 +44,7 @@ Future<void> runAppWithFirebase() async {
     final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
         FirebaseFunctions.instanceFor(region: 'us-central1'));
     final paymentRepository = StripeRepository(Stripe.instance);
+    final searchRepository = _createAlgoliaSearchRepository();
     // https://gorouter.dev/url-path-strategy#turning-off-the-hash
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
     runApp(ProviderScope(
@@ -54,6 +58,7 @@ Future<void> runAppWithFirebase() async {
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
         paymentsRepositoryProvider.overrideWithValue(paymentRepository),
+        searchRepositoryProvider.overrideWithValue(searchRepository),
       ],
       //observers: [ProviderLogger()],
       child: const MyApp(),
@@ -61,7 +66,30 @@ Future<void> runAppWithFirebase() async {
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
     };
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          title: const Text('An error occurred'),
+        ),
+        body: Center(child: Text(details.toString())),
+      );
+    };
   }, (Object error, StackTrace stack) {
     print(error);
   });
+}
+
+SearchRepository _createAlgoliaSearchRepository() {
+  const algoliaSearchKey = String.fromEnvironment('ALGOLIA_SEARCH_KEY');
+  if (algoliaSearchKey.isEmpty) {
+    throw AssertionError('ALGOLIA_SEARCH_KEY is not set');
+  }
+  const algoliaAppId = String.fromEnvironment('ALGOLIA_APP_ID');
+  if (algoliaAppId.isEmpty) {
+    throw AssertionError('ALGOLIA_APP_ID is not set');
+  }
+  const algolia =
+      Algolia.init(applicationId: algoliaAppId, apiKey: algoliaSearchKey);
+  return const AlgoliaSearchRepository(algolia);
 }

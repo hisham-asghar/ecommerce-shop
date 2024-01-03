@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_search_text_field.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
 class ProductListScreen extends ConsumerWidget {
@@ -19,11 +20,11 @@ class ProductListScreen extends ConsumerWidget {
           // TODO: Make scroll-bar appear at the edge of the screen
           child: CustomScrollView(
             slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.all(Sizes.p16),
+              const SliverPadding(
+                padding: EdgeInsets.all(Sizes.p16),
                 sliver: SliverToBoxAdapter(
-                  child: Text('Latest Products',
-                      style: Theme.of(context).textTheme.headline4),
+                  child: ProductsSearchTextField(),
+                  // child: Text('Latest Products', style: Theme.of(context).textTheme.headline4),
                 ),
               ),
               SliverPadding(

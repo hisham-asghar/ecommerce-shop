@@ -37,6 +37,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/search/fake_search_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/fake_payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
@@ -51,8 +53,10 @@ class Robot {
     final authRepository = FakeAuthRepository(addDelay: addDelay);
     final addressRepository = FakeAddressRepository(addDelay: addDelay);
     final productsRepository = FakeProductsRepository(addDelay: addDelay);
+    final searchRepository = FakeSearchRepository(addDelay: addDelay);
     if (initTestProducts) {
       productsRepository.initWithTestProducts();
+      searchRepository.initWithTestProducts();
     }
     final cartRepository = FakeCartRepository(
         productsRepository: productsRepository, addDelay: addDelay);
@@ -81,6 +85,7 @@ class Robot {
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
         paymentsRepositoryProvider.overrideWithValue(paymentRepository),
+        searchRepositoryProvider.overrideWithValue(searchRepository)
       ],
       child: const MyApp(),
     ));
@@ -212,7 +217,7 @@ class Robot {
   }
 
   void expectShoppingCartIsEmpty() {
-    final finder = find.text('Shopping Cart is empty');
+    final finder = find.text('Your shopping cart is empty');
     expect(finder, findsOneWidget);
   }
 
@@ -366,8 +371,8 @@ class Robot {
     expectFindNCartItems(1);
     await startPayment();
     expectFindZeroCartItems();
-    await closePage(); // payment page
-    await closePage(); // shopping cart
+    // when a payment is complete, user is taken to the orders page
+    await closePage(); // close orders page
     await showMenu();
     await openAccountPage();
     await logout();
