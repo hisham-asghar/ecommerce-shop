@@ -6,6 +6,10 @@ A Flutter web preview of the app can be found here:
 
 - [Flutter Web Demo](https://my-shop-ecommerce-stg.web.app/)
 
+There is also an official documentation site for this project, which can be found here:
+
+- [Flutter & Firebase eCommerce Template - Documentation](https://docs.page/bizz84/flutter-firebase-ecommerce-docs)
+
 ## Supported Features
 
 - Products List with Search option
