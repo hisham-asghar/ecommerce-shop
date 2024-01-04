@@ -17,27 +17,28 @@ class _ProductsSearchTextFieldState
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<TextEditingValue>(
-        valueListenable: _controller,
-        builder: (context, value, _) {
-          return TextField(
-            controller: _controller,
-            autofocus: false,
-            decoration: InputDecoration(
-              hintText: 'Search products',
-              icon: const Icon(Icons.search),
-              suffixIcon: value.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        _controller.clear();
-                        ref.read(productsSearchServiceProvider).search('');
-                      },
-                      icon: const Icon(Icons.clear),
-                    )
-                  : null,
-            ),
-            onChanged: (text) =>
-                ref.read(productsSearchServiceProvider).search(text),
-          );
-        });
+      valueListenable: _controller,
+      builder: (context, value, _) {
+        return TextField(
+          controller: _controller,
+          autofocus: false,
+          decoration: InputDecoration(
+            hintText: 'Search products',
+            icon: const Icon(Icons.search),
+            suffixIcon: value.text.isNotEmpty
+                ? IconButton(
+                    onPressed: () {
+                      _controller.clear();
+                      ref.read(productsSearchServiceProvider).search('');
+                    },
+                    icon: const Icon(Icons.clear),
+                  )
+                : null,
+          ),
+          onChanged: (text) =>
+              ref.read(productsSearchServiceProvider).search(text),
+        );
+      },
+    );
   }
 }

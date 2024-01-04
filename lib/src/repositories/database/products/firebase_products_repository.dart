@@ -12,7 +12,8 @@ class FirebaseProductsRepository implements ProductsRepository {
   @override
   Future<List<Product>> getProductsList() async {
     final ref = _productsRef();
-    final snapshot = await ref.get();
+    final snapshot =
+        await ref.get(const GetOptions(source: Source.serverAndCache));
     return snapshot.docs.map((snapshot) => snapshot.data()).toList();
   }
 
@@ -21,6 +22,17 @@ class FirebaseProductsRepository implements ProductsRepository {
     final ref = _productsRef();
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
+  }
+
+  @override
+  Future<List<Product>> searchProducts(String query) async {
+    // 1. Get all products from server
+    final productsList = await getProductsList();
+    // 2. Perform filtering client-side
+    return productsList
+        .where((product) =>
+            product.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
   }
 
   @override

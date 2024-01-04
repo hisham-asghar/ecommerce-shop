@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 
-abstract class ProductsRepository {
+abstract class ProductsRepository implements SearchRepository {
   Future<List<Product>> getProductsList();
 
   Stream<List<Product>> productsList();

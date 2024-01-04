@@ -4,16 +4,20 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_reposit
 import 'package:rxdart/rxdart.dart';
 
 class ProductsSearchService {
-  ProductsSearchService({required this.searchRepository}) {
+  ProductsSearchService({
+    required this.searchFunction,
+    this.debounceDuration = const Duration(milliseconds: 250),
+  }) {
     _results = _searchTerms
-        .debounce((_) => TimerStream(true, const Duration(milliseconds: 400)))
+        .debounce((_) => TimerStream(true, debounceDuration))
         .switchMap((query) async* {
-      yield await searchRepository.search(query);
+      yield await searchFunction(query);
     });
     // on load, search for empty string to get all products
     search('');
   }
-  final SearchRepository searchRepository;
+  final Future<List<Product>> Function(String) searchFunction;
+  final Duration debounceDuration;
 
   // Input stream (search terms)
   final _searchTerms = BehaviorSubject<String>();
@@ -32,7 +36,7 @@ final productsSearchServiceProvider =
     Provider.autoDispose<ProductsSearchService>((ref) {
   final searchRepository = ref.watch(searchRepositoryProvider);
   final searchService =
-      ProductsSearchService(searchRepository: searchRepository);
+      ProductsSearchService(searchFunction: searchRepository.searchProducts);
   ref.onDispose(() => searchService.dispose());
   return searchService;
 });

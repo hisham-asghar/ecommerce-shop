@@ -37,7 +37,6 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/search/fake_search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/fake_payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
@@ -53,10 +52,8 @@ class Robot {
     final authRepository = FakeAuthRepository(addDelay: addDelay);
     final addressRepository = FakeAddressRepository(addDelay: addDelay);
     final productsRepository = FakeProductsRepository(addDelay: addDelay);
-    final searchRepository = FakeSearchRepository(addDelay: addDelay);
     if (initTestProducts) {
       productsRepository.initWithTestProducts();
-      searchRepository.initWithTestProducts();
     }
     final cartRepository = FakeCartRepository(
         productsRepository: productsRepository, addDelay: addDelay);
@@ -79,13 +76,13 @@ class Robot {
         authRepositoryProvider.overrideWithValue(authRepository),
         addressRepositoryProvider.overrideWithValue(addressRepository),
         productsRepositoryProvider.overrideWithValue(productsRepository),
+        searchRepositoryProvider.overrideWithValue(productsRepository),
         cartRepositoryProvider.overrideWithValue(cartRepository),
         ordersRepositoryProvider.overrideWithValue(ordersRepository),
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
         paymentsRepositoryProvider.overrideWithValue(paymentRepository),
-        searchRepositoryProvider.overrideWithValue(searchRepository)
       ],
       child: const MyApp(),
     ));

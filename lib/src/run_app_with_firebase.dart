@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,22 +11,20 @@ import 'package:my_shop_ecommerce_flutter/src/app.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/firebase_auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/firebase_cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/firebase_address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/firebase_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/firebase_cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/sembast_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/firebase_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/search/algolia_search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/utils/provider_logger.dart';
 
 Future<void> runAppWithFirebase() async {
   // https://docs.flutter.dev/testing/errors
@@ -44,7 +41,6 @@ Future<void> runAppWithFirebase() async {
     final cloudFunctionsRepository = FirebaseCloudFunctionsRepository(
         FirebaseFunctions.instanceFor(region: 'us-central1'));
     final paymentRepository = StripeRepository(Stripe.instance);
-    final searchRepository = _createAlgoliaSearchRepository();
     // https://gorouter.dev/url-path-strategy#turning-off-the-hash
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
     runApp(ProviderScope(
@@ -52,13 +48,13 @@ Future<void> runAppWithFirebase() async {
         authRepositoryProvider.overrideWithValue(authRepository),
         addressRepositoryProvider.overrideWithValue(addressRepository),
         productsRepositoryProvider.overrideWithValue(productsRepository),
+        searchRepositoryProvider.overrideWithValue(productsRepository),
         cartRepositoryProvider.overrideWithValue(cartRepository),
         ordersRepositoryProvider.overrideWithValue(ordersRepository),
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
         paymentsRepositoryProvider.overrideWithValue(paymentRepository),
-        searchRepositoryProvider.overrideWithValue(searchRepository),
       ],
       //observers: [ProviderLogger()],
       child: const MyApp(),
@@ -78,18 +74,4 @@ Future<void> runAppWithFirebase() async {
   }, (Object error, StackTrace stack) {
     print(error);
   });
-}
-
-SearchRepository _createAlgoliaSearchRepository() {
-  const algoliaSearchKey = String.fromEnvironment('ALGOLIA_SEARCH_KEY');
-  if (algoliaSearchKey.isEmpty) {
-    throw AssertionError('ALGOLIA_SEARCH_KEY is not set');
-  }
-  const algoliaAppId = String.fromEnvironment('ALGOLIA_APP_ID');
-  if (algoliaAppId.isEmpty) {
-    throw AssertionError('ALGOLIA_APP_ID is not set');
-  }
-  const algolia =
-      Algolia.init(applicationId: algoliaAppId, apiKey: algoliaSearchKey);
-  return const AlgoliaSearchRepository(algolia);
 }
