@@ -1,10 +1,14 @@
-# Flutter eCommerce Template
+# Flutter eCommerce App Template
 
 This is a reference implementation of a full-stack eCommerce app using Flutter & Firebase.
 
+A Flutter web preview of the app can be found here:
+
+- [Flutter Web Demo](https://my-shop-ecommerce-stg.web.app/)
+
 ## Supported Features
 
-- Products List with search option (powered by Algolia)
+- Products List with Search option
 - Product Page + Add to Cart
 - Shopping Cart (update quantity, delete items, show total price)
 - Checkout Flow
@@ -24,8 +28,9 @@ This is a reference implementation of a full-stack eCommerce app using Flutter &
 
 ### Packages
 
-- Riverpod for state management
-- Stripe for payments
+- **Riverpod** for state management
+- **go_router** for routing
+- **Stripe** for payments
 
 See `pubspec.yaml` for full list of packages.
 
@@ -54,8 +59,6 @@ The Flutter client app uses Riverpod for state management and introduces four ap
 - widgets
 
 As a general rule, **each layer can only access the layers above**.
-
-The `go_router` package is used for routing.
 
 ### Project structure
 
