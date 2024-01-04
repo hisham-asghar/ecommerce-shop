@@ -2,6 +2,8 @@
 
 This is a reference implementation of a full-stack eCommerce app using Flutter & Firebase.
 
+![eCommerce App Preview](https://raw.githubusercontent.com/bizz84/my_shop_ecommerce_flutter/main/.github/images/ecommerce-app-preview.png)
+
 A Flutter web preview of the app can be found here:
 
 - [Flutter Web Demo](https://my-shop-ecommerce-stg.web.app/)
