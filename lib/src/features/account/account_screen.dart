@@ -13,6 +13,7 @@ class AccountScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Account'),
         actions: [
           ActionTextButton(
             text: 'Logout',
@@ -25,45 +26,66 @@ class AccountScreen extends ConsumerWidget {
         ],
       ),
       body: const Center(
-        child: UserUidLabel(),
+        child: SizedBox(
+          width: FormFactor.desktop,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: Sizes.p16),
+            child: UserDataTable(),
+          ),
+        ),
       ),
     );
   }
 }
 
-class UserUidLabel extends ConsumerWidget {
-  const UserUidLabel({Key? key}) : super(key: key);
+class UserDataTable extends ConsumerWidget {
+  const UserDataTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authStateChangesValue = ref.watch(authStateChangesProvider);
     final isAdminUserValue = ref.watch(isAdminUserProvider);
     final isAdminUser = isAdminUserValue.asData?.value;
-
+    final style = Theme.of(context).textTheme.subtitle2!;
     return AsyncValueWidget<AppUser?>(
       value: authStateChangesValue,
-      data: (user) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
+      data: (user) => user == null
+          ? const SizedBox()
+          : DataTable(
+              columns: [
+                DataColumn(
+                  label: Text('Field', style: style),
+                ),
+                DataColumn(
+                  label: Text('Value', style: style),
+                ),
+              ],
+              rows: [
+                _makeDataRow('uid', user.uid, style),
+                _makeDataRow('email', user.email ?? '', style),
+                _makeDataRow('isAdmin', isAdminUser.toString(), style),
+              ],
+            ),
+    );
+  }
+
+  DataRow _makeDataRow(String name, String value, TextStyle style) {
+    return DataRow(
+      cells: [
+        DataCell(
           Text(
-            'uid: ${user?.uid}',
-            style: Theme.of(context).textTheme.bodyText1,
-            textAlign: TextAlign.center,
+            name,
+            style: style,
           ),
-          const SizedBox(height: Sizes.p16),
+        ),
+        DataCell(
           Text(
-            'email: ${user?.email}',
-            style: Theme.of(context).textTheme.bodyText1,
-            textAlign: TextAlign.center,
+            value,
+            style: style,
+            maxLines: 2,
           ),
-          const SizedBox(height: Sizes.p16),
-          Text(
-            'isAdmin: $isAdminUser',
-            style: Theme.of(context).textTheme.bodyText1,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
