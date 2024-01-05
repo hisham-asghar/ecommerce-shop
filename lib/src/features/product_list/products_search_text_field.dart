@@ -22,6 +22,7 @@ class _ProductsSearchTextFieldState
         return TextField(
           controller: _controller,
           autofocus: false,
+          style: Theme.of(context).textTheme.headline6,
           decoration: InputDecoration(
             hintText: 'Search products',
             icon: const Icon(Icons.search),

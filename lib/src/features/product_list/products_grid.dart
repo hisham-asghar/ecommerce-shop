@@ -25,7 +25,7 @@ class ProductsGrid extends ConsumerWidget {
               child: Center(
               child: Text(
                 'No products found',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.headline4,
               ),
             ))
           : SliverToBoxAdapter(
