@@ -30,9 +30,7 @@ class AdminProductsScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(Sizes.p16),
                 sliver: ProductsGrid(
-                  onProductSelected: (product) => context.goNamed(
-                      AppRoute.adminProduct.name,
-                      params: {'id': product.id}),
+                  productSelectedRoute: AppRoute.adminProduct.name,
                 ),
               ),
             ],

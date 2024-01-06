@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
@@ -58,9 +57,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
               SliverPadding(
                 padding: const EdgeInsets.all(Sizes.p16),
                 sliver: ProductsGrid(
-                  onProductSelected: (product) => context.goNamed(
-                      AppRoute.product.name,
-                      params: {'id': product.id}),
+                  productSelectedRoute: AppRoute.product.name,
                 ),
               ),
             ],
