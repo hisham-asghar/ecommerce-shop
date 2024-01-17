@@ -2,12 +2,24 @@
   "indexes": [
     {
       "collectionGroup": "orders",
-      "queryScope": "COLLECTION",
+      "queryScope": "COLLECTION_GROUP",
       "fields" : [
         { "fieldPath" : "userId", "order": "ASCENDING" },
         { "fieldPath" : "orderDate", "order": "DESCENDING" }
       ]
     }
+
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "orders",
+      "fieldPath": "orderDate",
+      "indexes": [
+        {
+          "queryScope": "COLLECTION_GROUP",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ]
 }

@@ -5,6 +5,7 @@ import Stripe from 'stripe'
 import { findOrCreateStripeCustomer, createPaymentIntent } from './stripe'
 
 export function ordersPath(): string { return `orders` }
+export function userOrdersPath(uid: string): string { return `users/${uid}/orders` }
 export function cartPath(uid: string): string { return `users/${uid}/private/cart` }
 export function productPath(productId: string): string { return `products/${productId}` }
 export function customerPath(customerId: string): string { return `customers/${customerId}` }
@@ -130,7 +131,7 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
                     'invoice': pi.invoice                
                 }            
             }
-            const newDocRef = firestore.collection(ordersPath()).doc()
+            const newDocRef = firestore.collection(userOrdersPath(uid)).doc()
             await transaction.set(newDocRef, orderData)
 
         } catch (error) {

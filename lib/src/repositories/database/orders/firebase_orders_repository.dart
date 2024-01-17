@@ -6,8 +6,8 @@ class FirebaseOrdersRepository implements OrdersRepository {
   FirebaseOrdersRepository(this._firestore);
   final FirebaseFirestore _firestore;
 
-  static String adminOrdersPath() => 'orders';
-  static String adminOrderPath(String id) => 'orders/$id';
+  static String ordersPath() => 'orders';
+  static String userOrderPath(String uid, String id) => 'users/$uid/orders/$id';
 
   @override
   Stream<List<Order>> watchUserOrders(String uid) {
@@ -18,7 +18,7 @@ class FirebaseOrdersRepository implements OrdersRepository {
 
   @override
   Future<void> updateOrderStatus(Order order) async {
-    final ref = _adminOrderRef(order.id);
+    final ref = _userOrderRef(order.userId, order.id);
     return ref.set(order);
   }
 
@@ -30,7 +30,7 @@ class FirebaseOrdersRepository implements OrdersRepository {
   }
 
   Query<Order> _userOrdersRef(String uid) => _firestore
-      .collection(adminOrdersPath())
+      .collectionGroup(ordersPath())
       .where('userId', isEqualTo: uid)
       .orderBy('orderDate', descending: true)
       .withConverter(
@@ -39,15 +39,16 @@ class FirebaseOrdersRepository implements OrdersRepository {
       );
 
   Query<Order> _adminOrdersRef() => _firestore
-      .collection(adminOrdersPath())
+      .collectionGroup(ordersPath())
+      // note: no where clause here
       .orderBy('orderDate', descending: true)
       .withConverter(
         fromFirestore: (doc, _) => Order.fromMap(doc.data()!, doc.id),
         toFirestore: (Order order, options) => order.toMap(),
       );
 
-  DocumentReference<Order> _adminOrderRef(String orderId) =>
-      _firestore.doc(adminOrderPath(orderId)).withConverter(
+  DocumentReference<Order> _userOrderRef(String uid, String orderId) =>
+      _firestore.doc(userOrderPath(uid, orderId)).withConverter(
             fromFirestore: (doc, _) => Order.fromMap(doc.data()!, orderId),
             toFirestore: (Order order, options) => order.toMap(),
           );
