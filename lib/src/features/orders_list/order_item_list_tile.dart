@@ -19,7 +19,6 @@ class OrderItemListTile extends ConsumerWidget {
       child: AsyncValueWidget<Product>(
         value: productValue,
         data: (product) => Row(
-          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
               flex: 1,
@@ -28,7 +27,17 @@ class OrderItemListTile extends ConsumerWidget {
             const SizedBox(width: Sizes.p8),
             Flexible(
               flex: 3,
-              child: Text(product.title),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(product.title),
+                  const SizedBox(height: Sizes.p12),
+                  Text(
+                    'Quantity: ${item.quantity}',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
