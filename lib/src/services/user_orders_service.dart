@@ -9,7 +9,7 @@ final ordersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
   final user = userValue.asData?.value;
   if (user != null) {
     final ordersRepository = ref.watch(ordersRepositoryProvider);
-    return ordersRepository.userOrders(user.uid);
+    return ordersRepository.watchUserOrders(user.uid);
   } else {
     // TODO: Log error
     return const Stream.empty();

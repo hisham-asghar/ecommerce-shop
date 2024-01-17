@@ -46,7 +46,7 @@ class SembastCartRepository implements LocalCartRepository {
   }
 
   @override
-  Future<List<Item>> getItemsList() async {
+  Future<List<Item>> fetchItemsList() async {
     final itemsJson = await store.record(cartItemsKey).get(db) as String?;
     if (itemsJson != null) {
       return ItemsList.fromJson(itemsJson).items;
@@ -56,7 +56,7 @@ class SembastCartRepository implements LocalCartRepository {
   }
 
   @override
-  Stream<List<Item>> itemsList() {
+  Stream<List<Item>> watchItemsList() {
     final record = store.record(cartItemsKey);
     return record.onSnapshot(db).map((snapshot) {
       if (snapshot != null) {

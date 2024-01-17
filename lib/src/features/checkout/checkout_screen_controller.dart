@@ -31,7 +31,7 @@ class CheckoutScreenController extends StateNotifier<CheckoutScreenState> {
     // First, determine the initial state
     final initialUser = authRepository.currentUser;
     final initialAddress = initialUser != null
-        ? await addressRepository.getAddress(initialUser.uid)
+        ? await addressRepository.fetchAddress(initialUser.uid)
         : null;
     final shouldShowTabs = initialUser == null || initialAddress == null;
     state = stateFor(
@@ -48,7 +48,7 @@ class CheckoutScreenController extends StateNotifier<CheckoutScreenState> {
             _addressSubscription?.cancel();
           }
           _addressSubscription =
-              addressRepository.address(user.uid).listen((address) {
+              addressRepository.watchAddress(user.uid).listen((address) {
             state =
                 stateFor(user: user, address: address, shouldShowTabs: true);
           });

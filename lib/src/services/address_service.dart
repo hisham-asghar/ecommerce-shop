@@ -42,7 +42,7 @@ final addressFutureProvider = FutureProvider.autoDispose<Address?>((ref) {
   final authService = ref.watch(authRepositoryProvider);
   final user = authService.currentUser;
   if (user != null) {
-    return addressRepository.getAddress(user.uid);
+    return addressRepository.fetchAddress(user.uid);
   } else {
     throw AssertionError('uid == null');
   }
@@ -53,7 +53,7 @@ final addressProvider = StreamProvider.autoDispose<Address?>((ref) {
   final user = userValue.asData?.value;
   if (user != null) {
     final addressRepository = ref.watch(addressRepositoryProvider);
-    return addressRepository.address(user.uid);
+    return addressRepository.watchAddress(user.uid);
   } else {
     return Stream.fromIterable([null]);
   }

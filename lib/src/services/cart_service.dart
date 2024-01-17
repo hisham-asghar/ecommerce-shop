@@ -26,9 +26,9 @@ class CartService {
   Future<List<Item>> getItemsList() {
     final user = authRepository.currentUser;
     if (user != null) {
-      return cartRepository.getItemsList(user.uid);
+      return cartRepository.fetchItemsList(user.uid);
     } else {
-      return localCartRepository.getItemsList();
+      return localCartRepository.fetchItemsList();
     }
   }
 
@@ -65,16 +65,16 @@ class CartService {
     final user = authRepository.currentUser;
     if (user != null) {
       try {
-        final localItems = await localCartRepository.getItemsList();
+        final localItems = await localCartRepository.fetchItemsList();
         if (localItems.isNotEmpty) {
           // Get the available quantity for each product (by id)
-          final products = await productsRepository.getProductsList();
+          final products = await productsRepository.fetchProductsList();
           var availableQuantities = <String, int>{};
           for (final product in products) {
             availableQuantities[product.id] = product.availableQuantity;
           }
           // Cap the quantity of each item to the available quantity
-          final remoteItems = await cartRepository.getItemsList(user.uid);
+          final remoteItems = await cartRepository.fetchItemsList(user.uid);
           final localItemsToAdd = <Item>[];
           for (final item in localItems) {
             final matching =
@@ -127,10 +127,10 @@ final cartItemsListProvider = StreamProvider.autoDispose<List<Item>>((ref) {
   final user = userValue.value;
   if (user != null) {
     final cartRepository = ref.watch(cartRepositoryProvider);
-    return cartRepository.itemsList(user.uid);
+    return cartRepository.watchItemsList(user.uid);
   } else {
     final localCartRepository = ref.watch(localCartRepositoryProvider);
-    return localCartRepository.itemsList();
+    return localCartRepository.watchItemsList();
   }
 });
 

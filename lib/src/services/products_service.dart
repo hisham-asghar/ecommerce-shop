@@ -7,10 +7,10 @@ class ProductsService {
   final ProductsRepository productsRepository;
 
   Future<void> addProduct(Product product) =>
-      productsRepository.addProduct(product);
+      productsRepository.createProduct(product);
 
   Future<void> editProduct(Product product) =>
-      productsRepository.editProduct(product);
+      productsRepository.updateProduct(product);
 }
 
 final productsServiceProvider = Provider<ProductsService>((ref) {
@@ -20,7 +20,7 @@ final productsServiceProvider = Provider<ProductsService>((ref) {
 
 final productsListProvider = StreamProvider.autoDispose<List<Product>>((ref) {
   final productsRepository = ref.watch(productsRepositoryProvider);
-  return productsRepository.productsList();
+  return productsRepository.watchProductsList();
 });
 
 final productProvider =

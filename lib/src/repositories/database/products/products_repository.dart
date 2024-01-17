@@ -3,15 +3,15 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 
 abstract class ProductsRepository implements SearchRepository {
-  Future<List<Product>> getProductsList();
+  Future<List<Product>> fetchProductsList();
 
-  Stream<List<Product>> productsList();
+  Stream<List<Product>> watchProductsList();
 
   Stream<Product> product(String id);
 
-  Future<void> addProduct(Product product);
+  Future<void> createProduct(Product product);
 
-  Future<void> editProduct(Product product);
+  Future<void> updateProduct(Product product);
 }
 
 final productsRepositoryProvider = Provider<ProductsRepository>((ref) {

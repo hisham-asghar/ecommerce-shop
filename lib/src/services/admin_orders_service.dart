@@ -19,5 +19,5 @@ final adminOrdersServiceProvider = Provider<AdminOrdersService>((ref) {
 // all read methods as StreamProviders
 final allOrdersByDateProvider = StreamProvider.autoDispose<List<Order>>((ref) {
   final ordersRepository = ref.watch(ordersRepositoryProvider);
-  return ordersRepository.allOrders();
+  return ordersRepository.watchAllOrders();
 });

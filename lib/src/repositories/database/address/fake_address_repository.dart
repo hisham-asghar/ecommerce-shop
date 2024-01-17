@@ -13,12 +13,12 @@ class FakeAddressRepository implements AddressRepository {
       _addressDataSubject.stream;
 
   @override
-  Future<Address?> getAddress(String uid) {
+  Future<Address?> fetchAddress(String uid) {
     return Future.value(_addressData[uid]);
   }
 
   @override
-  Stream<Address?> address(String uid) {
+  Stream<Address?> watchAddress(String uid) {
     return _addressDataStream.map((addressData) => addressData[uid]);
   }
 

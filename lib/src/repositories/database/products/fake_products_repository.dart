@@ -22,19 +22,19 @@ class FakeProductsRepository implements ProductsRepository {
   }
 
   @override
-  Future<List<Product>> getProductsList() {
+  Future<List<Product>> fetchProductsList() {
     return Future.value(_products);
   }
 
   @override
-  Stream<List<Product>> productsList() {
+  Stream<List<Product>> watchProductsList() {
     return _productsStream;
   }
 
   @override
   Future<List<Product>> searchProducts(String query) async {
     // 1. Get all products from server
-    final productsList = await getProductsList();
+    final productsList = await fetchProductsList();
     // 2. Perform filtering client-side
     return productsList
         .where((product) =>
@@ -49,7 +49,7 @@ class FakeProductsRepository implements ProductsRepository {
   }
 
   @override
-  Future<void> addProduct(Product product) async {
+  Future<void> createProduct(Product product) async {
     await delay(addDelay);
     final productWithId = product.copyWith(id: const Uuid().v1());
     _products.add(productWithId);
@@ -57,7 +57,7 @@ class FakeProductsRepository implements ProductsRepository {
   }
 
   @override
-  Future<void> editProduct(Product product) async {
+  Future<void> updateProduct(Product product) async {
     await delay(addDelay);
     final index = _products.indexWhere((item) => item.id == product.id);
     if (index == -1) {

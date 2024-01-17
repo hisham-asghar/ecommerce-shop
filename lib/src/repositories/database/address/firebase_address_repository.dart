@@ -9,14 +9,14 @@ class FirebaseAddressRepository implements AddressRepository {
   static String addressPath(String uid) => 'users/$uid/private/address';
 
   @override
-  Future<Address?> getAddress(String uid) async {
+  Future<Address?> fetchAddress(String uid) async {
     final ref = _addressRef(uid);
     final snapshot = await ref.get();
     return snapshot.data();
   }
 
   @override
-  Stream<Address?> address(String uid) {
+  Stream<Address?> watchAddress(String uid) {
     final ref = _addressRef(uid);
     return ref.snapshots().map((snapshot) => snapshot.data());
   }

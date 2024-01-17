@@ -41,11 +41,11 @@ void main() {
     }) async {
       when(() => mockAuthRepository.currentUser)
           .thenReturn(FakeAppUser(uid: uid));
-      when(() => mockLocalCartRepository.getItemsList())
+      when(() => mockLocalCartRepository.fetchItemsList())
           .thenAnswer((_) => Future.value(itemsToAdd));
-      when(() => mockProductsRepository.getProductsList())
+      when(() => mockProductsRepository.fetchProductsList())
           .thenAnswer((_) => Future.value(products));
-      when(() => mockCartRepository.getItemsList(uid))
+      when(() => mockCartRepository.fetchItemsList(uid))
           .thenAnswer((_) => Future.value(itemsInCart));
       when(() => mockCartRepository.addAllItems(uid, expectedItemsAdded))
           .thenAnswer((_) => Future.value());

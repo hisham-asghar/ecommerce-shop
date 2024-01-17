@@ -11,21 +11,21 @@ class FirebaseCartRepository implements CartRepository {
   static String cartPath(String uid) => 'users/$uid/private/cart';
 
   @override
-  Future<List<Item>> getItemsList(String uid) async {
+  Future<List<Item>> fetchItemsList(String uid) async {
     final ref = _cartItemsRef(uid);
     final snapshot = await ref.get();
     return snapshot.data()?.items ?? [];
   }
 
   @override
-  Stream<List<Item>> itemsList(String uid) {
+  Stream<List<Item>> watchItemsList(String uid) {
     final ref = _cartItemsRef(uid);
     return ref.snapshots().map((snapshot) => snapshot.data()?.items ?? []);
   }
 
   @override
   Future<void> addItem(String uid, Item item) async {
-    final itemsList = await getItemsList(uid);
+    final itemsList = await fetchItemsList(uid);
     final cart = MutableCart(itemsList);
     cart.addItem(item);
     await _cartItemsRef(uid).set(ItemsList(cart.items));
@@ -33,7 +33,7 @@ class FirebaseCartRepository implements CartRepository {
 
   @override
   Future<void> removeItem(String uid, Item item) async {
-    final itemsList = await getItemsList(uid);
+    final itemsList = await fetchItemsList(uid);
     final cart = MutableCart(itemsList);
     cart.removeItem(item);
     await _cartItemsRef(uid).set(ItemsList(cart.items));
@@ -41,7 +41,7 @@ class FirebaseCartRepository implements CartRepository {
 
   @override
   Future<void> updateItemIfExists(String uid, Item item) async {
-    final itemsList = await getItemsList(uid);
+    final itemsList = await fetchItemsList(uid);
     final cart = MutableCart(itemsList);
     cart.updateItemIfExists(item);
     await _cartItemsRef(uid).set(ItemsList(cart.items));
@@ -49,7 +49,7 @@ class FirebaseCartRepository implements CartRepository {
 
   @override
   Future<void> addAllItems(String uid, List<Item> items) async {
-    final itemsList = await getItemsList(uid);
+    final itemsList = await fetchItemsList(uid);
     final cart = MutableCart(itemsList);
     for (var item in items) {
       cart.addItem(item);

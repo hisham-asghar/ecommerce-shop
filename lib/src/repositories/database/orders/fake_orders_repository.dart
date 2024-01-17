@@ -23,7 +23,7 @@ class FakeOrdersRepository implements OrdersRepository {
       _ordersDataSubject.stream;
 
   @override
-  Stream<List<Order>> userOrders(String uid) {
+  Stream<List<Order>> watchUserOrders(String uid) {
     return _ordersDataStream.map((ordersData) {
       final ordersList = ordersData[uid] ?? [];
       ordersList.sort(
@@ -37,7 +37,7 @@ class FakeOrdersRepository implements OrdersRepository {
   Future<Order> placeOrder(String uid) async {
     // TODO: This should pull all the data from the shopping cart
     await delay(addDelay);
-    final items = await cartRepository.getItemsList(uid);
+    final items = await cartRepository.fetchItemsList(uid);
     // First, make sure all items are available
     for (var item in items) {
       final product = productsRepository.getProduct(item.productId);
@@ -67,7 +67,7 @@ class FakeOrdersRepository implements OrdersRepository {
       final product = productsRepository.getProduct(item.productId);
       final updated = product.copyWith(
           availableQuantity: product.availableQuantity - item.quantity);
-      await productsRepository.editProduct(updated);
+      await productsRepository.updateProduct(updated);
     }
     await cartRepository.removeAllItems(uid);
     return order;
@@ -90,7 +90,7 @@ class FakeOrdersRepository implements OrdersRepository {
   }
 
   @override
-  Stream<List<Order>> allOrders() {
+  Stream<List<Order>> watchAllOrders() {
     return _ordersDataStream.map((ordersData) {
       final orders = <Order>[];
       for (var userOrders in ordersData.values) {

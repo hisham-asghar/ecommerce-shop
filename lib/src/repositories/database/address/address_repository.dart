@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 
 abstract class AddressRepository {
-  Future<Address?> getAddress(String uid);
+  Future<Address?> fetchAddress(String uid);
 
-  Stream<Address?> address(String uid);
+  Stream<Address?> watchAddress(String uid);
 
   Future<void> submitAddress(String uid, Address address);
 }

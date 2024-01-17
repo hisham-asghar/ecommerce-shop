@@ -10,7 +10,7 @@ class FirebaseProductsRepository implements ProductsRepository {
   static String productPath(String id) => 'products/$id';
 
   @override
-  Future<List<Product>> getProductsList() async {
+  Future<List<Product>> fetchProductsList() async {
     final ref = _productsRef();
     final snapshot =
         await ref.get(const GetOptions(source: Source.serverAndCache));
@@ -18,7 +18,7 @@ class FirebaseProductsRepository implements ProductsRepository {
   }
 
   @override
-  Stream<List<Product>> productsList() {
+  Stream<List<Product>> watchProductsList() {
     final ref = _productsRef();
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
@@ -27,7 +27,7 @@ class FirebaseProductsRepository implements ProductsRepository {
   @override
   Future<List<Product>> searchProducts(String query) async {
     // 1. Get all products from server
-    final productsList = await getProductsList();
+    final productsList = await fetchProductsList();
     // 2. Perform filtering client-side
     return productsList
         .where((product) =>
@@ -42,13 +42,13 @@ class FirebaseProductsRepository implements ProductsRepository {
   }
 
   @override
-  Future<void> addProduct(Product product) async {
+  Future<void> createProduct(Product product) async {
     final ref = _productsRef();
     await ref.add(product);
   }
 
   @override
-  Future<void> editProduct(Product product) async {
+  Future<void> updateProduct(Product product) async {
     final ref = _productRef(product.id);
     return ref.set(product);
   }

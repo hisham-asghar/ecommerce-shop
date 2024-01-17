@@ -16,12 +16,12 @@ class FakeCartRepository implements CartRepository {
       _cartDataSubject.stream;
 
   @override
-  Future<List<Item>> getItemsList(String uid) {
+  Future<List<Item>> fetchItemsList(String uid) {
     return Future.value(cartData[uid] ?? []);
   }
 
   @override
-  Stream<List<Item>> itemsList(String uid) {
+  Stream<List<Item>> watchItemsList(String uid) {
     return _cartDataStream.map((cartData) {
       return cartData[uid] ?? [];
     });

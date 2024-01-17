@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
 abstract class LocalCartRepository {
-  Future<List<Item>> getItemsList();
+  Future<List<Item>> fetchItemsList();
 
-  Stream<List<Item>> itemsList();
+  Stream<List<Item>> watchItemsList();
 
   Future<void> addItem(Item item);
 

@@ -16,12 +16,12 @@ class FakeLocalCartRepository implements LocalCartRepository {
   Stream<List<Item>> get _cartDataStream => _cartDataSubject.stream;
 
   @override
-  Future<List<Item>> getItemsList() {
+  Future<List<Item>> fetchItemsList() {
     return Future.value(cartData);
   }
 
   @override
-  Stream<List<Item>> itemsList() => _cartDataStream;
+  Stream<List<Item>> watchItemsList() => _cartDataStream;
 
   @override
   Future<void> addItem(Item item) async {

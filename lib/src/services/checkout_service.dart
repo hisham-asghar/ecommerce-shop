@@ -23,7 +23,7 @@ class CheckoutService {
         await cloudFunctionsRepository.createOrderPaymentIntent(user.uid);
 
     // 2. initialize the payment sheet
-    final address = await addressRepository.getAddress(user.uid);
+    final address = await addressRepository.fetchAddress(user.uid);
     if (address == null) {
       throw AssertionError('Address is null');
     }
@@ -44,7 +44,7 @@ class CheckoutService {
         await cloudFunctionsRepository.createOrderPaymentIntent(user.uid);
 
     // 2. initialize the payment sheet
-    final address = await addressRepository.getAddress(user.uid);
+    final address = await addressRepository.fetchAddress(user.uid);
     if (address == null) {
       throw AssertionError('Address is null');
     }

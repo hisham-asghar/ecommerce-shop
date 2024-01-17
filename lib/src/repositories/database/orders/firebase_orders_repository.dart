@@ -10,7 +10,7 @@ class FirebaseOrdersRepository implements OrdersRepository {
   static String adminOrderPath(String id) => 'orders/$id';
 
   @override
-  Stream<List<Order>> userOrders(String uid) {
+  Stream<List<Order>> watchUserOrders(String uid) {
     final ref = _userOrdersRef(uid);
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
@@ -23,7 +23,7 @@ class FirebaseOrdersRepository implements OrdersRepository {
   }
 
   @override
-  Stream<List<Order>> allOrders() {
+  Stream<List<Order>> watchAllOrders() {
     final ref = _adminOrdersRef();
     return ref.snapshots().map((snapshot) =>
         snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
