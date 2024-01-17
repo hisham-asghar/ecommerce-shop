@@ -2,15 +2,24 @@
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 
-export async function generateProductList(request: functions.Request, response: functions.Response) {
-    // https://stackoverflow.com/questions/44078037/how-to-get-firebase-project-name-or-id-from-cloud-function
-    const projectId = process.env.GCLOUD_PROJECT
-    const firestore = admin.firestore()
-    if (request.method !== 'POST') {
-        response.status(400).send('Only POST requests are allowed.')
-        return
-    }
+export async function manageProductList(request: functions.Request, response: functions.Response) {
     // TODO: Validate with some admin credentials (not all users should be able to do this)
+    const firestore = admin.firestore()
+    if (request.method === 'POST') {
+        // https://stackoverflow.com/questions/44078037/how-to-get-firebase-project-name-or-id-from-cloud-function
+        const projectId = process.env.GCLOUD_PROJECT || ""
+        await generateProductList(projectId, firestore)
+        response.sendStatus(200)
+    }
+    else if (request.method === 'DELETE'){
+        await clearProductList(firestore)
+        response.sendStatus(200)
+    } else {
+        response.status(400).send(`Only POST and DELETE requests are allowed. Received ${request.method}`)
+    }
+}
+
+async function generateProductList(projectId: string, firestore: FirebaseFirestore.Firestore) {
     
     const productsData = [
         {
@@ -106,15 +115,12 @@ export async function generateProductList(request: functions.Request, response: 
         // insert new document for product with given ID
         await firestore.doc(`products/${product.id}`).set(product)
     }
-    response.sendStatus(200)
 }
 
-export async function clearProductList(response: functions.Response) {
-    const firestore = admin.firestore()
+async function clearProductList(firestore: FirebaseFirestore.Firestore) {
     const collectionRef = firestore.collection(`products`)
     const collection = await collectionRef.get()
     for (var doc of collection.docs) {
         firestore.doc(`products/${doc.id}`).delete()
     }
-    response.sendStatus(200)
 }
