@@ -32,9 +32,9 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
         onSignedIn: () async {
           try {
             await ref.read(cartServiceProvider).copyItemsToRemote();
-          } catch (e, st) {
+          } catch (e, _) {
             // TODO: Report exception
-            print(e);
+            debugPrint(e.toString());
           }
           context.pop();
         },

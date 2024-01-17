@@ -9,7 +9,6 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 

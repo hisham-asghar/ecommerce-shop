@@ -57,6 +57,6 @@ Future<void> runAppWithMocks() async {
       FlutterError.presentError(details);
     };
   }, (Object error, StackTrace stack) {
-    print(error);
+    debugPrint(error.toString());
   });
 }

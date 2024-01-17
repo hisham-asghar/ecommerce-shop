@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
@@ -89,7 +90,7 @@ class CartService {
                   quantity: min(item.quantity, newAvailableQuantity));
               localItemsToAdd.add(localItem);
             } else {
-              print('Product with id ${item.productId} not found');
+              debugPrint('Product with id ${item.productId} not found');
             }
           }
           // Add all items to the remote cart
@@ -99,7 +100,7 @@ class CartService {
         }
       } catch (e, _) {
         // TODO: Report error
-        print(e);
+        debugPrint(e.toString());
       }
     } else {
       throw AssertionError('user uid == null');

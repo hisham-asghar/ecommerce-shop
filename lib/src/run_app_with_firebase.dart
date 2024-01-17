@@ -72,6 +72,6 @@ Future<void> runAppWithFirebase() async {
       );
     };
   }, (Object error, StackTrace stack) {
-    print(error);
+    debugPrint(error.toString());
   });
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
@@ -27,7 +28,7 @@ class CardPaymentScreenController extends StateNotifier<VoidAsyncValue> {
       state = AsyncValue.error(e.message ?? 'Could not place order');
     } on AssertionError catch (e) {
       // TODO: Log error
-      print(e.toString());
+      debugPrint(e.toString());
       state = AsyncValue.error(e.message as String);
     } catch (e) {
       // fallback

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
@@ -41,7 +40,7 @@ class MoreMenuButton extends StatelessWidget {
             context.pushNamed(AppRoute.admin.name);
             break;
           default:
-            print('Unimplemented');
+            debugPrint('Unimplemented');
         }
       },
       itemBuilder: (_) {

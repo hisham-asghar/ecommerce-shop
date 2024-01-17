@@ -1,5 +1,4 @@
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/items_list.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';

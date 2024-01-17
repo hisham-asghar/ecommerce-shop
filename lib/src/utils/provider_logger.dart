@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProviderLogger extends ProviderObserver {
@@ -8,6 +9,6 @@ class ProviderLogger extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    print('[${provider.name ?? provider.runtimeType}] value: $newValue');
+    debugPrint('[${provider.name ?? provider.runtimeType}] value: $newValue');
   }
 }

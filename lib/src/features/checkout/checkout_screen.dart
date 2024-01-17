@@ -34,7 +34,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
     return state.when(
       noTabs: () => Scaffold(
         appBar: AppBar(title: const Text('Payment')),
-        body: PaymentPage(),
+        body: const PaymentPage(),
       ),
       tab: (index) => CheckoutWithTabs(
         tabController: _tabController,
@@ -94,14 +94,14 @@ class CheckoutWithTabs extends ConsumerWidget {
             onSignedIn: () async {
               try {
                 await ref.read(cartServiceProvider).copyItemsToRemote();
-              } catch (e, st) {
+              } catch (e, _) {
                 // TODO: Report exception
-                print(e);
+                debugPrint(e.toString());
               }
             },
           ),
           const AddressPage(),
-          PaymentPage(),
+          const PaymentPage(),
         ],
       ),
     );
