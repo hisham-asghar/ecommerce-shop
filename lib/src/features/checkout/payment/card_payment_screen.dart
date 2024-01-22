@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_text.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -48,7 +49,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const CartTotalText(),
-                const SizedBox(height: Sizes.p24),
+                const Gap(Sizes.p24),
                 CardField(
                   onCardChanged: (card) {
                     setState(() {
@@ -56,12 +57,12 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: Sizes.p8),
+                const Gap(Sizes.p8),
                 Text(
                   '[DEV build] Use 4242 4242 4242 4242 for testing',
                   style: Theme.of(context).textTheme.caption,
                 ),
-                const SizedBox(height: Sizes.p24),
+                const Gap(Sizes.p24),
                 CheckboxListTile(
                   value: _saveCard,
                   onChanged: (value) {
@@ -71,7 +72,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                   },
                   title: const Text('Save card during payment'),
                 ),
-                const SizedBox(height: Sizes.p24),
+                const Gap(Sizes.p24),
                 PrimaryButton(
                   isLoading: paymentState.isLoading,
                   onPressed: !paymentState.isLoading && _card?.complete == true

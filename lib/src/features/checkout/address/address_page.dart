@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -72,7 +73,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
               submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
-            const SizedBox(height: Sizes.p8),
+            const Gap(Sizes.p8),
             AddressFormField(
               formFieldKey: AddressPage.townCityKey,
               controller: _cityController,
@@ -81,7 +82,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
               submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
-            const SizedBox(height: Sizes.p8),
+            const Gap(Sizes.p8),
             AddressFormField(
               formFieldKey: AddressPage.stateKey,
               controller: _stateController,
@@ -90,7 +91,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
               submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
-            const SizedBox(height: Sizes.p8),
+            const Gap(Sizes.p8),
             AddressFormField(
               formFieldKey: AddressPage.postalCodeKey,
               controller: _postalCodeController,
@@ -99,7 +100,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
               submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
-            const SizedBox(height: Sizes.p8),
+            const Gap(Sizes.p8),
             AddressFormField(
               formFieldKey: AddressPage.countryKey,
               controller: _countryController,
@@ -108,7 +109,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
               submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
-            const SizedBox(height: Sizes.p8),
+            const Gap(Sizes.p8),
             PrimaryButton(
               text: 'Submit',
               onPressed: _submit,

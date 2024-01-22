@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
@@ -22,7 +23,7 @@ class OrderStatusDropDown extends ConsumerWidget {
     return Row(
       children: [
         Text('Status:', style: Theme.of(context).textTheme.subtitle1),
-        const SizedBox(width: Sizes.p16),
+        const Gap(Sizes.p16),
         SizedBox(
           height: Sizes.p48,
           child: state.isLoading

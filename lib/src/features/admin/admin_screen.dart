@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -26,7 +27,7 @@ class AdminScreen extends StatelessWidget {
                   text: 'Manage Products',
                   onPressed: () => context.goNamed(AppRoute.adminProducts.name),
                 ),
-                const SizedBox(height: Sizes.p24),
+                const Gap(Sizes.p24),
                 PrimaryButton(
                   text: 'Manage Orders',
                   onPressed: () => context.goNamed(AppRoute.adminOrders.name),

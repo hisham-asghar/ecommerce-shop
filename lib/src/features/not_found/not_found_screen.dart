@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -24,7 +25,7 @@ class NotFoundScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headline4,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: Sizes.p32),
+              const Gap(Sizes.p32),
               PrimaryButton(
                 onPressed: () => context.goNamed(AppRoute.home.name),
                 text: 'Go Home',

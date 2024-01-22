@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
@@ -83,9 +84,9 @@ class ShoppingCartItemContents extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(product.title, style: Theme.of(context).textTheme.headline5),
-          const SizedBox(height: Sizes.p24),
+          const Gap(Sizes.p24),
           Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
-          const SizedBox(height: Sizes.p24),
+          const Gap(Sizes.p24),
           isEditable
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

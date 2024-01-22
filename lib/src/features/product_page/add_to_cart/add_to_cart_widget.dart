@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
@@ -47,9 +48,9 @@ class AddToCartWidget extends ConsumerWidget {
                 ),
               ],
             ),
-            const SizedBox(height: Sizes.p8),
+            const Gap(Sizes.p8),
             const Divider(),
-            const SizedBox(height: Sizes.p8),
+            const Gap(Sizes.p8),
             PrimaryButton(
               isLoading: state.widgetState.isLoading,
               onPressed: availableQuantity > 0
@@ -60,7 +61,7 @@ class AddToCartWidget extends ConsumerWidget {
               text: availableQuantity > 0 ? 'Add to Cart' : 'Out of Stock',
             ),
             if (product.availableQuantity > 0 && availableQuantity == 0) ...[
-              const SizedBox(height: Sizes.p8),
+              const Gap(Sizes.p8),
               Text(
                 'Already added to cart',
                 style: Theme.of(context).textTheme.caption,

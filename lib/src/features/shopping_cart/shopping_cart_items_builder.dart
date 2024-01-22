@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_with_cta.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
@@ -33,7 +34,7 @@ class ShoppingCartItemsBuilder extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headline4,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: Sizes.p32),
+              const Gap(Sizes.p32),
               PrimaryButton(
                 text: 'Go Back',
                 onPressed: () {
@@ -76,7 +77,7 @@ class ShoppingCartItemsBuilder extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: Sizes.p16),
+                const Gap(Sizes.p16),
                 Flexible(
                   flex: 1,
                   child: Padding(

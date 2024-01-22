@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_item_list_tile.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down.dart';
@@ -60,7 +61,7 @@ class OrderHeader extends ConsumerWidget {
                 children: [
                   Text('Order placed'.toUpperCase(),
                       style: Theme.of(context).textTheme.caption),
-                  const SizedBox(height: Sizes.p4),
+                  const Gap(Sizes.p4),
                   Text(dateFormatted),
                 ],
               ),
@@ -72,7 +73,7 @@ class OrderHeader extends ConsumerWidget {
                     textAlign: TextAlign.end,
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  const SizedBox(height: Sizes.p4),
+                  const Gap(Sizes.p4),
                   Text(totalFormatted),
                 ],
               ),
@@ -109,7 +110,7 @@ class OrderHeaderAdminFields extends StatelessWidget {
                   textAlign: TextAlign.end,
                   style: Theme.of(context).textTheme.caption,
                 ),
-                const SizedBox(height: Sizes.p4),
+                const Gap(Sizes.p4),
                 Text(order.userId),
               ],
             ),
@@ -124,7 +125,7 @@ class OrderHeaderAdminFields extends StatelessWidget {
                   textAlign: TextAlign.end,
                   style: Theme.of(context).textTheme.caption,
                 ),
-                const SizedBox(height: Sizes.p4),
+                const Gap(Sizes.p4),
                 // TODO: Fetch and show user email
                 const Text('TBD'),
               ],

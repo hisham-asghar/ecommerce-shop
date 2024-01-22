@@ -40,7 +40,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
         tabController: _tabController,
         tabIndex: index,
       ),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => Scaffold(
+        appBar: AppBar(title: const Text('Payment')),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 }

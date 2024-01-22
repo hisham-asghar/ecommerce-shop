@@ -26,11 +26,11 @@
 //               'Order total: $totalFormatted',
 //               style: Theme.of(context).textTheme.headline5,
 //             ),
-//             const SizedBox(height: Sizes.p16),
+//             const Gap(Sizes.p16),
 //             Text(
 //               'Order ID: ${order.id}',
 //             ),
-//             const SizedBox(height: Sizes.p16),
+//             const Gap(Sizes.p16),
 //             RichText(
 //               text: TextSpan(children: [
 //                 TextSpan(
@@ -42,7 +42,7 @@
 //                         color: Colors.red, fontWeight: FontWeight.bold)),
 //               ]),
 //             ),
-//             // const SizedBox(height: Sizes.p16),
+//             // const Gap(Sizes.p16),
 //             // RichText(
 //             //   text: TextSpan(children: [
 //             //     TextSpan(
@@ -54,7 +54,7 @@
 //             //             color: Colors.red, fontWeight: FontWeight.bold)),
 //             //   ]),
 //             // ),
-//             const SizedBox(height: Sizes.p32),
+//             const Gap(Sizes.p32),
 //           ],
 //         ),
 //       ),

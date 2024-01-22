@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -62,19 +63,19 @@ class ProductScreenContents extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(product.title, style: Theme.of(context).textTheme.headline6),
-              const SizedBox(height: Sizes.p8),
+              const Gap(Sizes.p8),
               Text(product.description),
-              const SizedBox(height: Sizes.p8),
+              const Gap(Sizes.p8),
               const Divider(),
-              const SizedBox(height: Sizes.p8),
+              const Gap(Sizes.p8),
               Text(priceFormatted,
                   style: Theme.of(context).textTheme.headline5),
-              const SizedBox(height: Sizes.p8),
+              const Gap(Sizes.p8),
               // TODO: Ratings
               // const Placeholder(fallbackHeight: 48.0),
-              // const SizedBox(height: Sizes.p8),
+              // const Gap(Sizes.p8),
               const Divider(),
-              const SizedBox(height: Sizes.p8),
+              const Gap(Sizes.p8),
               AddToCartWidget(product: product),
             ],
           ),
