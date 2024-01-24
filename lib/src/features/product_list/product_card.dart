@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
@@ -28,15 +27,15 @@ class ProductCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CachedNetworkImage(imageUrl: product.imageUrl),
-              const Gap(Sizes.p8),
+              const SizedBox(height: Sizes.p8),
               const Divider(),
-              const Gap(Sizes.p8),
+              const SizedBox(height: Sizes.p8),
               Text(product.title, style: Theme.of(context).textTheme.headline6),
-              const Gap(Sizes.p24),
+              const SizedBox(height: Sizes.p24),
               // TODO: Add reviews
               Text(priceFormatted,
                   style: Theme.of(context).textTheme.headline5),
-              const Gap(Sizes.p4),
+              const SizedBox(height: Sizes.p4),
               Text(
                 product.availableQuantity <= 0
                     ? 'Out of Stock'

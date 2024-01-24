@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
@@ -167,21 +166,21 @@ class _EmailPasswordSignInContentsState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const Gap(8.0),
+            const SizedBox(height: 8.0),
             _buildEmailField(),
             if (model.formType !=
                 EmailPasswordSignInFormType.forgotPassword) ...<Widget>[
-              const Gap(8.0),
+              const SizedBox(height: 8.0),
               _buildPasswordField(),
             ],
-            const Gap(8.0),
+            const SizedBox(height: 8.0),
             PrimaryButton(
               key: const Key('primary-button'),
               text: model.primaryButtonText,
               isLoading: model.isLoading,
               onPressed: model.isLoading ? null : _submit,
             ),
-            const Gap(8.0),
+            const SizedBox(height: 8.0),
             CustomTextButton(
               key: const Key('secondary-button'),
               text: model.secondaryButtonText,

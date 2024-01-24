@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
 class ResponsiveTwoColumnLayout extends StatelessWidget {
@@ -27,7 +26,7 @@ class ResponsiveTwoColumnLayout extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(flex: startFlex, child: startContent),
-          Gap(spacing),
+          SizedBox(width: spacing),
           Flexible(flex: endFlex, child: endContent),
         ],
       );
@@ -36,7 +35,7 @@ class ResponsiveTwoColumnLayout extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           startContent,
-          Gap(spacing),
+          SizedBox(height: spacing),
           endContent,
         ],
       );

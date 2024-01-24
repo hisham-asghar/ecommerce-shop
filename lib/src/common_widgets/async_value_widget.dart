@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
 class AsyncValueWidget<T> extends StatelessWidget {
@@ -60,7 +59,7 @@ class AsyncValueErrorWidget extends StatelessWidget {
                 .copyWith(color: Colors.red),
           ),
           if (stackTrace != null) ...[
-            const Gap(Sizes.p8),
+            const SizedBox(height: Sizes.p8),
             Text(stackTrace.toString()),
           ]
         ],

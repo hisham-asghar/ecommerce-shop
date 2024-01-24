@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
@@ -95,7 +94,7 @@ class _AdminProductScreenContentsState
                           // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
                           if (model.imageUrl.isNotEmpty)
                             CachedNetworkImage(imageUrl: model.imageUrl),
-                          const Gap(Sizes.p8),
+                          const SizedBox(height: Sizes.p8),
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue: model.imageUrl,
@@ -129,7 +128,7 @@ class _AdminProductScreenContentsState
                                 AdminProductScreenController.titleValidator,
                             onSaved: (value) => model.title = value!,
                           ),
-                          const Gap(Sizes.p8),
+                          const SizedBox(height: Sizes.p8),
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue: model.description,
@@ -143,7 +142,7 @@ class _AdminProductScreenContentsState
                                 .descriptionValidator,
                             onSaved: (value) => model.description = value!,
                           ),
-                          const Gap(Sizes.p8),
+                          const SizedBox(height: Sizes.p8),
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue:
