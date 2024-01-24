@@ -26,7 +26,7 @@ class AdminScreen extends StatelessWidget {
                   text: 'Manage Products',
                   onPressed: () => context.goNamed(AppRoute.adminProducts.name),
                 ),
-                const SizedBox(height: Sizes.p24),
+                gapH24,
                 PrimaryButton(
                   text: 'Manage Orders',
                   onPressed: () => context.goNamed(AppRoute.adminOrders.name),

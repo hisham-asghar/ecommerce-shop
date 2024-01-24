@@ -22,7 +22,7 @@ class OrderStatusDropDown extends ConsumerWidget {
     return Row(
       children: [
         Text('Status:', style: Theme.of(context).textTheme.subtitle1),
-        const SizedBox(width: Sizes.p16),
+        gapW16,
         SizedBox(
           height: Sizes.p48,
           child: state.isLoading

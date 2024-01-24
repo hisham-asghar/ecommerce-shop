@@ -83,9 +83,9 @@ class ShoppingCartItemContents extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(product.title, style: Theme.of(context).textTheme.headline5),
-          const SizedBox(height: Sizes.p24),
+          gapH24,
           Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
-          const SizedBox(height: Sizes.p24),
+          gapH24,
           isEditable
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

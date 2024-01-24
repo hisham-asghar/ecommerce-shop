@@ -48,7 +48,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const CartTotalText(),
-                const SizedBox(height: Sizes.p24),
+                gapH24,
                 CardField(
                   onCardChanged: (card) {
                     setState(() {
@@ -56,12 +56,12 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: Sizes.p8),
+                gapH8,
                 Text(
                   '[DEV build] Use 4242 4242 4242 4242 for testing',
                   style: Theme.of(context).textTheme.caption,
                 ),
-                const SizedBox(height: Sizes.p24),
+                gapH24,
                 CheckboxListTile(
                   value: _saveCard,
                   onChanged: (value) {
@@ -71,7 +71,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                   },
                   title: const Text('Save card during payment'),
                 ),
-                const SizedBox(height: Sizes.p24),
+                gapH24,
                 PrimaryButton(
                   isLoading: paymentState.isLoading,
                   onPressed: !paymentState.isLoading && _card?.complete == true

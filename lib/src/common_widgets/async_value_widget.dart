@@ -59,7 +59,7 @@ class AsyncValueErrorWidget extends StatelessWidget {
                 .copyWith(color: Colors.red),
           ),
           if (stackTrace != null) ...[
-            const SizedBox(height: Sizes.p8),
+            gapH8,
             Text(stackTrace.toString()),
           ]
         ],

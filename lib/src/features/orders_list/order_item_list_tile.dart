@@ -24,14 +24,14 @@ class OrderItemListTile extends ConsumerWidget {
               flex: 1,
               child: CachedNetworkImage(imageUrl: product.imageUrl),
             ),
-            const SizedBox(width: Sizes.p8),
+            gapW8,
             Flexible(
               flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(product.title),
-                  const SizedBox(height: Sizes.p12),
+                  gapH12,
                   Text(
                     'Quantity: ${item.quantity}',
                     style: Theme.of(context).textTheme.caption,

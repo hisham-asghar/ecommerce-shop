@@ -24,7 +24,7 @@ class NotFoundScreen extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headline4,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: Sizes.p32),
+              gapH32,
               PrimaryButton(
                 onPressed: () => context.goNamed(AppRoute.home.name),
                 text: 'Go Home',

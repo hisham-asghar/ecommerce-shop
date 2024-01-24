@@ -27,15 +27,15 @@ class ProductCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CachedNetworkImage(imageUrl: product.imageUrl),
-              const SizedBox(height: Sizes.p8),
+              gapH8,
               const Divider(),
-              const SizedBox(height: Sizes.p8),
+              gapH8,
               Text(product.title, style: Theme.of(context).textTheme.headline6),
-              const SizedBox(height: Sizes.p24),
+              gapH24,
               // TODO: Add reviews
               Text(priceFormatted,
                   style: Theme.of(context).textTheme.headline5),
-              const SizedBox(height: Sizes.p4),
+              gapH4,
               Text(
                 product.availableQuantity <= 0
                     ? 'Out of Stock'

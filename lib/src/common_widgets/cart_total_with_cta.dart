@@ -13,9 +13,9 @@ class CartTotalWithCTA extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const CartTotalText(),
-        const SizedBox(height: Sizes.p16),
+        gapH8,
         ctaBuilder(context),
-        const SizedBox(height: Sizes.p8),
+        gapH8,
       ],
     );
   }

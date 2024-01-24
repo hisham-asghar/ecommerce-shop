@@ -6,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart'
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
@@ -166,21 +167,21 @@ class _EmailPasswordSignInContentsState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const SizedBox(height: 8.0),
+            gapH8,
             _buildEmailField(),
             if (model.formType !=
                 EmailPasswordSignInFormType.forgotPassword) ...<Widget>[
-              const SizedBox(height: 8.0),
+              gapH8,
               _buildPasswordField(),
             ],
-            const SizedBox(height: 8.0),
+            gapH8,
             PrimaryButton(
               key: const Key('primary-button'),
               text: model.primaryButtonText,
               isLoading: model.isLoading,
               onPressed: model.isLoading ? null : _submit,
             ),
-            const SizedBox(height: 8.0),
+            gapH8,
             CustomTextButton(
               key: const Key('secondary-button'),
               text: model.secondaryButtonText,

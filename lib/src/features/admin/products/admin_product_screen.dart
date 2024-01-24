@@ -94,7 +94,7 @@ class _AdminProductScreenContentsState
                           // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
                           if (model.imageUrl.isNotEmpty)
                             CachedNetworkImage(imageUrl: model.imageUrl),
-                          const SizedBox(height: Sizes.p8),
+                          gapH8,
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue: model.imageUrl,
@@ -128,7 +128,7 @@ class _AdminProductScreenContentsState
                                 AdminProductScreenController.titleValidator,
                             onSaved: (value) => model.title = value!,
                           ),
-                          const SizedBox(height: Sizes.p8),
+                          gapH8,
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue: model.description,
@@ -142,7 +142,7 @@ class _AdminProductScreenContentsState
                                 .descriptionValidator,
                             onSaved: (value) => model.description = value!,
                           ),
-                          const SizedBox(height: Sizes.p8),
+                          gapH8,
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue:
