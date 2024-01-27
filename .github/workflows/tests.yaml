@@ -1,0 +1,13 @@
+    name: Run Tests
+    on: [push, workflow_dispatch]
+    jobs:
+      drive:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Write firebase_options_dev.dart
+          run: echo '{{ secrets.FIREBASE_OPTIONS_DEV }}' > lib/firebase_options_dev.dart
+        - name: Write firebase_options_staging.dart
+          run: echo '{{ secrets.FIREBASE_OPTIONS_STG }}' > lib/firebase_options_staging.dart
+        - uses: subosito/flutter-action@v1
+        - run: flutter test
