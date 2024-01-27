@@ -95,6 +95,7 @@ class CheckoutWithTabs extends ConsumerWidget {
           EmailPasswordSignInContents(
             model: EmailPasswordSignInModel(
               authService: ref.watch(authRepositoryProvider),
+              localizations: context.loc,
               formType: EmailPasswordSignInFormType.register,
             ),
             onSignedIn: () async {
