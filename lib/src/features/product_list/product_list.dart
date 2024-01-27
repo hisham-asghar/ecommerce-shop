@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/preview_notice.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
@@ -40,30 +41,32 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HomeAppBar(),
-      body: Center(
-        child: SizedBox(
-          width: FormFactor.desktop,
-          // TODO: Make scroll-bar appear at the edge of the screen
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              const SliverPadding(
-                padding: EdgeInsets.all(Sizes.p16),
-                sliver: SliverToBoxAdapter(
-                  child: ProductsSearchTextField(),
-                  // child: Text(
-                  //   context.loc.latestProducts,
-                  //   style: Theme.of(context).textTheme.headline4,
-                  // ),
+      body: PreviewNotice(
+        child: Center(
+          child: SizedBox(
+            width: FormFactor.desktop,
+            // TODO: Make scroll-bar appear at the edge of the screen
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                const SliverPadding(
+                  padding: EdgeInsets.all(Sizes.p16),
+                  sliver: SliverToBoxAdapter(
+                    child: ProductsSearchTextField(),
+                    // child: Text(
+                    //   context.loc.latestProducts,
+                    //   style: Theme.of(context).textTheme.headline4,
+                    // ),
+                  ),
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.all(Sizes.p16),
-                sliver: ProductsGrid(
-                  productSelectedRoute: AppRoute.product.name,
+                SliverPadding(
+                  padding: const EdgeInsets.all(Sizes.p16),
+                  sliver: ProductsGrid(
+                    productSelectedRoute: AppRoute.product.name,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
