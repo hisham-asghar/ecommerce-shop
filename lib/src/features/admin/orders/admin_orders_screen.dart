@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/admin_orders_service.dart';
 
@@ -15,7 +16,7 @@ class AdminOrdersScreen extends ConsumerWidget {
     // TODO: Avoid duplicating code from OrdersListScreen
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manage Orders'),
+        title: Text(context.loc.manageOrders),
       ),
       body: Center(
         child: SizedBox(

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
 
@@ -19,6 +19,7 @@ class EmailAndPasswordValidators {
 class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
   EmailPasswordSignInModel({
     required this.authService,
+    required this.localizations,
     this.email = '',
     this.password = '',
     this.formType = EmailPasswordSignInFormType.signIn,
@@ -26,6 +27,7 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
     this.submitted = false,
   });
   final AuthRepository authService;
+  final AppLocalizations localizations;
 
   String email;
   String password;
@@ -90,30 +92,25 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
 
   String get passwordLabelText {
     if (formType == EmailPasswordSignInFormType.register) {
-      return EmailPasswordSignInStrings.password8CharactersLabel;
+      return localizations.password8CharactersLabel;
     }
-    return EmailPasswordSignInStrings.passwordLabel;
+    return localizations.passwordLabel;
   }
 
   // Getters
   String get primaryButtonText {
     return <EmailPasswordSignInFormType, String>{
-      EmailPasswordSignInFormType.register:
-          EmailPasswordSignInStrings.createAnAccount,
-      EmailPasswordSignInFormType.signIn: EmailPasswordSignInStrings.signIn,
-      EmailPasswordSignInFormType.forgotPassword:
-          EmailPasswordSignInStrings.sendResetLink,
+      EmailPasswordSignInFormType.register: localizations.createAnAccount,
+      EmailPasswordSignInFormType.signIn: localizations.signIn,
+      EmailPasswordSignInFormType.forgotPassword: localizations.sendResetLink,
     }[formType]!;
   }
 
   String get secondaryButtonText {
     return <EmailPasswordSignInFormType, String>{
-      EmailPasswordSignInFormType.register:
-          EmailPasswordSignInStrings.haveAnAccount,
-      EmailPasswordSignInFormType.signIn:
-          EmailPasswordSignInStrings.needAnAccount,
-      EmailPasswordSignInFormType.forgotPassword:
-          EmailPasswordSignInStrings.backToSignIn,
+      EmailPasswordSignInFormType.register: localizations.haveAnAccount,
+      EmailPasswordSignInFormType.signIn: localizations.needAnAccount,
+      EmailPasswordSignInFormType.forgotPassword: localizations.backToSignIn,
     }[formType]!;
   }
 
@@ -128,21 +125,18 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
 
   String get errorAlertTitle {
     return <EmailPasswordSignInFormType, String>{
-      EmailPasswordSignInFormType.register:
-          EmailPasswordSignInStrings.registrationFailed,
-      EmailPasswordSignInFormType.signIn:
-          EmailPasswordSignInStrings.signInFailed,
+      EmailPasswordSignInFormType.register: localizations.registrationFailed,
+      EmailPasswordSignInFormType.signIn: localizations.signInFailed,
       EmailPasswordSignInFormType.forgotPassword:
-          EmailPasswordSignInStrings.passwordResetFailed,
+          localizations.passwordResetFailed,
     }[formType]!;
   }
 
   String get title {
     return <EmailPasswordSignInFormType, String>{
-      EmailPasswordSignInFormType.register: EmailPasswordSignInStrings.register,
-      EmailPasswordSignInFormType.signIn: EmailPasswordSignInStrings.signIn,
-      EmailPasswordSignInFormType.forgotPassword:
-          EmailPasswordSignInStrings.forgotPassword,
+      EmailPasswordSignInFormType.register: localizations.register,
+      EmailPasswordSignInFormType.signIn: localizations.signIn,
+      EmailPasswordSignInFormType.forgotPassword: localizations.forgotPassword,
     }[formType]!;
   }
 
@@ -168,16 +162,16 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
   String? get emailErrorText {
     final bool showErrorText = submitted && !canSubmitEmail;
     final String errorText = email.isEmpty
-        ? EmailPasswordSignInStrings.invalidEmailEmpty
-        : EmailPasswordSignInStrings.invalidEmailErrorText;
+        ? localizations.invalidEmailEmpty
+        : localizations.invalidEmailErrorText;
     return showErrorText ? errorText : null;
   }
 
   String? get passwordErrorText {
     final bool showErrorText = submitted && !canSubmitPassword;
     final String errorText = password.isEmpty
-        ? EmailPasswordSignInStrings.invalidPasswordEmpty
-        : EmailPasswordSignInStrings.invalidPasswordTooShort;
+        ? localizations.invalidPasswordEmpty
+        : localizations.invalidPasswordTooShort;
     return showErrorText ? errorText : null;
   }
 

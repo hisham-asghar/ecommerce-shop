@@ -25,6 +25,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 
 Future<void> runAppWithFirebase() async {
   // https://docs.flutter.dev/testing/errors
@@ -66,7 +67,8 @@ Future<void> runAppWithFirebase() async {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
-          title: const Text('An error occurred'),
+          // TODO: Localize without context?
+          title: Text(AppLocalizationsEn().anErrorOccurred),
         ),
         body: Center(child: Text(details.toString())),
       );

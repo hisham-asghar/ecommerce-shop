@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/address_service.dart';
 
@@ -67,7 +68,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             AddressFormField(
               formFieldKey: AddressPage.addressKey,
               controller: _addressController,
-              labelText: 'Address',
+              labelText: context.loc.address,
               keyboardType: TextInputType.streetAddress,
               submitted: _isSubmitted,
               enabled: !_isLoading,
@@ -76,7 +77,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             AddressFormField(
               formFieldKey: AddressPage.townCityKey,
               controller: _cityController,
-              labelText: 'Town/City',
+              labelText: context.loc.townCity,
               keyboardType: TextInputType.streetAddress,
               submitted: _isSubmitted,
               enabled: !_isLoading,
@@ -85,7 +86,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             AddressFormField(
               formFieldKey: AddressPage.stateKey,
               controller: _stateController,
-              labelText: 'State',
+              labelText: context.loc.state,
               keyboardType: TextInputType.streetAddress,
               submitted: _isSubmitted,
               enabled: !_isLoading,
@@ -94,7 +95,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             AddressFormField(
               formFieldKey: AddressPage.postalCodeKey,
               controller: _postalCodeController,
-              labelText: 'Postal Code',
+              labelText: context.loc.postalCode,
               keyboardType: TextInputType.streetAddress,
               submitted: _isSubmitted,
               enabled: !_isLoading,
@@ -103,14 +104,14 @@ class _AddressPageState extends ConsumerState<AddressPage> {
             AddressFormField(
               formFieldKey: AddressPage.countryKey,
               controller: _countryController,
-              labelText: 'Country',
+              labelText: context.loc.country,
               keyboardType: TextInputType.streetAddress,
               submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
             gapH8,
             PrimaryButton(
-              text: 'Submit',
+              text: context.loc.submit,
               onPressed: _submit,
               isLoading: _isLoading,
             )
@@ -155,7 +156,7 @@ class AddressFormField extends StatelessWidget {
       keyboardType: keyboardType,
       keyboardAppearance: Brightness.light,
       validator: (value) =>
-          value?.isNotEmpty == true ? null : 'Can\'t be empty',
+          value?.isNotEmpty == true ? null : context.loc.cantBeEmpty,
     );
   }
 }

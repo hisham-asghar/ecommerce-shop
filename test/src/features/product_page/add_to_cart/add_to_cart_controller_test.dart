@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_controller.dart';
@@ -9,6 +10,7 @@ import '../../../../mocks.dart';
 import '../../../../utils.dart';
 
 void main() {
+  final localizations = AppLocalizationsEn();
   group('addItem', () {
     test('item added with quantity = 2, success', () async {
       const quantity = 2;
@@ -16,6 +18,7 @@ void main() {
       final cartService = MockCartService();
       when(() => cartService.addItem(item)).thenAnswer((_) => Future.value());
       final controller = AddToCartController(
+        localizations: localizations,
         cartService: cartService,
         product: makeProduct(id: '1', availableQuantity: 5),
       );
@@ -53,6 +56,7 @@ void main() {
       when(() => cartService.addItem(item))
           .thenAnswer((_) => throw StateError('could not add item'));
       final controller = AddToCartController(
+        localizations: localizations,
         cartService: cartService,
         product: makeProduct(id: '1', availableQuantity: 5),
       );

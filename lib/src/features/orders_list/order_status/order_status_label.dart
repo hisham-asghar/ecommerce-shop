@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 
 class OrderStatusLabel extends ConsumerWidget {
@@ -11,27 +12,20 @@ class OrderStatusLabel extends ConsumerWidget {
     final textStyle = Theme.of(context).textTheme.bodyText1!;
     switch (order.orderStatus) {
       case OrderStatus.confirmed:
-        return Text('Confirmed - preparing for delivery', style: textStyle);
+        return Text(
+          context.loc.confirmedPreparingDelivery,
+          style: textStyle,
+        );
       case OrderStatus.shipped:
-        // if (order.deliveryDate != null) {
-        //   final date =
-        //       ref.watch(dateFormatterProvider).format(order.deliveryDate!);
-        //   return Text('Shipped - estimated delivery $date', style: textStyle);
-        // } else {
-        return Text('Shipped', style: textStyle);
-//        }
+        return Text(
+          context.loc.shipped,
+          style: textStyle,
+        );
       case OrderStatus.delivered:
-        // if (order.deliveryDate != null) {
-        //   final date =
-        //       ref.watch(dateFormatterProvider).format(order.deliveryDate!);
-        //   return Text('Delivered $date',
-        //       style: textStyle.copyWith(color: Colors.green));
-        // } else {
-        return Text('Delivered',
-            style: textStyle.copyWith(color: Colors.green));
-//        }
-      default:
-        return Container();
+        return Text(
+          context.loc.delivered,
+          style: textStyle.copyWith(color: Colors.green),
+        );
     }
   }
 }

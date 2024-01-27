@@ -8,8 +8,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selec
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
@@ -114,7 +115,9 @@ class ShoppingCartItemContents extends ConsumerWidget {
                 )
               : Padding(
                   padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-                  child: Text('Quantity: ${item.quantity}'),
+                  child: Text(
+                    context.loc.quantityValue(item.quantity),
+                  ),
                 ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
@@ -16,6 +17,7 @@ Order _fakeOrder() => Order(
     );
 
 void main() {
+  final localizations = AppLocalizationsEn();
   group('OrderStatusDropDownController - updateOrderStatus', () {
     test('success', () async {
       // setup
@@ -28,6 +30,7 @@ void main() {
           .thenAnswer((_) => Future<void>.value());
       final observedStates = <VoidAsyncValue>[];
       final model = OrderStatusDropDownController(
+        localizations: localizations,
         adminOrdersService: service,
         order: order,
       );
@@ -54,6 +57,7 @@ void main() {
           .thenThrow(StateError('User is not signed in'));
       final observedStates = <VoidAsyncValue>[];
       final model = OrderStatusDropDownController(
+        localizations: localizations,
         adminOrdersService: service,
         order: _fakeOrder(),
       );

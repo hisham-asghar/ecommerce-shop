@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
@@ -35,7 +36,7 @@ class AddToCartWidget extends ConsumerWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Quantity:'),
+                Text(context.loc.quantity),
                 ItemQuantitySelector(
                   quantity: state.quantity,
                   maxQuantity: min(availableQuantity, 10),
@@ -57,12 +58,14 @@ class AddToCartWidget extends ConsumerWidget {
                       .read(addToCartControllerProvider(product).notifier)
                       .addItem()
                   : null,
-              text: availableQuantity > 0 ? 'Add to Cart' : 'Out of Stock',
+              text: availableQuantity > 0
+                  ? context.loc.addToCart
+                  : context.loc.outOfStock,
             ),
             if (product.availableQuantity > 0 && availableQuantity == 0) ...[
               gapH8,
               Text(
-                'Already added to cart',
+                context.loc.alreadyAddedToCart,
                 style: Theme.of(context).textTheme.caption,
                 textAlign: TextAlign.center,
               ),

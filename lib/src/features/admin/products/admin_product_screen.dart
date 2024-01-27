@@ -7,6 +7,8 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/admin/products/product_validator.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
@@ -52,7 +54,11 @@ class _AdminProductScreenContentsState
     const autovalidateMode = AutovalidateMode.disabled;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.product == null ? 'New Product' : 'Edit Product'),
+        title: Text(
+          widget.product == null
+              ? context.loc.newProduct
+              : context.loc.editProduct,
+        ),
         actions: [
           ActionTextButton(
             text: 'Save',
@@ -70,7 +76,11 @@ class _AdminProductScreenContentsState
                       await model.submit();
                       context.pop();
                       scaffoldMessenger.showSnackBar(
-                        const SnackBar(content: Text('Product updated')),
+                        SnackBar(
+                          content: Text(
+                            context.loc.productUpdated,
+                          ),
+                        ),
                       );
                     }
                   },
@@ -98,12 +108,15 @@ class _AdminProductScreenContentsState
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue: model.imageUrl,
-                            decoration: const InputDecoration(
-                              label: Text('Image URL'),
+                            decoration: InputDecoration(
+                              label: Text(
+                                context.loc.imageUrl,
+                              ),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator:
-                                AdminProductScreenController.imageUrlValidator,
+                            validator: ref
+                                .read(productValidatorProvider)
+                                .imageUrlValidator,
                             onSaved: (value) => model.imageUrl = value!,
                           ),
                         ],
@@ -120,12 +133,13 @@ class _AdminProductScreenContentsState
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue: model.title,
-                            decoration: const InputDecoration(
-                              label: Text('Title'),
+                            decoration: InputDecoration(
+                              label: Text(context.loc.title),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator:
-                                AdminProductScreenController.titleValidator,
+                            validator: ref
+                                .read(productValidatorProvider)
+                                .titleValidator,
                             onSaved: (value) => model.title = value!,
                           ),
                           gapH8,
@@ -134,11 +148,14 @@ class _AdminProductScreenContentsState
                             initialValue: model.description,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
-                            decoration: const InputDecoration(
-                              label: Text('Description'),
+                            decoration: InputDecoration(
+                              label: Text(
+                                context.loc.description,
+                              ),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator: AdminProductScreenController
+                            validator: ref
+                                .read(productValidatorProvider)
                                 .descriptionValidator,
                             onSaved: (value) => model.description = value!,
                           ),
@@ -147,23 +164,29 @@ class _AdminProductScreenContentsState
                             enabled: !state.isLoading,
                             initialValue:
                                 model.price != 0 ? model.price.toString() : '',
-                            decoration: const InputDecoration(
-                              label: Text('Price'),
+                            decoration: InputDecoration(
+                              label: Text(
+                                context.loc.price,
+                              ),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator:
-                                AdminProductScreenController.priceValidator,
+                            validator: ref
+                                .read(productValidatorProvider)
+                                .priceValidator,
                             onSaved: (value) =>
                                 model.price = double.parse(value!),
                           ),
                           TextFormField(
                             enabled: !state.isLoading,
                             initialValue: model.availableQuantity.toString(),
-                            decoration: const InputDecoration(
-                              label: Text('Available quantity'),
+                            decoration: InputDecoration(
+                              label: Text(
+                                context.loc.availableQuantity,
+                              ),
                             ),
                             autovalidateMode: autovalidateMode,
-                            validator: AdminProductScreenController
+                            validator: ref
+                                .read(productValidatorProvider)
                                 .availableQuantityValidator,
                             onSaved: (value) =>
                                 model.availableQuantity = int.parse(value!),

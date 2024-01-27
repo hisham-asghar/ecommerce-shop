@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_search_service.dart';
 
 class ProductsSearchTextField extends ConsumerStatefulWidget {
@@ -24,7 +25,7 @@ class _ProductsSearchTextFieldState
           autofocus: false,
           style: Theme.of(context).textTheme.headline6,
           decoration: InputDecoration(
-            hintText: 'Search products',
+            hintText: context.loc.searchProducts,
             icon: const Icon(Icons.search),
             suffixIcon: value.text.isNotEmpty
                 ? IconButton(

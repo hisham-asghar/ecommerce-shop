@@ -4,6 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_item_list_tile.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_label.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
@@ -58,8 +59,10 @@ class OrderHeader extends ConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Order placed'.toUpperCase(),
-                      style: Theme.of(context).textTheme.caption),
+                  Text(
+                    context.loc.orderPlaced.toUpperCase(),
+                    style: Theme.of(context).textTheme.caption,
+                  ),
                   gapH4,
                   Text(dateFormatted),
                 ],
@@ -68,7 +71,7 @@ class OrderHeader extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    'Total'.toUpperCase(),
+                    context.loc.total.toUpperCase(),
                     textAlign: TextAlign.end,
                     style: Theme.of(context).textTheme.caption,
                   ),
@@ -105,7 +108,7 @@ class OrderHeaderAdminFields extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'User ID'.toUpperCase(),
+                  context.loc.userId.toUpperCase(),
                   textAlign: TextAlign.end,
                   style: Theme.of(context).textTheme.caption,
                 ),
@@ -120,7 +123,7 @@ class OrderHeaderAdminFields extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'User email'.toUpperCase(),
+                  context.loc.userEmail.toUpperCase(),
                   textAlign: TextAlign.end,
                   style: Theme.of(context).textTheme.caption,
                 ),

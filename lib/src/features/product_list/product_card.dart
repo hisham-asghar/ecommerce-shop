@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
@@ -38,8 +39,8 @@ class ProductCard extends ConsumerWidget {
               gapH4,
               Text(
                 product.availableQuantity <= 0
-                    ? 'Out of Stock'
-                    : '${product.availableQuantity} available',
+                    ? context.loc.outOfStock
+                    : context.loc.quantityAvailable(product.availableQuantity),
                 style: Theme.of(context).textTheme.caption,
               )
             ],

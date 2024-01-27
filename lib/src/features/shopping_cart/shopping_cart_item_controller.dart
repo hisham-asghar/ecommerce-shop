@@ -1,12 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // a StateNotifier subclass to manage the widget's state
 class ShoppingCartItemController extends StateNotifier<VoidAsyncValue> {
-  ShoppingCartItemController({required this.cartService})
+  ShoppingCartItemController(
+      {required this.localizations, required this.cartService})
       : super(const VoidAsyncValue.data(null));
+  final AppLocalizations localizations;
   final CartService cartService;
 
   Future<void> updateQuantity(Item item, int quantity) async {
@@ -15,7 +19,7 @@ class ShoppingCartItemController extends StateNotifier<VoidAsyncValue> {
       final updated = Item(productId: item.productId, quantity: quantity);
       await cartService.updateItemIfExists(updated);
     } catch (e) {
-      state = const VoidAsyncValue.error('Could not update quantity');
+      state = VoidAsyncValue.error(localizations.cantUpdateQuantity);
     } finally {
       state = const VoidAsyncValue.data(null);
     }
@@ -26,7 +30,7 @@ class ShoppingCartItemController extends StateNotifier<VoidAsyncValue> {
       state = const VoidAsyncValue.loading();
       await cartService.removeItem(item);
     } catch (e) {
-      state = const VoidAsyncValue.error('Could not delete item');
+      state = VoidAsyncValue.error(localizations.cantDeleteItem);
     } finally {
       state = const VoidAsyncValue.data(null);
     }
@@ -37,5 +41,9 @@ class ShoppingCartItemController extends StateNotifier<VoidAsyncValue> {
 final shoppingCartItemControllerProvider =
     StateNotifierProvider<ShoppingCartItemController, VoidAsyncValue>((ref) {
   final cartRepository = ref.watch(cartServiceProvider);
-  return ShoppingCartItemController(cartService: cartRepository);
+  final localizations = ref.watch(appLocalizationsProvider);
+  return ShoppingCartItemController(
+    localizations: localizations,
+    cartService: cartRepository,
+  );
 });

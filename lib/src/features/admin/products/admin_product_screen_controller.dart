@@ -1,15 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
-  AdminProductScreenController({required this.productsService, this.product})
+  AdminProductScreenController(
+      {required this.localizations,
+      required this.productsService,
+      this.product})
       : super(const VoidAsyncValue.data(null)) {
     init();
   }
-  // TODO: Force rebuild or avoid mutable state?
+  final AppLocalizations localizations;
   final ProductsService productsService;
+  // TODO: Force rebuild or avoid mutable state?
   final Product? product;
   var title = '';
   var description = '';
@@ -38,7 +44,7 @@ class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
       state = const VoidAsyncValue.loading();
       if (product == null) {
         final newProduct = Product(
-          id: "",
+          id: '',
           title: title,
           description: description,
           price: price,
@@ -59,82 +65,20 @@ class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
         await productsService.editProduct(updatedProduct);
       }
     } catch (e) {
-      state = const VoidAsyncValue.error('Could not save product data');
+      state = VoidAsyncValue.error(localizations.couldNotSaveProduct);
     } finally {
       state = const VoidAsyncValue.data(null);
     }
-  }
-
-  // VALIDATORS
-  static String? imageUrlValidator(String? value) {
-    if (value == null) {
-      return 'Can\'t be empty';
-    }
-    final uri = Uri.tryParse(value);
-    if (uri?.hasScheme != true) {
-      return 'Not a valid URL';
-    }
-    return null;
-  }
-
-  static String? titleValidator(String? value) {
-    if (value == null) {
-      return 'Can\'t be empty';
-    }
-    if (value.length < 20) {
-      return 'Minimum length: 20 characters';
-    }
-    return null;
-  }
-
-  static String? descriptionValidator(String? value) {
-    if (value == null) {
-      return 'Can\'t be empty';
-    }
-    if (value.length < 40) {
-      return 'Minimum length: 40 characters';
-    }
-    return null;
-  }
-
-  static String? priceValidator(String? value) {
-    if (value == null) {
-      return 'Can\'t be empty';
-    }
-    final price = double.tryParse(value);
-    if (price == null) {
-      return 'Not a valid number';
-    }
-    if (price <= 0) {
-      return 'Price must be greater than zero';
-    }
-    if (price >= 100000) {
-      return 'The maximum price must be less than \$100,000';
-    }
-    return null;
-  }
-
-  static String? availableQuantityValidator(String? value) {
-    if (value == null) {
-      return 'Can\'t be empty';
-    }
-    final availableQuantity = int.tryParse(value);
-    if (availableQuantity == null) {
-      return 'Not a valid number';
-    }
-    if (availableQuantity < 0) {
-      return 'Quantity must be zero or more';
-    }
-    if (availableQuantity >= 1000) {
-      return 'The maximum quantity must be less than 1,000';
-    }
-    return null;
   }
 }
 
 final adminProductScreenControllerProvider = StateNotifierProvider.family<
     AdminProductScreenController, VoidAsyncValue, Product?>((ref, product) {
+  final localizations = ref.watch(appLocalizationsProvider);
   final productsRepository = ref.watch(productsServiceProvider);
   return AdminProductScreenController(
-      productsService: productsRepository, product: product);
+    localizations: localizations,
+    productsService: productsRepository,
+    product: product,
+  );
 });

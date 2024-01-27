@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
 class AdminProductsScreen extends ConsumerWidget {
@@ -12,7 +13,7 @@ class AdminProductsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manage Products'),
+        title: Text(context.loc.manageProducts),
       ),
       body: Center(
         child: SizedBox(
@@ -23,8 +24,10 @@ class AdminProductsScreen extends ConsumerWidget {
               SliverPadding(
                 padding: const EdgeInsets.all(Sizes.p16),
                 sliver: SliverToBoxAdapter(
-                  child: Text('Manage Products',
-                      style: Theme.of(context).textTheme.headline4),
+                  child: Text(
+                    context.loc.manageProducts,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
                 ),
               ),
               SliverPadding(

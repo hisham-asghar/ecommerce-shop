@@ -6,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
@@ -33,7 +34,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
     final state = ref.watch(checkoutScreenControllerProvider);
     return state.when(
       noTabs: () => Scaffold(
-        appBar: AppBar(title: const Text('Payment')),
+        appBar: AppBar(
+          title: Text(context.loc.manageProducts),
+        ),
         body: const PaymentPage(),
       ),
       tab: (index) => CheckoutWithTabs(
@@ -54,10 +57,13 @@ class CheckoutWithTabs extends ConsumerWidget {
   final TabController tabController;
   final int tabIndex;
 
-  static const titles = ['Sign In', 'Address', 'Payment'];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final titles = [
+      context.loc.signIn,
+      context.loc.address,
+      context.loc.payment,
+    ];
     return Scaffold(
       appBar: AppBar(
         // Use an animated builder to ensure the title updates on page transition

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 
 Future<bool?> showAlertDialog({
@@ -59,7 +60,7 @@ Future<void> showExceptionAlertDialog({
       context: context,
       title: title,
       content: _message(exception),
-      defaultActionText: 'OK',
+      defaultActionText: context.loc.ok,
     );
 
 String _message(dynamic exception) {

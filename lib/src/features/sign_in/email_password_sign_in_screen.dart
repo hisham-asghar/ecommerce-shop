@@ -8,9 +8,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_strings.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
 class EmailPasswordSignInScreen extends ConsumerWidget {
   const EmailPasswordSignInScreen({Key? key, required this.formType})
@@ -24,10 +24,11 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authService = ref.watch(authRepositoryProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
+      appBar: AppBar(title: Text(context.loc.signIn)),
       body: EmailPasswordSignInContents(
         model: EmailPasswordSignInModel(
           authService: authService,
+          localizations: context.loc,
           formType: formType,
         ),
         onSignedIn: () async {
@@ -87,9 +88,9 @@ class _EmailPasswordSignInContentsState
         if (model.formType == EmailPasswordSignInFormType.forgotPassword) {
           await showAlertDialog(
             context: context,
-            title: EmailPasswordSignInStrings.resetLinkSentTitle,
-            content: EmailPasswordSignInStrings.resetLinkSentMessage,
-            defaultActionText: EmailPasswordSignInStrings.ok,
+            title: context.loc.resetLinkSentTitle,
+            content: context.loc.resetLinkSentMessage,
+            defaultActionText: context.loc.ok,
           );
         } else {
           widget.onSignedIn?.call();
@@ -125,8 +126,8 @@ class _EmailPasswordSignInContentsState
       key: EmailPasswordSignInScreen.emailKey,
       controller: _emailController,
       decoration: InputDecoration(
-        labelText: EmailPasswordSignInStrings.emailLabel,
-        hintText: EmailPasswordSignInStrings.emailHint,
+        labelText: context.loc.emailLabel,
+        hintText: context.loc.emailHint,
         errorText: model.emailErrorText,
         enabled: !model.isLoading,
       ),
@@ -192,7 +193,7 @@ class _EmailPasswordSignInContentsState
             if (model.formType == EmailPasswordSignInFormType.signIn)
               CustomTextButton(
                 key: const Key('tertiary-button'),
-                text: EmailPasswordSignInStrings.forgotPasswordQuestion,
+                text: context.loc.forgotPasswordQuestion,
                 onPressed: model.isLoading
                     ? null
                     : () => _updateFormType(

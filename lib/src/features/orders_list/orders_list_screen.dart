@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/user_orders_service.dart';
 
@@ -14,14 +15,14 @@ class OrdersListScreen extends ConsumerWidget {
     final ordersByDateValue = ref.watch(ordersByDateProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Orders'),
+        title: Text(context.loc.yourOrders),
       ),
       body: AsyncValueWidget<List<Order>>(
         value: ordersByDateValue,
         data: (orders) => orders.isEmpty
             ? Center(
                 child: Text(
-                  'No previous orders',
+                  context.loc.noPreviousOrders,
                   style: Theme.of(context).textTheme.headline3,
                   textAlign: TextAlign.center,
                 ),

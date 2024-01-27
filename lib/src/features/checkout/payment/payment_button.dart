@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
@@ -28,7 +29,7 @@ class PaymentButton extends ConsumerWidget {
     );
     final paymentState = ref.watch(paymentButtonControllerProvider);
     return PrimaryButton(
-      text: 'Pay',
+      text: context.loc.pay,
       isLoading: paymentState.isLoading,
       onPressed: paymentState.isLoading ? null : () => _pay(context, ref),
     );

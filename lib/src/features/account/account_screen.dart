@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
 class AccountScreen extends ConsumerWidget {
@@ -13,10 +14,10 @@ class AccountScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Account'),
+        title: Text(context.loc.account),
         actions: [
           ActionTextButton(
-            text: 'Logout',
+            text: context.loc.logout,
             onPressed: () async {
               final authRepository = ref.read(authRepositoryProvider);
               await authRepository.signOut();
@@ -54,16 +55,34 @@ class UserDataTable extends ConsumerWidget {
           : DataTable(
               columns: [
                 DataColumn(
-                  label: Text('Field', style: style),
+                  label: Text(
+                    context.loc.field,
+                    style: style,
+                  ),
                 ),
                 DataColumn(
-                  label: Text('Value', style: style),
+                  label: Text(
+                    context.loc.value,
+                    style: style,
+                  ),
                 ),
               ],
               rows: [
-                _makeDataRow('uid', user.uid, style),
-                _makeDataRow('email', user.email ?? '', style),
-                _makeDataRow('isAdmin', isAdminUser.toString(), style),
+                _makeDataRow(
+                  context.loc.uidLowercase,
+                  user.uid,
+                  style,
+                ),
+                _makeDataRow(
+                  context.loc.emailLowercase,
+                  user.email ?? '',
+                  style,
+                ),
+                _makeDataRow(
+                  context.loc.isAdminLowercase,
+                  isAdminUser.toString(),
+                  style,
+                ),
               ],
             ),
     );

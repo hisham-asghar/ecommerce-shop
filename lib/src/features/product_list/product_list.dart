@@ -51,7 +51,10 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
                 padding: EdgeInsets.all(Sizes.p16),
                 sliver: SliverToBoxAdapter(
                   child: ProductsSearchTextField(),
-                  // child: Text('Latest Products', style: Theme.of(context).textTheme.headline4),
+                  // child: Text(
+                  //   context.loc.latestProducts,
+                  //   style: Theme.of(context).textTheme.headline4,
+                  // ),
                 ),
               ),
               SliverPadding(

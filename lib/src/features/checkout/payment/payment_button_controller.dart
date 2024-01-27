@@ -1,12 +1,16 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
-  PaymentButtonController({required this.checkoutService})
+  PaymentButtonController(
+      {required this.localizations, required this.checkoutService})
       : super(const AsyncValue.data(null));
+  final AppLocalizations localizations;
   final CheckoutService checkoutService;
 
   Future<void> pay() async {
@@ -20,7 +24,7 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
       if (e.error.code == FailureCode.Failed) {
         if (mounted) {
           state = AsyncValue.error(
-              e.error.localizedMessage ?? 'Could not place order');
+              e.error.localizedMessage ?? localizations.couldNotPlaceOrder);
         }
       } else if (e.error.code == FailureCode.Canceled) {
         // no op
@@ -28,7 +32,7 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
     } on FirebaseFunctionsException catch (e) {
       // TODO: Use Firebase-agnostic failure type
       if (mounted) {
-        state = AsyncValue.error(e.message ?? 'Could not place order');
+        state = AsyncValue.error(e.message ?? localizations.couldNotPlaceOrder);
       }
     } on AssertionError catch (e) {
       if (mounted) {
@@ -37,7 +41,7 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
     } catch (e) {
       // fallback
       if (mounted) {
-        state = const AsyncValue.error('Could not place order');
+        state = AsyncValue.error(localizations.couldNotPlaceOrder);
       }
     } finally {
       if (success) {
@@ -57,6 +61,10 @@ class PaymentButtonController extends StateNotifier<VoidAsyncValue> {
 final paymentButtonControllerProvider =
     StateNotifierProvider.autoDispose<PaymentButtonController, VoidAsyncValue>(
         (ref) {
+  final localizations = ref.watch(appLocalizationsProvider);
   final checkoutService = ref.watch(checkoutServiceProvider);
-  return PaymentButtonController(checkoutService: checkoutService);
+  return PaymentButtonController(
+    localizations: localizations,
+    checkoutService: checkoutService,
+  );
 });

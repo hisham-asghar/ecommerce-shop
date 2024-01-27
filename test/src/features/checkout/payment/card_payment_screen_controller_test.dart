@@ -3,17 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 
 import '../../../../mocks.dart';
 
 void main() {
+  final localizations = AppLocalizationsEn();
+
   test('payment successful', () async {
     const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
     when(() => mockCheckoutService.payByCard(saveCard))
         .thenAnswer((_) async => Future.value());
-    final controller =
-        CardPaymentScreenController(checkoutService: mockCheckoutService);
+    final controller = CardPaymentScreenController(
+      localizations: localizations,
+      checkoutService: mockCheckoutService,
+    );
     await controller.pay(saveCard);
     verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
     expect(controller.debugState, const VoidAsyncValue.data(null));
@@ -30,8 +35,10 @@ void main() {
         ),
       ),
     );
-    final controller =
-        CardPaymentScreenController(checkoutService: mockCheckoutService);
+    final controller = CardPaymentScreenController(
+      localizations: localizations,
+      checkoutService: mockCheckoutService,
+    );
     expect(
         controller.stream,
         emitsInOrder([
@@ -54,8 +61,10 @@ void main() {
         ),
       ),
     );
-    final controller =
-        CardPaymentScreenController(checkoutService: mockCheckoutService);
+    final controller = CardPaymentScreenController(
+      localizations: localizations,
+      checkoutService: mockCheckoutService,
+    );
     expect(
         controller.stream,
         emitsInOrder([
@@ -72,8 +81,10 @@ void main() {
     when(() => mockCheckoutService.payByCard(saveCard)).thenThrow(
       Exception('Something went wrong'),
     );
-    final controller =
-        CardPaymentScreenController(checkoutService: mockCheckoutService);
+    final controller = CardPaymentScreenController(
+      localizations: localizations,
+      checkoutService: mockCheckoutService,
+    );
     expect(
         controller.stream,
         emitsInOrder([

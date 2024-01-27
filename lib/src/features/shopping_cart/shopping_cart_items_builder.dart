@@ -5,6 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_with_cta
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
@@ -29,13 +30,13 @@ class ShoppingCartItemsBuilder extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Your shopping cart is empty',
+                context.loc.shoppingCartEmpty,
                 style: Theme.of(context).textTheme.headline4,
                 textAlign: TextAlign.center,
               ),
               gapH32,
               PrimaryButton(
-                text: 'Go Back',
+                text: context.loc.goBack,
                 onPressed: () {
                   context.goNamed(AppRoute.home.name);
                 },

@@ -5,6 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_text.dar
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 class CardPaymentScreen extends ConsumerStatefulWidget {
@@ -37,7 +38,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     );
     final paymentState = ref.watch(cardPaymentScreenControllerProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Card Payment')),
+      appBar: AppBar(title: Text(context.loc.cardPayment)),
       body: Center(
         child: SizedBox(
           width: FormFactor.tablet,
@@ -58,7 +59,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                 ),
                 gapH8,
                 Text(
-                  '[DEV build] Use 4242 4242 4242 4242 for testing',
+                  context.loc.devBuildTestingNotice,
                   style: Theme.of(context).textTheme.caption,
                 ),
                 gapH24,
@@ -69,7 +70,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                       _saveCard = value;
                     });
                   },
-                  title: const Text('Save card during payment'),
+                  title: Text(context.loc.saveCardDuringPayment),
                 ),
                 gapH24,
                 PrimaryButton(
@@ -77,7 +78,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
                   onPressed: !paymentState.isLoading && _card?.complete == true
                       ? _pay
                       : null,
-                  text: 'Pay',
+                  text: context.loc.pay,
                 ),
               ],
             ),

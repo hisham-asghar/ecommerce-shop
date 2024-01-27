@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
@@ -39,40 +40,37 @@ class MoreMenuButton extends StatelessWidget {
           case PopupMenuOption.admin:
             context.pushNamed(AppRoute.admin.name);
             break;
-          default:
-            debugPrint('Unimplemented');
         }
       },
       itemBuilder: (_) {
         return user != null
             ? <PopupMenuEntry<PopupMenuOption>>[
-                const PopupMenuItem(
+                PopupMenuItem(
                   key: ordersKey,
-                  child: Text('Orders'),
+                  child: Text(context.loc.orders),
                   value: PopupMenuOption.orders,
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   key: accountKey,
-                  child: Text('Account'),
+                  child: Text(context.loc.account),
                   value: PopupMenuOption.account,
                 ),
                 // only show this if user has admin custom claim
                 if (isAdminUser == true)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     key: adminKey,
-                    child: Text('Admin'),
+                    child: Text(context.loc.admin),
                     value: PopupMenuOption.admin,
                   ),
               ]
             : <PopupMenuEntry<PopupMenuOption>>[
-                const PopupMenuItem(
+                PopupMenuItem(
                   key: signInKey,
-                  child: Text('Sign In'),
+                  child: Text(context.loc.signIn),
                   value: PopupMenuOption.signIn,
                 ),
               ];
       },
-      // TODO: Find right icon
       icon: const Icon(Icons.more_vert),
     );
   }
