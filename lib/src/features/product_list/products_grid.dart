@@ -20,30 +20,27 @@ class ProductsGrid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //final productsValue = ref.watch(productsListProvider);
     final productsValue = ref.watch(productsSearchResultsProvider);
-    return AsyncValueSliverWidget<List<Product>>(
+    return AsyncValueWidget<List<Product>>(
       value: productsValue,
       data: (products) => products.isEmpty
-          ? SliverToBoxAdapter(
-              child: Center(
+          ? Center(
               child: Text(
                 context.loc.noProductsFound,
                 style: Theme.of(context).textTheme.headline4,
               ),
-            ))
-          : SliverToBoxAdapter(
-              child: ProductsLayoutGrid(
-                itemCount: products.length,
-                itemBuilder: (_, index) {
-                  final product = products[index];
-                  return ProductCard(
-                    product: product,
-                    onPressed: () => context.goNamed(
-                      productSelectedRoute,
-                      params: {'id': product.id},
-                    ),
-                  );
-                },
-              ),
+            )
+          : ProductsLayoutGrid(
+              itemCount: products.length,
+              itemBuilder: (_, index) {
+                final product = products[index];
+                return ProductCard(
+                  product: product,
+                  onPressed: () => context.goNamed(
+                    productSelectedRoute,
+                    params: {'id': product.id},
+                  ),
+                );
+              },
             ),
     );
   }

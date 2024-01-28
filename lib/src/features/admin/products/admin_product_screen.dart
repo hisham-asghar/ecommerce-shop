@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_controller.dart';
@@ -88,112 +89,104 @@ class _AdminProductScreenContentsState
         ],
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: SizedBox(
-            width: FormFactor.desktop,
-            child: Padding(
-              padding: const EdgeInsets.all(Sizes.p16),
-              child: Form(
-                key: _formKey,
-                child: ResponsiveTwoColumnLayout(
-                  startContent: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(Sizes.p16),
-                      child: Column(
-                        children: [
-                          // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
-                          if (model.imageUrl.isNotEmpty)
-                            CachedNetworkImage(imageUrl: model.imageUrl),
-                          gapH8,
-                          TextFormField(
-                            enabled: !state.isLoading,
-                            initialValue: model.imageUrl,
-                            decoration: InputDecoration(
-                              label: Text(
-                                context.loc.imageUrl,
-                              ),
-                            ),
-                            autovalidateMode: autovalidateMode,
-                            validator: ref
-                                .read(productValidatorProvider)
-                                .imageUrlValidator,
-                            onSaved: (value) => model.imageUrl = value!,
+        child: CenteredBox(
+          padding: const EdgeInsets.all(Sizes.p16),
+          child: Form(
+            key: _formKey,
+            child: ResponsiveTwoColumnLayout(
+              startContent: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(Sizes.p16),
+                  child: Column(
+                    children: [
+                      // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
+                      if (model.imageUrl.isNotEmpty)
+                        CachedNetworkImage(imageUrl: model.imageUrl),
+                      gapH8,
+                      TextFormField(
+                        enabled: !state.isLoading,
+                        initialValue: model.imageUrl,
+                        decoration: InputDecoration(
+                          label: Text(
+                            context.loc.imageUrl,
                           ),
-                        ],
+                        ),
+                        autovalidateMode: autovalidateMode,
+                        validator: ref
+                            .read(productValidatorProvider)
+                            .imageUrlValidator,
+                        onSaved: (value) => model.imageUrl = value!,
                       ),
-                    ),
+                    ],
                   ),
-                  spacing: Sizes.p16,
-                  endContent: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(Sizes.p16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          TextFormField(
-                            enabled: !state.isLoading,
-                            initialValue: model.title,
-                            decoration: InputDecoration(
-                              label: Text(context.loc.title),
-                            ),
-                            autovalidateMode: autovalidateMode,
-                            validator: ref
-                                .read(productValidatorProvider)
-                                .titleValidator,
-                            onSaved: (value) => model.title = value!,
-                          ),
-                          gapH8,
-                          TextFormField(
-                            enabled: !state.isLoading,
-                            initialValue: model.description,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              label: Text(
-                                context.loc.description,
-                              ),
-                            ),
-                            autovalidateMode: autovalidateMode,
-                            validator: ref
-                                .read(productValidatorProvider)
-                                .descriptionValidator,
-                            onSaved: (value) => model.description = value!,
-                          ),
-                          gapH8,
-                          TextFormField(
-                            enabled: !state.isLoading,
-                            initialValue:
-                                model.price != 0 ? model.price.toString() : '',
-                            decoration: InputDecoration(
-                              label: Text(
-                                context.loc.price,
-                              ),
-                            ),
-                            autovalidateMode: autovalidateMode,
-                            validator: ref
-                                .read(productValidatorProvider)
-                                .priceValidator,
-                            onSaved: (value) =>
-                                model.price = double.parse(value!),
-                          ),
-                          TextFormField(
-                            enabled: !state.isLoading,
-                            initialValue: model.availableQuantity.toString(),
-                            decoration: InputDecoration(
-                              label: Text(
-                                context.loc.availableQuantity,
-                              ),
-                            ),
-                            autovalidateMode: autovalidateMode,
-                            validator: ref
-                                .read(productValidatorProvider)
-                                .availableQuantityValidator,
-                            onSaved: (value) =>
-                                model.availableQuantity = int.parse(value!),
-                          ),
-                        ],
+                ),
+              ),
+              spacing: Sizes.p16,
+              endContent: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(Sizes.p16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextFormField(
+                        enabled: !state.isLoading,
+                        initialValue: model.title,
+                        decoration: InputDecoration(
+                          label: Text(context.loc.title),
+                        ),
+                        autovalidateMode: autovalidateMode,
+                        validator:
+                            ref.read(productValidatorProvider).titleValidator,
+                        onSaved: (value) => model.title = value!,
                       ),
-                    ),
+                      gapH8,
+                      TextFormField(
+                        enabled: !state.isLoading,
+                        initialValue: model.description,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          label: Text(
+                            context.loc.description,
+                          ),
+                        ),
+                        autovalidateMode: autovalidateMode,
+                        validator: ref
+                            .read(productValidatorProvider)
+                            .descriptionValidator,
+                        onSaved: (value) => model.description = value!,
+                      ),
+                      gapH8,
+                      TextFormField(
+                        enabled: !state.isLoading,
+                        initialValue:
+                            model.price != 0 ? model.price.toString() : '',
+                        decoration: InputDecoration(
+                          label: Text(
+                            context.loc.price,
+                          ),
+                        ),
+                        autovalidateMode: autovalidateMode,
+                        validator:
+                            ref.read(productValidatorProvider).priceValidator,
+                        onSaved: (value) => model.price = double.parse(value!),
+                      ),
+                      TextFormField(
+                        enabled: !state.isLoading,
+                        initialValue: model.availableQuantity.toString(),
+                        decoration: InputDecoration(
+                          label: Text(
+                            context.loc.availableQuantity,
+                          ),
+                        ),
+                        autovalidateMode: autovalidateMode,
+                        validator: ref
+                            .read(productValidatorProvider)
+                            .availableQuantityValidator,
+                        onSaved: (value) =>
+                            model.availableQuantity = int.parse(value!),
+                      ),
+                    ],
                   ),
                 ),
               ),

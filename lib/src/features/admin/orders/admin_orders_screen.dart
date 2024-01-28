@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
@@ -18,28 +19,23 @@ class AdminOrdersScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(context.loc.manageOrders),
       ),
-      body: Center(
-        child: SizedBox(
-          width: FormFactor.desktop,
-          child: CustomScrollView(
-            slivers: <Widget>[
-              AsyncValueSliverWidget<List<Order>>(
-                value: allOrdersByDateValue,
-                data: (orders) => SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) => Padding(
-                      padding: const EdgeInsets.all(Sizes.p8),
-                      child: OrderCard(
-                        order: orders[index],
-                        viewMode: OrderViewMode.admin,
-                      ),
-                    ),
-                    childCount: orders.length,
+      body: AsyncValueWidget<List<Order>>(
+        value: allOrdersByDateValue,
+        data: (orders) => CustomScrollView(
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) => CenteredBox(
+                  padding: const EdgeInsets.all(Sizes.p8),
+                  child: OrderCard(
+                    order: orders[index],
+                    viewMode: OrderViewMode.admin,
                   ),
                 ),
+                childCount: orders.length,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

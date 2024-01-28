@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
@@ -27,26 +28,21 @@ class OrdersListScreen extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
               )
-            : Center(
-                child: SizedBox(
-                  width: FormFactor.desktop,
-                  child: CustomScrollView(
-                    slivers: <Widget>[
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) => Padding(
-                            padding: const EdgeInsets.all(Sizes.p8),
-                            child: OrderCard(
-                              order: orders[index],
-                              viewMode: OrderViewMode.user,
-                            ),
-                          ),
-                          childCount: orders.length,
+            : CustomScrollView(
+                slivers: <Widget>[
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) => CenteredBox(
+                        padding: const EdgeInsets.all(Sizes.p8),
+                        child: OrderCard(
+                          order: orders[index],
+                          viewMode: OrderViewMode.user,
                         ),
                       ),
-                    ],
+                      childCount: orders.length,
+                    ),
                   ),
-                ),
+                ],
               ),
       ),
     );
