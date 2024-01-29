@@ -82,4 +82,4 @@ This page explains how to set everything up:
 
 - [How to setup a new Firebase environment](https://docs.page/bizz84/flutter-firebase-ecommerce-docs/environment_config)
 
-### LICENSE: MIT
+### [LICENSE: MIT](LICENSE.md)
