@@ -74,4 +74,12 @@ The project folders are organized **by feature**:
 - Complex features can have sub-folders containing smaller features
 - Repositories and services live in the top-level folder (`lib/src`)
 
+## Firebase & Stripe Setup
+
+To get the app to compile, you'll need to create a new Firebase project and put all the Dart initialization code in `lib/firebase_options_dev.dart` (staging and prod environments are also supported).
+
+This page explains how to set everything up:
+
+- [How to setup a new Firebase environment](https://docs.page/bizz84/flutter-firebase-ecommerce-docs/environment_config)
+
 ### LICENSE: MIT
