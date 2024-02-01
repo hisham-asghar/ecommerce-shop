@@ -3,7 +3,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_c
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/mutable_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';
 
 class FakeLocalCartRepository implements LocalCartRepository {
   FakeLocalCartRepository(
@@ -11,52 +11,49 @@ class FakeLocalCartRepository implements LocalCartRepository {
   final FakeProductsRepository productsRepository;
   final bool addDelay;
 
-  List<Item> cartData = [];
-  final _cartDataSubject = BehaviorSubject<List<Item>>.seeded([]);
-  Stream<List<Item>> get _cartDataStream => _cartDataSubject.stream;
+  final _cart = InMemoryStore<List<Item>>([]);
 
   @override
   Future<List<Item>> fetchItemsList() {
-    return Future.value(cartData);
+    return Future.value(_cart.value);
   }
 
   @override
-  Stream<List<Item>> watchItemsList() => _cartDataStream;
+  Stream<List<Item>> watchItemsList() => _cart.stream;
 
   @override
   Future<void> addItem(Item item) async {
     await delay(addDelay);
-    final cart = MutableCart(cartData);
+    final value = _cart.value;
+    final cart = MutableCart(value);
     cart.addItem(item);
-    cartData = cart.items;
-    _cartDataSubject.add(cartData);
+    _cart.value = cart.items;
   }
 
   @override
   Future<void> removeItem(Item item) async {
     await delay(addDelay);
-    final cart = MutableCart(cartData);
+    final value = _cart.value;
+    final cart = MutableCart(value);
     cart.removeItem(item);
-    cartData = cart.items;
-    _cartDataSubject.add(cartData);
+    _cart.value = cart.items;
   }
 
   @override
   Future<void> updateItemIfExists(Item item) async {
     await delay(addDelay, 300);
-    final cart = MutableCart(cartData);
+    final value = _cart.value;
+    final cart = MutableCart(value);
     final result = cart.updateItemIfExists(item);
     if (result) {
-      cartData = cart.items;
-      _cartDataSubject.add(cartData);
+      _cart.value = cart.items;
     }
   }
 
   @override
   Future<void> clear() async {
     await delay(addDelay);
-    cartData = [];
-    _cartDataSubject.add(cartData);
+    _cart.value = [];
   }
 
   double totalPrice(List<Item> items) => items.isEmpty

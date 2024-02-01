@@ -3,6 +3,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,24 +12,21 @@ class FakeProductsRepository implements ProductsRepository {
   final bool addDelay;
 
   // default list of products when the app loads
-  final List<Product> _products = [];
-  final _productsSubject = BehaviorSubject<List<Product>>.seeded([]);
-  Stream<List<Product>> get _productsStream => _productsSubject.stream;
+  final _products = InMemoryStore<List<Product>>([]);
 
   // initialize with some test products
   void initWithTestProducts() {
-    _products.addAll(kTestProducts);
-    _productsSubject.add(_products);
+    _products.value = kTestProducts;
   }
 
   @override
   Future<List<Product>> fetchProductsList() {
-    return Future.value(_products);
+    return Future.value(_products.value);
   }
 
   @override
   Stream<List<Product>> watchProductsList() {
-    return _productsStream;
+    return _products.stream;
   }
 
   @override
@@ -44,7 +42,7 @@ class FakeProductsRepository implements ProductsRepository {
 
   @override
   Stream<Product> product(String id) {
-    return _productsStream
+    return _products.stream
         .map((products) => products.firstWhere((product) => product.id == id));
   }
 
@@ -52,24 +50,26 @@ class FakeProductsRepository implements ProductsRepository {
   Future<void> createProduct(Product product) async {
     await delay(addDelay);
     final productWithId = product.copyWith(id: const Uuid().v1());
-    _products.add(productWithId);
-    _productsSubject.add(_products);
+    final value = _products.value;
+    value.add(productWithId);
+    _products.value = value;
   }
 
   @override
   Future<void> updateProduct(Product product) async {
     await delay(addDelay);
-    final index = _products.indexWhere((item) => item.id == product.id);
+    final value = _products.value;
+    final index = value.indexWhere((item) => item.id == product.id);
     if (index == -1) {
       throw AssertionError('Product not found (id: ${product.id}');
     }
-    _products[index] = product;
-    _productsSubject.add(_products);
+    value[index] = product;
+    _products.value = value;
   }
 
   Product getProduct(String id) {
     /// Throws error if not found
-    return _products.firstWhere((product) => product.id == id);
+    return _products.value.firstWhere((product) => product.id == id);
   }
 }
 

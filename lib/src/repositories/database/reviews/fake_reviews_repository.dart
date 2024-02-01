@@ -2,54 +2,51 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purc
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';
 
 class FakeReviewsRepository implements ReviewsRepository {
   FakeReviewsRepository({this.addDelay = true});
   final bool addDelay;
 
+  // Purchases Store
   // productId -> uid -> Purchase
-  Map<String, Map<String, Purchase>> purchasesData = {};
-  final _purchasesDataSubject =
-      BehaviorSubject<Map<String, Map<String, Purchase>>>.seeded({});
-  Stream<Map<String, Map<String, Purchase>>> get _purchasesDataStream =>
-      _purchasesDataSubject.stream;
+  final _purchases = InMemoryStore<Map<String, Map<String, Purchase>>>({});
 
+  // * Note: this is not an overridden method. It is only called explicitly
+  // * by the FakeOrdersRepository.
   Future<void> addPurchase({
     required String productId,
     required String uid,
     required Purchase purchase,
   }) async {
     await delay(addDelay);
-    final productPurchases = purchasesData[productId];
+    final value = _purchases.value;
+    final productPurchases = value[productId];
     if (productPurchases != null) {
       // purchases already exist: set the new purchase for the given uid
       productPurchases[uid] = purchase;
     } else {
       // purchases do not exist: create a new map with the new purchase
-      purchasesData[productId] = {uid: purchase};
+      value[productId] = {uid: purchase};
     }
-    _purchasesDataSubject.add(purchasesData);
+    _purchases.value = value;
   }
 
   @override
   Stream<Purchase?> userPurchase(String id, String uid) {
-    return _purchasesDataStream.map((purchasesData) {
+    return _purchases.stream.map((purchasesData) {
       // access nested maps by productId, then uid
       return purchasesData[id]?[uid];
     });
   }
 
-  // productId -> uid -> Purchase
-  Map<String, Map<String, Review>> reviewsData = {};
-  final _reviewsDataSubject =
-      BehaviorSubject<Map<String, Map<String, Review>>>.seeded({});
-  Stream<Map<String, Map<String, Review>>> get _reviewsDataStream =>
-      _reviewsDataSubject.stream;
+  // Reviews Store
+
+  final _reviews = InMemoryStore<Map<String, Map<String, Review>>>({});
 
   @override
   Stream<Review?> userReview(String id, String uid) {
-    return _reviewsDataStream.map((reviewsData) {
+    return _reviews.stream.map((reviewsData) {
       // access nested maps by productId, then uid
       return reviewsData[id]?[uid];
     });
@@ -62,20 +59,21 @@ class FakeReviewsRepository implements ReviewsRepository {
     required Review review,
   }) async {
     await delay(addDelay);
-    final reviews = reviewsData[productId];
+    final value = _reviews.value;
+    final reviews = value[productId];
     if (reviews != null) {
       // purchases already exist: set the new purchase for the given uid
       reviews[uid] = review;
     } else {
       // purchases do not exist: create a new map with the new purchase
-      reviewsData[productId] = {uid: review};
+      value[productId] = {uid: review};
     }
-    _reviewsDataSubject.add(reviewsData);
+    _reviews.value = value;
   }
 
   @override
   Stream<List<Review>> reviews(String id) {
-    return _reviewsDataStream.map((reviewsData) {
+    return _reviews.stream.map((reviewsData) {
       // access nested maps by productId, then uid
       final reviews = reviewsData[id];
       if (reviews == null) {

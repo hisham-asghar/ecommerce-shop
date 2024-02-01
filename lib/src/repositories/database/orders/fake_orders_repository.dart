@@ -5,7 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purc
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';
 import 'package:uuid/uuid.dart';
 
 class FakeOrdersRepository implements OrdersRepository {
@@ -20,15 +20,11 @@ class FakeOrdersRepository implements OrdersRepository {
   final FakeReviewsRepository reviewsRepository;
   final bool addDelay;
 
-  Map<String, List<Order>> ordersData = {};
-  final _ordersDataSubject =
-      BehaviorSubject<Map<String, List<Order>>>.seeded({});
-  Stream<Map<String, List<Order>>> get _ordersDataStream =>
-      _ordersDataSubject.stream;
+  final _orders = InMemoryStore<Map<String, List<Order>>>({});
 
   @override
   Stream<List<Order>> watchUserOrders(String uid) {
-    return _ordersDataStream.map((ordersData) {
+    return _orders.stream.map((ordersData) {
       final ordersList = ordersData[uid] ?? [];
       ordersList.sort(
         (lhs, rhs) => rhs.orderDate.compareTo(lhs.orderDate),
@@ -51,7 +47,8 @@ class FakeOrdersRepository implements OrdersRepository {
       }
     }
     // then, place the order
-    final userOrders = ordersData[uid] ?? [];
+    final value = _orders.value;
+    final userOrders = value[uid] ?? [];
     final total = cartRepository.totalPrice(items);
     final orderDate = DateTime.now();
     final orderId = const Uuid().v1();
@@ -66,8 +63,8 @@ class FakeOrdersRepository implements OrdersRepository {
       total: total,
     );
     userOrders.add(order);
-    ordersData[uid] = userOrders;
-    _ordersDataSubject.add(ordersData);
+    value[uid] = userOrders;
+    _orders.value = value;
     // and update all the product quantities
     for (var item in items) {
       final product = productsRepository.getProduct(item.productId);
@@ -88,14 +85,15 @@ class FakeOrdersRepository implements OrdersRepository {
   @override
   Future<void> updateOrderStatus(Order order) async {
     await delay(addDelay);
-    final userOrders = ordersData[order.userId] ?? [];
+    final value = _orders.value;
+    final userOrders = value[order.userId] ?? [];
     // TODO: Do this at the call site?
     final index = userOrders.indexWhere((element) => element.id == order.id);
     if (index >= 0) {
       userOrders[index] = order;
-      ordersData[order.userId] = userOrders;
+      value[order.userId] = userOrders;
       // Note: Adding this to the stream causes additional rebuilds in the OrderList
-      _ordersDataSubject.add(ordersData);
+      _orders.value = value;
     } else {
       throw AssertionError('Order with id ${order.id} does not exist');
     }
@@ -103,7 +101,7 @@ class FakeOrdersRepository implements OrdersRepository {
 
   @override
   Stream<List<Order>> watchAllOrders() {
-    return _ordersDataStream.map((ordersData) {
+    return _orders.stream.map((ordersData) {
       final orders = <Order>[];
       for (var userOrders in ordersData.values) {
         orders.addAll(userOrders);
