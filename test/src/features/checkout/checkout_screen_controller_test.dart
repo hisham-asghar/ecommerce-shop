@@ -20,7 +20,7 @@ void main() {
     test('signed in, null address, show tabs', () {
       expect(
         CheckoutScreenController.stateFor(
-          user: FakeAppUser(uid: '123'),
+          user: const FakeAppUser(uid: '123'),
           address: null,
           shouldShowTabs: true,
         ),
@@ -31,7 +31,7 @@ void main() {
     test('signed in, valid address, show tabs', () {
       expect(
         CheckoutScreenController.stateFor(
-          user: FakeAppUser(uid: '123'),
+          user: const FakeAppUser(uid: '123'),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: true,
@@ -43,7 +43,7 @@ void main() {
     test('signed in, valid address, no tabs', () {
       expect(
         CheckoutScreenController.stateFor(
-          user: FakeAppUser(uid: '123'),
+          user: const FakeAppUser(uid: '123'),
           address: Address(
               address: '', city: '', state: '', postalCode: '', country: ''),
           shouldShowTabs: false,

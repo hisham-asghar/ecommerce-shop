@@ -4,7 +4,6 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 class FakeProductsRepository implements ProductsRepository {
