@@ -2,9 +2,9 @@ import 'package:faker/faker.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 
 class FakeProductsRepository implements ProductsRepository {
   FakeProductsRepository({this.addDelay = true});

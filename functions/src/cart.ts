@@ -9,6 +9,7 @@ export function userOrdersPath(uid: string): string { return `users/${uid}/order
 export function cartPath(uid: string): string { return `users/${uid}/private/cart` }
 export function productPath(productId: string): string { return `products/${productId}` }
 export function customerPath(customerId: string): string { return `customers/${customerId}` }
+export function productPurchasePath(productId: string, uid: string): string { return `products/${productId}/purchases/${uid}` }
 
 export async function createOrderPaymentIntent(data: any, context: functions.https.CallableContext) {
     const uid = context.auth?.uid
@@ -118,11 +119,12 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
             await transaction.delete(cartDocRef)
 
             // save order document data so it can be returned at the end
+            const orderDate = new Date().toISOString()
             const orderData = {
                 'userId': uid,
                 'total': cartTotal,
                 'orderStatus': 'confirmed',
-                'orderDate': new Date().toISOString(),
+                'orderDate': orderDate,
                 'items': items,
                 'payment': {
                     'id': pi.id,
@@ -134,8 +136,21 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
             const newDocRef = firestore.collection(userOrdersPath(uid)).doc()
             await transaction.set(newDocRef, orderData)
 
+            // Write product purchase details by user
+            for (const item of items) {
+                // extract the items data
+                const { productId } = item
+                const purchaseRef = firestore.doc(productPurchasePath(productId, uid))
+                const purchaseData = {
+                    'orderId': newDocRef.id,
+                    'orderDate': orderDate
+                }
+                await transaction.set(purchaseRef, purchaseData)
+            }
+
         } catch (error) {
             console.warn(`Could not fullfill order: ${customerId}`, error);
+            // TODO: Set a flag somewhere so the client knows that the order failed
             throw error;
         }
     })

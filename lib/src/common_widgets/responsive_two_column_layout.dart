@@ -10,6 +10,10 @@ class ResponsiveTwoColumnLayout extends StatelessWidget {
     this.endFlex = 1,
     this.breakpoint = FormFactor.tablet,
     required this.spacing,
+    this.rowMainAxisAlignment = MainAxisAlignment.start,
+    this.rowCrossAxisAlignment = CrossAxisAlignment.start,
+    this.columnMainAxisAlignment = MainAxisAlignment.start,
+    this.columnCrossAxisAlignment = CrossAxisAlignment.stretch,
   }) : super(key: key);
   final Widget startContent;
   final Widget endContent;
@@ -17,13 +21,18 @@ class ResponsiveTwoColumnLayout extends StatelessWidget {
   final int endFlex;
   final double breakpoint;
   final double spacing;
+  final MainAxisAlignment rowMainAxisAlignment;
+  final CrossAxisAlignment rowCrossAxisAlignment;
+  final MainAxisAlignment columnMainAxisAlignment;
+  final CrossAxisAlignment columnCrossAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth >= breakpoint) {
       return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: rowMainAxisAlignment,
+        crossAxisAlignment: rowCrossAxisAlignment,
         children: [
           Flexible(flex: startFlex, child: startContent),
           SizedBox(width: spacing),
@@ -32,7 +41,8 @@ class ResponsiveTwoColumnLayout extends StatelessWidget {
       );
     } else {
       return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: columnMainAxisAlignment,
+        crossAxisAlignment: columnCrossAxisAlignment,
         children: [
           startContent,
           SizedBox(height: spacing),

@@ -17,6 +17,15 @@ import { createOrderPaymentIntent } from './cart'
 
 exports.createOrderPaymentIntent = functions.region(region).https.onCall(createOrderPaymentIntent)
 
+// Reviews
+
+import { updateRating } from './reviews'
+
+exports.updateProductRating = functions.region(region).firestore
+    .document(`products/{id}/reviews/{uid}`)
+    .onWrite((change, _) => updateRating(change))
+
+
 // Stripe 
 
 import { stripeWebhook } from './stripe'

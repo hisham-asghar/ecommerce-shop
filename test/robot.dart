@@ -13,7 +13,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selec
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/more_menu_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/shopping_cart_icon.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/leave_review_page/leave_review_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_reviews/product_review_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
@@ -37,6 +39,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/fake_payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
@@ -55,11 +59,13 @@ class Robot {
     if (initTestProducts) {
       productsRepository.initWithTestProducts();
     }
+    final reviewsRepository = FakeReviewsRepository(addDelay: addDelay);
     final cartRepository = FakeCartRepository(
         productsRepository: productsRepository, addDelay: addDelay);
     final ordersRepository = FakeOrdersRepository(
       productsRepository: productsRepository,
       cartRepository: cartRepository,
+      reviewsRepository: reviewsRepository,
       addDelay: addDelay,
     );
     final localCartRepository = FakeLocalCartRepository(
@@ -77,6 +83,7 @@ class Robot {
         addressRepositoryProvider.overrideWithValue(addressRepository),
         productsRepositoryProvider.overrideWithValue(productsRepository),
         searchRepositoryProvider.overrideWithValue(productsRepository),
+        reviewsRepositoryProvider.overrideWithValue(reviewsRepository),
         cartRepositoryProvider.overrideWithValue(cartRepository),
         ordersRepositoryProvider.overrideWithValue(ordersRepository),
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
@@ -166,6 +173,49 @@ class Robot {
     expect(finder, findsOneWidget);
     await tester.tap(finder);
     await tester.pumpAndSettle();
+  }
+
+  void expectFindLeaveReview() {
+    final finder = find.text('Leave a review');
+    expect(finder, findsOneWidget);
+  }
+
+  Future<void> leaveReview() async {
+    final finder = find.text('Leave a review');
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  void expectFindOneReview() {
+    final finder = find.byType(ProductReviewCard);
+    expect(finder, findsOneWidget);
+  }
+
+  // leave a review
+  Future<void> selectReviewScore() async {
+    final finder = find.byKey(const Key('stars-4'));
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+  }
+
+  Future<void> enterReviewComment() async {
+    final finder = find.byKey(LeaveReviewForm.reviewCommentKey);
+    expect(finder, findsOneWidget);
+    await tester.enterText(finder, 'Love it!');
+  }
+
+  Future<void> submitReview() async {
+    final finder = find.text('Submit');
+    expect(finder, findsOneWidget);
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> createAndSubmitReview() async {
+    await selectReviewScore();
+    await enterReviewComment();
+    await submitReview();
   }
 
   // shopping cart
@@ -370,6 +420,12 @@ class Robot {
     expectFindZeroCartItems();
     // when a payment is complete, user is taken to the orders page
     await closePage(); // close orders page
+    await selectProduct(); // back to the product page
+    expectFindLeaveReview();
+    await leaveReview();
+    await createAndSubmitReview(); // submits review and gets back to product page
+    expectFindOneReview();
+    // expect review is there
     await showMenu();
     await openAccountPage();
     await logout();

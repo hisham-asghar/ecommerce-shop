@@ -36,6 +36,6 @@ final optionalProductProvider =
   if (id != null) {
     return productsRepository.product(id);
   } else {
-    return Stream.fromIterable([null]);
+    return Stream.value(null);
   }
 });

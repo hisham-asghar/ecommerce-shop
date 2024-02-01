@@ -8,6 +8,10 @@ class FirebaseProductsRepository implements ProductsRepository {
 
   static String productsPath() => 'products';
   static String productPath(String id) => 'products/$id';
+  static String purchasePath(String id, String uid) =>
+      'products/$id/purchases/$uid';
+  static String reviewPath(String id, String uid) =>
+      'products/$id/reviews/$uid';
 
   @override
   Future<List<Product>> fetchProductsList() async {

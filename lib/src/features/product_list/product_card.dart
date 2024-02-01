@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_average_rating.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
@@ -32,6 +33,10 @@ class ProductCard extends ConsumerWidget {
               const Divider(),
               gapH8,
               Text(product.title, style: Theme.of(context).textTheme.headline6),
+              if (product.numRatings >= 1) ...[
+                gapH8,
+                ProductAverageRating(product: product),
+              ],
               gapH24,
               // TODO: Add reviews
               Text(priceFormatted,

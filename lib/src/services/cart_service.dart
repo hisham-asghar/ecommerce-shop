@@ -112,10 +112,10 @@ final cartServiceProvider = Provider<CartService>((ref) {
   final cartRepository = ref.watch(cartRepositoryProvider);
   final localCartRepository = ref.watch(localCartRepositoryProvider);
   final productsRepository = ref.watch(productsRepositoryProvider);
-  final authService = ref.watch(authRepositoryProvider);
+  final authRepository = ref.watch(authRepositoryProvider);
   final cloudFunctions = ref.watch(cloudFunctionsRepositoryProvider);
   return CartService(
-    authRepository: authService,
+    authRepository: authRepository,
     cartRepository: cartRepository,
     localCartRepository: localCartRepository,
     productsRepository: productsRepository,

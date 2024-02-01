@@ -22,6 +22,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/fireb
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/firebase_reviews_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
@@ -35,6 +37,8 @@ Future<void> runAppWithFirebase() async {
         FirebaseAddressRepository(FirebaseFirestore.instance);
     final productsRepository =
         FirebaseProductsRepository(FirebaseFirestore.instance);
+    final reviewsRepository =
+        FirebaseReviewsRepository(FirebaseFirestore.instance);
     final cartRepository = FirebaseCartRepository(FirebaseFirestore.instance);
     final ordersRepository =
         FirebaseOrdersRepository(FirebaseFirestore.instance);
@@ -50,6 +54,7 @@ Future<void> runAppWithFirebase() async {
         addressRepositoryProvider.overrideWithValue(addressRepository),
         productsRepositoryProvider.overrideWithValue(productsRepository),
         searchRepositoryProvider.overrideWithValue(productsRepository),
+        reviewsRepositoryProvider.overrideWithValue(reviewsRepository),
         cartRepositoryProvider.overrideWithValue(cartRepository),
         ordersRepositoryProvider.overrideWithValue(ordersRepository),
         localCartRepositoryProvider.overrideWithValue(localCartRepository),

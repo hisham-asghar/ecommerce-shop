@@ -10,6 +10,18 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.auth.token.admin == true;
     }
+    // product purchases by user
+    match /products/{id}/purchases/{uid} {
+      allow read: if request.auth.uid == uid;
+    }
+    // product reviews by user
+    match /products/{id}/reviews {
+      allow read: if true;
+    }
+    match /products/{id}/reviews/{uid} {
+      allow read: if true;
+      allow write: if request.auth.uid == uid;
+    }
     // address
     match /users/{uid}/private/address {
       allow read, write: if request.auth.uid == uid;

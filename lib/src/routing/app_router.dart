@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_prod
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_products_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/leave_review_page/leave_review_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/not_found/not_found_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/orders_list_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_list.dart';
@@ -22,6 +23,7 @@ import 'package:my_shop_ecommerce_flutter/src/routing/app_router_listenable.dart
 enum AppRoute {
   home,
   product,
+  leaveReview,
   paymentComplete,
   orders,
   account,
@@ -78,16 +80,29 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         ),
         routes: [
           GoRoute(
-            path: 'product/:id',
-            name: AppRoute.product.name,
-            pageBuilder: (context, state) {
-              final productId = state.params['id']!;
-              return MaterialPage(
-                key: state.pageKey,
-                child: ProductScreen(productId: productId),
-              );
-            },
-          ),
+              path: 'product/:id',
+              name: AppRoute.product.name,
+              pageBuilder: (context, state) {
+                final productId = state.params['id']!;
+                return MaterialPage(
+                  key: state.pageKey,
+                  child: ProductScreen(productId: productId),
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: 'review',
+                  name: AppRoute.leaveReview.name,
+                  pageBuilder: (context, state) {
+                    final productId = state.params['id']!;
+                    return MaterialPage(
+                      key: state.pageKey,
+                      fullscreenDialog: true,
+                      child: LeaveReviewScreen(productId: productId),
+                    );
+                  },
+                ),
+              ]),
           GoRoute(
             path: 'signIn',
             name: AppRoute.signIn.name,

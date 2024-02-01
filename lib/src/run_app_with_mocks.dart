@@ -18,6 +18,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/fake_
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 
 Future<void> runAppWithMocks() async {
@@ -26,11 +28,13 @@ Future<void> runAppWithMocks() async {
     final authRepository = FakeAuthRepository();
     final addressRepository = FakeAddressRepository();
     final productsRepository = FakeProductsRepository()..initWithTestProducts();
+    final reviewsRepository = FakeReviewsRepository();
     final cartRepository =
         FakeCartRepository(productsRepository: productsRepository);
     final ordersRepository = FakeOrdersRepository(
       productsRepository: productsRepository,
       cartRepository: cartRepository,
+      reviewsRepository: reviewsRepository,
     );
     final localCartRepository = await SembastCartRepository.makeDefault();
     final cloudFunctionsRepository =
@@ -43,6 +47,7 @@ Future<void> runAppWithMocks() async {
         addressRepositoryProvider.overrideWithValue(addressRepository),
         productsRepositoryProvider.overrideWithValue(productsRepository),
         searchRepositoryProvider.overrideWithValue(productsRepository),
+        reviewsRepositoryProvider.overrideWithValue(reviewsRepository),
         cartRepositoryProvider.overrideWithValue(cartRepository),
         ordersRepositoryProvider.overrideWithValue(ordersRepository),
         localCartRepositoryProvider.overrideWithValue(localCartRepository),

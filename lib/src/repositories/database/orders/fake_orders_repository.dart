@@ -1,5 +1,7 @@
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purchase.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
@@ -10,10 +12,12 @@ class FakeOrdersRepository implements OrdersRepository {
   FakeOrdersRepository({
     required this.productsRepository,
     required this.cartRepository,
+    required this.reviewsRepository,
     this.addDelay = true,
   });
   final FakeProductsRepository productsRepository;
   final FakeCartRepository cartRepository;
+  final FakeReviewsRepository reviewsRepository;
   final bool addDelay;
 
   Map<String, List<Order>> ordersData = {};
@@ -49,14 +53,16 @@ class FakeOrdersRepository implements OrdersRepository {
     // then, place the order
     final userOrders = ordersData[uid] ?? [];
     final total = cartRepository.totalPrice(items);
+    final orderDate = DateTime.now();
+    final orderId = const Uuid().v1();
     final order = Order(
-      id: const Uuid().v1(),
+      id: orderId,
       userId: uid,
       items: items,
       // TODO: Update with real payment status
       // paymentStatus: PaymentStatus.paid,
       orderStatus: OrderStatus.confirmed,
-      orderDate: DateTime.now(),
+      orderDate: orderDate,
       total: total,
     );
     userOrders.add(order);
@@ -68,6 +74,12 @@ class FakeOrdersRepository implements OrdersRepository {
       final updated = product.copyWith(
           availableQuantity: product.availableQuantity - item.quantity);
       await productsRepository.updateProduct(updated);
+      // Update reviews repository with purchase order data
+      await reviewsRepository.addPurchase(
+        productId: item.productId,
+        uid: uid,
+        purchase: Purchase(orderId: orderId, orderDate: orderDate),
+      );
     }
     await cartRepository.removeAllItems(uid);
     return order;

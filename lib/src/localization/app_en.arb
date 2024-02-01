@@ -34,6 +34,27 @@
   "invalidPasswordEmpty": "Password can't be empty",
   "logout": "Logout",
   "submit": "Submit",
+  "purchasedOnDate": "Purchased on {date}",
+  "@purchasedOnDate": {
+    "description": "When the product was purchased",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveReview": "Leave a review",
+  "yourReviewHint": "Your review (optional)",
+  "previouslyReviewedHint": "You reviewed this product before. You can edit your review.",
+  "numRatings": "({count, plural, =1{1 rating} other{{count} ratings}})",
+  "@numRatings": {
+    "description": "The number of ratings",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },  
   "address": "Address",
   "townCity": "Town/City",
   "state": "State",

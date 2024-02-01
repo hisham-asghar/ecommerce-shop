@@ -55,6 +55,6 @@ final addressProvider = StreamProvider.autoDispose<Address?>((ref) {
     final addressRepository = ref.watch(addressRepositoryProvider);
     return addressRepository.watchAddress(user.uid);
   } else {
-    return Stream.fromIterable([null]);
+    return Stream.value(null);
   }
 });

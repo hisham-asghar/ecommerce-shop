@@ -1,11 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 
+@immutable
 class FakeAppUser implements AppUser {
-  FakeAppUser({
+  const FakeAppUser({
     required this.uid,
     this.email,
   });
