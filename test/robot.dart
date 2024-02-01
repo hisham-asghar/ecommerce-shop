@@ -421,11 +421,10 @@ class Robot {
     // when a payment is complete, user is taken to the orders page
     await closePage(); // close orders page
     await selectProduct(); // back to the product page
-    expectFindLeaveReview();
-    await leaveReview();
-    await createAndSubmitReview(); // submits review and gets back to product page
+    expectFindLeaveReview(); // the review button is now visible
+    await leaveReview(); // tap on it
+    await createAndSubmitReview(); // submit review and get back to product page
     expectFindOneReview();
-    // expect review is there
     await showMenu();
     await openAccountPage();
     await logout();
