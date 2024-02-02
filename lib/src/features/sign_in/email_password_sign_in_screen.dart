@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
@@ -124,7 +124,7 @@ class _EmailPasswordSignInContentsState
   Widget build(BuildContext context) {
     final state =
         ref.watch(emailPasswordSignInControllerProvider(widget.formType));
-    return ScrollablePage(
+    return ResponsiveScrollableCard(
       child: FocusScope(
         node: _node,
         child: Form(

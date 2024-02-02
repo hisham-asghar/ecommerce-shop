@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
@@ -18,14 +18,14 @@ class AdminProductsScreen extends ConsumerWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          CenteredSliverToBoxAdapter(
+          ResponsiveSliverCenter(
             padding: const EdgeInsets.all(Sizes.p16),
             child: Text(
               context.loc.manageProducts,
               style: Theme.of(context).textTheme.headline4,
             ),
           ),
-          CenteredSliverToBoxAdapter(
+          ResponsiveSliverCenter(
             padding: const EdgeInsets.all(Sizes.p16),
             child: ProductsGrid(
               productSelectedRoute: AppRoute.adminProduct.name,

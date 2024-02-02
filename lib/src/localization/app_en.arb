@@ -94,6 +94,15 @@
   "devBuildTestingNotice": "[DEV build] Use 4242 4242 4242 4242 for testing",
   "orderPlaced": "Order placed",
   "total": "Total",
+  "totalValue": "Total: {value}",
+  "@totalValue": {
+    "description": "The total value of the shopping cart",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "yourOrders": "Your Orders",
   "noPreviousOrders": "No previous orders",
   "couldNotPlaceOrder": "Could not place order",

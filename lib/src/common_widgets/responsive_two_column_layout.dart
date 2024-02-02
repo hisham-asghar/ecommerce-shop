@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
+/// Responsive layout that shows two child widgets side by side if there is
+/// enough space, or vertically stacked if there is not enough space.
 class ResponsiveTwoColumnLayout extends StatelessWidget {
   const ResponsiveTwoColumnLayout({
     Key? key,

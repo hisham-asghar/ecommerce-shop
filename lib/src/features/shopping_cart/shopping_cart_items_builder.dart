@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_with_cta.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/decorated_box_with_shadow.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -50,7 +50,7 @@ class ShoppingCartItemsBuilder extends ConsumerWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     // wide layouts
     if (screenWidth >= FormFactor.tablet) {
-      return CenteredBox(
+      return ResponsiveCenter(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
         child: Row(
           children: [

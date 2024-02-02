@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
+/// Helper widget class to map an [AsyncValue] to a given data widget,
+/// using default widgets for loading and error states
 class AsyncValueWidget<T> extends StatelessWidget {
   const AsyncValueWidget({Key? key, required this.value, required this.data})
       : super(key: key);
@@ -18,6 +20,7 @@ class AsyncValueWidget<T> extends StatelessWidget {
   }
 }
 
+/// Sliver equivalent of [AsyncValueWidget]
 class AsyncValueSliverWidget<T> extends StatelessWidget {
   const AsyncValueSliverWidget(
       {Key? key, required this.value, required this.data})

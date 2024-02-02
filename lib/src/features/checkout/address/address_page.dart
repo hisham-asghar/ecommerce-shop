@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
@@ -58,7 +58,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollablePage(
+    return ResponsiveScrollableCard(
       key: AddressPage.scrollableKey,
       child: Form(
         key: _formKey,

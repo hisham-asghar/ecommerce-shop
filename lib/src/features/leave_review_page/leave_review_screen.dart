@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/leave_review_page/leave_review_controller.dart';
@@ -28,7 +28,7 @@ class LeaveReviewScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(context.loc.leaveReview),
       ),
-      body: CenteredBox(
+      body: ResponsiveCenter(
         maxContentWidth: FormFactor.tablet,
         padding: const EdgeInsets.all(Sizes.p16),
         child: AsyncValueWidget<Review?>(
@@ -86,7 +86,7 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
   Widget build(BuildContext context) {
     // error handling
     final state = ref.watch(leaveReviewControllerProvider);
-    return CenteredBox(
+    return ResponsiveCenter(
       maxContentWidth: FormFactor.tablet,
       padding: const EdgeInsets.all(Sizes.p16),
       child: Column(

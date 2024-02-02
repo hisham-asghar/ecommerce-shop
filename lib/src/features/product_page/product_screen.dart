@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
@@ -30,7 +30,7 @@ class ProductScreen extends ConsumerWidget {
             ? const NotFoundWidget()
             : CustomScrollView(
                 slivers: [
-                  CenteredSliverToBoxAdapter(
+                  ResponsiveSliverCenter(
                     padding: const EdgeInsets.all(Sizes.p16),
                     child: ProductDetails(product: product),
                   ),

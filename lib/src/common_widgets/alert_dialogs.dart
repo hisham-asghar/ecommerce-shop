@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 
+/// Generic function to show a platform-aware Material or Cupertino dialog
 Future<bool?> showAlertDialog({
   required BuildContext context,
   required String title,
@@ -51,6 +52,7 @@ Future<bool?> showAlertDialog({
   );
 }
 
+/// Generic function to show a platform-aware Material or Cupertino error dialog
 Future<void> showExceptionAlertDialog({
   required BuildContext context,
   required String title,

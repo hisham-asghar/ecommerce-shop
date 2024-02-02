@@ -6,8 +6,8 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 /// centered.
 /// If available width is smaller than the maximum width, the child use all the
 /// available width.
-class CenteredBox extends StatelessWidget {
-  const CenteredBox({
+class ResponsiveCenter extends StatelessWidget {
+  const ResponsiveCenter({
     Key? key,
     this.maxContentWidth = FormFactor.desktop,
     this.padding = EdgeInsets.zero,
@@ -31,9 +31,9 @@ class CenteredBox extends StatelessWidget {
   }
 }
 
-/// Sliver-equivalent of [CenteredBox].
-class CenteredSliverToBoxAdapter extends StatelessWidget {
-  const CenteredSliverToBoxAdapter({
+/// Sliver-equivalent of [ResponsiveCenter].
+class ResponsiveSliverCenter extends StatelessWidget {
+  const ResponsiveSliverCenter({
     Key? key,
     this.maxContentWidth = FormFactor.desktop,
     this.padding = EdgeInsets.zero,
@@ -45,7 +45,7 @@ class CenteredSliverToBoxAdapter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: CenteredBox(
+      child: ResponsiveCenter(
         maxContentWidth: maxContentWidth,
         padding: padding,
         child: child,

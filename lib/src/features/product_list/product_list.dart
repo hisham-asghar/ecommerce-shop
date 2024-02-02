@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/preview_notice.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_grid.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_list/products_search_text_field.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
 class ProductListScreen extends ConsumerStatefulWidget {
@@ -43,10 +44,11 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
     return Scaffold(
       appBar: const HomeAppBar(),
       body: PreviewNotice(
+        notice: context.loc.previewNotice,
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            const CenteredSliverToBoxAdapter(
+            const ResponsiveSliverCenter(
               padding: EdgeInsets.all(Sizes.p16),
               child: ProductsSearchTextField(),
               // child: Text(
@@ -54,7 +56,7 @@ class _ProductListScreenState extends ConsumerState<ProductListScreen> {
               //   style: Theme.of(context).textTheme.headline4,
               // ),
             ),
-            CenteredSliverToBoxAdapter(
+            ResponsiveSliverCenter(
               padding: const EdgeInsets.all(Sizes.p16),
               child: ProductsGrid(
                 productSelectedRoute: AppRoute.product.name,

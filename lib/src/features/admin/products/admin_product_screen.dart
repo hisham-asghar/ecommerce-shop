@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/admin/products/admin_product_screen_controller.dart';
@@ -89,7 +89,7 @@ class _AdminProductScreenContentsState
         ],
       ),
       body: SingleChildScrollView(
-        child: CenteredBox(
+        child: ResponsiveCenter(
           padding: const EdgeInsets.all(Sizes.p16),
           child: Form(
             key: _formKey,

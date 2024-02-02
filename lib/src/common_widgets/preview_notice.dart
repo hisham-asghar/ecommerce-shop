@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 
+/// A text bubble that overlays a message at the bottom-right of the screen
+/// using a Stack widget (desktop-only).
+/// Can be used to inform the user about pages/features that are not yet
+/// complete.
 class PreviewNotice extends StatelessWidget {
-  const PreviewNotice({Key? key, required this.child}) : super(key: key);
+  const PreviewNotice({Key? key, required this.child, required this.notice})
+      : super(key: key);
   final Widget child;
+  final String notice;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,7 @@ class PreviewNotice extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(Sizes.p16),
                   child: Text(
-                    context.loc.previewNotice,
+                    notice,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),

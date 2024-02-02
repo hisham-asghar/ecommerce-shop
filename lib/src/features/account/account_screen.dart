@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
@@ -27,7 +27,7 @@ class AccountScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: const CenteredBox(
+      body: const ResponsiveCenter(
         padding: EdgeInsets.symmetric(horizontal: Sizes.p16),
         child: UserDataTable(),
       ),
