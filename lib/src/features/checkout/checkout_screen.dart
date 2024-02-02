@@ -35,7 +35,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen>
     return state.when(
       noTabs: () => Scaffold(
         appBar: AppBar(
-          title: Text(context.loc.manageProducts),
+          title: Text(context.loc.payment),
         ),
         body: const PaymentPage(),
       ),
