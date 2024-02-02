@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
 
 class EmailAndPasswordValidators {
   final TextInputFormatter emailInputFormatter =
@@ -16,80 +13,56 @@ class EmailAndPasswordValidators {
       NonEmptyStringValidator();
 }
 
-class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
-  EmailPasswordSignInModel({
-    required this.authService,
+class EmailPasswordSignInState with EmailAndPasswordValidators {
+  EmailPasswordSignInState({
     required this.localizations,
-    this.email = '',
-    this.password = '',
     this.formType = EmailPasswordSignInFormType.signIn,
     this.isLoading = false,
     this.submitted = false,
   });
-  final AuthRepository authService;
   final AppLocalizations localizations;
 
-  String email;
-  String password;
-  EmailPasswordSignInFormType formType;
-  bool isLoading;
-  bool submitted;
+  final EmailPasswordSignInFormType formType;
+  final bool isLoading;
+  final bool submitted;
 
-  Future<bool> submit() async {
-    try {
-      updateWith(submitted: true);
-      if (!canSubmit) {
-        return false;
-      }
-      updateWith(isLoading: true);
-      switch (formType) {
-        case EmailPasswordSignInFormType.signIn:
-          await authService.signInWithEmailAndPassword(email, password);
-          break;
-        case EmailPasswordSignInFormType.register:
-          await authService.createUserWithEmailAndPassword(email, password);
-          break;
-        case EmailPasswordSignInFormType.forgotPassword:
-          await authService.sendPasswordResetEmail(email);
-          updateWith(isLoading: false);
-          break;
-      }
-      return true;
-    } catch (e) {
-      updateWith(isLoading: false);
-      rethrow;
-    }
-  }
-
-  void updateEmail(String email) => updateWith(email: email);
-
-  void updatePassword(String password) => updateWith(password: password);
-
-  void updateFormType(EmailPasswordSignInFormType formType) {
-    updateWith(
-      email: '',
-      password: '',
-      formType: formType,
-      isLoading: false,
-      submitted: false,
-    );
-  }
-
-  void updateWith({
+  EmailPasswordSignInState copyWith({
     String? email,
     String? password,
     EmailPasswordSignInFormType? formType,
     bool? isLoading,
     bool? submitted,
   }) {
-    this.email = email ?? this.email;
-    this.password = password ?? this.password;
-    this.formType = formType ?? this.formType;
-    this.isLoading = isLoading ?? this.isLoading;
-    this.submitted = submitted ?? this.submitted;
-    notifyListeners();
+    return EmailPasswordSignInState(
+      localizations: localizations,
+      formType: formType ?? this.formType,
+      isLoading: isLoading ?? this.isLoading,
+      submitted: submitted ?? this.submitted,
+    );
   }
 
+  @override
+  String toString() {
+    return 'EmailPasswordSignInState(formType: $formType, isLoading: $isLoading, submitted: $submitted)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is EmailPasswordSignInState &&
+        other.formType == formType &&
+        other.isLoading == isLoading &&
+        other.submitted == submitted;
+  }
+
+  @override
+  int get hashCode {
+    return formType.hashCode ^ isLoading.hashCode ^ submitted.hashCode;
+  }
+}
+
+extension EmailPasswordSignInStateX on EmailPasswordSignInState {
   String get passwordLabelText {
     if (formType == EmailPasswordSignInFormType.register) {
       return localizations.password8CharactersLabel;
@@ -140,43 +113,38 @@ class EmailPasswordSignInModel with EmailAndPasswordValidators, ChangeNotifier {
     }[formType]!;
   }
 
-  bool get canSubmitEmail {
+  bool canSubmitEmail(String email) {
     return emailSubmitValidator.isValid(email);
   }
 
-  bool get canSubmitPassword {
+  bool canSubmitPassword(String password) {
     if (formType == EmailPasswordSignInFormType.register) {
       return passwordRegisterSubmitValidator.isValid(password);
     }
     return passwordSignInSubmitValidator.isValid(password);
   }
 
-  bool get canSubmit {
+  bool canSubmit(String email, String password) {
     final bool canSubmitFields =
         formType == EmailPasswordSignInFormType.forgotPassword
-            ? canSubmitEmail
-            : canSubmitEmail && canSubmitPassword;
+            ? canSubmitEmail(email)
+            : canSubmitEmail(email) && canSubmitPassword(password);
     return canSubmitFields && !isLoading;
   }
 
-  String? get emailErrorText {
-    final bool showErrorText = submitted && !canSubmitEmail;
+  String? emailErrorText(String email) {
+    final bool showErrorText = submitted && !canSubmitEmail(email);
     final String errorText = email.isEmpty
         ? localizations.invalidEmailEmpty
         : localizations.invalidEmailErrorText;
     return showErrorText ? errorText : null;
   }
 
-  String? get passwordErrorText {
-    final bool showErrorText = submitted && !canSubmitPassword;
+  String? passwordErrorText(String password) {
+    final bool showErrorText = submitted && !canSubmitPassword(password);
     final String errorText = password.isEmpty
         ? localizations.invalidPasswordEmpty
         : localizations.invalidPasswordTooShort;
     return showErrorText ? errorText : null;
-  }
-
-  @override
-  String toString() {
-    return 'email: $email, password: $password, formType: $formType, isLoading: $isLoading, submitted: $submitted';
   }
 }

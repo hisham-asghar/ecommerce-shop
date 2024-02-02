@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
@@ -93,11 +93,7 @@ class CheckoutWithTabs extends ConsumerWidget {
         controller: tabController,
         children: <Widget>[
           EmailPasswordSignInContents(
-            model: EmailPasswordSignInModel(
-              authService: ref.watch(authRepositoryProvider),
-              localizations: context.loc,
-              formType: EmailPasswordSignInFormType.register,
-            ),
+            formType: EmailPasswordSignInFormType.register,
             onSignedIn: () async {
               try {
                 await ref.read(cartServiceProvider).copyItemsToRemote();

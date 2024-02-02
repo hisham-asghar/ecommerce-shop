@@ -7,9 +7,9 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_text_button.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/scrollable_page.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_model.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
 class EmailPasswordSignInScreen extends ConsumerWidget {
@@ -22,17 +22,13 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authService = ref.watch(authRepositoryProvider);
     return Scaffold(
       appBar: AppBar(title: Text(context.loc.signIn)),
       body: EmailPasswordSignInContents(
-        model: EmailPasswordSignInModel(
-          authService: authService,
-          localizations: context.loc,
-          formType: formType,
-        ),
+        formType: formType,
         onSignedIn: () async {
           try {
+            // TODO: Should this be moved to an authService class?
             await ref.read(cartServiceProvider).copyItemsToRemote();
           } catch (e, _) {
             // TODO: Report exception
@@ -45,47 +41,49 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
   }
 }
 
-class EmailPasswordSignInContents extends StatefulWidget {
+class EmailPasswordSignInContents extends ConsumerStatefulWidget {
   const EmailPasswordSignInContents(
-      {Key? key, required this.model, this.onSignedIn})
+      {Key? key, this.onSignedIn, required this.formType})
       : super(key: key);
-  final EmailPasswordSignInModel model;
   final VoidCallback? onSignedIn;
+  final EmailPasswordSignInFormType formType;
   @override
   _EmailPasswordSignInContentsState createState() =>
       _EmailPasswordSignInContentsState();
 }
 
 class _EmailPasswordSignInContentsState
-    extends State<EmailPasswordSignInContents> {
+    extends ConsumerState<EmailPasswordSignInContents> {
   final FocusScopeNode _node = FocusScopeNode();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  EmailPasswordSignInModel get model => widget.model;
+  String get email => _emailController.text;
+  String get password => _passwordController.text;
 
   @override
   void dispose() {
-    model.dispose();
     _node.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _showSignInError(EmailPasswordSignInModel model, dynamic exception) {
+  void _showSignInError(EmailPasswordSignInState state, dynamic exception) {
     showExceptionAlertDialog(
       context: context,
-      title: model.errorAlertTitle,
+      title: state.errorAlertTitle,
       exception: exception,
     );
   }
 
-  Future<void> _submit() async {
+  Future<void> _submit(EmailPasswordSignInState state) async {
     try {
-      final bool success = await model.submit();
+      final controller = ref.read(
+          emailPasswordSignInControllerProvider(widget.formType).notifier);
+      final bool success = await controller.submit(email, password);
       if (success) {
-        if (model.formType == EmailPasswordSignInFormType.forgotPassword) {
+        if (state.formType == EmailPasswordSignInFormType.forgotPassword) {
           await showAlertDialog(
             context: context,
             title: context.loc.resetLinkSentTitle,
@@ -97,120 +95,112 @@ class _EmailPasswordSignInContentsState
         }
       }
     } catch (e) {
-      _showSignInError(model, e);
+      _showSignInError(state, e);
     }
   }
 
-  void _emailEditingComplete() {
-    if (model.canSubmitEmail) {
+  void _emailEditingComplete(EmailPasswordSignInState state) {
+    if (state.canSubmitEmail(email)) {
       _node.nextFocus();
     }
   }
 
-  void _passwordEditingComplete() {
-    if (!model.canSubmitEmail) {
+  void _passwordEditingComplete(EmailPasswordSignInState state) {
+    if (!state.canSubmitEmail(email)) {
       _node.previousFocus();
       return;
     }
-    _submit();
+    _submit(state);
   }
 
   void _updateFormType(EmailPasswordSignInFormType formType) {
-    model.updateFormType(formType);
-    _emailController.clear();
+    ref
+        .read(emailPasswordSignInControllerProvider(widget.formType).notifier)
+        .updateFormType(formType);
     _passwordController.clear();
-  }
-
-  Widget _buildEmailField() {
-    return TextFormField(
-      key: EmailPasswordSignInScreen.emailKey,
-      controller: _emailController,
-      decoration: InputDecoration(
-        labelText: context.loc.emailLabel,
-        hintText: context.loc.emailHint,
-        errorText: model.emailErrorText,
-        enabled: !model.isLoading,
-      ),
-      autocorrect: false,
-      textInputAction: TextInputAction.next,
-      keyboardType: TextInputType.emailAddress,
-      keyboardAppearance: Brightness.light,
-      onEditingComplete: _emailEditingComplete,
-      inputFormatters: <TextInputFormatter>[
-        model.emailInputFormatter,
-      ],
-    );
-  }
-
-  Widget _buildPasswordField() {
-    return TextFormField(
-      key: EmailPasswordSignInScreen.passwordKey,
-      controller: _passwordController,
-      decoration: InputDecoration(
-        labelText: model.passwordLabelText,
-        errorText: model.passwordErrorText,
-        enabled: !model.isLoading,
-      ),
-      obscureText: true,
-      autocorrect: false,
-      textInputAction: TextInputAction.done,
-      keyboardAppearance: Brightness.light,
-      onEditingComplete: _passwordEditingComplete,
-    );
-  }
-
-  Widget _buildContent() {
-    return FocusScope(
-      node: _node,
-      child: Form(
-        onChanged: () => model.updateWith(
-            email: _emailController.text, password: _passwordController.text),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            gapH8,
-            _buildEmailField(),
-            if (model.formType !=
-                EmailPasswordSignInFormType.forgotPassword) ...<Widget>[
-              gapH8,
-              _buildPasswordField(),
-            ],
-            gapH8,
-            PrimaryButton(
-              key: const Key('primary-button'),
-              text: model.primaryButtonText,
-              isLoading: model.isLoading,
-              onPressed: model.isLoading ? null : _submit,
-            ),
-            gapH8,
-            CustomTextButton(
-              key: const Key('secondary-button'),
-              text: model.secondaryButtonText,
-              onPressed: model.isLoading
-                  ? null
-                  : () => _updateFormType(model.secondaryActionFormType),
-            ),
-            if (model.formType == EmailPasswordSignInFormType.signIn)
-              CustomTextButton(
-                key: const Key('tertiary-button'),
-                text: context.loc.forgotPasswordQuestion,
-                onPressed: model.isLoading
-                    ? null
-                    : () => _updateFormType(
-                        EmailPasswordSignInFormType.forgotPassword),
-              ),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final state =
+        ref.watch(emailPasswordSignInControllerProvider(widget.formType));
     return ScrollablePage(
-      child: AnimatedBuilder(
-        animation: model,
-        builder: (context, _) => _buildContent(),
+      child: FocusScope(
+        node: _node,
+        child: Form(
+          onChanged: () => ref
+              .read(emailPasswordSignInControllerProvider(widget.formType)
+                  .notifier)
+              .update(
+                email: _emailController.text,
+                password: _passwordController.text,
+              ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              gapH8,
+              // Email field
+              TextFormField(
+                key: EmailPasswordSignInScreen.emailKey,
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: context.loc.emailLabel,
+                  hintText: context.loc.emailHint,
+                  errorText: state.emailErrorText(email),
+                  enabled: !state.isLoading,
+                ),
+                autocorrect: false,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.emailAddress,
+                keyboardAppearance: Brightness.light,
+                onEditingComplete: () => _emailEditingComplete(state),
+                inputFormatters: <TextInputFormatter>[
+                  state.emailInputFormatter,
+                ],
+              ),
+              if (state.formType !=
+                  EmailPasswordSignInFormType.forgotPassword) ...<Widget>[
+                gapH8,
+                // Password field
+                TextFormField(
+                  key: EmailPasswordSignInScreen.passwordKey,
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: state.passwordLabelText,
+                    errorText: state.passwordErrorText(password),
+                    enabled: !state.isLoading,
+                  ),
+                  obscureText: true,
+                  autocorrect: false,
+                  textInputAction: TextInputAction.done,
+                  keyboardAppearance: Brightness.light,
+                  onEditingComplete: () => _passwordEditingComplete(state),
+                ),
+              ],
+              gapH8,
+              PrimaryButton(
+                text: state.primaryButtonText,
+                isLoading: state.isLoading,
+                onPressed: state.isLoading ? null : () => _submit(state),
+              ),
+              gapH8,
+              CustomTextButton(
+                text: state.secondaryButtonText,
+                onPressed: state.isLoading
+                    ? null
+                    : () => _updateFormType(state.secondaryActionFormType),
+              ),
+              if (state.formType == EmailPasswordSignInFormType.signIn)
+                CustomTextButton(
+                  text: context.loc.forgotPasswordQuestion,
+                  onPressed: state.isLoading
+                      ? null
+                      : () => _updateFormType(
+                          EmailPasswordSignInFormType.forgotPassword),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

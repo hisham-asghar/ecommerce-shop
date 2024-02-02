@@ -1,5 +1,3 @@
-library string_validators;
-
 import 'package:flutter/services.dart';
 
 abstract class StringValidator {
