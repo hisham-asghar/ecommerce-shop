@@ -34,7 +34,14 @@
       "port": 8080
     },
     "hosting": {
-      "port": 5002
+      "port": 5002,
+      "headers": [ {
+        "source": "**/*.@(png)",
+        "headers": [ {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        } ]
+      } ]
     },
     "storage": {
       "port": 9199
