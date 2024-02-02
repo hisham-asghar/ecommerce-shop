@@ -34,10 +34,12 @@ class ShoppingCartItem extends ConsumerWidget {
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
-          child: AsyncValueWidget<Product>(
+          child: AsyncValueWidget<Product?>(
             value: productValue,
             data: (product) => ShoppingCartItemContents(
-              product: product,
+              // * safe to use use ! operator, assuming that the productId
+              // * for a given item always points to an existing product
+              product: product!,
               item: item,
               itemIndex: itemIndex,
               isEditable: isEditable,

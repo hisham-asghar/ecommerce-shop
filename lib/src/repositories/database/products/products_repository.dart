@@ -7,7 +7,7 @@ abstract class ProductsRepository implements SearchRepository {
 
   Stream<List<Product>> watchProductsList();
 
-  Stream<Product> product(String id);
+  Stream<Product?> product(String id);
 
   Future<void> createProduct(Product product);
 

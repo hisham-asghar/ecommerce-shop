@@ -24,7 +24,7 @@ final productsListProvider = StreamProvider.autoDispose<List<Product>>((ref) {
 });
 
 final productProvider =
-    StreamProvider.autoDispose.family<Product, String>((ref, id) {
+    StreamProvider.autoDispose.family<Product?, String>((ref, id) {
   final productsRepository = ref.watch(productsRepositoryProvider);
   return productsRepository.product(id);
 });

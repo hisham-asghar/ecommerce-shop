@@ -6,6 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/centered_box.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/home_app_bar.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/not_found/not_found_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_average_rating.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_reviews/product_reviews_list.dart';
@@ -23,17 +24,19 @@ class ProductScreen extends ConsumerWidget {
     final productValue = ref.watch(productProvider(productId));
     return Scaffold(
       appBar: const HomeAppBar(),
-      body: AsyncValueWidget<Product>(
+      body: AsyncValueWidget<Product?>(
         value: productValue,
-        data: (product) => CustomScrollView(
-          slivers: [
-            CenteredSliverToBoxAdapter(
-              padding: const EdgeInsets.all(Sizes.p16),
-              child: ProductDetails(product: product),
-            ),
-            ProductReviewsList(productId: productId),
-          ],
-        ),
+        data: (product) => product == null
+            ? const NotFoundWidget()
+            : CustomScrollView(
+                slivers: [
+                  CenteredSliverToBoxAdapter(
+                    padding: const EdgeInsets.all(Sizes.p16),
+                    child: ProductDetails(product: product),
+                  ),
+                  ProductReviewsList(productId: productId),
+                ],
+              ),
       ),
     );
   }

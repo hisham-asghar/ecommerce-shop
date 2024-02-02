@@ -40,9 +40,9 @@ class FirebaseProductsRepository implements ProductsRepository {
   }
 
   @override
-  Stream<Product> product(String id) {
+  Stream<Product?> product(String id) {
     final ref = _productRef(id);
-    return ref.snapshots().map((snapshot) => snapshot.data()!);
+    return ref.snapshots().map((snapshot) => snapshot.data());
   }
 
   @override

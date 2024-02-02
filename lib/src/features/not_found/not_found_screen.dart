@@ -13,25 +13,34 @@ class NotFoundScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(Sizes.p16),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                context.loc.notFound404,
-                style: Theme.of(context).textTheme.headline4,
-                textAlign: TextAlign.center,
-              ),
-              gapH32,
-              PrimaryButton(
-                onPressed: () => context.goNamed(AppRoute.home.name),
-                text: context.loc.goHome,
-              )
-            ],
-          ),
+      body: const NotFoundWidget(),
+    );
+  }
+}
+
+class NotFoundWidget extends StatelessWidget {
+  const NotFoundWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(Sizes.p16),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              context.loc.notFound404,
+              style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.center,
+            ),
+            gapH32,
+            PrimaryButton(
+              onPressed: () => context.goNamed(AppRoute.home.name),
+              text: context.loc.goHome,
+            )
+          ],
         ),
       ),
     );

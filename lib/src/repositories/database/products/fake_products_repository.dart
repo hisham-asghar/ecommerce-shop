@@ -40,7 +40,7 @@ class FakeProductsRepository implements ProductsRepository {
   }
 
   @override
-  Stream<Product> product(String id) {
+  Stream<Product?> product(String id) {
     return _products.stream
         .map((products) => products.firstWhere((product) => product.id == id));
   }
