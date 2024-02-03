@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+/// Custom product rating widget
 class ProductRatingBar extends StatelessWidget {
-  const ProductRatingBar(
-      {Key? key,
-      this.initialRating = 0.0,
-      this.itemSize = 40,
-      this.ignoreGestures = false,
-      required this.onRatingUpdate})
-      : super(key: key);
+  const ProductRatingBar({
+    Key? key,
+    this.initialRating = 0.0,
+    this.itemSize = 40,
+    this.ignoreGestures = false,
+    required this.onRatingUpdate,
+  }) : super(key: key);
+
+  /// initial rating value
   final double initialRating;
-  final bool ignoreGestures;
+
+  /// size of each of the 5 star icons
   final double itemSize;
+
+  /// if true, the widget won't be interactive
+  final bool ignoreGestures;
+
+  /// callback called when the rating changes
   final ValueChanged<double> onRatingUpdate;
 
   @override

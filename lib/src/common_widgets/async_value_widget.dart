@@ -4,6 +4,8 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 
 /// Helper widget class to map an [AsyncValue] to a given data widget,
 /// using default widgets for loading and error states
+/// See this article for more info:
+/// https://codewithandrea.com/articles/async-value-widget-riverpod/
 class AsyncValueWidget<T> extends StatelessWidget {
   const AsyncValueWidget({Key? key, required this.value, required this.data})
       : super(key: key);

@@ -11,9 +11,9 @@ import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_pay
 import 'package:my_shop_ecommerce_flutter/src/features/leave_review_page/leave_review_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/not_found/not_found_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/orders_list_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_list.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/products_list/products_list_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
@@ -76,7 +76,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoute.home.name,
         pageBuilder: (context, state) => MaterialPage(
           key: state.pageKey,
-          child: const ProductListScreen(),
+          child: const ProductsListScreen(),
         ),
         routes: [
           GoRoute(

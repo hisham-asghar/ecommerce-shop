@@ -7,8 +7,9 @@ import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_con
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/address_service.dart';
 
-class AddressPage extends ConsumerStatefulWidget {
-  const AddressPage({Key? key, this.onDataSubmitted}) : super(key: key);
+/// A page where the user can enter and submit all the address details.
+class AddressScreen extends ConsumerStatefulWidget {
+  const AddressScreen({Key? key, this.onDataSubmitted}) : super(key: key);
   final VoidCallback? onDataSubmitted;
 
   static const addressKey = Key('address');
@@ -23,7 +24,7 @@ class AddressPage extends ConsumerStatefulWidget {
   _AddressPageState createState() => _AddressPageState();
 }
 
-class _AddressPageState extends ConsumerState<AddressPage> {
+class _AddressPageState extends ConsumerState<AddressScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _addressController = TextEditingController();
@@ -32,13 +33,10 @@ class _AddressPageState extends ConsumerState<AddressPage> {
   final _postalCodeController = TextEditingController();
   final _countryController = TextEditingController();
 
-  /// Used to decide whether to show the text fields error hints
-  var _isSubmitted = false;
   var _isLoading = false;
 
   Future<void> _submit() async {
     // TODO: Move all this logic into a controller
-    setState(() => _isSubmitted = true);
     if (_formKey.currentState!.validate()) {
       FocusScope.of(context).unfocus();
       final address = Address(
@@ -59,54 +57,49 @@ class _AddressPageState extends ConsumerState<AddressPage> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveScrollableCard(
-      key: AddressPage.scrollableKey,
+      key: AddressScreen.scrollableKey,
       child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AddressFormField(
-              formFieldKey: AddressPage.addressKey,
+              formFieldKey: AddressScreen.addressKey,
               controller: _addressController,
               labelText: context.loc.address,
               keyboardType: TextInputType.streetAddress,
-              submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
             gapH8,
             AddressFormField(
-              formFieldKey: AddressPage.townCityKey,
+              formFieldKey: AddressScreen.townCityKey,
               controller: _cityController,
               labelText: context.loc.townCity,
               keyboardType: TextInputType.streetAddress,
-              submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
             gapH8,
             AddressFormField(
-              formFieldKey: AddressPage.stateKey,
+              formFieldKey: AddressScreen.stateKey,
               controller: _stateController,
               labelText: context.loc.state,
               keyboardType: TextInputType.streetAddress,
-              submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
             gapH8,
             AddressFormField(
-              formFieldKey: AddressPage.postalCodeKey,
+              formFieldKey: AddressScreen.postalCodeKey,
               controller: _postalCodeController,
               labelText: context.loc.postalCode,
               keyboardType: TextInputType.streetAddress,
-              submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
             gapH8,
             AddressFormField(
-              formFieldKey: AddressPage.countryKey,
+              formFieldKey: AddressScreen.countryKey,
               controller: _countryController,
               labelText: context.loc.country,
               keyboardType: TextInputType.streetAddress,
-              submitted: _isSubmitted,
               enabled: !_isLoading,
             ),
             gapH8,
@@ -122,6 +115,7 @@ class _AddressPageState extends ConsumerState<AddressPage> {
   }
 }
 
+// Reusable address form field
 class AddressFormField extends StatelessWidget {
   const AddressFormField({
     Key? key,
@@ -129,14 +123,18 @@ class AddressFormField extends StatelessWidget {
     required this.labelText,
     this.keyboardType,
     this.enabled = true,
-    this.submitted = false,
     this.formFieldKey,
   }) : super(key: key);
+
+  /// Controller used to read out the value in the parent widget
   final TextEditingController controller;
   final String labelText;
   final TextInputType? keyboardType;
+
+  /// Whether the text field is enabled or not
   final bool enabled;
-  final bool submitted;
+
+  /// Key used in the widget tests
   final Key? formFieldKey;
 
   @override
@@ -146,9 +144,6 @@ class AddressFormField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        // errorText: submitted && controller.value.text.isEmpty
-        //     ? 'Can\'t be empty'
-        //     : null,
         enabled: enabled,
       ),
       autocorrect: true,

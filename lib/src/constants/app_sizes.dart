@@ -15,7 +15,6 @@ class Sizes {
 class FormFactor {
   static const double desktop = 900;
   static const double tablet = 600;
-  static const double handset = 300;
 }
 
 const gapW4 = SizedBox(width: Sizes.p4);

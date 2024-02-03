@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_search_service.dart';
 
+/// Search field used to filter products by name
 class ProductsSearchTextField extends ConsumerStatefulWidget {
   const ProductsSearchTextField({Key? key}) : super(key: key);
 
@@ -17,6 +18,9 @@ class _ProductsSearchTextFieldState
 
   @override
   Widget build(BuildContext context) {
+    // See this article for more info about how to use [ValueListenableBuilder]
+    // with TextField:
+    // https://codewithandrea.com/articles/flutter-text-field-form-validation/
     return ValueListenableBuilder<TextEditingValue>(
       valueListenable: _controller,
       builder: (context, value, _) {

@@ -9,6 +9,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.da
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
+/// Payment screen showing the items in the cart (with read-only quantities) and
+/// a button to checkout.
 class PaymentPage extends ConsumerWidget {
   const PaymentPage({Key? key}) : super(key: key);
 

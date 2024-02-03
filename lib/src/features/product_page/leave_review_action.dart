@@ -9,6 +9,8 @@ import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/reviews_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
+/// Simple widget to show the product purchase date along with a button to
+/// leave a review.
 class LeaveReviewAction extends ConsumerWidget {
   const LeaveReviewAction({Key? key, required this.productId})
       : super(key: key);
@@ -27,11 +29,12 @@ class LeaveReviewAction extends ConsumerWidget {
           gapH8,
           ResponsiveTwoColumnLayout(
             spacing: Sizes.p16,
-            breakpoint: 150,
+            breakpoint: 300,
             startFlex: 3,
             endFlex: 2,
             rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
             rowCrossAxisAlignment: CrossAxisAlignment.center,
+            columnCrossAxisAlignment: CrossAxisAlignment.center,
             startContent: Text(context.loc.purchasedOnDate(dateFormatted)),
             endContent: CustomTextButton(
               text: context.loc.leaveReview,
@@ -39,8 +42,10 @@ class LeaveReviewAction extends ConsumerWidget {
                   .textTheme
                   .bodyText1!
                   .copyWith(color: Colors.green[700]),
-              onPressed: () => context.goNamed(AppRoute.leaveReview.name,
-                  params: {'id': productId}),
+              onPressed: () => context.goNamed(
+                AppRoute.leaveReview.name,
+                params: {'id': productId},
+              ),
             ),
           ),
           gapH8,

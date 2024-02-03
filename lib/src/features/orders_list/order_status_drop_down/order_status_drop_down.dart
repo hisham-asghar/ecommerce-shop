@@ -2,11 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_drop_down/order_status_drop_down_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
+/// Drop down widget to edit the order status (available to admin users only).
 class OrderStatusDropDown extends ConsumerWidget {
   const OrderStatusDropDown({Key? key, required this.order}) : super(key: key);
   // TODO: Make this reactive?
@@ -58,8 +59,6 @@ class OrderStatusDropDown extends ConsumerWidget {
                 ),
         ),
       ],
-
-      // TODO: Set delivery date
     );
   }
 }

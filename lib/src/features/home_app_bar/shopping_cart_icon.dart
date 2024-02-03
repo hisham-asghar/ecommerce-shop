@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.da
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
+/// Shopping cart icon with items count badge
 class ShoppingCartIcon extends ConsumerWidget {
   const ShoppingCartIcon({Key? key}) : super(key: key);
 
@@ -38,6 +39,7 @@ class ShoppingCartIcon extends ConsumerWidget {
   }
 }
 
+/// Icon badge showing the items count
 class ShoppingCartIconBadge extends ConsumerStatefulWidget {
   const ShoppingCartIconBadge({Key? key, required this.itemsCount})
       : super(key: key);
@@ -50,6 +52,7 @@ class ShoppingCartIconBadge extends ConsumerStatefulWidget {
 
 class _ShoppingCartIconBadgeState extends ConsumerState<ShoppingCartIconBadge>
     with SingleTickerProviderStateMixin {
+  // ! remove animation for Foundations course?
   late final _animationController = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 300));
 
@@ -84,32 +87,32 @@ class _ShoppingCartIconBadgeState extends ConsumerState<ShoppingCartIconBadge>
     });
 
     return AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, _) {
-          final sineValue = sin(pi * _animationController.value);
-
-          return Transform.scale(
-            scale: 1.0 + sineValue * 0.5,
-            child: SizedBox(
-              width: Sizes.p16,
-              height: Sizes.p16,
-              child: DecoratedBox(
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                  //borderRadius: BorderRadius.all(Radius.circular(Sizes.p8)),
-                ),
-                child: Text(
-                  '${widget.itemsCount}',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(color: Colors.white),
-                ),
+      animation: _animationController,
+      builder: (context, _) {
+        final sineValue = sin(pi * _animationController.value);
+        return Transform.scale(
+          scale: 1.0 + sineValue * 0.5,
+          child: SizedBox(
+            width: Sizes.p16,
+            height: Sizes.p16,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+                //borderRadius: BorderRadius.all(Radius.circular(Sizes.p8)),
+              ),
+              child: Text(
+                '${widget.itemsCount}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .caption!
+                    .copyWith(color: Colors.white),
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

@@ -6,14 +6,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/products_list/product_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_search_service.dart';
 
+/// A widget that displays the list of products that match the search query.
 class ProductsGrid extends ConsumerWidget {
   const ProductsGrid({Key? key, required this.productSelectedRoute})
       : super(key: key);
+  // ! Remove this argument for the Foundations course (it is only needed to
+  // ! decide which route to take depending on the parent page if there is an
+  // ! admin section).
   final String productSelectedRoute;
 
   @override
@@ -54,7 +58,11 @@ class ProductsLayoutGrid extends StatelessWidget {
     required this.itemCount,
     required this.itemBuilder,
   }) : super(key: key);
+
+  /// Total number of items to display.
   final int itemCount;
+
+  /// Function used to build a widget for a given index in the grid.
   final Widget Function(BuildContext, int) itemBuilder;
 
   @override

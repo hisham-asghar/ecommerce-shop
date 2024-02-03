@@ -86,44 +86,40 @@ class _LeaveReviewFormState extends ConsumerState<LeaveReviewForm> {
   Widget build(BuildContext context) {
     // error handling
     final state = ref.watch(leaveReviewControllerProvider);
-    return ResponsiveCenter(
-      maxContentWidth: FormFactor.tablet,
-      padding: const EdgeInsets.all(Sizes.p16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (widget.review != null) ...[
-            Text(
-              context.loc.previouslyReviewedHint,
-              textAlign: TextAlign.center,
-            ),
-            gapH24,
-          ],
-          Center(
-            child: ProductRatingBar(
-              initialRating: _rating,
-              onRatingUpdate: (rating) => setState(() => _rating = rating),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (widget.review != null) ...[
+          Text(
+            context.loc.previouslyReviewedHint,
+            textAlign: TextAlign.center,
           ),
-          gapH32,
-          TextField(
-            key: LeaveReviewForm.reviewCommentKey,
-            controller: _controller,
-            textCapitalization: TextCapitalization.sentences,
-            maxLines: 5,
-            decoration: InputDecoration(
-              labelText: context.loc.yourReviewHint,
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          gapH32,
-          PrimaryButton(
-            text: context.loc.submit,
-            isLoading: state.isLoading,
-            onPressed: state.isLoading || _rating == 0 ? null : _submitReview,
-          )
+          gapH24,
         ],
-      ),
+        Center(
+          child: ProductRatingBar(
+            initialRating: _rating,
+            onRatingUpdate: (rating) => setState(() => _rating = rating),
+          ),
+        ),
+        gapH32,
+        TextField(
+          key: LeaveReviewForm.reviewCommentKey,
+          controller: _controller,
+          textCapitalization: TextCapitalization.sentences,
+          maxLines: 5,
+          decoration: InputDecoration(
+            labelText: context.loc.yourReviewHint,
+            border: const OutlineInputBorder(),
+          ),
+        ),
+        gapH32,
+        PrimaryButton(
+          text: context.loc.submit,
+          isLoading: state.isLoading,
+          onPressed: state.isLoading || _rating == 0 ? null : _submitReview,
+        )
+      ],
     );
   }
 }

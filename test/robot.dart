@@ -10,11 +10,11 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/app.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/more_menu_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/home_app_bar/shopping_cart_icon.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/leave_review_page/leave_review_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/product_list/product_card.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/products_list/product_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_reviews/product_review_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
@@ -328,11 +328,11 @@ class Robot {
   // address
   Future<void> enterAddress() async {
     for (final key in [
-      AddressPage.addressKey,
-      AddressPage.townCityKey,
-      AddressPage.stateKey,
-      AddressPage.postalCodeKey,
-      AddressPage.countryKey,
+      AddressScreen.addressKey,
+      AddressScreen.townCityKey,
+      AddressScreen.stateKey,
+      AddressScreen.postalCodeKey,
+      AddressScreen.countryKey,
     ]) {
       final finder = find.byKey(key);
       expect(finder, findsOneWidget);
@@ -343,7 +343,7 @@ class Robot {
     // https://stackoverflow.com/questions/68366138/flutter-widget-test-tap-would-not-hit-test-on-the-specified-widget
     // https://stackoverflow.com/questions/56291806/flutter-how-to-test-the-scroll/67990754#67990754
     // scroll down so that the submit button is visible
-    final scrollableFinder = find.byKey(AddressPage.scrollableKey);
+    final scrollableFinder = find.byKey(AddressScreen.scrollableKey);
     expect(scrollableFinder, findsOneWidget);
     final ctaFinder = find.text('Submit', skipOffstage: false);
     await tester.dragUntilVisible(

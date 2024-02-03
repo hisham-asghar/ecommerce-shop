@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 
+/// Simple account screen showing some user info and a logout button.
 class AccountScreen extends ConsumerWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
@@ -35,6 +36,7 @@ class AccountScreen extends ConsumerWidget {
   }
 }
 
+/// Simple user data table showing the uid, email, and admin status.
 class UserDataTable extends ConsumerWidget {
   const UserDataTable({Key? key}) : super(key: key);
 

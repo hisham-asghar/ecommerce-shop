@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/cart_total_text.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -8,6 +9,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_pay
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
+/// Card payment screen (used on Flutter web only)
 class CardPaymentScreen extends ConsumerStatefulWidget {
   const CardPaymentScreen({Key? key}) : super(key: key);
 
@@ -23,8 +25,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     final controller = ref.read(cardPaymentScreenControllerProvider.notifier);
     final success = await controller.pay(_saveCard ?? false);
     if (success) {
-      // TODO: use go_router to figure out where to go
-      Navigator.pop(context);
+      context.pop();
     }
   }
 

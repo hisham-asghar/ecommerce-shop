@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/not_found/empty_placeholder_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
+/// Simple not found screen used for 404 errors (page not found on web)
 class NotFoundScreen extends ConsumerWidget {
   const NotFoundScreen({Key? key}) : super(key: key);
 
@@ -13,35 +11,8 @@ class NotFoundScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(),
-      body: const NotFoundWidget(),
-    );
-  }
-}
-
-class NotFoundWidget extends StatelessWidget {
-  const NotFoundWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Sizes.p16),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              context.loc.notFound404,
-              style: Theme.of(context).textTheme.headline4,
-              textAlign: TextAlign.center,
-            ),
-            gapH32,
-            PrimaryButton(
-              onPressed: () => context.goNamed(AppRoute.home.name),
-              text: context.loc.goHome,
-            )
-          ],
-        ),
+      body: EmptyPlaceholderWidget(
+        message: context.loc.notFound404,
       ),
     );
   }

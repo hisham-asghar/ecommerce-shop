@@ -114,6 +114,7 @@
   "latestProducts": "Latest Products",
   "searchProducts": "Search products",
   "noProductsFound": "No products found",
+  "productNotFound": "Product not found",
   "quantity": "Quantity:",
   "quantityValue": "Quantity: {quantity}",
   "@quantityValue": {

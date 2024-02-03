@@ -9,6 +9,13 @@ import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_con
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 
+/// Custom [AppBar] widget that is reused by the [ProductsListScreen] and
+/// [ProductScreen].
+/// It shows the following actions, depending on the application state:
+/// - [ShoppingCartIcon]
+/// - Orders button
+/// - Account or Sign-in button
+/// - Admin button (if the user is an admin)
 class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
   const HomeAppBar({Key? key}) : super(key: key);
 
@@ -16,6 +23,13 @@ class HomeAppBar extends ConsumerWidget with PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateChangesProvider).value;
     final isAdminUser = ref.watch(isAdminUserProvider).value ?? false;
+    // * This widget is responsive.
+    // * On large screen sizes, it shows all the actions in the app bar.
+    // * On small screen sizes, it shows only the shopping cart icon and a
+    // * [MoreMenuButton].
+    // ! MediaQuery is used on the assumption that the widget takes up the full
+    // ! width of the screen. If that's not the case, LayoutBuilder should be
+    // ! used instead.
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth < FormFactor.tablet) {
       return AppBar(

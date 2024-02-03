@@ -13,6 +13,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
+/// A widget that shows an [ItemQuantitySelector] along with a [PrimaryButton]
+/// to add the selected quantity of the item to the cart.
 class AddToCartWidget extends ConsumerWidget {
   const AddToCartWidget({Key? key, required this.product}) : super(key: key);
   final Product product;
@@ -39,6 +41,8 @@ class AddToCartWidget extends ConsumerWidget {
                 Text(context.loc.quantity),
                 ItemQuantitySelector(
                   quantity: state.quantity,
+                  // let the user choose up to the available quantity or
+                  // 10 items at most
                   maxQuantity: min(availableQuantity, 10),
                   onChanged: state.widgetState.isLoading
                       ? null
@@ -53,6 +57,7 @@ class AddToCartWidget extends ConsumerWidget {
             gapH8,
             PrimaryButton(
               isLoading: state.widgetState.isLoading,
+              // only enable the button if there is enough stock
               onPressed: availableQuantity > 0
                   ? () => ref
                       .read(addToCartControllerProvider(product).notifier)

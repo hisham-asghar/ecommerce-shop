@@ -15,6 +15,7 @@ import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 
+/// Shows a shopping cart item (or loading/error UI if needed)
 class ShoppingCartItem extends ConsumerWidget {
   const ShoppingCartItem({
     Key? key,
@@ -24,6 +25,10 @@ class ShoppingCartItem extends ConsumerWidget {
   }) : super(key: key);
   final Item item;
   final int itemIndex;
+
+  /// if true, an [ItemQuantitySelector] and a delete button will be shown
+  /// if false, the quantity will be shown as a read-only label (used in the
+  /// [PaymentPage])
   final bool isEditable;
 
   @override
@@ -51,6 +56,7 @@ class ShoppingCartItem extends ConsumerWidget {
   }
 }
 
+/// Shows a shopping cart item for a given product
 class ShoppingCartItemContents extends ConsumerWidget {
   const ShoppingCartItemContents({
     Key? key,
@@ -90,6 +96,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
           Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
           gapH24,
           isEditable
+              // show the quantity selector and a delete button
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -115,6 +122,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
                     const Spacer(),
                   ],
                 )
+              // else, show the quantity as a read-only label
               : Padding(
                   padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
                   child: Text(

@@ -8,10 +8,12 @@ import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
+/// Button used to initiate the payment flow.
 class PaymentButton extends ConsumerWidget {
   const PaymentButton({Key? key}) : super(key: key);
 
   Future<void> _pay(BuildContext context, WidgetRef ref) async {
+    // TODO: How to test this?
     if (PlatformIs.web) {
       context.goNamed(AppRoute.cardPayment.name);
     } else {

@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 Product makeProduct({required String id, required int availableQuantity}) =>
     Product(
       id: id,
-      imageUrl: AppAssets.sonyPlaystation4,
+      imageUrl: AppAssets.bruschettaPlate,
       title: 'Sony Playstation 4 Pro White Version',
       description: '1234',
       price: 399,

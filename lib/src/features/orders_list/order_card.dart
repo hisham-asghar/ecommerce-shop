@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_item_list_tile.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_drop_down.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status/order_status_label.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_drop_down/order_status_drop_down.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_label.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
@@ -11,6 +11,7 @@ import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
 enum OrderViewMode { user, admin }
 
+/// Shows all the details for a given order
 class OrderCard extends StatelessWidget {
   const OrderCard({Key? key, required this.order, required this.viewMode})
       : super(key: key);
@@ -36,6 +37,9 @@ class OrderCard extends StatelessWidget {
   }
 }
 
+/// Order header showing the following:
+/// - Total order amount
+/// - Order date
 class OrderHeader extends ConsumerWidget {
   const OrderHeader({Key? key, required this.order, required this.viewMode})
       : super(key: key);
@@ -89,6 +93,7 @@ class OrderHeader extends ConsumerWidget {
   }
 }
 
+/// Shows additional order fields to be shown only in admin mode
 class OrderHeaderAdminFields extends StatelessWidget {
   const OrderHeaderAdminFields({Key? key, required this.order})
       : super(key: key);
@@ -139,6 +144,7 @@ class OrderHeaderAdminFields extends StatelessWidget {
   }
 }
 
+/// List of items in the order
 class OrderItemsList extends StatelessWidget {
   const OrderItemsList({Key? key, required this.order, required this.viewMode})
       : super(key: key);

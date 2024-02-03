@@ -5,6 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_revi
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
+/// Simple card widget to show a product review info (score, comment, date)
 class ProductReviewCard extends ConsumerWidget {
   const ProductReviewCard(this.review, {Key? key}) : super(key: key);
   final Review review;

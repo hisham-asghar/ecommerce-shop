@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.da
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 
+/// Shows an individual order item, including price and quantity.
 class OrderItemListTile extends ConsumerWidget {
   const OrderItemListTile({Key? key, required this.item}) : super(key: key);
   final Item item;

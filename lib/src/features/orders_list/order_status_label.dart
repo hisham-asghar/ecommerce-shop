@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 
+/// Shows the status of the order
 class OrderStatusLabel extends ConsumerWidget {
   const OrderStatusLabel({Key? key, required this.order}) : super(key: key);
   final Order order;

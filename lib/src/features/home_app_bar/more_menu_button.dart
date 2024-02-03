@@ -25,24 +25,10 @@ class MoreMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      onSelected: (option) {
-        // TODO: should these use goNamed?
-        switch (option) {
-          case PopupMenuOption.signIn:
-            context.pushNamed(AppRoute.signIn.name);
-            break;
-          case PopupMenuOption.orders:
-            context.pushNamed(AppRoute.orders.name);
-            break;
-          case PopupMenuOption.account:
-            context.pushNamed(AppRoute.account.name);
-            break;
-          case PopupMenuOption.admin:
-            context.pushNamed(AppRoute.admin.name);
-            break;
-        }
-      },
+      // three vertical dots icon (to reveal menu options)
+      icon: const Icon(Icons.more_vert),
       itemBuilder: (_) {
+        // show all the options based on conditional logic
         return user != null
             ? <PopupMenuEntry<PopupMenuOption>>[
                 PopupMenuItem(
@@ -71,7 +57,23 @@ class MoreMenuButton extends StatelessWidget {
                 ),
               ];
       },
-      icon: const Icon(Icons.more_vert),
+      onSelected: (option) {
+        // push to different routes based on selected option
+        switch (option) {
+          case PopupMenuOption.signIn:
+            context.pushNamed(AppRoute.signIn.name);
+            break;
+          case PopupMenuOption.orders:
+            context.pushNamed(AppRoute.orders.name);
+            break;
+          case PopupMenuOption.account:
+            context.pushNamed(AppRoute.account.name);
+            break;
+          case PopupMenuOption.admin:
+            context.pushNamed(AppRoute.admin.name);
+            break;
+        }
+      },
     );
   }
 }

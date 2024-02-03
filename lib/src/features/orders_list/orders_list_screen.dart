@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_con
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/user_orders_service.dart';
 
+/// Shows the list of orders placed by the signed-in user.
 class OrdersListScreen extends ConsumerWidget {
   const OrdersListScreen({Key? key}) : super(key: key);
 

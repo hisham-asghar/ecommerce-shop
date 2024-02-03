@@ -15,6 +15,8 @@ class MyApp extends ConsumerWidget {
       routeInformationParser: goRouter.routeInformationParser,
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
+      // See this article for the localization setup used in this project:
+      // https://codewithandrea.com/articles/flutter-localization-build-context-extension/
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (BuildContext context) => context.loc.appTitle,

@@ -7,6 +7,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_revi
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/reviews_service.dart';
 
+/// Shows the list of reviews for a given product ID
 class ProductReviewsList extends ConsumerWidget {
   const ProductReviewsList({Key? key, required this.productId})
       : super(key: key);

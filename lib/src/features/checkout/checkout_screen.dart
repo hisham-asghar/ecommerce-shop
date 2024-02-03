@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_page.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
@@ -9,6 +9,7 @@ import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_si
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
+// TODO: Simplify (remove tabs)
 class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
 
@@ -102,7 +103,7 @@ class CheckoutWithTabs extends ConsumerWidget {
               }
             },
           ),
-          const AddressPage(),
+          const AddressScreen(),
           const PaymentPage(),
         ],
       ),

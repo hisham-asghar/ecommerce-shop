@@ -13,6 +13,9 @@ class PreviewNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ! MediaQuery is used on the assumption that the widget takes up the full
+    // ! width of the screen. If that's not the case, LayoutBuilder should be
+    // ! used instead.
     final screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
