@@ -85,6 +85,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
     return ResponsiveTwoColumnLayout(
       startFlex: 1,
       endFlex: 2,
+      breakpoint: 320,
       // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
       startContent: CachedNetworkImage(imageUrl: product.imageUrl),
       spacing: Sizes.p24,
