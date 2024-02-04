@@ -2,19 +2,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
 
 class EmailPasswordSignInController
     extends StateNotifier<EmailPasswordSignInState> {
   EmailPasswordSignInController({
-    required this.authRepository,
+    required this.authService,
     required AppLocalizations localizations,
     required EmailPasswordSignInFormType formType,
   }) : super(EmailPasswordSignInState(
             formType: formType, localizations: localizations));
-  final AuthRepository authRepository;
+  final AuthService authService;
 
   Future<bool> submit(String email, String password) async {
     try {
@@ -25,13 +25,13 @@ class EmailPasswordSignInController
       state = state.copyWith(isLoading: true);
       switch (state.formType) {
         case EmailPasswordSignInFormType.signIn:
-          await authRepository.signInWithEmailAndPassword(email, password);
+          await authService.signInWithEmailAndPassword(email, password);
           break;
         case EmailPasswordSignInFormType.register:
-          await authRepository.createUserWithEmailAndPassword(email, password);
+          await authService.createUserWithEmailAndPassword(email, password);
           break;
         case EmailPasswordSignInFormType.forgotPassword:
-          await authRepository.sendPasswordResetEmail(email);
+          await authService.sendPasswordResetEmail(email);
           state = state.copyWith(isLoading: false);
           break;
       }
@@ -58,10 +58,10 @@ class EmailPasswordSignInController
 final emailPasswordSignInControllerProvider = StateNotifierProvider.autoDispose
     .family<EmailPasswordSignInController, EmailPasswordSignInState,
         EmailPasswordSignInFormType>((ref, formType) {
-  final authRepository = ref.watch(authRepositoryProvider);
+  final authService = ref.watch(authServiceProvider);
   final localizations = ref.watch(appLocalizationsProvider);
   return EmailPasswordSignInController(
-    authRepository: authRepository,
+    authService: authService,
     localizations: localizations,
     formType: formType,
   );

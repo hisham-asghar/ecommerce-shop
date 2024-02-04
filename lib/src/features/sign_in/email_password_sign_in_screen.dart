@@ -10,7 +10,6 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
 class EmailPasswordSignInScreen extends ConsumerWidget {
   const EmailPasswordSignInScreen({Key? key, required this.formType})
@@ -26,16 +25,7 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(context.loc.signIn)),
       body: EmailPasswordSignInContents(
         formType: formType,
-        onSignedIn: () async {
-          try {
-            // TODO: Should this be moved to an authService class?
-            await ref.read(cartServiceProvider).copyItemsToRemote();
-          } catch (e, _) {
-            // TODO: Report exception
-            debugPrint(e.toString());
-          }
-          context.pop();
-        },
+        onSignedIn: () => context.pop(),
       ),
     );
   }
@@ -82,6 +72,7 @@ class _EmailPasswordSignInContentsState
       final controller = ref.read(
           emailPasswordSignInControllerProvider(widget.formType).notifier);
       final bool success = await controller.submit(email, password);
+      // TODO: Implement this logic with a state listener
       if (success) {
         if (state.formType == EmailPasswordSignInFormType.forgotPassword) {
           await showAlertDialog(

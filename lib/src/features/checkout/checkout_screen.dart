@@ -7,7 +7,6 @@ import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
 // TODO: Simplify (remove tabs)
 class CheckoutScreen extends ConsumerStatefulWidget {
@@ -91,20 +90,12 @@ class CheckoutWithTabs extends ConsumerWidget {
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: tabController,
-        children: <Widget>[
+        children: const [
           EmailPasswordSignInContents(
             formType: EmailPasswordSignInFormType.register,
-            onSignedIn: () async {
-              try {
-                await ref.read(cartServiceProvider).copyItemsToRemote();
-              } catch (e, _) {
-                // TODO: Report exception
-                debugPrint(e.toString());
-              }
-            },
           ),
-          const AddressScreen(),
-          const PaymentPage(),
+          AddressScreen(),
+          PaymentPage(),
         ],
       ),
     );
