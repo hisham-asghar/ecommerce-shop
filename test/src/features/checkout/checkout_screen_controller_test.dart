@@ -1,55 +1,69 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/fake_auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
+
+import '../../../mocks.dart';
 
 void main() {
+  const fakeUserId = '123';
+  const fakeUser = FakeAppUser(uid: fakeUserId);
   group('CheckoutScreenController', () {
-    test('null user, show tabs', () {
-      expect(
-        CheckoutScreenController.stateFor(
-          user: null,
-          address: null,
-          shouldShowTabs: true,
-        ),
-        const CheckoutScreenState.tab(0),
+    late MockAuthRepository mockAuthRepository;
+    late MockAddressRepository mockAddressRepository;
+    setUp(() {
+      mockAuthRepository = MockAuthRepository();
+      mockAddressRepository = MockAddressRepository();
+    });
+    test('initialized with loading state', () {
+      when(() => mockAuthRepository.currentUser).thenReturn(null);
+      final controller = CheckoutScreenController(
+        authRepository: mockAuthRepository,
+        addressRepository: mockAddressRepository,
       );
+      expect(controller.debugState, isA<AsyncLoading>());
     });
 
-    test('signed in, null address, show tabs', () {
-      expect(
-        CheckoutScreenController.stateFor(
-          user: const FakeAppUser(uid: '123'),
-          address: null,
-          shouldShowTabs: true,
-        ),
-        const CheckoutScreenState.tab(1),
+    test('no user -> register page', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(null);
+      final controller = CheckoutScreenController(
+        authRepository: mockAuthRepository,
+        addressRepository: mockAddressRepository,
       );
+      await controller.updateSubRoute();
+      expect(controller.debugState, const AsyncData(CheckoutSubRoute.register));
     });
 
-    test('signed in, valid address, show tabs', () {
-      expect(
-        CheckoutScreenController.stateFor(
-          user: const FakeAppUser(uid: '123'),
-          address: Address(
-              address: '', city: '', state: '', postalCode: '', country: ''),
-          shouldShowTabs: true,
-        ),
-        const CheckoutScreenState.tab(2),
+    test('user with no address -> address page', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
+      when(() => mockAddressRepository.fetchAddress(fakeUserId))
+          .thenAnswer((invocation) => Future.value(null));
+      final controller = CheckoutScreenController(
+        authRepository: mockAuthRepository,
+        addressRepository: mockAddressRepository,
       );
+      await controller.updateSubRoute();
+      expect(controller.debugState, const AsyncData(CheckoutSubRoute.address));
     });
 
-    test('signed in, valid address, no tabs', () {
-      expect(
-        CheckoutScreenController.stateFor(
-          user: const FakeAppUser(uid: '123'),
-          address: Address(
-              address: '', city: '', state: '', postalCode: '', country: ''),
-          shouldShowTabs: false,
-        ),
-        const CheckoutScreenState.noTabs(),
+    test('user with address -> payment page', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
+      when(() => mockAddressRepository.fetchAddress(fakeUserId))
+          .thenAnswer((invocation) => Future.value(Address(
+                address: 'abc',
+                city: 'abc',
+                country: 'abc',
+                postalCode: 'abc',
+                state: 'abc',
+              )));
+      final controller = CheckoutScreenController(
+        authRepository: mockAuthRepository,
+        addressRepository: mockAddressRepository,
       );
+      await controller.updateSubRoute();
+      expect(controller.debugState, const AsyncData(CheckoutSubRoute.payment));
     });
   });
 }
