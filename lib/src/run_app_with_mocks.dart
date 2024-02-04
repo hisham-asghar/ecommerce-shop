@@ -21,6 +21,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/fake_payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 
 Future<void> runAppWithMocks() async {
   // https://docs.flutter.dev/testing/errors
@@ -39,6 +41,8 @@ Future<void> runAppWithMocks() async {
     final localCartRepository = await SembastCartRepository.makeDefault();
     final cloudFunctionsRepository =
         FakeCloudFunctionsRepository(ordersRepository: ordersRepository);
+    final paymentRepository = FakePaymentsRepository(
+        authRepository: authRepository, ordersRepository: ordersRepository);
     // https://gorouter.dev/url-path-strategy#turning-off-the-hash
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
     runApp(ProviderScope(
@@ -53,6 +57,7 @@ Future<void> runAppWithMocks() async {
         localCartRepositoryProvider.overrideWithValue(localCartRepository),
         cloudFunctionsRepositoryProvider
             .overrideWithValue(cloudFunctionsRepository),
+        paymentsRepositoryProvider.overrideWithValue(paymentRepository),
       ],
       //observers: [ProviderLogger()],
       child: const MyApp(),
