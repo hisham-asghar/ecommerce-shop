@@ -13,7 +13,7 @@ class ReviewsService {
   Stream<Review?> userReview(String productId) {
     final user = authRepository.currentUser;
     if (user != null) {
-      return reviewsRepository.userReview(productId, user.uid);
+      return reviewsRepository.watchUserReview(productId, user.uid);
     } else {
       return Stream.value(null);
     }
@@ -24,7 +24,7 @@ class ReviewsService {
     final user = authRepository.currentUser;
     if (user != null) {
       // TODO: try catch
-      await reviewsRepository.submitReview(
+      await reviewsRepository.setReview(
           productId: productId, uid: user.uid, review: review);
     } else {
       throw UnsupportedError('Can\'t submit review as a logged out user');
@@ -53,7 +53,7 @@ final userPurchaseProvider =
   final user = userValue.value;
   if (user != null) {
     final reviewsRepository = ref.watch(reviewsRepositoryProvider);
-    return reviewsRepository.userPurchase(id, user.uid);
+    return reviewsRepository.watchUserPurchase(id, user.uid);
   } else {
     return Stream.value(null);
   }
@@ -62,5 +62,5 @@ final userPurchaseProvider =
 final productReviewsProvider =
     StreamProvider.autoDispose.family<List<Review>, String>((ref, productId) {
   final reviewsRepository = ref.watch(reviewsRepositoryProvider);
-  return reviewsRepository.reviews(productId);
+  return reviewsRepository.watchReviews(productId);
 });

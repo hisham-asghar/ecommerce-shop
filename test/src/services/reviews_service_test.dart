@@ -32,7 +32,8 @@ void main() {
         authRepository: mockAuthRepository,
       );
       when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
-      when(() => mockReviewsRepository.userReview(fakeProductId, fakeUser.uid))
+      when(() => mockReviewsRepository.watchUserReview(
+              fakeProductId, fakeUser.uid))
           .thenAnswer((_) => Stream.value(fakeReview));
       // run
       expect(service.userReview(fakeProductId), emits(fakeReview));
@@ -46,8 +47,8 @@ void main() {
         authRepository: mockAuthRepository,
       );
       when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
-      when(() => mockReviewsRepository.userReview(fakeProductId, fakeUser.uid))
-          .thenAnswer((_) => Stream.value(null));
+      when(() => mockReviewsRepository.watchUserReview(
+          fakeProductId, fakeUser.uid)).thenAnswer((_) => Stream.value(null));
       // run
       expect(service.userReview(fakeProductId), emits(null));
     });
@@ -73,7 +74,7 @@ void main() {
         authRepository: mockAuthRepository,
       );
       when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
-      when(() => mockReviewsRepository.submitReview(
+      when(() => mockReviewsRepository.setReview(
             productId: fakeProductId,
             uid: fakeUser.uid,
             review: fakeReview,
@@ -81,7 +82,7 @@ void main() {
       // run
       await service.submitReview(productId: fakeProductId, review: fakeReview);
       // verify
-      verify(() => mockReviewsRepository.submitReview(
+      verify(() => mockReviewsRepository.setReview(
             productId: fakeProductId,
             uid: fakeUser.uid,
             review: fakeReview,

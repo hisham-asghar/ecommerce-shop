@@ -20,7 +20,7 @@ class FakeAddressRepository implements AddressRepository {
   }
 
   @override
-  Future<void> submitAddress(String uid, Address address) async {
+  Future<void> setAddress(String uid, Address address) async {
     await delay(addDelay);
     final value = _address.value;
     value[uid] = address;

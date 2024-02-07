@@ -24,14 +24,14 @@ void main() {
       final order = _fakeOrder();
       const status = OrderStatus.delivered;
       final updatedOrder = order.copyWith(orderStatus: status);
-      final service = MockAdminOrdersService();
+      final repository = MockOrdersRepository();
       // simulate success
-      when(() => service.updateOrderStatus(updatedOrder))
+      when(() => repository.updateOrderStatus(updatedOrder))
           .thenAnswer((_) => Future<void>.value());
       final observedStates = <VoidAsyncValue>[];
       final model = OrderStatusDropDownController(
         localizations: localizations,
-        adminOrdersService: service,
+        ordersRepository: repository,
         order: order,
       );
       // track all state chanegs
@@ -39,7 +39,7 @@ void main() {
       // run
       await model.updateOrderStatus(status);
       // verify
-      verify(() => service.updateOrderStatus(updatedOrder));
+      verify(() => repository.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
         VoidAsyncValue.data(null), // initial state
         VoidAsyncValue.loading(), // updateOrderStatus - try
@@ -51,14 +51,14 @@ void main() {
       final order = _fakeOrder();
       const status = OrderStatus.delivered;
       final updatedOrder = order.copyWith(orderStatus: status);
-      final service = MockAdminOrdersService();
+      final repository = MockOrdersRepository();
       // simulate failure: throw error
-      when(() => service.updateOrderStatus(updatedOrder))
+      when(() => repository.updateOrderStatus(updatedOrder))
           .thenThrow(StateError('User is not signed in'));
       final observedStates = <VoidAsyncValue>[];
       final model = OrderStatusDropDownController(
         localizations: localizations,
-        adminOrdersService: service,
+        ordersRepository: repository,
         order: _fakeOrder(),
       );
       // track all state chanegs
@@ -66,7 +66,7 @@ void main() {
       // run
       await model.updateOrderStatus(status);
       // verify
-      verify(() => service.updateOrderStatus(updatedOrder));
+      verify(() => repository.updateOrderStatus(updatedOrder));
       expect(observedStates, const [
         VoidAsyncValue.data(null), // initial state
         VoidAsyncValue.loading(), // updateOrderStatus - try

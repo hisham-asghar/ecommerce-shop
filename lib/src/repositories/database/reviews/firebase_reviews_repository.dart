@@ -14,32 +14,32 @@ class FirebaseReviewsRepository implements ReviewsRepository {
   static String reviewsPath(String id) => 'products/$id/reviews';
 
   @override
-  Stream<Purchase?> userPurchase(String id, String uid) {
+  Stream<Purchase?> watchUserPurchase(String id, String uid) {
     final ref = _purchaseRef(id, uid);
     return ref.snapshots().map((snapshot) => snapshot.data());
   }
 
   @override
-  Stream<Review?> userReview(String id, String uid) {
+  Stream<Review?> watchUserReview(String id, String uid) {
     final ref = _reviewRef(id, uid);
     return ref.snapshots().map((snapshot) => snapshot.data());
   }
 
   @override
-  Future<void> submitReview({
+  Stream<List<Review>> watchReviews(String id) {
+    final ref = _reviewsRef(id);
+    return ref.snapshots().map((snapshot) =>
+        snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
+  }
+
+  @override
+  Future<void> setReview({
     required String productId,
     required String uid,
     required Review review,
   }) {
     final ref = _reviewRef(productId, uid);
     return ref.set(review);
-  }
-
-  @override
-  Stream<List<Review>> reviews(String id) {
-    final ref = _reviewsRef(id);
-    return ref.snapshots().map((snapshot) =>
-        snapshot.docs.map((docSnapshot) => docSnapshot.data()).toList());
   }
 
   DocumentReference<Purchase?> _purchaseRef(String id, String uid) =>

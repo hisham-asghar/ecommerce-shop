@@ -6,7 +6,7 @@ abstract class AddressRepository {
 
   Stream<Address?> watchAddress(String uid);
 
-  Future<void> submitAddress(String uid, Address address);
+  Future<void> setAddress(String uid, Address address);
 }
 
 final addressRepositoryProvider = Provider<AddressRepository>((ref) {

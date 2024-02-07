@@ -48,7 +48,7 @@ class _AddressPageState extends ConsumerState<AddressScreen> {
       );
       final addressRepository = ref.read(addressServiceProvider);
       setState(() => _isLoading = true);
-      await addressRepository.submitAddress(address);
+      await addressRepository.setUserAddress(address);
       setState(() => _isLoading = false);
       widget.onDataSubmitted?.call();
     }

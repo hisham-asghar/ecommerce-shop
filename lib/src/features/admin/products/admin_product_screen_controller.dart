@@ -1,20 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
   AdminProductScreenController(
       {required this.localizations,
-      required this.productsService,
+      required this.productsRepository,
       this.product})
       : super(const VoidAsyncValue.data(null)) {
     init();
   }
   final AppLocalizations localizations;
-  final ProductsService productsService;
+  final ProductsRepository productsRepository;
   // TODO: Force rebuild or avoid mutable state?
   final Product? product;
   var title = '';
@@ -51,7 +51,7 @@ class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
           availableQuantity: availableQuantity,
           imageUrl: imageUrl,
         );
-        await productsService.addProduct(newProduct);
+        await productsRepository.createProduct(newProduct);
         // reset state for next time page is shown
         reset();
       } else {
@@ -62,7 +62,7 @@ class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
           imageUrl: imageUrl,
           availableQuantity: availableQuantity,
         );
-        await productsService.editProduct(updatedProduct);
+        await productsRepository.updateProduct(updatedProduct);
       }
     } catch (e) {
       state = VoidAsyncValue.error(localizations.couldNotSaveProduct);
@@ -75,10 +75,10 @@ class AdminProductScreenController extends StateNotifier<VoidAsyncValue> {
 final adminProductScreenControllerProvider = StateNotifierProvider.family<
     AdminProductScreenController, VoidAsyncValue, Product?>((ref, product) {
   final localizations = ref.watch(appLocalizationsProvider);
-  final productsRepository = ref.watch(productsServiceProvider);
+  final productsRepository = ref.watch(productsRepositoryProvider);
   return AdminProductScreenController(
     localizations: localizations,
-    productsService: productsRepository,
+    productsRepository: productsRepository,
     product: product,
   );
 });

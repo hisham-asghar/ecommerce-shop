@@ -4,9 +4,9 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/admin_orders_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
 
@@ -25,7 +25,7 @@ class MockCartService extends Mock implements CartService {}
 
 class MockAddressRepository extends Mock implements AddressRepository {}
 
-class MockAdminOrdersService extends Mock implements AdminOrdersService {}
+class MockOrdersRepository extends Mock implements OrdersRepository {}
 
 class MockCheckoutService extends Mock implements CheckoutService {}
 

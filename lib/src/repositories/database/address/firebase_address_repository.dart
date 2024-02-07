@@ -22,7 +22,7 @@ class FirebaseAddressRepository implements AddressRepository {
   }
 
   @override
-  Future<void> submitAddress(String uid, Address address) {
+  Future<void> setAddress(String uid, Address address) {
     return _addressRef(uid).set(address);
   }
 

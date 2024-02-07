@@ -33,7 +33,7 @@ class FakeReviewsRepository implements ReviewsRepository {
   }
 
   @override
-  Stream<Purchase?> userPurchase(String id, String uid) {
+  Stream<Purchase?> watchUserPurchase(String id, String uid) {
     return _purchases.stream.map((purchasesData) {
       // access nested maps by productId, then uid
       return purchasesData[id]?[uid];
@@ -45,7 +45,7 @@ class FakeReviewsRepository implements ReviewsRepository {
   final _reviews = InMemoryStore<Map<String, Map<String, Review>>>({});
 
   @override
-  Stream<Review?> userReview(String id, String uid) {
+  Stream<Review?> watchUserReview(String id, String uid) {
     return _reviews.stream.map((reviewsData) {
       // access nested maps by productId, then uid
       return reviewsData[id]?[uid];
@@ -53,7 +53,20 @@ class FakeReviewsRepository implements ReviewsRepository {
   }
 
   @override
-  Future<void> submitReview({
+  Stream<List<Review>> watchReviews(String id) {
+    return _reviews.stream.map((reviewsData) {
+      // access nested maps by productId, then uid
+      final reviews = reviewsData[id];
+      if (reviews == null) {
+        return [];
+      } else {
+        return reviews.values.toList();
+      }
+    });
+  }
+
+  @override
+  Future<void> setReview({
     required String productId,
     required String uid,
     required Review review,
@@ -69,18 +82,5 @@ class FakeReviewsRepository implements ReviewsRepository {
       value[productId] = {uid: review};
     }
     _reviews.value = value;
-  }
-
-  @override
-  Stream<List<Review>> reviews(String id) {
-    return _reviews.stream.map((reviewsData) {
-      // access nested maps by productId, then uid
-      final reviews = reviewsData[id];
-      if (reviews == null) {
-        return [];
-      } else {
-        return reviews.values.toList();
-      }
-    });
   }
 }
