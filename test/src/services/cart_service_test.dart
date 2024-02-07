@@ -50,7 +50,7 @@ void main() {
           .thenAnswer((_) => Future.value(Cart(itemsInCart)));
       when(() => mockCartRepository.setCart(uid, Cart(expectedItemsInCart)))
           .thenAnswer((_) => Future.value());
-      when(() => mockLocalCartRepository.setCart(Cart({})))
+      when(() => mockLocalCartRepository.setCart(const Cart()))
           .thenAnswer((_) => Future.value());
       final cartService = makeCartService();
       // run

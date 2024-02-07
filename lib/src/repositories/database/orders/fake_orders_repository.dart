@@ -79,7 +79,7 @@ class FakeOrdersRepository implements OrdersRepository {
         purchase: Purchase(orderId: orderId, orderDate: orderDate),
       );
     }
-    await cartRepository.setCart(uid, Cart({}));
+    await cartRepository.setCart(uid, const Cart());
     return order;
   }
 

@@ -12,13 +12,13 @@ class FirebaseCartRepository implements CartRepository {
   Future<Cart> fetchCart(String uid) async {
     final ref = _cartRef(uid);
     final snapshot = await ref.get();
-    return snapshot.data() ?? Cart({});
+    return snapshot.data() ?? const Cart();
   }
 
   @override
   Stream<Cart> watchCart(String uid) {
     final ref = _cartRef(uid);
-    return ref.snapshots().map((snapshot) => snapshot.data() ?? Cart({}));
+    return ref.snapshots().map((snapshot) => snapshot.data() ?? const Cart());
   }
 
   @override

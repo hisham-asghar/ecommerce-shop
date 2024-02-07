@@ -11,13 +11,13 @@ class FakeCartRepository implements CartRepository {
 
   @override
   Future<Cart> fetchCart(String uid) {
-    return Future.value(_cart.value[uid] ?? Cart({}));
+    return Future.value(_cart.value[uid] ?? const Cart());
   }
 
   @override
   Stream<Cart> watchCart(String uid) {
     return _cart.stream.map((cartData) {
-      return cartData[uid] ?? Cart({});
+      return cartData[uid] ?? const Cart();
     });
   }
 

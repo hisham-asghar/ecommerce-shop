@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
 class Cart {
-  Cart(this.items);
+  const Cart([this.items = const {}]);
   final Map<String, int> items;
 
   Map<String, dynamic> toMap() {

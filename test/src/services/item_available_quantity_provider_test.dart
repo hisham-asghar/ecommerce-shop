@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:riverpod/riverpod.dart';
 
@@ -16,7 +15,9 @@ void main() {
     test('item not in cart', () async {
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
-        overrides: [cartProvider.overrideWithValue(AsyncValue.data(Cart({})))],
+        overrides: [
+          cartProvider.overrideWithValue(const AsyncValue.data(Cart()))
+        ],
       );
       addTearDown(container.dispose);
       final provider = itemAvailableQuantityProvider(product);
@@ -43,7 +44,7 @@ void main() {
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
         overrides: [
-          cartProvider.overrideWithValue(AsyncValue.data(Cart({'1': 1})))
+          cartProvider.overrideWithValue(const AsyncValue.data(Cart({'1': 1})))
         ],
       );
       addTearDown(container.dispose);
@@ -57,7 +58,7 @@ void main() {
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
         overrides: [
-          cartProvider.overrideWithValue(AsyncValue.data(Cart({'1': 5})))
+          cartProvider.overrideWithValue(const AsyncValue.data(Cart({'1': 5})))
         ],
       );
       addTearDown(container.dispose);
@@ -70,7 +71,7 @@ void main() {
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
         overrides: [
-          cartProvider.overrideWithValue(AsyncValue.data(Cart({'1': 6})))
+          cartProvider.overrideWithValue(const AsyncValue.data(Cart({'1': 6})))
         ],
       );
       addTearDown(container.dispose);

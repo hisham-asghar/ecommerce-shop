@@ -109,7 +109,7 @@ class CartService {
           }
           await cartRepository.setCart(user.uid, mutableCart.toCart());
           // Remove all items from the local cart
-          await localCartRepository.setCart(Cart({}));
+          await localCartRepository.setCart(const Cart());
         }
       } catch (e, _) {
         // TODO: Report error
@@ -153,7 +153,7 @@ final cartProvider = StreamProvider.autoDispose<Cart>((ref) {
 final cartTotalProvider = Provider.autoDispose<double>((ref) {
   final productsListValue = ref.watch(productsListProvider);
   final productsList = productsListValue.value ?? [];
-  final cart = ref.watch(cartProvider).value ?? Cart({});
+  final cart = ref.watch(cartProvider).value ?? const Cart();
   if (cart.items.isNotEmpty && productsList.isNotEmpty) {
     final itemPrices = cart.items.entries.map((item) {
       final product =
@@ -177,7 +177,7 @@ final itemAvailableQuantityProvider =
   // explain that it could also be done with `.whenData`
   // TODO: Fix #133: The provider AutoDisposeStreamProvider was disposed before a value was emitted
   //final cartItems = await ref.watch(cartItemsListProvider.future);
-  final cart = ref.watch(cartProvider).value ?? Cart({});
+  final cart = ref.watch(cartProvider).value ?? const Cart();
   final quantity = cart.items[product.id] ?? 0;
   return max(0, product.availableQuantity - quantity);
 });

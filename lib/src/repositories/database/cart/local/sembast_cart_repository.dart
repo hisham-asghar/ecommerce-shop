@@ -33,7 +33,7 @@ class SembastCartRepository implements LocalCartRepository {
     if (cartJson != null) {
       return Cart.fromJson(cartJson);
     } else {
-      return Cart({});
+      return const Cart();
     }
   }
 
@@ -44,7 +44,7 @@ class SembastCartRepository implements LocalCartRepository {
       if (snapshot != null) {
         return Cart.fromJson(snapshot.value);
       } else {
-        return Cart({});
+        return const Cart();
       }
     });
   }
