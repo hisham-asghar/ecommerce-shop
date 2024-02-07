@@ -52,24 +52,24 @@ class CartService {
   /// adds an item to the local or remote cart depending on the user auth state
   Future<void> addItem(Item item) async {
     final cart = await _fetchCart();
-    final mutableCart = MutableCart.from(cart)..addItem(item);
-    await _setCart(mutableCart.toCart());
+    final updated = cart.addItem(item);
+    await _setCart(updated);
   }
 
   /// removes an item from the local or remote cart depending on the user auth
   /// state
   Future<void> removeItem(Item item) async {
     final cart = await _fetchCart();
-    final mutableCart = MutableCart.from(cart)..removeItem(item);
-    await _setCart(mutableCart.toCart());
+    final updated = cart.removeItem(item);
+    await _setCart(updated);
   }
 
   /// updates an item in the local or remote cart depending on the user auth
   /// state
   Future<void> updateItemIfExists(Item item) async {
     final cart = await _fetchCart();
-    final mutableCart = MutableCart.from(cart)..updateItemIfExists(item);
-    await _setCart(mutableCart.toCart());
+    final updated = cart.updateItemIfExists(item);
+    await _setCart(updated);
   }
 
   /// copies all items from the local to the remote cart taking into account the
@@ -103,11 +103,8 @@ class CartService {
             }
           }
           // Add all items to the remote cart
-          final mutableCart = MutableCart.from(remoteCart);
-          for (var item in localItemsToAdd) {
-            mutableCart.addItem(item);
-          }
-          await cartRepository.setCart(user.uid, mutableCart.toCart());
+          final updatedCart = remoteCart.addItems(localItemsToAdd);
+          await cartRepository.setCart(user.uid, updatedCart);
           // Remove all items from the local cart
           await localCartRepository.setCart(const Cart());
         }

@@ -2,38 +2,46 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.da
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
 /// Helper class used to mutate the items in the shopping cart.
-class MutableCart {
-  MutableCart(this.items);
-  Map<String, int> items;
-
-  /// Helper constructor to initialize from a [Cart] object.
-  MutableCart.from(Cart cart) : items = cart.items;
-
-  /// Helper method to return an immutable [Cart] object.
-  Cart toCart() => Cart(items);
-
-  void addItem(Item item) {
-    if (items.containsKey(item.productId)) {
-      items[item.productId] = item.quantity + items[item.productId]!;
+extension MutableCart on Cart {
+  Cart addItem(Item item) {
+    final copy = Map<String, int>.from(items);
+    if (copy.containsKey(item.productId)) {
+      copy[item.productId] = item.quantity + copy[item.productId]!;
     } else {
-      items[item.productId] = item.quantity;
+      copy[item.productId] = item.quantity;
+    }
+    return Cart(copy);
+  }
+
+  Cart addItems(List<Item> itemsToAdd) {
+    final copy = Map<String, int>.from(items);
+    for (var item in itemsToAdd) {
+      if (copy.containsKey(item.productId)) {
+        copy[item.productId] = item.quantity + copy[item.productId]!;
+      } else {
+        copy[item.productId] = item.quantity;
+      }
+    }
+    return Cart(copy);
+  }
+
+  Cart removeItem(Item item) {
+    final copy = Map<String, int>.from(items);
+    copy.remove(item.productId);
+    return Cart(copy);
+  }
+
+  Cart updateItemIfExists(Item item) {
+    if (items.containsKey(item.productId)) {
+      final copy = Map<String, int>.from(items);
+      copy[item.productId] = item.quantity;
+      return Cart(copy);
+    } else {
+      return this;
     }
   }
 
-  void removeItem(Item item) {
-    items.remove(item.productId);
-  }
-
-  bool updateItemIfExists(Item item) {
-    if (items.containsKey(item.productId)) {
-      items[item.productId] = item.quantity;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void removeAll() {
-    items = {};
+  Cart clear() {
+    return const Cart();
   }
 }
