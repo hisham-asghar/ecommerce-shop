@@ -1,5 +1,6 @@
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/fake_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purchase.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
@@ -49,7 +50,7 @@ class FakeOrdersRepository implements OrdersRepository {
     // then, place the order
     final value = _orders.value;
     final userOrders = value[uid] ?? [];
-    final total = cartRepository.totalPrice(items);
+    final total = _totalPrice(items);
     final orderDate = DateTime.now();
     final orderId = const Uuid().v1();
     final order = Order(
@@ -78,7 +79,7 @@ class FakeOrdersRepository implements OrdersRepository {
         purchase: Purchase(orderId: orderId, orderDate: orderDate),
       );
     }
-    await cartRepository.removeAllItems(uid);
+    await cartRepository.setItemsList(uid, []);
     return order;
   }
 
@@ -112,4 +113,15 @@ class FakeOrdersRepository implements OrdersRepository {
       return orders;
     });
   }
+
+  // Helper method
+  double _totalPrice(List<Item> items) => items.isEmpty
+      ? 0.0
+      : items
+          // first extract quantity * price for each item
+          .map((item) =>
+              item.quantity *
+              productsRepository.getProduct(item.productId).price)
+          // then add them up
+          .reduce((value, element) => value + element);
 }

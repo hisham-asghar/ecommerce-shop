@@ -6,13 +6,7 @@ abstract class CartRepository {
 
   Stream<List<Item>> watchItemsList(String uid);
 
-  Future<void> addItem(String uid, Item item);
-
-  Future<void> removeItem(String uid, Item item);
-
-  Future<void> updateItemIfExists(String uid, Item item);
-
-  Future<void> addAllItems(String uid, List<Item> items);
+  Future<void> setItemsList(String uid, List<Item> items);
 }
 
 final cartRepositoryProvider = Provider<CartRepository>((ref) {

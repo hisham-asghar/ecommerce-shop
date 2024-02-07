@@ -27,12 +27,12 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/fireb
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/fake_address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/firebase_address_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/firebase_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/sembast_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/fake_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/firebase_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/fake_local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/sembast_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/fake_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/firebase_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
@@ -60,16 +60,14 @@ class Robot {
       productsRepository.initWithTestProducts();
     }
     final reviewsRepository = FakeReviewsRepository(addDelay: addDelay);
-    final cartRepository = FakeCartRepository(
-        productsRepository: productsRepository, addDelay: addDelay);
+    final cartRepository = FakeCartRepository(addDelay: addDelay);
     final ordersRepository = FakeOrdersRepository(
       productsRepository: productsRepository,
       cartRepository: cartRepository,
       reviewsRepository: reviewsRepository,
       addDelay: addDelay,
     );
-    final localCartRepository = FakeLocalCartRepository(
-        productsRepository: productsRepository, addDelay: addDelay);
+    final localCartRepository = FakeLocalCartRepository(addDelay: addDelay);
     final cloudFunctionsRepository =
         FakeCloudFunctionsRepository(ordersRepository: ordersRepository);
     final paymentRepository = FakePaymentsRepository(

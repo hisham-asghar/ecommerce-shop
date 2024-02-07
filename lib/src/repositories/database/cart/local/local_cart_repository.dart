@@ -6,13 +6,7 @@ abstract class LocalCartRepository {
 
   Stream<List<Item>> watchItemsList();
 
-  Future<void> addItem(Item item);
-
-  Future<void> removeItem(Item item);
-
-  Future<void> updateItemIfExists(Item item);
-
-  Future<void> clear();
+  Future<void> setItemsList(List<Item> items);
 }
 
 final localCartRepositoryProvider = Provider<LocalCartRepository>((ref) {

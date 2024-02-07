@@ -10,10 +10,10 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/fake_cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/fake_address_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/fake_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/sembast_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/fake_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/sembast_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/fake_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
@@ -31,8 +31,7 @@ Future<void> runAppWithMocks() async {
     final addressRepository = FakeAddressRepository();
     final productsRepository = FakeProductsRepository()..initWithTestProducts();
     final reviewsRepository = FakeReviewsRepository();
-    final cartRepository =
-        FakeCartRepository(productsRepository: productsRepository);
+    final cartRepository = FakeCartRepository();
     final ordersRepository = FakeOrdersRepository(
       productsRepository: productsRepository,
       cartRepository: cartRepository,

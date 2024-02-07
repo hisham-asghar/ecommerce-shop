@@ -37,7 +37,7 @@ void main() {
       required List<Product> products,
       required List<Item> itemsToAdd,
       required List<Item> itemsInCart,
-      required List<Item> expectedItemsAdded,
+      required List<Item> expectedItemsInCart,
     }) async {
       when(() => mockAuthRepository.currentUser)
           .thenReturn(FakeAppUser(uid: uid));
@@ -47,15 +47,15 @@ void main() {
           .thenAnswer((_) => Future.value(products));
       when(() => mockCartRepository.fetchItemsList(uid))
           .thenAnswer((_) => Future.value(itemsInCart));
-      when(() => mockCartRepository.addAllItems(uid, expectedItemsAdded))
+      when(() => mockCartRepository.setItemsList(uid, expectedItemsInCart))
           .thenAnswer((_) => Future.value());
-      when(() => mockLocalCartRepository.clear())
+      when(() => mockLocalCartRepository.setItemsList([]))
           .thenAnswer((_) => Future.value());
       final cartService = makeCartService();
       // run
       await cartService.copyItemsToRemote();
       // verify
-      verify(() => mockCartRepository.addAllItems(uid, expectedItemsAdded))
+      verify(() => mockCartRepository.setItemsList(uid, expectedItemsInCart))
           .called(1);
     }
 
@@ -69,7 +69,7 @@ void main() {
           Item(productId: '1', quantity: 1),
         ],
         itemsInCart: [],
-        expectedItemsAdded: [
+        expectedItemsInCart: [
           Item(productId: '1', quantity: 1),
         ],
       );
@@ -84,7 +84,7 @@ void main() {
           Item(productId: '1', quantity: 15),
         ],
         itemsInCart: [],
-        expectedItemsAdded: [
+        expectedItemsInCart: [
           Item(productId: '1', quantity: 10),
         ],
       );
@@ -102,8 +102,8 @@ void main() {
         itemsInCart: [
           Item(productId: '1', quantity: 1),
         ],
-        expectedItemsAdded: [
-          Item(productId: '1', quantity: 1),
+        expectedItemsInCart: [
+          Item(productId: '1', quantity: 2),
         ],
       );
     });
@@ -120,8 +120,8 @@ void main() {
         itemsInCart: [
           Item(productId: '1', quantity: 6),
         ],
-        expectedItemsAdded: [
-          Item(productId: '1', quantity: 4),
+        expectedItemsInCart: [
+          Item(productId: '1', quantity: 10),
         ],
       );
     });
@@ -141,8 +141,8 @@ void main() {
         itemsInCart: [
           Item(productId: '1', quantity: 6),
         ],
-        expectedItemsAdded: [
-          Item(productId: '1', quantity: 4),
+        expectedItemsInCart: [
+          Item(productId: '1', quantity: 10),
           Item(productId: '2', quantity: 1),
           // productId: '3' discarded as not found
         ],

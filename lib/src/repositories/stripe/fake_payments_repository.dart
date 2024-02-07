@@ -27,7 +27,6 @@ class FakePaymentsRepository implements PaymentsRepository {
 
   @override
   Future<void> presentPaymentSheet() async {
-    await delay(addDelay);
     final uid = authRepository.currentUser!.uid;
     await ordersRepository.placeOrder(uid);
   }
@@ -39,7 +38,6 @@ class FakePaymentsRepository implements PaymentsRepository {
     required app.Address address,
     required bool saveCard,
   }) async {
-    await delay(addDelay);
     final uid = authRepository.currentUser!.uid;
     await ordersRepository.placeOrder(uid);
   }
