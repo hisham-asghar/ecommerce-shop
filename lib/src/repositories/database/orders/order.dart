@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
 enum PaymentStatus { notPaid, paid }
@@ -57,7 +56,7 @@ class Order {
   final String userId;
 
   /// List of items in that order
-  final List<Item> items;
+  final Map<String, int> items;
   // final PaymentStatus paymentStatus;
   final OrderStatus orderStatus;
   final DateTime orderDate;
@@ -66,7 +65,7 @@ class Order {
   Order copyWith({
     String? id,
     String? userId,
-    List<Item>? items,
+    Map<String, int>? items,
     OrderStatus? orderStatus,
     DateTime? orderDate,
     //DateTime? deliveryDate,
@@ -100,7 +99,7 @@ class Order {
     return other is Order &&
         other.id == id &&
         other.userId == userId &&
-        listEquals(other.items, items) &&
+        mapEquals(other.items, items) &&
         other.orderStatus == orderStatus &&
         other.orderDate == orderDate &&
         other.total == total;
@@ -114,7 +113,7 @@ class Order {
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
-      'items': items.map((x) => x.toMap()).toList(),
+      'items': items,
       'orderStatus': orderStatus.rawString,
       'orderDate': orderDate.toIso8601String(),
       'total': total,
@@ -125,13 +124,24 @@ class Order {
     return Order(
       id: id,
       userId: map['userId'],
-      items: List<Item>.from(map['items']?.map(
-        (x) =>
-            Item.fromMap(Map<String, dynamic>.from(x as Map<Object?, Object?>)),
-      )),
+      items: _parseItems(map['items']),
       orderStatus: OrderStatusString.fromString(map['orderStatus']),
       orderDate: DateTime.parse(map['orderDate']),
       total: (map['total'] as num).toDouble(),
     );
+  }
+
+  // Helper method for backwards compatibility
+  // TODO: Simplify once data has been migrated
+  static Map<String, int> _parseItems(dynamic value) {
+    if (value is List<dynamic>) {
+      final items = List<Item>.from(value.map((x) => Item.fromMap(x)));
+      return Map<String, int>.fromEntries(
+          items.map((item) => MapEntry(item.productId, item.quantity)));
+    } else if (value is Map<String, dynamic>) {
+      return Map<String, int>.from(value);
+    } else {
+      throw ArgumentError('Invalid items: $value');
+    }
   }
 }

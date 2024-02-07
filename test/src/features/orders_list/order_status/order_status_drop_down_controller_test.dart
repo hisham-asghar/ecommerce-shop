@@ -10,7 +10,7 @@ import '../../../../mocks.dart';
 Order _fakeOrder() => Order(
       id: '123',
       userId: 'abc',
-      items: [],
+      items: {},
       orderStatus: OrderStatus.confirmed,
       orderDate: DateTime(2021, 10, 15),
       total: 100,

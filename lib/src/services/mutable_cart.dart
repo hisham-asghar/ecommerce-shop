@@ -1,41 +1,32 @@
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 
-/// Helper class used by FakeCartRepository
+/// Helper class used to mutate the items in the shopping cart.
 class MutableCart {
   MutableCart(this.items);
-  List<Item> items;
+  Map<String, int> items;
+
+  /// Helper constructor to initialize from a [Cart] object.
+  MutableCart.from(Cart cart) : items = cart.items;
+
+  /// Helper method to return an immutable [Cart] object.
+  Cart toCart() => Cart(items);
 
   void addItem(Item item) {
-    final productIds = items.map((item) => item.productId).toList();
-    final itemIndex = productIds.indexOf(item.productId);
-    // if item already exists, update quantity
-    if (itemIndex >= 0) {
-      final list = List<Item>.from(items);
-      list[itemIndex] = Item(
-          productId: item.productId,
-          quantity: item.quantity + items[itemIndex].quantity);
-      items = list;
-      // else insert as new item
+    if (items.containsKey(item.productId)) {
+      items[item.productId] = item.quantity + items[item.productId]!;
     } else {
-      final list = List<Item>.from(items);
-      list.add(item);
-      items = list;
+      items[item.productId] = item.quantity;
     }
   }
 
   void removeItem(Item item) {
-    final list = List<Item>.from(items);
-    list.remove(item);
-    items = list;
+    items.remove(item.productId);
   }
 
   bool updateItemIfExists(Item item) {
-    final productIds = items.map((item) => item.productId).toList();
-    final itemIndex = productIds.indexOf(item.productId);
-    if (itemIndex >= 0) {
-      final list = List<Item>.from(items);
-      list[itemIndex] = item;
-      items = list;
+    if (items.containsKey(item.productId)) {
+      items[item.productId] = item.quantity;
       return true;
     } else {
       return false;
@@ -43,6 +34,6 @@ class MutableCart {
   }
 
   void removeAll() {
-    items = [];
+    items = {};
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/fake_auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
@@ -35,27 +36,27 @@ void main() {
     Future<void> runCopyItemsToRemoteTest({
       required String uid,
       required List<Product> products,
-      required List<Item> itemsToAdd,
-      required List<Item> itemsInCart,
-      required List<Item> expectedItemsInCart,
+      required Map<String, int> itemsToAdd,
+      required Map<String, int> itemsInCart,
+      required Map<String, int> expectedItemsInCart,
     }) async {
       when(() => mockAuthRepository.currentUser)
           .thenReturn(FakeAppUser(uid: uid));
-      when(() => mockLocalCartRepository.fetchItemsList())
-          .thenAnswer((_) => Future.value(itemsToAdd));
+      when(() => mockLocalCartRepository.fetchCart())
+          .thenAnswer((_) => Future.value(Cart(itemsToAdd)));
       when(() => mockProductsRepository.fetchProductsList())
           .thenAnswer((_) => Future.value(products));
-      when(() => mockCartRepository.fetchItemsList(uid))
-          .thenAnswer((_) => Future.value(itemsInCart));
-      when(() => mockCartRepository.setItemsList(uid, expectedItemsInCart))
+      when(() => mockCartRepository.fetchCart(uid))
+          .thenAnswer((_) => Future.value(Cart(itemsInCart)));
+      when(() => mockCartRepository.setCart(uid, Cart(expectedItemsInCart)))
           .thenAnswer((_) => Future.value());
-      when(() => mockLocalCartRepository.setItemsList([]))
+      when(() => mockLocalCartRepository.setCart(Cart({})))
           .thenAnswer((_) => Future.value());
       final cartService = makeCartService();
       // run
       await cartService.copyItemsToRemote();
       // verify
-      verify(() => mockCartRepository.setItemsList(uid, expectedItemsInCart))
+      verify(() => mockCartRepository.setCart(uid, Cart(expectedItemsInCart)))
           .called(1);
     }
 
@@ -65,13 +66,9 @@ void main() {
         products: [
           makeProduct(id: '1', availableQuantity: 10),
         ],
-        itemsToAdd: [
-          Item(productId: '1', quantity: 1),
-        ],
-        itemsInCart: [],
-        expectedItemsInCart: [
-          Item(productId: '1', quantity: 1),
-        ],
+        itemsToAdd: {'1': 1},
+        itemsInCart: {},
+        expectedItemsInCart: {'1': 1},
       );
     });
     test('local quantity > available quantity', () async {
@@ -80,13 +77,9 @@ void main() {
         products: [
           makeProduct(id: '1', availableQuantity: 10),
         ],
-        itemsToAdd: [
-          Item(productId: '1', quantity: 15),
-        ],
-        itemsInCart: [],
-        expectedItemsInCart: [
-          Item(productId: '1', quantity: 10),
-        ],
+        itemsToAdd: {'1': 15},
+        itemsInCart: {},
+        expectedItemsInCart: {'1': 10},
       );
     });
 
@@ -96,15 +89,9 @@ void main() {
         products: [
           makeProduct(id: '1', availableQuantity: 10),
         ],
-        itemsToAdd: [
-          Item(productId: '1', quantity: 1),
-        ],
-        itemsInCart: [
-          Item(productId: '1', quantity: 1),
-        ],
-        expectedItemsInCart: [
-          Item(productId: '1', quantity: 2),
-        ],
+        itemsToAdd: {'1': 1},
+        itemsInCart: {'1': 1},
+        expectedItemsInCart: {'1': 2},
       );
     });
 
@@ -114,15 +101,9 @@ void main() {
         products: [
           makeProduct(id: '1', availableQuantity: 10),
         ],
-        itemsToAdd: [
-          Item(productId: '1', quantity: 6),
-        ],
-        itemsInCart: [
-          Item(productId: '1', quantity: 6),
-        ],
-        expectedItemsInCart: [
-          Item(productId: '1', quantity: 10),
-        ],
+        itemsToAdd: {'1': 6},
+        itemsInCart: {'1': 6},
+        expectedItemsInCart: {'1': 10},
       );
     });
 
@@ -133,19 +114,9 @@ void main() {
           makeProduct(id: '1', availableQuantity: 10),
           makeProduct(id: '2', availableQuantity: 10),
         ],
-        itemsToAdd: [
-          Item(productId: '1', quantity: 6),
-          Item(productId: '2', quantity: 1),
-          Item(productId: '3', quantity: 2),
-        ],
-        itemsInCart: [
-          Item(productId: '1', quantity: 6),
-        ],
-        expectedItemsInCart: [
-          Item(productId: '1', quantity: 10),
-          Item(productId: '2', quantity: 1),
-          // productId: '3' discarded as not found
-        ],
+        itemsToAdd: {'1': 6, '2': 1, '3': 2},
+        itemsInCart: {'1': 6},
+        expectedItemsInCart: {'1': 10, '2': 1},
       );
     });
   });

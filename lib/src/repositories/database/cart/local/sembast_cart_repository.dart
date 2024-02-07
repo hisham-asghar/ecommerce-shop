@@ -1,6 +1,5 @@
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/items_list.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -29,30 +28,29 @@ class SembastCartRepository implements LocalCartRepository {
   static const cartItemsKey = 'cartItems';
 
   @override
-  Future<List<Item>> fetchItemsList() async {
-    final itemsJson = await store.record(cartItemsKey).get(db) as String?;
-    if (itemsJson != null) {
-      return ItemsList.fromJson(itemsJson).items;
+  Future<Cart> fetchCart() async {
+    final cartJson = await store.record(cartItemsKey).get(db) as String?;
+    if (cartJson != null) {
+      return Cart.fromJson(cartJson);
     } else {
-      return [];
+      return Cart({});
     }
   }
 
   @override
-  Stream<List<Item>> watchItemsList() {
+  Stream<Cart> watchCart() {
     final record = store.record(cartItemsKey);
     return record.onSnapshot(db).map((snapshot) {
       if (snapshot != null) {
-        return ItemsList.fromJson(snapshot.value).items;
+        return Cart.fromJson(snapshot.value);
       } else {
-        return [];
+        return Cart({});
       }
     });
   }
 
   @override
-  Future<void> setItemsList(List<Item> items) async {
-    final itemsList = ItemsList(items);
-    await store.record(cartItemsKey).put(db, itemsList.toJson());
+  Future<void> setCart(Cart cart) async {
+    await store.record(cartItemsKey).put(db, cart.toJson());
   }
 }

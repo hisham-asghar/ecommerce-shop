@@ -43,29 +43,29 @@ async function checkItemsInStock(uid: string, firestore: FirebaseFirestore.Fires
     // First check that all products have sufficient stock
     const cartDocRef = firestore.doc(cartPath(uid))
     const cartDoc = await transaction.get(cartDocRef)
-    const { items } = cartDoc.data() ?? []
-    for (const item of items) {
-        // extract the items data
-        const { productId, quantity } = item
-        // find a matching product
-        const product = await transaction.get(firestore.doc(productPath(productId)))
-        if (product !== undefined) {
-            const { availableQuantity, title } = product.data()!
-            if (availableQuantity == 0) {
-            }
-            if (availableQuantity < quantity) {
-                console.log(`"${title}" is out of stock (requested ${quantity} items but only ${availableQuantity} are available)'`)
+    const data = cartDoc.data()
+    if (data !== undefined) {
+        const entries = Object.entries<number>(data.items)
+        for (const entry of entries) {
+            const [ productId, quantity ] = entry
+            // find a matching product
+            const product = await transaction.get(firestore.doc(productPath(productId)))
+            if (product !== undefined) {
+                const { availableQuantity, title } = product.data()!
+                if (availableQuantity < quantity) {
+                    console.log(`"${title}" is out of stock (requested ${quantity} items but only ${availableQuantity} are available)'`)
+                    throw new functions.https.HttpsError(
+                        'aborted',
+                        `"${title}" is out of stock. Please remove it from your cart or try again later.`
+                    )
+                }
+            } else {
+                console.log(`Attempted to purchase product with id: "${productId}", which is no longer available.`)
                 throw new functions.https.HttpsError(
                     'aborted',
-                    `"${title}" is out of stock. Please remove it from your cart or try again later.`
+                    `Attempted to purchase product with id: "${productId}", which is no longer available.`
                 )
             }
-        } else {
-            console.log(`Attempted to purchase product with id: "${productId}", which is no longer available.`)
-            throw new functions.https.HttpsError(
-                'aborted',
-                `Attempted to purchase product with id: "${productId}", which is no longer available.`
-            )
         }
     }
 }
@@ -90,13 +90,14 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
 
             const cartDocRef = firestore.doc(cartPath(uid))
             const cartDoc = await transaction.get(cartDocRef)
-            const { items } = cartDoc.data() ?? []
-                    
+
+            const data = cartDoc.data() ?? []
+            const entries = Object.entries<number>(data.items)
+  
             // Calculate new available quantity for products
             var products = new Array()
-            for (const item of items) {
-                // extract the items data
-                const { productId, quantity } = item
+            for (const entry of entries) {
+                const [ productId, quantity ] = entry
                 // find a matching product
                 const productRef = firestore.doc(productPath(productId))
                 const product = await transaction.get(productRef)
@@ -125,7 +126,7 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
                 'total': cartTotal,
                 'orderStatus': 'confirmed',
                 'orderDate': orderDate,
-                'items': items,
+                'items': data.items,
                 'payment': {
                     'id': pi.id,
                     'amount': pi.amount,
@@ -137,9 +138,9 @@ export async function fullfillOrder(pi: Stripe.PaymentIntent) {
             await transaction.set(newDocRef, orderData)
 
             // Write product purchase details by user
-            for (const item of items) {
+            for (const entry of entries) {
                 // extract the items data
-                const { productId } = item
+                const [ productId ] = entry
                 const purchaseRef = firestore.doc(productPurchasePath(productId, uid))
                 const purchaseData = {
                     'orderId': newDocRef.id,
@@ -162,22 +163,25 @@ async function calculateCartTotal(uid: string, firestore: FirebaseFirestore.Fire
     // iterate through all the cart items
     const cartDocRef = firestore.doc(cartPath(uid))
     const cartDoc = await transaction.get(cartDocRef)
-    const { items } = cartDoc.data() ?? []
-    for (const item of items) {
-        // extract the items data
-        const { productId, quantity } = item
-        // find a matching product
-        const product = await transaction.get(firestore.doc(productPath(productId)))
-        if (product !== undefined) {
-            const { price } = product.data()!
-            const itemPrice = price * quantity
-            updatedPrice += itemPrice
-        } else {
-            console.warn(`Could not find product with id: ${productId}`)
-            throw new functions.https.HttpsError(
-                'aborted',
-                `Could not find product with id: ${productId}`
-            )
+    const data = cartDoc.data()
+    if (data !== undefined) {
+        const entries = Object.entries<number>(data.items)
+        for (const entry of entries) {
+            // extract the items data
+            const [ productId, quantity ] = entry
+            // find a matching product
+            const product = await transaction.get(firestore.doc(productPath(productId)))
+            if (product !== undefined) {
+                const { price } = product.data()!
+                const itemPrice = price * quantity
+                updatedPrice += itemPrice
+            } else {
+                console.warn(`Could not find product with id: ${productId}`)
+                throw new functions.https.HttpsError(
+                    'aborted',
+                    `Could not find product with id: ${productId}`
+                )
+            }
         }
     }
     return updatedPrice

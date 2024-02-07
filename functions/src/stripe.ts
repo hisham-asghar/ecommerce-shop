@@ -96,7 +96,9 @@ export async function stripeWebhook(req: functions.https.Request, res: functions
         res.sendStatus(400)
         return
     }
-
+    // To get the event without signature verification, use this instead (not recommended):
+    // const event: Stripe.Event = req.body
+    
     // Extract the data from the event.
     const data: Stripe.Event.Data = event.data
     const eventType: string = event.type

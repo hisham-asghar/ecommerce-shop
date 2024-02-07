@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 
 abstract class CartRepository {
-  Future<List<Item>> fetchItemsList(String uid);
+  Future<Cart> fetchCart(String uid);
 
-  Stream<List<Item>> watchItemsList(String uid);
+  Stream<Cart> watchCart(String uid);
 
-  Future<void> setItemsList(String uid, List<Item> items);
+  Future<void> setCart(String uid, Cart cart);
 }
 
 final cartRepositoryProvider = Provider<CartRepository>((ref) {

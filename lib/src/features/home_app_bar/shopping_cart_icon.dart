@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
@@ -16,9 +17,9 @@ class ShoppingCartIcon extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final itemsValue = ref.watch(cartItemsListProvider);
-    final itemsCount =
-        itemsValue.maybeWhen(data: (items) => items.length, orElse: () => null);
+    final cartValue = ref.watch(cartProvider);
+    final cartItemsCount = cartValue.maybeWhen(
+        data: (cart) => cart.items.length, orElse: () => null);
     return Stack(
       children: [
         Center(
@@ -28,11 +29,11 @@ class ShoppingCartIcon extends ConsumerWidget {
             onPressed: () => context.pushNamed(AppRoute.cart.name),
           ),
         ),
-        if (itemsCount != null && itemsCount > 0)
+        if (cartItemsCount != null && cartItemsCount > 0)
           Positioned(
             top: Sizes.p4,
             right: Sizes.p4,
-            child: ShoppingCartIconBadge(itemsCount: itemsCount),
+            child: ShoppingCartIconBadge(itemsCount: cartItemsCount),
           ),
       ],
     );
@@ -78,9 +79,9 @@ class _ShoppingCartIconBadgeState extends ConsumerState<ShoppingCartIconBadge>
   @override
   Widget build(BuildContext context) {
     // Use a provider listener to forward the animation and make the badge "bounce"
-    ref.listen<AsyncValue<List<Item>>>(cartItemsListProvider, (_, itemsValue) {
-      final itemsCount =
-          itemsValue.maybeWhen(data: (items) => items.length, orElse: () => 0);
+    ref.listen<AsyncValue<Cart>>(cartProvider, (_, cartValue) {
+      final itemsCount = cartValue.maybeWhen(
+          data: (cart) => cart.items.length, orElse: () => 0);
       if (itemsCount > 0) {
         _animationController.forward();
       }

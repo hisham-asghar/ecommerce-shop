@@ -1,3 +1,4 @@
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
@@ -7,19 +8,19 @@ class FakeLocalCartRepository implements LocalCartRepository {
   FakeLocalCartRepository({this.addDelay = true});
   final bool addDelay;
 
-  final _cart = InMemoryStore<List<Item>>([]);
+  final _cart = InMemoryStore<Cart>(Cart({}));
 
   @override
-  Future<List<Item>> fetchItemsList() {
+  Future<Cart> fetchCart() {
     return Future.value(_cart.value);
   }
 
   @override
-  Stream<List<Item>> watchItemsList() => _cart.stream;
+  Stream<Cart> watchCart() => _cart.stream;
 
   @override
-  Future<void> setItemsList(List<Item> items) async {
+  Future<void> setCart(Cart cart) async {
     await delay(addDelay);
-    _cart.value = items;
+    _cart.value = cart;
   }
 }

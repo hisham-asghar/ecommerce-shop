@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/fake_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
@@ -38,25 +38,25 @@ class FakeOrdersRepository implements OrdersRepository {
   Future<Order> placeOrder(String uid) async {
     // TODO: This should pull all the data from the shopping cart
     await delay(addDelay);
-    final items = await cartRepository.fetchItemsList(uid);
+    final cart = await cartRepository.fetchCart(uid);
     // First, make sure all items are available
-    for (var item in items) {
-      final product = productsRepository.getProduct(item.productId);
-      if (product.availableQuantity < item.quantity) {
+    for (var entry in cart.items.entries) {
+      final product = productsRepository.getProduct(entry.key);
+      if (product.availableQuantity < entry.value) {
         throw AssertionError(
-            'Can\'t purchase ${item.quantity} quantity of $product');
+            'Can\'t purchase ${entry.value} quantity of $product');
       }
     }
     // then, place the order
     final value = _orders.value;
     final userOrders = value[uid] ?? [];
-    final total = _totalPrice(items);
+    final total = _totalPrice(cart);
     final orderDate = DateTime.now();
     final orderId = const Uuid().v1();
     final order = Order(
       id: orderId,
       userId: uid,
-      items: items,
+      items: cart.items,
       // TODO: Update with real payment status
       // paymentStatus: PaymentStatus.paid,
       orderStatus: OrderStatus.confirmed,
@@ -67,19 +67,19 @@ class FakeOrdersRepository implements OrdersRepository {
     value[uid] = userOrders;
     _orders.value = value;
     // and update all the product quantities
-    for (var item in items) {
-      final product = productsRepository.getProduct(item.productId);
+    for (var entry in cart.items.entries) {
+      final product = productsRepository.getProduct(entry.key);
       final updated = product.copyWith(
-          availableQuantity: product.availableQuantity - item.quantity);
+          availableQuantity: product.availableQuantity - entry.value);
       await productsRepository.updateProduct(updated);
       // Update reviews repository with purchase order data
       await reviewsRepository.addPurchase(
-        productId: item.productId,
+        productId: entry.key,
         uid: uid,
         purchase: Purchase(orderId: orderId, orderDate: orderDate),
       );
     }
-    await cartRepository.setItemsList(uid, []);
+    await cartRepository.setCart(uid, Cart({}));
     return order;
   }
 
@@ -115,13 +115,17 @@ class FakeOrdersRepository implements OrdersRepository {
   }
 
   // Helper method
-  double _totalPrice(List<Item> items) => items.isEmpty
-      ? 0.0
-      : items
-          // first extract quantity * price for each item
-          .map((item) =>
-              item.quantity *
-              productsRepository.getProduct(item.productId).price)
-          // then add them up
-          .reduce((value, element) => value + element);
+  double _totalPrice(Cart cart) {
+    if (cart.items.isEmpty) {
+      return 0.0;
+    }
+
+    return cart.items.entries
+        // first extract quantity * price for each item
+        .map((entry) =>
+            entry.value * // quantity
+            productsRepository.getProduct(entry.key).price) // price
+        // then add them up
+        .reduce((value, element) => value + element);
+  }
 }

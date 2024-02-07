@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';
@@ -7,22 +7,22 @@ class FakeCartRepository implements CartRepository {
   FakeCartRepository({this.addDelay = true});
   final bool addDelay;
 
-  final _cart = InMemoryStore<Map<String, List<Item>>>({});
+  final _cart = InMemoryStore<Map<String, Cart>>({});
 
   @override
-  Future<List<Item>> fetchItemsList(String uid) {
-    return Future.value(_cart.value[uid] ?? []);
+  Future<Cart> fetchCart(String uid) {
+    return Future.value(_cart.value[uid] ?? Cart({}));
   }
 
   @override
-  Stream<List<Item>> watchItemsList(String uid) {
+  Stream<Cart> watchCart(String uid) {
     return _cart.stream.map((cartData) {
-      return cartData[uid] ?? [];
+      return cartData[uid] ?? Cart({});
     });
   }
 
   @override
-  Future<void> setItemsList(String uid, List<Item> items) async {
+  Future<void> setCart(String uid, Cart items) async {
     await delay(addDelay);
     // First, get the current cart data
     final value = _cart.value;

@@ -6,7 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_items_builder.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 
@@ -17,25 +17,27 @@ class ShoppingCartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final itemsValue = ref.watch(cartItemsListProvider);
+    final cartValue = ref.watch(cartProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(context.loc.shoppingCart),
       ),
-      body: AsyncValueWidget<List<Item>>(
-        value: itemsValue,
-        data: (items) => ShoppingCartItemsBuilder(
-          items: items,
-          itemBuilder: (_, item, index) => ShoppingCartItem(
-            item: item,
-            itemIndex: index,
-          ),
-          ctaBuilder: (_) => PrimaryButton(
-            text: context.loc.checkout,
-            onPressed: () => context.goNamed(AppRoute.checkout.name),
-          ),
-        ),
-      ),
+      body: AsyncValueWidget<Cart>(
+          value: cartValue,
+          data: (cart) {
+            final items = cart.toItemsList();
+            return ShoppingCartItemsBuilder(
+              items: items,
+              itemBuilder: (_, item, index) => ShoppingCartItem(
+                item: item,
+                itemIndex: index,
+              ),
+              ctaBuilder: (_) => PrimaryButton(
+                text: context.loc.checkout,
+                onPressed: () => context.goNamed(AppRoute.checkout.name),
+              ),
+            );
+          }),
     );
   }
 }

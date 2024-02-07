@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
 import 'package:riverpod/riverpod.dart';
@@ -15,9 +16,7 @@ void main() {
     test('item not in cart', () async {
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
-        overrides: [
-          cartItemsListProvider.overrideWithValue(const AsyncValue.data([]))
-        ],
+        overrides: [cartProvider.overrideWithValue(AsyncValue.data(Cart({})))],
       );
       addTearDown(container.dispose);
       final provider = itemAvailableQuantityProvider(product);
@@ -41,11 +40,10 @@ void main() {
     });
 
     test('item in cart with quantity = 1', () async {
-      final item = Item(productId: '1', quantity: 1);
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
         overrides: [
-          cartItemsListProvider.overrideWithValue(AsyncValue.data([item]))
+          cartProvider.overrideWithValue(AsyncValue.data(Cart({'1': 1})))
         ],
       );
       addTearDown(container.dispose);
@@ -56,11 +54,10 @@ void main() {
     });
 
     test('item in cart with quantity = max', () async {
-      final item = Item(productId: '1', quantity: 5);
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
         overrides: [
-          cartItemsListProvider.overrideWithValue(AsyncValue.data([item]))
+          cartProvider.overrideWithValue(AsyncValue.data(Cart({'1': 5})))
         ],
       );
       addTearDown(container.dispose);
@@ -70,11 +67,10 @@ void main() {
       expect(value, 0);
     });
     test('item in cart with quantity > max', () async {
-      final item = Item(productId: '1', quantity: 6);
       final product = makeProduct(id: '1', availableQuantity: 5);
       final container = ProviderContainer(
         overrides: [
-          cartItemsListProvider.overrideWithValue(AsyncValue.data([item]))
+          cartProvider.overrideWithValue(AsyncValue.data(Cart({'1': 6})))
         ],
       );
       addTearDown(container.dispose);
