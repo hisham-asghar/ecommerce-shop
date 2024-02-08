@@ -148,6 +148,7 @@ final cartProvider = StreamProvider.autoDispose<Cart>((ref) {
 
 // Using a regular Provider so that we don't have to deal with async UI updates
 final cartTotalProvider = Provider.autoDispose<double>((ref) {
+  // TODO Fix this: https://github.com/bizz84/my_shop_ecommerce_flutter/issues/239
   final productsListValue = ref.watch(productsListProvider);
   final productsList = productsListValue.value ?? [];
   final cart = ref.watch(cartProvider).value ?? const Cart();
