@@ -6,7 +6,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.d
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/not_found/empty_placeholder_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 
 /// Responsive widget showing the cart items and the checkout button
 class ShoppingCartItemsBuilder extends ConsumerWidget {

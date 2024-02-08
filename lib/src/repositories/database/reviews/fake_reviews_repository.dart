@@ -1,5 +1,5 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purchase.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/purchase.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';

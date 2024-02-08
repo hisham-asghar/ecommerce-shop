@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 
 class Cart {
   const Cart([this.items = const {}]);

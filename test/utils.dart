@@ -1,5 +1,5 @@
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 
 Product makeProduct({required String id, required int availableQuantity}) =>
     Product(

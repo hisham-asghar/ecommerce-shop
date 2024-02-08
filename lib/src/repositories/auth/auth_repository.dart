@@ -1,13 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-abstract class AppUser {
-  String get uid;
-  String? get email;
-
-  Future<bool> isAdminUser();
-}
+import 'package:my_shop_ecommerce_flutter/src/models/app_user.dart';
 
 abstract class AuthRepository {
   Future<void> signInAnonymously();

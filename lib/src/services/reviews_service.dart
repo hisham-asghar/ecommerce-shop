@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/purchase.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purchase.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 
 class ReviewsService {

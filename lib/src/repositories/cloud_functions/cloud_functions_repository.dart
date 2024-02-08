@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/order_payment_intent.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order_payment_intent.dart';
 
 abstract class CloudFunctionsRepository {
   Future<OrderPaymentIntent> createOrderPaymentIntent(String uid);

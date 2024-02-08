@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_scrollable_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/address_service.dart';
 
 /// A page where the user can enter and submit all the address details.

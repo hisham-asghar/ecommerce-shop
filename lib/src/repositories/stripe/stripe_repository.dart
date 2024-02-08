@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/order_payment_intent.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart'
-    as app;
+import 'package:my_shop_ecommerce_flutter/src/models/order_payment_intent.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/address.dart' as app;
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 
 class StripeRepository implements PaymentsRepository {

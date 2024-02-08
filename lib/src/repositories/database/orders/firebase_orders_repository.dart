@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 
 class FirebaseOrdersRepository implements OrdersRepository {

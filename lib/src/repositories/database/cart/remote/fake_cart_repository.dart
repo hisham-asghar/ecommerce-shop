@@ -1,4 +1,4 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';

@@ -1,5 +1,5 @@
+import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';

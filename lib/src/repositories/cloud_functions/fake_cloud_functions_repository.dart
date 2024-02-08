@@ -1,5 +1,5 @@
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/order_payment_intent.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order_payment_intent.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/fake_orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 

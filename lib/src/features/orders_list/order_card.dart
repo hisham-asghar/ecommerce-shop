@@ -5,8 +5,8 @@ import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_item_li
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_drop_down/order_status_drop_down.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_status_label.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/item.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/currency_formatter.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 

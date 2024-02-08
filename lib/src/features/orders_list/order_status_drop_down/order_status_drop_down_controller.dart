@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

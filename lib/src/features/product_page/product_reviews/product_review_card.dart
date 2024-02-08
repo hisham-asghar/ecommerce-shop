@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_reviews/product_rating_bar.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/date_formatter.dart';
 
 /// Simple card widget to show a product review info (score, comment, date)

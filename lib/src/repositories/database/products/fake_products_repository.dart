@@ -1,6 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/in_memory_store.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 
 abstract class LocalCartRepository {
   Future<Cart> fetchCart();

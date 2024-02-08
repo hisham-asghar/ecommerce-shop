@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/fake_auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/fake_app_user.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/address.dart';
 
 import '../../../mocks.dart';
 

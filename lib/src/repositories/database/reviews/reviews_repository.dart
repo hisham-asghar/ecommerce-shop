@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purchase.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/purchase.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/review.dart';
 
 abstract class ReviewsRepository {
   /// Product purchase information for a given user

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purchase.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/purchase.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 
 class FirebaseReviewsRepository implements ReviewsRepository {

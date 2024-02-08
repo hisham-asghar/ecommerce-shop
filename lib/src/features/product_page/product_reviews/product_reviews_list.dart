@@ -4,7 +4,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_reviews/product_review_card.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/review.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/review.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/reviews_service.dart';
 
 /// Shows the list of reviews for a given product ID

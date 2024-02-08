@@ -5,7 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.d
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/orders_list/order_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/user_orders_service.dart';
 
 /// Shows the list of orders placed by the signed-in user.

@@ -1,8 +1,8 @@
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/purchase.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/fake_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/purchase.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/fake_products_repository.dart';
