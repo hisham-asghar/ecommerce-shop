@@ -1,16 +1,13 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/mutable_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 
 class CartService {
@@ -18,14 +15,10 @@ class CartService {
     required this.authRepository,
     required this.cartRepository,
     required this.localCartRepository,
-    required this.productsRepository,
-    required this.cloudFunctions,
   });
   final AuthRepository authRepository;
   final CartRepository cartRepository;
   final LocalCartRepository localCartRepository;
-  final ProductsRepository productsRepository;
-  final CloudFunctionsRepository cloudFunctions;
 
   /// helper method to fetch the items list from the local or remote cart
   /// depending on the user auth state
@@ -72,65 +65,16 @@ class CartService {
     await _setCart(updated);
   }
 
-  /// copies all items from the local to the remote cart taking into account the
-  /// available quantities
-  Future<void> copyItemsToRemote() async {
-    final user = authRepository.currentUser;
-    if (user != null) {
-      try {
-        final localCart = await localCartRepository.fetchCart();
-        if (localCart.items.isNotEmpty) {
-          // Get the available quantity for each product (by id)
-          final products = await productsRepository.fetchProductsList();
-          var availableQuantities = <String, int>{};
-          for (final product in products) {
-            availableQuantities[product.id] = product.availableQuantity;
-          }
-          // Cap the quantity of each item to the available quantity
-          final remoteCart = await cartRepository.fetchCart(user.uid);
-          final localItemsToAdd = <Item>[];
-          for (final localItem in localCart.items.entries) {
-            final remoteQuantity = remoteCart.items[localItem.key] ?? 0;
-            final availableQuantity = availableQuantities[localItem.key];
-            if (availableQuantity != null) {
-              final newAvailableQuantity = availableQuantity - remoteQuantity;
-              final localItemQuantity =
-                  min(localItem.value, newAvailableQuantity);
-              localItemsToAdd.add(
-                  Item(productId: localItem.key, quantity: localItemQuantity));
-            } else {
-              debugPrint('Product with id ${localItem.key} not found');
-            }
-          }
-          // Add all items to the remote cart
-          final updatedCart = remoteCart.addItems(localItemsToAdd);
-          await cartRepository.setCart(user.uid, updatedCart);
-          // Remove all items from the local cart
-          await localCartRepository.setCart(const Cart());
-        }
-      } catch (e, _) {
-        // TODO: Report error
-        debugPrint(e.toString());
-        rethrow;
-      }
-    } else {
-      throw AssertionError('user uid == null');
-    }
-  }
 }
 
 final cartServiceProvider = Provider<CartService>((ref) {
   final cartRepository = ref.watch(cartRepositoryProvider);
   final localCartRepository = ref.watch(localCartRepositoryProvider);
-  final productsRepository = ref.watch(productsRepositoryProvider);
   final authRepository = ref.watch(authRepositoryProvider);
-  final cloudFunctions = ref.watch(cloudFunctionsRepositoryProvider);
   return CartService(
     authRepository: authRepository,
     cartRepository: cartRepository,
     localCartRepository: localCartRepository,
-    productsRepository: productsRepository,
-    cloudFunctions: cloudFunctions,
   );
 });
 

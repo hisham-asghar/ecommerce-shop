@@ -1,15 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/fake_app_user.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 import '../../mocks.dart';
 
 void main() {
+  const fakeUserId = '123';
+  const fakeUser = FakeAppUser(uid: fakeUserId);
   late MockAuthRepository mockAuthRepository;
-  late MockCartService mockCartService;
+  late MockCartSyncService mockCartSyncService;
   setUp(() {
     mockAuthRepository = MockAuthRepository();
-    mockCartService = MockCartService();
+    mockCartSyncService = MockCartSyncService();
     // Fallback value for email anad password
     registerFallbackValue('');
   });
@@ -21,11 +24,12 @@ void main() {
             captureAny(),
             captureAny(),
           )).thenAnswer((invocation) => Future.value());
-      when(() => mockCartService.copyItemsToRemote())
+      when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
+      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId))
           .thenAnswer((invocation) => Future.value());
       final authService = AuthService(
         authRepository: mockAuthRepository,
-        cartService: mockCartService,
+        cartSyncService: mockCartSyncService,
       );
       // run & verify
       expect(
@@ -42,10 +46,11 @@ void main() {
             captureAny(),
             captureAny(),
           )).thenAnswer((invocation) => Future.value());
-      when(() => mockCartService.copyItemsToRemote()).thenThrow(exception);
+      when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
+      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId)).thenThrow(exception);
       final authService = AuthService(
         authRepository: mockAuthRepository,
-        cartService: mockCartService,
+        cartSyncService: mockCartSyncService,
       );
       // run & verify
       expect(
@@ -64,14 +69,14 @@ void main() {
           )).thenThrow(exception);
       final authService = AuthService(
         authRepository: mockAuthRepository,
-        cartService: mockCartService,
+        cartSyncService: mockCartSyncService,
       );
       // run & verify
       expect(
         () => authService.signInWithEmailAndPassword('email', 'password'),
         throwsA(isA<Exception>()),
       );
-      verifyNever(() => mockCartService.copyItemsToRemote());
+      verifyNever(() => mockCartSyncService.moveItemsToRemote(fakeUserId));
     });
   });
 
@@ -83,11 +88,12 @@ void main() {
             captureAny(),
             captureAny(),
           )).thenAnswer((invocation) => Future.value());
-      when(() => mockCartService.copyItemsToRemote())
+      when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
+      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId))
           .thenAnswer((invocation) => Future.value());
       final authService = AuthService(
         authRepository: mockAuthRepository,
-        cartService: mockCartService,
+        cartSyncService: mockCartSyncService,
       );
       // run & verify
       expect(
@@ -104,10 +110,11 @@ void main() {
             captureAny(),
             captureAny(),
           )).thenAnswer((invocation) => Future.value());
-      when(() => mockCartService.copyItemsToRemote()).thenThrow(exception);
+      when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
+      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId)).thenThrow(exception);
       final authService = AuthService(
         authRepository: mockAuthRepository,
-        cartService: mockCartService,
+        cartSyncService: mockCartSyncService,
       );
       // run & verify
       expect(
@@ -126,14 +133,14 @@ void main() {
           )).thenThrow(exception);
       final authService = AuthService(
         authRepository: mockAuthRepository,
-        cartService: mockCartService,
+        cartSyncService: mockCartSyncService,
       );
       // run & verify
       expect(
         () => authService.createUserWithEmailAndPassword('email', 'password'),
         throwsA(isA<Exception>()),
       );
-      verifyNever(() => mockCartService.copyItemsToRemote());
+      verifyNever(() => mockCartSyncService.moveItemsToRemote(fakeUserId));
     });
   });
 
@@ -146,14 +153,14 @@ void main() {
           )).thenAnswer((invocation) => Future.value());
       final authService = AuthService(
         authRepository: mockAuthRepository,
-        cartService: mockCartService,
+        cartSyncService: mockCartSyncService,
       );
       // run & verify
       expect(
         () => authService.sendPasswordResetEmail('email'),
         returnsNormally,
       );
-      verifyNever(() => mockCartService.copyItemsToRemote());
+      verifyNever(() => mockCartSyncService.moveItemsToRemote(fakeUserId));
     });
   });
 }

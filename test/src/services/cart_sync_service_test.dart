@@ -1,36 +1,29 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/fake_app_user.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_sync_service.dart';
 
 import '../../mocks.dart';
 import '../../utils.dart';
 
 void main() {
   group('copyItemsToRemote', () {
-    late MockAuthRepository mockAuthRepository;
     late MockCartRepository mockCartRepository;
     late MockLocalCartRepository mockLocalCartRepository;
     late MockProductsRepository mockProductsRepository;
-    late MockCloudFunctionsRepository mockCloudFunctionsRepository;
     setUp(() {
-      mockAuthRepository = MockAuthRepository();
       mockCartRepository = MockCartRepository();
       mockLocalCartRepository = MockLocalCartRepository();
       mockProductsRepository = MockProductsRepository();
-      mockCloudFunctionsRepository = MockCloudFunctionsRepository();
       registerFallbackValue(<Item>[]);
     });
 
-    CartService makeCartService() => CartService(
-          authRepository: mockAuthRepository,
+    CartSyncService makeCartService() => CartSyncService(
           cartRepository: mockCartRepository,
           localCartRepository: mockLocalCartRepository,
           productsRepository: mockProductsRepository,
-          cloudFunctions: mockCloudFunctionsRepository,
         );
 
     Future<void> runCopyItemsToRemoteTest({
@@ -40,8 +33,6 @@ void main() {
       required Map<String, int> itemsInCart,
       required Map<String, int> expectedItemsInCart,
     }) async {
-      when(() => mockAuthRepository.currentUser)
-          .thenReturn(FakeAppUser(uid: uid));
       when(() => mockLocalCartRepository.fetchCart())
           .thenAnswer((_) => Future.value(Cart(itemsToAdd)));
       when(() => mockProductsRepository.fetchProductsList())
@@ -54,7 +45,7 @@ void main() {
           .thenAnswer((_) => Future.value());
       final cartService = makeCartService();
       // run
-      await cartService.copyItemsToRemote();
+      await cartService.moveItemsToRemote(uid);
       // verify
       verify(() => mockCartRepository.setCart(uid, Cart(expectedItemsInCart)))
           .called(1);

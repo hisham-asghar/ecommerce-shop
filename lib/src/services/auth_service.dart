@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_sync_service.dart';
 
 class AuthService {
-  AuthService({required this.authRepository, required this.cartService});
+  AuthService({required this.authRepository, required this.cartSyncService});
   final AuthRepository authRepository;
-  final CartService cartService;
+  final CartSyncService cartSyncService;
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
       await authRepository.signInWithEmailAndPassword(email, password);
-      await cartService.copyItemsToRemote();
+      await cartSyncService.moveItemsToRemote(authRepository.currentUser!.uid);
     } catch (e) {
       // TODO: map errors
       rethrow;
@@ -21,7 +21,7 @@ class AuthService {
       String email, String password) async {
     try {
       await authRepository.createUserWithEmailAndPassword(email, password);
-      await cartService.copyItemsToRemote();
+      await cartSyncService.moveItemsToRemote(authRepository.currentUser!.uid);
     } catch (e) {
       // TODO: map errors
       rethrow;
@@ -40,6 +40,6 @@ class AuthService {
 
 final authServiceProvider = Provider<AuthService>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  final cartService = ref.watch(cartServiceProvider);
-  return AuthService(authRepository: authRepository, cartService: cartService);
+  final cartSyncService = ref.watch(cartSyncServiceProvider);
+  return AuthService(authRepository: authRepository, cartSyncService: cartSyncService);
 });

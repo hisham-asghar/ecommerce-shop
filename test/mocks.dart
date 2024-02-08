@@ -8,6 +8,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/order
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/services/cart_sync_service.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
@@ -22,6 +23,8 @@ class MockCloudFunctionsRepository extends Mock
     implements CloudFunctionsRepository {}
 
 class MockCartService extends Mock implements CartService {}
+
+class MockCartSyncService extends Mock implements CartSyncService {}
 
 class MockAddressRepository extends Mock implements AddressRepository {}
 
