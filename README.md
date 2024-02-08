@@ -23,6 +23,7 @@ There is also an official documentation site for this project, which can be foun
   - Confirmation
 - Purchase flow with Stripe integration
 - Order History
+- Product reviews/ratings
 - User Authentication
 - Admin Section
   - Manage products
@@ -53,7 +54,6 @@ The backend uses the following Firebase services:
 
 - Improve test coverage
 - Pagination for products list
-- Product reviews/ratings
 
 ## Architecture
 
