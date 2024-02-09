@@ -1,10 +1,12 @@
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+
 /// A product along with a quantity that can be added to an order/cart
 class Item {
   Item({
     required this.productId,
     required this.quantity,
   });
-  final String productId;
+  final ProductID productId;
   final int quantity;
 
   @override
@@ -23,7 +25,7 @@ class Item {
   String toString() => 'Item(productId: $productId, quantity: $quantity)';
 
   Item copyWith({
-    String? productId,
+    ProductID? productId,
     int? quantity,
   }) {
     return Item(

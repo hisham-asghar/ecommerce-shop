@@ -1,3 +1,5 @@
+typedef ProductID = String;
+
 class Product {
   Product({
     required this.id,
@@ -11,7 +13,7 @@ class Product {
   });
 
   /// Unique id
-  final String id;
+  final ProductID id;
   final String imageUrl;
   final String title;
   final String description;
@@ -19,10 +21,9 @@ class Product {
   final int availableQuantity;
   final double avgRating;
   final int numRatings;
-  // TODO: Add reviews
 
   Product copyWith({
-    String? id,
+    ProductID? id,
     String? imageUrl,
     String? title,
     String? description,
@@ -61,7 +62,7 @@ class Product {
     };
   }
 
-  factory Product.fromMap(Map<String, dynamic> map, String id) {
+  factory Product.fromMap(Map<String, dynamic> map, ProductID id) {
     return Product(
       id: id,
       imageUrl: map['imageUrl'],

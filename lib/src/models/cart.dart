@@ -2,13 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+
 
 class Cart {
   const Cart([this.items = const {}]);
   /// All the items in the shopping cart, where:
   /// - key: product ID
   /// - value: quantity
-  final Map<String, int> items;
+  final Map<ProductID, int> items;
 
   Map<String, dynamic> toMap() {
     return {
@@ -22,7 +24,7 @@ class Cart {
 
   // Helper method for backwards compatibility
   // TODO: Simplify once data has been migrated
-  static Map<String, int> _parseItems(dynamic value) {
+  static Map<ProductID, int> _parseItems(dynamic value) {
     if (value is List<dynamic>) {
       final items = List<Item>.from(value.map((x) => Item.fromMap(x)));
       return Map<String, int>.fromEntries(
