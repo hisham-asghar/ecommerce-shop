@@ -1,7 +1,7 @@
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 
-/// Helper class used to mutate the items in the shopping cart.
+/// Helper extension used to mutate the items in the shopping cart.
 extension MutableCart on Cart {
   Cart addItem(Item item) {
     final copy = Map<String, int>.from(items);
@@ -25,9 +25,9 @@ extension MutableCart on Cart {
     return Cart(copy);
   }
 
-  Cart removeItem(Item item) {
+  Cart removeItemById(String productId) {
     final copy = Map<String, int>.from(items);
-    copy.remove(item.productId);
+    copy.remove(productId);
     return Cart(copy);
   }
 

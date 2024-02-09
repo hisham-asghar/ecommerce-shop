@@ -53,7 +53,7 @@ class CartService {
   /// state
   Future<void> removeItem(Item item) async {
     final cart = await _fetchCart();
-    final updated = cart.removeItem(item);
+    final updated = cart.removeItemById(item.productId);
     await _setCart(updated);
   }
 

@@ -9,7 +9,7 @@ void main() {
       final cart = const Cart().addItem(Item(productId: '1', quantity: 1));
       expect(cart.items, {'1': 1});
     });
-    test('non-empty cart - add new item', () {
+    test('empty cart - add two items', () {
       final cart = const Cart()
           .addItem(Item(productId: '1', quantity: 1))
           .addItem(Item(productId: '2', quantity: 1));
@@ -18,7 +18,7 @@ void main() {
         '2': 1,
       });
     });
-    test('non-empty cart - add existing item', () {
+    test('empty cart - add same item twice', () {
       final cart = const Cart()
           .addItem(Item(productId: '1', quantity: 1))
           .addItem(Item(productId: '1', quantity: 1));
@@ -27,19 +27,19 @@ void main() {
   });
   group('remove item', () {
     test('empty cart - remove item', () {
-      final cart = const Cart().removeItem(Item(productId: '1', quantity: 1));
+      final cart = const Cart().removeItemById('1');
       expect(cart.items, {});
     });
     test('empty cart - remove matching item', () {
       final cart = const Cart()
           .addItem(Item(productId: '1', quantity: 1))
-          .removeItem(Item(productId: '1', quantity: 1));
+          .removeItemById('1');
       expect(cart.items, {});
     });
     test('empty cart - remove non-matching item', () {
       final cart = const Cart()
           .addItem(Item(productId: '2', quantity: 1))
-          .removeItem(Item(productId: '1', quantity: 1));
+          .removeItemById('1');
       expect(cart.items, {'2': 1});
     });
   });
