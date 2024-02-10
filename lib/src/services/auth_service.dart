@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/cart_sync_service.dart';
 
@@ -7,33 +9,38 @@ class AuthService {
   final AuthRepository authRepository;
   final CartSyncService cartSyncService;
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
+  Future<Result<AuthException, void>> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       await authRepository.signInWithEmailAndPassword(email, password);
       await cartSyncService.moveItemsToRemote(authRepository.currentUser!.uid);
-    } catch (e) {
-      // TODO: map errors
-      rethrow;
+      return const Success(null);
+    } on AuthException catch (e) {
+      // TODO: Error reporting
+      return Error(e);
     }
   }
 
-  Future<void> createUserWithEmailAndPassword(
+  Future<Result<AuthException, void>> createUserWithEmailAndPassword(
       String email, String password) async {
     try {
       await authRepository.createUserWithEmailAndPassword(email, password);
       await cartSyncService.moveItemsToRemote(authRepository.currentUser!.uid);
-    } catch (e) {
-      // TODO: map errors
-      rethrow;
+      return const Success(null);
+    } on AuthException catch (e) {
+      // TODO: Error reporting
+      return Error(e);
     }
   }
 
-  Future<void> sendPasswordResetEmail(String email) async {
+  Future<Result<AuthException, void>> sendPasswordResetEmail(
+      String email) async {
     try {
       await authRepository.sendPasswordResetEmail(email);
-    } catch (e) {
-      // TODO: map errors
-      rethrow;
+      return const Success(null);
+    } on AuthException {
+      // TODO: Error reporting
+      return const Error(AuthException.unknown());
     }
   }
 }
@@ -41,5 +48,6 @@ class AuthService {
 final authServiceProvider = Provider<AuthService>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final cartSyncService = ref.watch(cartSyncServiceProvider);
-  return AuthService(authRepository: authRepository, cartSyncService: cartSyncService);
+  return AuthService(
+      authRepository: authRepository, cartSyncService: cartSyncService);
 });

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/app_user.dart';
 
 abstract class AuthRepository {
-  Future<void> signInAnonymously();
   Future<void> signInWithEmailAndPassword(String email, String password);
   Future<void> createUserWithEmailAndPassword(String email, String password);
   Future<void> sendPasswordResetEmail(String email);

@@ -1,7 +1,9 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
@@ -10,35 +12,35 @@ class EmailPasswordSignInController
     extends StateNotifier<EmailPasswordSignInState> {
   EmailPasswordSignInController({
     required this.authService,
-    required AppLocalizations localizations,
+    required this.localizations,
     required EmailPasswordSignInFormType formType,
   }) : super(EmailPasswordSignInState(
             formType: formType, localizations: localizations));
   final AuthService authService;
+  final AppLocalizations localizations;
 
-  Future<bool> submit(String email, String password) async {
-    try {
-      state = state.copyWith(submitted: true);
-      if (!state.canSubmit(email, password)) {
-        return false;
-      }
-      state = state.copyWith(isLoading: true);
-      switch (state.formType) {
-        case EmailPasswordSignInFormType.signIn:
-          await authService.signInWithEmailAndPassword(email, password);
-          break;
-        case EmailPasswordSignInFormType.register:
-          await authService.createUserWithEmailAndPassword(email, password);
-          break;
-        case EmailPasswordSignInFormType.forgotPassword:
-          await authService.sendPasswordResetEmail(email);
-          state = state.copyWith(isLoading: false);
-          break;
-      }
-      return true;
-    } catch (e) {
-      state = state.copyWith(isLoading: false);
-      rethrow;
+  Future<Result<String, bool>> submit(String email, String password) async {
+    state = state.copyWith(submitted: true);
+    if (!state.canSubmit(email, password)) {
+      return const Success(false);
+    }
+    state = state.copyWith(isLoading: true);
+    final result = await _submit(email, password);
+    state = state.copyWith(isLoading: false);
+    return result.when(
+      (error) => Error(error.message(localizations)),
+      (_) => const Success(true),
+    );
+  }
+
+  Future<Result<AuthException, void>> _submit(String email, String password) {
+    switch (state.formType) {
+      case EmailPasswordSignInFormType.signIn:
+        return authService.signInWithEmailAndPassword(email, password);
+      case EmailPasswordSignInFormType.register:
+        return authService.createUserWithEmailAndPassword(email, password);
+      case EmailPasswordSignInFormType.forgotPassword:
+        return authService.sendPasswordResetEmail(email);
     }
   }
 
@@ -51,6 +53,21 @@ class EmailPasswordSignInController
       formType: formType,
       isLoading: false,
       submitted: false,
+    );
+  }
+}
+
+extension AuthExceptionMessage on AuthException {
+  String message(AppLocalizations loc) {
+    return when(
+      unknown: () => loc.unknownAuthError,
+      invalidEmail: () => loc.invalidEmail,
+      emailAlreadyInUse: () => loc.emailAlreadyInUse,
+      weakPassword: () => loc.weakPassword,
+      operationNotAllowed: () => loc.operationNotAllowed,
+      wrongPassword: () => loc.wrongPassword,
+      userNotFound: () => loc.userNotFound,
+      userDisabled: () => loc.userDisabled,
     );
   }
 }

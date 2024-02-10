@@ -11,6 +11,9 @@
   "account": "Account",
   "admin": "Admin",
   "signIn": "Sign In",
+  "@signIn": {
+    "description": "Title of the sign in page"
+  },
   "register": "Register",
   "forgotPassword": "Forgot password",
   "forgotPasswordQuestion": "Forgot password?",
@@ -28,12 +31,19 @@
   "emailHint": "test@test.com",
   "password8CharactersLabel": "Password (8+ characters)",
   "passwordLabel": "Password",
-  "invalidEmailErrorText": "Email is invalid",
   "invalidEmailEmpty": "Email can't be empty",
   "invalidPasswordTooShort": "Password is too short",
   "invalidPasswordEmpty": "Password can't be empty",
   "logout": "Logout",
   "submit": "Submit",
+  "unknownAuthError": "Unknown authentication error",
+  "invalidEmail": "Invalid email",
+  "emailAlreadyInUse": "Email already in use",
+  "weakPassword": "Password is too weak",
+  "operationNotAllowed": "Operation not allowed",
+  "wrongPassword": "Wrong password",
+  "userNotFound": "User not found",
+  "userDisabled": "User disabled",
   "purchasedOnDate": "Purchased on {date}",
   "@purchasedOnDate": {
     "description": "When the product was purchased",
@@ -54,13 +64,19 @@
         "type": "int"
       }
     }
-  },  
+  },
   "address": "Address",
+  "@address": {
+    "description": "Title of the address page"
+  },
   "townCity": "Town/City",
   "state": "State",
   "postalCode": "Postal Code",
   "country": "Country",
   "cantBeEmpty": "Can't be empty",
+  "@cantBeEmpty": {
+    "description": "Message for product fields that can't be empty"
+  },
   "invalidUrl": "Not a valid URL",
   "minimumLength20Chars": "Minimum length: 20 characters",
   "invalidNumber": "Not a valid number",
@@ -69,11 +85,17 @@
   "quantityGreaterThanZero": "Quantity must be zero or more",
   "quantityLessThanMax": "The maximum quantity must be less than 1,000",
   "field": "Field",
+  "@field": {
+    "description": "Field label used in account page"
+  },
   "value": "Value",
   "uidLowercase": "uid",
   "emailLowercase": "email",
   "isAdminLowercase": "isAdmin",
   "adminDashboard": "Admin Dashboard",
+  "@adminDashboard": {
+    "description": "Admin Dashboard page title"
+  },
   "manageOrders": "Manage Orders",
   "userId": "User ID",
   "userEmail": "User Email",
@@ -89,6 +111,9 @@
   "availableQuantity": "Available Quantity",
   "manageProducts": "Manage Products",
   "payment": "Payment",
+  "@payment": {
+    "description": "Payment page title"
+  },
   "cardPayment": "Card Payment",
   "saveCardDuringPayment": "Save card during payment",
   "devBuildTestingNotice": "[DEV build] Use 4242 4242 4242 4242 for testing",
@@ -104,6 +129,9 @@
     }
   },
   "yourOrders": "Your Orders",
+  "@yourOrders": {
+    "description": "Title of orders page"
+  },
   "noPreviousOrders": "No previous orders",
   "couldNotPlaceOrder": "Could not place order",
   "status": "Status:",
@@ -112,6 +140,9 @@
   "shipped": "Shipped",
   "delivered": "Delivered",
   "latestProducts": "Latest Products",
+  "@latestProducts": {
+    "description": "Heading for product listings"
+  },
   "searchProducts": "Search products",
   "noProductsFound": "No products found",
   "productNotFound": "Product not found",
@@ -135,6 +166,9 @@
     }
   },
   "shoppingCart": "Shopping Cart",
+  "@shoppingCart": {
+    "description": "Title of shopping cart page"
+  },
   "addToCart": "Add to Cart",
   "outOfStock": "Out of Stock",
   "cantAddItemToCart": "Can't add item to cart",

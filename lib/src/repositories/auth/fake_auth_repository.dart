@@ -26,16 +26,6 @@ class FakeAuthRepository implements AuthRepository {
       authStateChanges().map((user) => user != null);
 
   @override
-  Future<void> signInAnonymously() async {
-    await delay(addDelay);
-    if (currentUser != null) {
-      throw UnsupportedError(
-          'User is already signed in and can\'t sign in as anonymously');
-    }
-    _createNewUser();
-  }
-
-  @override
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await delay(addDelay);
     if (currentUser == null) {

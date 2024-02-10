@@ -32,9 +32,11 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
 }
 
 class EmailPasswordSignInContents extends ConsumerStatefulWidget {
-  const EmailPasswordSignInContents(
-      {Key? key, this.onSignedIn, required this.formType})
-      : super(key: key);
+  const EmailPasswordSignInContents({
+    Key? key,
+    this.onSignedIn,
+    required this.formType,
+  }) : super(key: key);
   final VoidCallback? onSignedIn;
   final EmailPasswordSignInFormType formType;
   @override
@@ -44,9 +46,9 @@ class EmailPasswordSignInContents extends ConsumerStatefulWidget {
 
 class _EmailPasswordSignInContentsState
     extends ConsumerState<EmailPasswordSignInContents> {
-  final FocusScopeNode _node = FocusScopeNode();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _node = FocusScopeNode();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   String get email => _emailController.text;
   String get password => _passwordController.text;
@@ -59,21 +61,17 @@ class _EmailPasswordSignInContentsState
     super.dispose();
   }
 
-  void _showSignInError(EmailPasswordSignInState state, dynamic exception) {
-    showExceptionAlertDialog(
-      context: context,
-      title: state.errorAlertTitle,
-      exception: exception,
-    );
-  }
-
   Future<void> _submit(EmailPasswordSignInState state) async {
-    try {
-      final controller = ref.read(
-          emailPasswordSignInControllerProvider(widget.formType).notifier);
-      final bool success = await controller.submit(email, password);
-      // TODO: Implement this logic with a state listener
-      if (success) {
+    final controller = ref
+        .read(emailPasswordSignInControllerProvider(widget.formType).notifier);
+    final result = await controller.submit(email, password);
+    result.when(
+      (error) => showExceptionAlertDialog(
+        context: context,
+        title: state.errorAlertTitle,
+        exception: error,
+      ),
+      (success) async {
         if (state.formType == EmailPasswordSignInFormType.forgotPassword) {
           await showAlertDialog(
             context: context,
@@ -84,10 +82,8 @@ class _EmailPasswordSignInContentsState
         } else {
           widget.onSignedIn?.call();
         }
-      }
-    } catch (e) {
-      _showSignInError(state, e);
-    }
+      },
+    );
   }
 
   void _emailEditingComplete(EmailPasswordSignInState state) {

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 
@@ -61,13 +60,6 @@ Future<void> showExceptionAlertDialog({
     showAlertDialog(
       context: context,
       title: title,
-      content: _message(exception),
+      content: exception.toString(),
       defaultActionText: context.loc.ok,
     );
-
-String _message(dynamic exception) {
-  if (exception is PlatformException) {
-    return exception.message ?? exception.toString();
-  }
-  return exception.toString();
-}

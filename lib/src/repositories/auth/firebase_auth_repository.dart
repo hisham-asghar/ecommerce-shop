@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/app_user.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -67,15 +68,6 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> createUserWithEmailAndPassword(
-      String email, String password) async {
-    await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-
-  @override
   AppUser? get currentUser {
     final user = _auth.currentUser;
     return user != null ? FirebaseAppUser(user) : null;
@@ -83,20 +75,55 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> sendPasswordResetEmail(String email) {
+    // TODO: Handle exceptions
     return _auth.sendPasswordResetEmail(email: email);
   }
 
   @override
-  Future<void> signInAnonymously() {
-    return _auth.signInAnonymously();
+  Future<void> signInWithEmailAndPassword(String email, String password) async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'invalid-email':
+          throw const AuthException.invalidEmail();
+        case 'wrong-password':
+          throw const AuthException.wrongPassword();
+        case 'user-not-found':
+          throw const AuthException.userNotFound();
+        case 'user-disabled':
+          throw const AuthException.userDisabled();
+        default:
+          throw const AuthException.unknown();
+      }
+    }
   }
 
   @override
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<void> createUserWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'email-already-in-use':
+          throw const AuthException.emailAlreadyInUse();
+        case 'invalid-email':
+          throw const AuthException.invalidEmail();
+        case 'weak-password':
+          throw const AuthException.weakPassword();
+        case 'operation-not-allowed':
+          throw const AuthException.operationNotAllowed();
+        default:
+          throw const AuthException.unknown();
+      }
+    }
   }
 
   @override

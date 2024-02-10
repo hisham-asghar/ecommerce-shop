@@ -136,7 +136,7 @@ extension EmailPasswordSignInStateX on EmailPasswordSignInState {
     final bool showErrorText = submitted && !canSubmitEmail(email);
     final String errorText = email.isEmpty
         ? localizations.invalidEmailEmpty
-        : localizations.invalidEmailErrorText;
+        : localizations.invalidEmail;
     return showErrorText ? errorText : null;
   }
 
