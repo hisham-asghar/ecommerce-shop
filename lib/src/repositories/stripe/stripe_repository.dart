@@ -29,7 +29,6 @@ class StripeRepository implements PaymentsRepository {
     required app.Address address,
   }) async {
     final billingDetails = _getBillingDetails(email, address);
-
     await _stripe.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(
         // Main params
@@ -61,15 +60,15 @@ class StripeRepository implements PaymentsRepository {
     required String email,
     required app.Address address,
     required bool saveCard,
-  }) {
+  }) async {
     final billingDetails = _getBillingDetails(email, address);
-
-    return _stripe.confirmPayment(
-        orderPaymentIntent.paymentIntent,
-        PaymentMethodParams.card(
-          billingDetails: billingDetails,
-          setupFutureUsage:
-              saveCard == true ? PaymentIntentsFutureUsage.OffSession : null,
-        ));
+    await _stripe.confirmPayment(
+      orderPaymentIntent.paymentIntent,
+      PaymentMethodParams.card(
+        billingDetails: billingDetails,
+        setupFutureUsage:
+            saveCard == true ? PaymentIntentsFutureUsage.OffSession : null,
+      ),
+    );
   }
 }

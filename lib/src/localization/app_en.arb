@@ -44,6 +44,8 @@
   "wrongPassword": "Wrong password",
   "userNotFound": "User not found",
   "userDisabled": "User disabled",
+  "tooManyAuthRequests": "This account has been locked due to too many failed login attempts. Please try again later.",
+  "permissionDenied": "Permission denied",
   "purchasedOnDate": "Purchased on {date}",
   "@purchasedOnDate": {
     "description": "When the product was purchased",
@@ -117,6 +119,8 @@
   "cardPayment": "Card Payment",
   "saveCardDuringPayment": "Save card during payment",
   "devBuildTestingNotice": "[DEV build] Use 4242 4242 4242 4242 for testing",
+  "missingAddress": "The operation can't be completed (missing address)",
+  "userNotSignedIn": "The operation can't be completed (not signed in)",
   "orderPlaced": "Order placed",
   "total": "Total",
   "totalValue": "Total: {value}",

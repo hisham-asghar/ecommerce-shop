@@ -11,7 +11,7 @@ class LeaveReviewController extends StateNotifier<VoidAsyncValue> {
     required this.localizations,
     required this.reviewsService,
     required this.dateTimeFunction,
-  }) : super(const AsyncValue.data(null));
+  }) : super(const VoidAsyncValue.data(null));
   final AppLocalizations localizations;
   final ReviewsService reviewsService;
   final DateTime Function() dateTimeFunction;
@@ -21,16 +21,16 @@ class LeaveReviewController extends StateNotifier<VoidAsyncValue> {
       String? comment,
       required String productId}) async {
     try {
-      state = const AsyncValue.loading();
+      state = const VoidAsyncValue.loading();
       final review = Review(
         score: score,
         comment: comment ?? '',
         date: dateTimeFunction(),
       );
       await reviewsService.submitReview(productId: productId, review: review);
-      state = const AsyncValue.data(null);
+      state = const VoidAsyncValue.data(null);
     } catch (error, _) {
-      state = AsyncValue.error(error);
+      state = VoidAsyncValue.error(error);
     }
   }
 }

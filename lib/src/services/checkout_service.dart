@@ -1,7 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/run_catching_exceptions.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 
 class CheckoutService {
@@ -16,45 +19,49 @@ class CheckoutService {
   final AuthRepository authRepository;
   final AddressRepository addressRepository;
 
-  Future<void> payWithPaymentSheet() async {
-    // 1. Creates order document, sets up stripe payment intent
-    final user = authRepository.currentUser!;
-    final paymentIntent =
-        await cloudFunctionsRepository.createOrderPaymentIntent(user.uid);
+  Future<Result<AppException, void>> payWithPaymentSheet() =>
+      runCatchingExceptions(() async {
+        // 1. Creates order document, sets up stripe payment intent
+        final user = authRepository.currentUser!;
+        final paymentIntent =
+            await cloudFunctionsRepository.createOrderPaymentIntent(user.uid);
 
-    // 2. initialize the payment sheet
-    final address = await addressRepository.fetchAddress(user.uid);
-    if (address == null) {
-      throw AssertionError('Address is null');
-    }
-    await paymentsRepository.initPaymentSheet(
-      orderPaymentIntent: paymentIntent,
-      email: user.email!,
-      address: address,
-    );
+        // 2. initialize the payment sheet
+        final address = await addressRepository.fetchAddress(user.uid);
+        if (address == null) {
+          // * will be returned as-is by [runCatchingExceptions]
+          throw const AppException.missingAddress();
+        }
+        await paymentsRepository.initPaymentSheet(
+          orderPaymentIntent: paymentIntent,
+          email: user.email!,
+          address: address,
+        );
 
-    // 3. Present payment sheet
-    await paymentsRepository.presentPaymentSheet();
-  }
+        // 3. Present payment sheet
+        await paymentsRepository.presentPaymentSheet();
+      });
 
-  Future<void> payByCard(bool saveCard) async {
-    // 1. Creates order document, sets up stripe payment intent
-    final user = authRepository.currentUser!;
-    final paymentIntent =
-        await cloudFunctionsRepository.createOrderPaymentIntent(user.uid);
+  Future<Result<AppException, void>> payByCard(bool saveCard) =>
+      runCatchingExceptions(() async {
+        // 1. Creates order document, sets up stripe payment intent
+        final user = authRepository.currentUser!;
+        final paymentIntent =
+            await cloudFunctionsRepository.createOrderPaymentIntent(user.uid);
 
-    // 2. initialize the payment sheet
-    final address = await addressRepository.fetchAddress(user.uid);
-    if (address == null) {
-      throw AssertionError('Address is null');
-    }
-    await paymentsRepository.confirmPayment(
-      orderPaymentIntent: paymentIntent,
-      email: user.email!,
-      address: address,
-      saveCard: saveCard,
-    );
-  }
+        // 2. initialize the payment sheet
+        final address = await addressRepository.fetchAddress(user.uid);
+        if (address == null) {
+          // * will be returned as-is by [runCatchingExceptions]
+          throw const AppException.missingAddress();
+        }
+        await paymentsRepository.confirmPayment(
+          orderPaymentIntent: paymentIntent,
+          email: user.email!,
+          address: address,
+          saveCard: saveCard,
+        );
+      });
 }
 
 final checkoutServiceProvider = Provider<CheckoutService>((ref) {

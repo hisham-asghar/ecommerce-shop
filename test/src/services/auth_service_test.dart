@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/fake_app_user.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 import '../../mocks.dart';
@@ -26,56 +28,59 @@ void main() {
           )).thenAnswer((invocation) => Future.value());
       when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
       when(() => mockCartSyncService.moveItemsToRemote(fakeUserId))
-          .thenAnswer((invocation) => Future.value());
+          .thenAnswer((invocation) => Future.value(const Success(null)));
       final authService = AuthService(
         authRepository: mockAuthRepository,
         cartSyncService: mockCartSyncService,
       );
-      // run & verify
-      expect(
-        () => authService.signInWithEmailAndPassword('email', 'password'),
-        returnsNormally,
-      );
+      // run
+      final result =
+          await authService.signInWithEmailAndPassword('email', 'password');
+      // verify
+      expect(result.isSuccess(), true);
     });
 
     test('signInWithEmailAndPassword succeeds, copyItemsToRemote fails',
         () async {
       // setup
-      final exception = Exception('failed copying items');
       when(() => mockAuthRepository.signInWithEmailAndPassword(
             captureAny(),
             captureAny(),
           )).thenAnswer((invocation) => Future.value());
       when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
-      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId)).thenThrow(exception);
+      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId)).thenAnswer(
+        (_) async =>
+            Future.value(const Error(AppException.permissionDenied(''))),
+      );
       final authService = AuthService(
         authRepository: mockAuthRepository,
         cartSyncService: mockCartSyncService,
       );
-      // run & verify
-      expect(
-        () => authService.signInWithEmailAndPassword('email', 'password'),
-        throwsA(isA<Exception>()),
-      );
+      // run
+      final result =
+          await authService.signInWithEmailAndPassword('email', 'password');
+      // verify
+      expect(result.isError(), true);
     });
 
     test('signInWithEmailAndPassword fails, copyItemsToRemote not called',
         () async {
       // setup
-      final exception = Exception('failed sign in');
+      const exception = AppException.invalidEmail('');
       when(() => mockAuthRepository.signInWithEmailAndPassword(
             captureAny(),
             captureAny(),
-          )).thenThrow(exception);
+          )).thenThrow(exception); // will generate AppException.unknown
+      when(() => mockAuthRepository.currentUser).thenReturn(null);
       final authService = AuthService(
         authRepository: mockAuthRepository,
         cartSyncService: mockCartSyncService,
       );
-      // run & verify
-      expect(
-        () => authService.signInWithEmailAndPassword('email', 'password'),
-        throwsA(isA<Exception>()),
-      );
+      // run
+      final result =
+          await authService.signInWithEmailAndPassword('email', 'password');
+      // verify
+      expect(result.isError(), true);
       verifyNever(() => mockCartSyncService.moveItemsToRemote(fakeUserId));
     });
   });
@@ -90,56 +95,59 @@ void main() {
           )).thenAnswer((invocation) => Future.value());
       when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
       when(() => mockCartSyncService.moveItemsToRemote(fakeUserId))
-          .thenAnswer((invocation) => Future.value());
+          .thenAnswer((invocation) => Future.value(const Success(null)));
       final authService = AuthService(
         authRepository: mockAuthRepository,
         cartSyncService: mockCartSyncService,
       );
-      // run & verify
-      expect(
-        () => authService.createUserWithEmailAndPassword('email', 'password'),
-        returnsNormally,
-      );
+      // run
+      final result =
+          await authService.createUserWithEmailAndPassword('email', 'password');
+      // verify
+      expect(result.isSuccess(), true);
     });
 
     test('createUserWithEmailAndPassword succeeds, copyItemsToRemote fails',
         () async {
       // setup
-      final exception = Exception('failed copying items');
       when(() => mockAuthRepository.createUserWithEmailAndPassword(
             captureAny(),
             captureAny(),
           )).thenAnswer((invocation) => Future.value());
       when(() => mockAuthRepository.currentUser).thenReturn(fakeUser);
-      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId)).thenThrow(exception);
+      when(() => mockCartSyncService.moveItemsToRemote(fakeUserId)).thenAnswer(
+        (_) async =>
+            Future.value(const Error(AppException.permissionDenied(''))),
+      );
       final authService = AuthService(
         authRepository: mockAuthRepository,
         cartSyncService: mockCartSyncService,
       );
-      // run & verify
-      expect(
-        () => authService.createUserWithEmailAndPassword('email', 'password'),
-        throwsA(isA<Exception>()),
-      );
+      // run
+      final result =
+          await authService.createUserWithEmailAndPassword('email', 'password');
+      // verify
+      expect(result.isError(), true);
     });
 
     test('createUserWithEmailAndPassword fails, copyItemsToRemote not called',
         () async {
       // setup
-      final exception = Exception('failed sign in');
+      const exception = AppException.invalidEmail('');
       when(() => mockAuthRepository.createUserWithEmailAndPassword(
             captureAny(),
             captureAny(),
-          )).thenThrow(exception);
+          )).thenThrow(exception); // will generate AppException.unknown
+      when(() => mockAuthRepository.currentUser).thenReturn(null);
       final authService = AuthService(
         authRepository: mockAuthRepository,
         cartSyncService: mockCartSyncService,
       );
-      // run & verify
-      expect(
-        () => authService.createUserWithEmailAndPassword('email', 'password'),
-        throwsA(isA<Exception>()),
-      );
+      // run
+      final result =
+          await authService.createUserWithEmailAndPassword('email', 'password');
+      // verify
+      expect(result.isError(), true);
       verifyNever(() => mockCartSyncService.moveItemsToRemote(fakeUserId));
     });
   });
@@ -156,10 +164,8 @@ void main() {
         cartSyncService: mockCartSyncService,
       );
       // run & verify
-      expect(
-        () => authService.sendPasswordResetEmail('email'),
-        returnsNormally,
-      );
+      final result = await authService.sendPasswordResetEmail('email');
+      expect(result.isSuccess(), true);
       verifyNever(() => mockCartSyncService.moveItemsToRemote(fakeUserId));
     });
   });

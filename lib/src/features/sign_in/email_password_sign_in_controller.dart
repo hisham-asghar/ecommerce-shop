@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_exception.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
 enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
@@ -33,7 +33,7 @@ class EmailPasswordSignInController
     );
   }
 
-  Future<Result<AuthException, void>> _submit(String email, String password) {
+  Future<Result<AppException, void>> _submit(String email, String password) {
     switch (state.formType) {
       case EmailPasswordSignInFormType.signIn:
         return authService.signInWithEmailAndPassword(email, password);
@@ -53,21 +53,6 @@ class EmailPasswordSignInController
       formType: formType,
       isLoading: false,
       submitted: false,
-    );
-  }
-}
-
-extension AuthExceptionMessage on AuthException {
-  String message(AppLocalizations loc) {
-    return when(
-      unknown: () => loc.unknownAuthError,
-      invalidEmail: () => loc.invalidEmail,
-      emailAlreadyInUse: () => loc.emailAlreadyInUse,
-      weakPassword: () => loc.weakPassword,
-      operationNotAllowed: () => loc.operationNotAllowed,
-      wrongPassword: () => loc.wrongPassword,
-      userNotFound: () => loc.userNotFound,
-      userDisabled: () => loc.userDisabled,
     );
   }
 }

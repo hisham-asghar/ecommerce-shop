@@ -16,8 +16,7 @@ class FirebaseProductsRepository implements ProductsRepository {
   @override
   Future<List<Product>> fetchProductsList() async {
     final ref = _productsRef();
-    final snapshot =
-        await ref.get(const GetOptions(source: Source.serverAndCache));
+    final snapshot = await ref.get();
     return snapshot.docs.map((snapshot) => snapshot.data()).toList();
   }
 

@@ -14,26 +14,22 @@ class ShoppingCartItemController extends StateNotifier<VoidAsyncValue> {
   final CartService cartService;
 
   Future<void> updateQuantity(Item item, int quantity) async {
-    try {
-      state = const VoidAsyncValue.loading();
-      final updated = Item(productId: item.productId, quantity: quantity);
-      await cartService.updateItemIfExists(updated);
-    } catch (e) {
-      state = VoidAsyncValue.error(localizations.cantUpdateQuantity);
-    } finally {
-      state = const VoidAsyncValue.data(null);
-    }
+    state = const VoidAsyncValue.loading();
+    final updated = Item(productId: item.productId, quantity: quantity);
+    final result = await cartService.updateItemIfExists(updated);
+    result.when(
+      (error) => state = VoidAsyncValue.error(localizations.cantUpdateQuantity),
+      (success) => state = const VoidAsyncValue.data(null),
+    );
   }
 
   Future<void> deleteItem(Item item) async {
-    try {
-      state = const VoidAsyncValue.loading();
-      await cartService.removeItem(item);
-    } catch (e) {
-      state = VoidAsyncValue.error(localizations.cantDeleteItem);
-    } finally {
-      state = const VoidAsyncValue.data(null);
-    }
+    state = const VoidAsyncValue.loading();
+    final result = await cartService.removeItem(item);
+    result.when(
+      (error) => state = VoidAsyncValue.error(localizations.cantDeleteItem),
+      (success) => state = const VoidAsyncValue.data(null),
+    );
   }
 }
 

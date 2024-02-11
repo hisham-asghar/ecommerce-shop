@@ -56,19 +56,25 @@ class AsyncValueErrorWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            error.toString(),
-            style: Theme.of(context)
-                .textTheme
-                .headline6!
-                .copyWith(color: Colors.red),
-          ),
+          ErrorMessageWidget(error.toString()),
           if (stackTrace != null) ...[
             gapH8,
             Text(stackTrace.toString()),
           ]
         ],
       ),
+    );
+  }
+}
+
+class ErrorMessageWidget extends StatelessWidget {
+  const ErrorMessageWidget(this.errorMessage, {Key? key}) : super(key: key);
+  final String errorMessage;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      errorMessage,
+      style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.red),
     );
   }
 }

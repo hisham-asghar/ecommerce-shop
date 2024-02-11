@@ -1,8 +1,9 @@
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 import '../../../../mocks.dart';
@@ -12,25 +13,20 @@ void main() {
   test('payment successful', () async {
     final mockCheckoutService = MockCheckoutService();
     when(() => mockCheckoutService.payWithPaymentSheet())
-        .thenAnswer((_) async => Future.value());
+        .thenAnswer((_) async => Future.value(const Success(null)));
     final controller = PaymentButtonController(
       localizations: localizations,
       checkoutService: mockCheckoutService,
     );
     await controller.pay();
     verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
-    expect(controller.debugState, const VoidAsyncValue.loading());
+    expect(controller.debugState, const VoidAsyncValue.data(null));
   });
 
   test('payment failure (Stripe)', () async {
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payWithPaymentSheet()).thenThrow(
-      const StripeException(
-        error: LocalizedErrorMessage(
-          code: FailureCode.Failed,
-          localizedMessage: 'Payment failed',
-        ),
-      ),
+    when(() => mockCheckoutService.payWithPaymentSheet()).thenAnswer(
+      (_) async => Future.value(const Error(AppException.paymentFailed(''))),
     );
     final controller = PaymentButtonController(
       localizations: localizations,
@@ -40,8 +36,7 @@ void main() {
         controller.stream,
         emitsInOrder([
           const VoidAsyncValue.loading(),
-          const VoidAsyncValue.error('Payment failed'),
-          const VoidAsyncValue.data(null),
+          const VoidAsyncValue.error(''),
         ]));
     await controller.pay();
     verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
@@ -49,13 +44,8 @@ void main() {
 
   test('payment canceled (Stripe)', () async {
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payWithPaymentSheet()).thenThrow(
-      const StripeException(
-        error: LocalizedErrorMessage(
-          code: FailureCode.Canceled,
-          localizedMessage: 'Payment failed',
-        ),
-      ),
+    when(() => mockCheckoutService.payWithPaymentSheet()).thenAnswer(
+      (_) async => Future.value(const Error(AppException.paymentCanceled(''))),
     );
     final controller = PaymentButtonController(
       localizations: localizations,
@@ -71,10 +61,10 @@ void main() {
     verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
   });
 
-  test('payment failure (generic)', () async {
+  test('payment failure (functions error)', () async {
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payWithPaymentSheet()).thenThrow(
-      Exception('Something went wrong'),
+    when(() => mockCheckoutService.payWithPaymentSheet()).thenAnswer(
+      (_) async => Future.value(const Error(AppException.functions(''))),
     );
     final controller = PaymentButtonController(
       localizations: localizations,
@@ -84,8 +74,26 @@ void main() {
         controller.stream,
         emitsInOrder([
           const VoidAsyncValue.loading(),
-          const VoidAsyncValue.error('Could not place order'),
-          const VoidAsyncValue.data(null),
+          const VoidAsyncValue.error(''),
+        ]));
+    await controller.pay();
+    verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);
+  });
+
+  test('payment failure (other error)', () async {
+    final mockCheckoutService = MockCheckoutService();
+    when(() => mockCheckoutService.payWithPaymentSheet()).thenAnswer(
+      (_) async => Future.value(const Error(AppException.unknown(''))),
+    );
+    final controller = PaymentButtonController(
+      localizations: localizations,
+      checkoutService: mockCheckoutService,
+    );
+    expect(
+        controller.stream,
+        emitsInOrder([
+          const VoidAsyncValue.loading(),
+          VoidAsyncValue.error(localizations.anErrorOccurred),
         ]));
     await controller.pay();
     verify(() => mockCheckoutService.payWithPaymentSheet()).called(1);

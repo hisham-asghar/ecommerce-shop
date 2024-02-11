@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
@@ -8,6 +9,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/l
 import 'package:my_shop_ecommerce_flutter/src/models/mutable_cart.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/run_catching_exceptions.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/products_service.dart';
 
 class CartService {
@@ -43,28 +46,31 @@ class CartService {
   }
 
   /// adds an item to the local or remote cart depending on the user auth state
-  Future<void> addItem(Item item) async {
-    final cart = await _fetchCart();
-    final updated = cart.addItem(item);
-    await _setCart(updated);
-  }
+  Future<Result<AppException, void>> addItem(Item item) =>
+      runCatchingExceptions(() async {
+        final cart = await _fetchCart();
+        final updated = cart.addItem(item);
+        await _setCart(updated);
+      });
 
   /// removes an item from the local or remote cart depending on the user auth
   /// state
-  Future<void> removeItem(Item item) async {
-    final cart = await _fetchCart();
-    final updated = cart.removeItemById(item.productId);
-    await _setCart(updated);
-  }
+  Future<Result<AppException, void>> removeItem(Item item) =>
+      runCatchingExceptions(() async {
+        // business logic
+        final cart = await _fetchCart();
+        final updated = cart.removeItemById(item.productId);
+        await _setCart(updated);
+      });
 
   /// updates an item in the local or remote cart depending on the user auth
   /// state
-  Future<void> updateItemIfExists(Item item) async {
-    final cart = await _fetchCart();
-    final updated = cart.updateItemIfExists(item);
-    await _setCart(updated);
-  }
-
+  Future<Result<AppException, void>> updateItemIfExists(Item item) =>
+      runCatchingExceptions(() async {
+        final cart = await _fetchCart();
+        final updated = cart.updateItemIfExists(item);
+        await _setCart(updated);
+      });
 }
 
 final cartServiceProvider = Provider<CartService>((ref) {

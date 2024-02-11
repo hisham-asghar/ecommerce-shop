@@ -25,27 +25,21 @@ class AddToCartController extends StateNotifier<AddToCartState> {
   }
 
   Future<void> addItem() async {
-    try {
-      state = state.copyWith(widgetState: const VoidAsyncValue.loading());
-      final item = Item(
-        productId: product.id,
-        quantity: state.quantity,
-      );
-      await cartService.addItem(item);
-      state = state.copyWith(
+    state = state.copyWith(widgetState: const VoidAsyncValue.loading());
+    final item = Item(
+      productId: product.id,
+      quantity: state.quantity,
+    );
+    final result = await cartService.addItem(item);
+    result.when(
+      (error) => state = state.copyWith(
+        widgetState: VoidAsyncValue.error(localizations.cantAddItemToCart),
+      ),
+      (success) => state = state.copyWith(
         quantity: 1,
         widgetState: const VoidAsyncValue.data(null),
-      );
-    } catch (e) {
-      // first, emit an error
-      state = state.copyWith(
-        widgetState: VoidAsyncValue.error(localizations.cantAddItemToCart),
-      );
-      // then, emit notLoading
-      state = state.copyWith(
-        widgetState: const VoidAsyncValue.data(null),
-      );
-    }
+      ),
+    );
   }
 }
 

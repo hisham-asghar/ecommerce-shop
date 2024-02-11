@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
+import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_provider.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,7 +14,12 @@ class ProductsSearchService {
     _results = _searchTerms
         .debounce((_) => TimerStream(true, debounceDuration))
         .switchMap((query) async* {
-      yield await searchFunction(query);
+      try {
+        final result = await searchFunction(query);
+        yield Success(result);
+      } on AppException catch (e) {
+        yield Error(e);
+      }
     });
     // on load, search for empty string to get all products
     search('');
@@ -24,8 +32,8 @@ class ProductsSearchService {
   void search(String query) => _searchTerms.add(query);
 
   // Output stream (search results)
-  late Stream<List<Product>> _results;
-  Stream<List<Product>> get results => _results;
+  late Stream<Result<AppException, List<Product>>> _results;
+  Stream<Result<AppException, List<Product>>> get results => _results;
 
   void dispose() {
     _searchTerms.close();
@@ -35,14 +43,22 @@ class ProductsSearchService {
 final productsSearchServiceProvider =
     Provider.autoDispose<ProductsSearchService>((ref) {
   final searchRepository = ref.watch(searchRepositoryProvider);
-  final searchService =
-      ProductsSearchService(searchFunction: searchRepository.searchProducts);
+  final searchService = ProductsSearchService(
+    searchFunction: searchRepository.searchProducts,
+  );
   ref.onDispose(() => searchService.dispose());
   return searchService;
 });
 
 final productsSearchResultsProvider =
-    StreamProvider.autoDispose<List<Product>>((ref) {
+    StreamProvider.autoDispose<Result<String, List<Product>>>((ref) {
   final searchService = ref.watch(productsSearchServiceProvider);
-  return searchService.results;
+  final localizations = ref.watch(appLocalizationsProvider);
+  // Map the error to a string
+  return searchService.results.map(
+    (result) => result.when(
+      (error) => Error(error.message(localizations)),
+      (success) => Success(success),
+    ),
+  );
 });

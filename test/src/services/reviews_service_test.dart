@@ -80,15 +80,17 @@ void main() {
             review: fakeReview,
           )).thenAnswer((invocation) => Future.value());
       // run
-      await service.submitReview(productId: fakeProductId, review: fakeReview);
+      final result = await service.submitReview(
+          productId: fakeProductId, review: fakeReview);
       // verify
+      expect(result.isSuccess(), true);
       verify(() => mockReviewsRepository.setReview(
             productId: fakeProductId,
             uid: fakeUser.uid,
             review: fakeReview,
           )).called(1);
     });
-    test('Given user is null When submitReview called Then throws error',
+    test('Given user is null When submitReview called Then returns error',
         () async {
       // setup
       final service = ReviewsService(
@@ -96,13 +98,11 @@ void main() {
         authRepository: mockAuthRepository,
       );
       when(() => mockAuthRepository.currentUser).thenReturn(null);
-      // run & verify
-      expect(
-          () => service.submitReview(
-                productId: fakeProductId,
-                review: fakeReview,
-              ),
-          throwsA(isA<UnsupportedError>()));
+      // run
+      final result = await service.submitReview(
+          productId: fakeProductId, review: fakeReview);
+      // verify
+      expect(result.isError(), true);
     });
   });
 }

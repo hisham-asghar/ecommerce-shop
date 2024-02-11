@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/products_list/product_card.dart';
@@ -24,28 +25,33 @@ class ProductsGrid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //final productsValue = ref.watch(productsListProvider);
     final productsValue = ref.watch(productsSearchResultsProvider);
-    return AsyncValueWidget<List<Product>>(
+    return AsyncValueWidget<Result<String, List<Product>>>(
       value: productsValue,
-      data: (products) => products.isEmpty
-          ? Center(
-              child: Text(
-                context.loc.noProductsFound,
-                style: Theme.of(context).textTheme.headline4,
+      data: (result) => result.when(
+        (error) => Center(
+          child: ErrorMessageWidget(error),
+        ),
+        (products) => products.isEmpty
+            ? Center(
+                child: Text(
+                  context.loc.noProductsFound,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              )
+            : ProductsLayoutGrid(
+                itemCount: products.length,
+                itemBuilder: (_, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    product: product,
+                    onPressed: () => context.goNamed(
+                      productSelectedRoute,
+                      params: {'id': product.id},
+                    ),
+                  );
+                },
               ),
-            )
-          : ProductsLayoutGrid(
-              itemCount: products.length,
-              itemBuilder: (_, index) {
-                final product = products[index];
-                return ProductCard(
-                  product: product,
-                  onPressed: () => context.goNamed(
-                    productSelectedRoute,
-                    params: {'id': product.id},
-                  ),
-                );
-              },
-            ),
+      ),
     );
   }
 }

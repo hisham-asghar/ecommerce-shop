@@ -1,9 +1,11 @@
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/add_to_cart/add_to_cart_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
 import '../../../../mocks.dart';
@@ -16,7 +18,8 @@ void main() {
       const quantity = 2;
       final item = Item(productId: '1', quantity: quantity);
       final cartService = MockCartService();
-      when(() => cartService.addItem(item)).thenAnswer((_) => Future.value());
+      when(() => cartService.addItem(item))
+          .thenAnswer((_) => Future.value(const Success(null)));
       final controller = AddToCartController(
         localizations: localizations,
         cartService: cartService,
@@ -53,8 +56,8 @@ void main() {
       const quantity = 2;
       final item = Item(productId: '1', quantity: quantity);
       final cartService = MockCartService();
-      when(() => cartService.addItem(item))
-          .thenAnswer((_) => throw StateError('could not add item'));
+      when(() => cartService.addItem(item)).thenAnswer(
+          (_) => Future.value(const Error(AppException.permissionDenied(''))));
       final controller = AddToCartController(
         localizations: localizations,
         cartService: cartService,
@@ -82,7 +85,7 @@ void main() {
         controller.debugState,
         AddToCartState(
           quantity: 2,
-          widgetState: const VoidAsyncValue.data(null),
+          widgetState: VoidAsyncValue.error(localizations.cantAddItemToCart),
         ),
       );
     });

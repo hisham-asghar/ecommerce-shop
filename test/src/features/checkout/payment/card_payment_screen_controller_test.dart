@@ -1,7 +1,8 @@
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/card_payment_screen_controller.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 
@@ -14,7 +15,7 @@ void main() {
     const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
     when(() => mockCheckoutService.payByCard(saveCard))
-        .thenAnswer((_) async => Future.value());
+        .thenAnswer((_) async => Future.value(const Success(null)));
     final controller = CardPaymentScreenController(
       localizations: localizations,
       checkoutService: mockCheckoutService,
@@ -27,13 +28,8 @@ void main() {
   test('payment failure (Stripe)', () async {
     const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payByCard(saveCard)).thenThrow(
-      const StripeException(
-        error: LocalizedErrorMessage(
-          code: FailureCode.Failed,
-          localizedMessage: 'Payment failed',
-        ),
-      ),
+    when(() => mockCheckoutService.payByCard(saveCard)).thenAnswer(
+      (_) async => Future.value(const Error(AppException.paymentFailed(''))),
     );
     final controller = CardPaymentScreenController(
       localizations: localizations,
@@ -43,8 +39,7 @@ void main() {
         controller.stream,
         emitsInOrder([
           const VoidAsyncValue.loading(),
-          const VoidAsyncValue.error('Payment failed'),
-          const VoidAsyncValue.data(null),
+          const VoidAsyncValue.error(''),
         ]));
     await controller.pay(saveCard);
     verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
@@ -53,13 +48,8 @@ void main() {
   test('payment canceled (Stripe)', () async {
     const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payByCard(saveCard)).thenThrow(
-      const StripeException(
-        error: LocalizedErrorMessage(
-          code: FailureCode.Canceled,
-          localizedMessage: 'Payment failed',
-        ),
-      ),
+    when(() => mockCheckoutService.payByCard(saveCard)).thenAnswer(
+      (_) async => Future.value(const Error(AppException.paymentCanceled(''))),
     );
     final controller = CardPaymentScreenController(
       localizations: localizations,
@@ -75,11 +65,11 @@ void main() {
     verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
   });
 
-  test('payment failure (generic)', () async {
+  test('payment failure (functions error)', () async {
     const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
-    when(() => mockCheckoutService.payByCard(saveCard)).thenThrow(
-      Exception('Something went wrong'),
+    when(() => mockCheckoutService.payByCard(saveCard)).thenAnswer(
+      (_) async => Future.value(const Error(AppException.functions(''))),
     );
     final controller = CardPaymentScreenController(
       localizations: localizations,
@@ -89,8 +79,26 @@ void main() {
         controller.stream,
         emitsInOrder([
           const VoidAsyncValue.loading(),
-          const VoidAsyncValue.error('Could not place order'),
-          const VoidAsyncValue.data(null),
+          const VoidAsyncValue.error(''),
+        ]));
+    await controller.pay(saveCard);
+    verify(() => mockCheckoutService.payByCard(saveCard)).called(1);
+  });
+  test('payment failure (other error)', () async {
+    const saveCard = true;
+    final mockCheckoutService = MockCheckoutService();
+    when(() => mockCheckoutService.payByCard(saveCard)).thenAnswer(
+      (_) async => Future.value(const Error(AppException.unknown(''))),
+    );
+    final controller = CardPaymentScreenController(
+      localizations: localizations,
+      checkoutService: mockCheckoutService,
+    );
+    expect(
+        controller.stream,
+        emitsInOrder([
+          const VoidAsyncValue.loading(),
+          VoidAsyncValue.error(localizations.anErrorOccurred),
         ]));
     await controller.pay(saveCard);
     verify(() => mockCheckoutService.payByCard(saveCard)).called(1);

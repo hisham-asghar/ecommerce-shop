@@ -24,7 +24,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
   Future<void> _pay() async {
     final controller = ref.read(cardPaymentScreenControllerProvider.notifier);
     final success = await controller.pay(_saveCard ?? false);
-    if (success) {
+    if (mounted && success) {
       context.pop();
     }
   }
