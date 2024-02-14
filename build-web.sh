@@ -7,9 +7,22 @@ fi
 
 target="lib/main_development.dart"
 if [ "$1" = "dev" ]; then
-  flutter build web --target lib/main_development.dart --dart-define STRIPE_PUBLISHABLE_KEY=pk_test_51K3dgkIx8Zcghu6hRGpkk1AshodBflV2RBP5CcZTt9GzXKB9HeeK7oknOQw2TRdKGHOayEfeUN8JGq62s0SYreyv00uxM1oZIb --release 
+  source .env.dev
 elif [ "$1" = "stg" ]; then
-  flutter build web --target lib/main_staging.dart --dart-define STRIPE_PUBLISHABLE_KEY=pk_test_51K3dgkIx8Zcghu6hRGpkk1AshodBflV2RBP5CcZTt9GzXKB9HeeK7oknOQw2TRdKGHOayEfeUN8JGq62s0SYreyv00uxM1oZIb --release 
+  source .env.stg
 elif [ "$1" = "prod" ]; then
   echo "Prod build not yet supported"
+  exit
 fi
+
+# Check environment variables are set
+if [ -z "$STRIPE_PUBLISHABLE_KEY" ]; then
+  echo "STRIPE_PUBLISHABLE_KEY is not set"
+  exit
+fi
+if [ -z "$SENTRY_KEY" ]; then
+  echo "SENTRY_KEY is not set"
+  exit
+fi
+
+flutter build web --target lib/main_development.dart --dart-define STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY --dart-define SENTRY_KEY=$SENTRY_KEY --release 
