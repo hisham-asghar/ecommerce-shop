@@ -5,11 +5,13 @@ if [ "$#" -lt 1 ]; then
   exit
 fi
 
-target="lib/main_development.dart"
+TARGET="lib/main_development.dart"
 if [ "$1" = "dev" ]; then
   source .env.dev
+  TARGET=lib/main_development.dart
 elif [ "$1" = "stg" ]; then
   source .env.stg
+  TARGET=lib/main_staging.dart
 elif [ "$1" = "prod" ]; then
   echo "Prod build not yet supported"
   exit
@@ -25,4 +27,4 @@ if [ -z "$SENTRY_KEY" ]; then
   exit
 fi
 
-flutter build web --target lib/main_development.dart --dart-define STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY --dart-define SENTRY_KEY=$SENTRY_KEY --release 
+flutter build web --target $TARGET --dart-define STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY --dart-define SENTRY_KEY=$SENTRY_KEY --release 
