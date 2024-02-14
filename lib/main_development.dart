@@ -24,7 +24,6 @@ void main() async {
     Stripe.urlScheme = 'flutterstripe';
     await Stripe.instance.applySettings();
   }
-
   runAppWithFirebase();
 }
 

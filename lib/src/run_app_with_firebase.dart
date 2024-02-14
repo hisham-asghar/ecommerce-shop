@@ -28,6 +28,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_reposit
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> runAppWithFirebase() async {
   // https://docs.flutter.dev/testing/errors
@@ -48,23 +49,38 @@ Future<void> runAppWithFirebase() async {
     final paymentRepository = StripeRepository(Stripe.instance);
     // https://gorouter.dev/url-path-strategy#turning-off-the-hash
     GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
-    runApp(ProviderScope(
-      overrides: [
-        authRepositoryProvider.overrideWithValue(authRepository),
-        addressRepositoryProvider.overrideWithValue(addressRepository),
-        productsRepositoryProvider.overrideWithValue(productsRepository),
-        searchRepositoryProvider.overrideWithValue(productsRepository),
-        reviewsRepositoryProvider.overrideWithValue(reviewsRepository),
-        cartRepositoryProvider.overrideWithValue(cartRepository),
-        ordersRepositoryProvider.overrideWithValue(ordersRepository),
-        localCartRepositoryProvider.overrideWithValue(localCartRepository),
-        cloudFunctionsRepositoryProvider
-            .overrideWithValue(cloudFunctionsRepository),
-        paymentsRepositoryProvider.overrideWithValue(paymentRepository),
-      ],
-      //observers: [ProviderLogger()],
-      child: const MyApp(),
-    ));
+
+    const sentryKey = String.fromEnvironment('SENTRY_KEY');
+    if (sentryKey.isEmpty) {
+      throw AssertionError('SENTRY_KEY is not set');
+    }
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentryKey;
+        // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+        // We recommend adjusting this value in production.
+        options.tracesSampleRate = 1.0;
+      },
+      appRunner: () => runApp(
+        ProviderScope(
+          overrides: [
+            authRepositoryProvider.overrideWithValue(authRepository),
+            addressRepositoryProvider.overrideWithValue(addressRepository),
+            productsRepositoryProvider.overrideWithValue(productsRepository),
+            searchRepositoryProvider.overrideWithValue(productsRepository),
+            reviewsRepositoryProvider.overrideWithValue(reviewsRepository),
+            cartRepositoryProvider.overrideWithValue(cartRepository),
+            ordersRepositoryProvider.overrideWithValue(ordersRepository),
+            localCartRepositoryProvider.overrideWithValue(localCartRepository),
+            cloudFunctionsRepositoryProvider
+                .overrideWithValue(cloudFunctionsRepository),
+            paymentsRepositoryProvider.overrideWithValue(paymentRepository),
+          ],
+          //observers: [ProviderLogger()],
+          child: const MyApp(),
+        ),
+      ),
+    );
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.presentError(details);
     };
