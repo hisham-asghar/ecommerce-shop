@@ -6,7 +6,8 @@ part 'app_exception.freezed.dart';
 @freezed
 class AppException with _$AppException {
   // unknown
-  const factory AppException.unknown(String message) = Unknown;
+  const factory AppException.unknown(Object error, StackTrace stackTrace) =
+      Unknown;
   // Auth
   const factory AppException.invalidEmail(String? message) = InvalidEmail;
   const factory AppException.emailAlreadyInUse(String? message) =
@@ -40,7 +41,7 @@ extension AppExceptionMessage on AppException {
   String message(AppLocalizations loc) {
     return when(
       // unknown
-      unknown: (_) => loc.unknownAuthError,
+      unknown: (e, st) => loc.anErrorOccurred,
       // auth
       invalidEmail: (message) => message ?? loc.invalidEmail,
       emailAlreadyInUse: (message) => message ?? loc.emailAlreadyInUse,

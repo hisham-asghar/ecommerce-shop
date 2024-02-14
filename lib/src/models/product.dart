@@ -1,7 +1,7 @@
 typedef ProductID = String;
 
 class Product {
-  Product({
+  const Product({
     required this.id,
     required this.imageUrl,
     required this.title,

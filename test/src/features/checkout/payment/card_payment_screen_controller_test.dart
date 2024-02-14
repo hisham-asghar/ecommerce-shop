@@ -88,7 +88,8 @@ void main() {
     const saveCard = true;
     final mockCheckoutService = MockCheckoutService();
     when(() => mockCheckoutService.payByCard(saveCard)).thenAnswer(
-      (_) async => Future.value(const Error(AppException.unknown(''))),
+      (_) async => Future.value(
+          const Error(AppException.unknown('123', StackTrace.empty))),
     );
     final controller = CardPaymentScreenController(
       localizations: localizations,

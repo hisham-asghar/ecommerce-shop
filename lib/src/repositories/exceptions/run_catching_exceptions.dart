@@ -9,7 +9,7 @@ Future<Result<AppException, T>> runCatchingExceptions<T>(
   try {
     final result = await task();
     return Success(result);
-  } on FirebaseAuthException catch (e) {
+  } on FirebaseAuthException catch (e, st) {
     switch (e.code) {
       // sign in and create user errors
       case 'invalid-email':
@@ -29,29 +29,29 @@ Future<Result<AppException, T>> runCatchingExceptions<T>(
       case 'too-many-requests':
         return Error(AppException.tooManyAuthRequests(e.message));
       default:
-        return Error(AppException.unknown(e.message ?? e.toString()));
+        return Error(AppException.unknown(e, st));
     }
   } on FirebaseFunctionsException catch (e) {
     return Error(AppException.functions(e.message ?? e.toString()));
-  } on FirebaseException catch (e) {
+  } on FirebaseException catch (e, st) {
     switch (e.code) {
       case 'permission-denied':
         return Error(AppException.permissionDenied(e.message ?? e.toString()));
       default:
-        return Error(AppException.unknown(e.message ?? e.toString()));
+        return Error(AppException.unknown(e, st));
     }
-  } on StripeException catch (e) {
+  } on StripeException catch (e, st) {
     if (e.error.code == FailureCode.Failed) {
       return Error(AppException.paymentFailed(e.error.localizedMessage));
     } else if (e.error.code == FailureCode.Canceled) {
       return Error(AppException.paymentCanceled(e.error.localizedMessage));
     } else {
-      return Error(AppException.unknown(e.toString()));
+      return Error(AppException.unknown(e, st));
     }
   } on AppException catch (e) {
     // * if an [AppException] is thrown, just return it as an error
     return Error(e);
-  } catch (e) {
-    return Error(AppException.unknown(e.toString()));
+  } catch (e, st) {
+    return Error(AppException.unknown(e, st));
   }
 }

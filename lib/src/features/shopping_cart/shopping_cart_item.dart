@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_image.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_two_column_layout.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -86,8 +86,7 @@ class ShoppingCartItemContents extends ConsumerWidget {
       startFlex: 1,
       endFlex: 2,
       breakpoint: 320,
-      // TODO: Handle CORS https://flutter.dev/docs/development/platform-integration/web-images
-      startContent: CachedNetworkImage(imageUrl: product.imageUrl),
+      startContent: CustomImage(imageUrl: product.imageUrl),
       spacing: Sizes.p24,
       endContent: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

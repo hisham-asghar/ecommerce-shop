@@ -83,7 +83,8 @@ void main() {
   test('payment failure (other error)', () async {
     final mockCheckoutService = MockCheckoutService();
     when(() => mockCheckoutService.payWithPaymentSheet()).thenAnswer(
-      (_) async => Future.value(const Error(AppException.unknown(''))),
+      (_) async => Future.value(
+          const Error(AppException.unknown('123', StackTrace.empty))),
     );
     final controller = PaymentButtonController(
       localizations: localizations,

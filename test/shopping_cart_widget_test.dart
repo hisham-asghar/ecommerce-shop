@@ -14,11 +14,11 @@ void main() {
       r.expectFindNProductCards(0);
     });
 
-    testWidgets('Given default products Then product list has 4 items',
+    testWidgets('Given default products Then product list has 14 items',
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks(initTestProducts: true);
-      r.expectFindNProductCards(4);
+      r.expectFindNProductCards(14);
     });
 
     testWidgets('Given no items added When open cart Then cart is empty',

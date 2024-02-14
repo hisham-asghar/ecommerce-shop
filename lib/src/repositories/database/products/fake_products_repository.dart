@@ -1,5 +1,4 @@
-import 'package:faker/faker.dart';
-import 'package:my_shop_ecommerce_flutter/src/constants/app_assets.dart';
+import 'package:my_shop_ecommerce_flutter/src/constants/test_products.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/delay.dart';
@@ -15,7 +14,8 @@ class FakeProductsRepository implements ProductsRepository {
 
   // initialize with some test products
   void initWithTestProducts() {
-    _products.value = kTestProducts;
+    // * Using List.from to convert to a mutable list
+    _products.value = List.from(kTestProducts);
   }
 
   @override
@@ -71,39 +71,3 @@ class FakeProductsRepository implements ProductsRepository {
     return _products.value.firstWhere((product) => product.id == id);
   }
 }
-
-final faker = Faker();
-final kTestProducts = [
-  Product(
-    id: '1',
-    imageUrl: AppAssets.bruschettaPlate,
-    title: 'Bruschetta plate',
-    description: faker.lorem.sentence(),
-    price: 15,
-    availableQuantity: 5,
-  ),
-  Product(
-    id: '2',
-    imageUrl: AppAssets.mozzarellaPlate,
-    title: 'Mozzarella plate',
-    description: faker.lorem.sentence(),
-    price: 13,
-    availableQuantity: 5,
-  ),
-  Product(
-    id: '3',
-    imageUrl: AppAssets.pastaPlate,
-    title: 'Pasta plate',
-    description: faker.lorem.sentence(),
-    price: 17,
-    availableQuantity: 5,
-  ),
-  Product(
-    id: '4',
-    imageUrl: AppAssets.piggyBankBlue,
-    title: 'Piggy Bank Blue',
-    description: faker.lorem.sentence(),
-    price: 12,
-    availableQuantity: 5,
-  ),
-];

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
@@ -47,7 +46,7 @@ class CartSyncService {
               localItemsToAdd.add(
                   Item(productId: localItem.key, quantity: localItemQuantity));
             } else {
-              debugPrint('Product with id ${localItem.key} not found');
+              // TODO: Error reporting
             }
           }
           // Add all items to the remote cart

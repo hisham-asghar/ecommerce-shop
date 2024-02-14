@@ -11,7 +11,7 @@ export async function manageProductList(request: functions.Request, response: fu
         await generateProductList(projectId, firestore)
         response.sendStatus(200)
     }
-    else if (request.method === 'DELETE'){
+    else if (request.method === 'DELETE') {
         await clearProductList(firestore)
         response.sendStatus(200)
     } else {
@@ -20,7 +20,7 @@ export async function manageProductList(request: functions.Request, response: fu
 }
 
 async function generateProductList(projectId: string, firestore: FirebaseFirestore.Firestore) {
-    
+
     const productsData = [
         {
             id: '1',
@@ -109,7 +109,32 @@ async function generateProductList(projectId: string, firestore: FirebaseFiresto
             description: 'Lorem ipsum',
             price: 24,
             availableQuantity: 10
+        },
+        {
+            id: '12',
+            imageUrl: `https://firebasestorage.googleapis.com/v0/b/${projectId}.appspot.com/o/products%2Fflowers-plate.jpg?alt=media`,
+            title: 'Flowers plate',
+            description: 'Lorem ipsum',
+            price: 22,
+            availableQuantity: 10
+        },
+        {
+            id: '13',
+            imageUrl: `https://firebasestorage.googleapis.com/v0/b/${projectId}.appspot.com/o/products%2Fjuicer-citrus-fruits.jpg?alt=media`,
+            title: 'Juicer for citrus fruits',
+            description: 'Lorem ipsum',
+            price: 14,
+            availableQuantity: 10
+        },
+        {
+            id: '14',
+            imageUrl: `https://firebasestorage.googleapis.com/v0/b/${projectId}.appspot.com/o/products%2Fhoney-pot.jpg?alt=media`,
+            title: 'Honey pot',
+            description: 'Lorem ipsum',
+            price: 16,
+            availableQuantity: 10
         }
+
     ]
     for (var product of productsData) {
         // insert new document for product with given ID

@@ -17,9 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$AppExceptionTearOff {
   const _$AppExceptionTearOff();
 
-  Unknown unknown(String message) {
+  Unknown unknown(Object error, StackTrace stackTrace) {
     return Unknown(
-      message,
+      error,
+      stackTrace,
     );
   }
 
@@ -111,7 +112,7 @@ const $AppException = _$AppExceptionTearOff();
 mixin _$AppException {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -130,7 +131,7 @@ mixin _$AppException {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -149,7 +150,7 @@ mixin _$AppException {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -247,7 +248,7 @@ class _$AppExceptionCopyWithImpl<$Res> implements $AppExceptionCopyWith<$Res> {
 abstract class $UnknownCopyWith<$Res> {
   factory $UnknownCopyWith(Unknown value, $Res Function(Unknown) then) =
       _$UnknownCopyWithImpl<$Res>;
-  $Res call({String message});
+  $Res call({Object error, StackTrace stackTrace});
 }
 
 /// @nodoc
@@ -261,13 +262,18 @@ class _$UnknownCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? message = freezed,
+    Object? error = freezed,
+    Object? stackTrace = freezed,
   }) {
     return _then(Unknown(
-      message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Object,
+      stackTrace == freezed
+          ? _value.stackTrace
+          : stackTrace // ignore: cast_nullable_to_non_nullable
+              as StackTrace,
     ));
   }
 }
@@ -275,14 +281,16 @@ class _$UnknownCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Unknown implements Unknown {
-  const _$Unknown(this.message);
+  const _$Unknown(this.error, this.stackTrace);
 
   @override
-  final String message;
+  final Object error;
+  @override
+  final StackTrace stackTrace;
 
   @override
   String toString() {
-    return 'AppException.unknown(message: $message)';
+    return 'AppException.unknown(error: $error, stackTrace: $stackTrace)';
   }
 
   @override
@@ -290,12 +298,16 @@ class _$Unknown implements Unknown {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Unknown &&
-            const DeepCollectionEquality().equals(other.message, message));
+            const DeepCollectionEquality().equals(other.error, error) &&
+            const DeepCollectionEquality()
+                .equals(other.stackTrace, stackTrace));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(error),
+      const DeepCollectionEquality().hash(stackTrace));
 
   @JsonKey(ignore: true)
   @override
@@ -305,7 +317,7 @@ class _$Unknown implements Unknown {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -321,13 +333,13 @@ class _$Unknown implements Unknown {
     required TResult Function() missingAddress,
     required TResult Function() userNotSignedIn,
   }) {
-    return unknown(message);
+    return unknown(error, stackTrace);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -343,13 +355,13 @@ class _$Unknown implements Unknown {
     TResult Function()? missingAddress,
     TResult Function()? userNotSignedIn,
   }) {
-    return unknown?.call(message);
+    return unknown?.call(error, stackTrace);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -367,7 +379,7 @@ class _$Unknown implements Unknown {
     required TResult orElse(),
   }) {
     if (unknown != null) {
-      return unknown(message);
+      return unknown(error, stackTrace);
     }
     return orElse();
   }
@@ -444,9 +456,10 @@ class _$Unknown implements Unknown {
 }
 
 abstract class Unknown implements AppException {
-  const factory Unknown(String message) = _$Unknown;
+  const factory Unknown(Object error, StackTrace stackTrace) = _$Unknown;
 
-  String get message;
+  Object get error;
+  StackTrace get stackTrace;
   @JsonKey(ignore: true)
   $UnknownCopyWith<Unknown> get copyWith => throw _privateConstructorUsedError;
 }
@@ -515,7 +528,7 @@ class _$InvalidEmail implements InvalidEmail {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -537,7 +550,7 @@ class _$InvalidEmail implements InvalidEmail {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -559,7 +572,7 @@ class _$InvalidEmail implements InvalidEmail {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -727,7 +740,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -749,7 +762,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -771,7 +784,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -938,7 +951,7 @@ class _$WeakPassword implements WeakPassword {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -960,7 +973,7 @@ class _$WeakPassword implements WeakPassword {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -982,7 +995,7 @@ class _$WeakPassword implements WeakPassword {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1150,7 +1163,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1172,7 +1185,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1194,7 +1207,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1361,7 +1374,7 @@ class _$WrongPassword implements WrongPassword {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1383,7 +1396,7 @@ class _$WrongPassword implements WrongPassword {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1405,7 +1418,7 @@ class _$WrongPassword implements WrongPassword {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1572,7 +1585,7 @@ class _$UserNotFound implements UserNotFound {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1594,7 +1607,7 @@ class _$UserNotFound implements UserNotFound {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1616,7 +1629,7 @@ class _$UserNotFound implements UserNotFound {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1783,7 +1796,7 @@ class _$UserDisabled implements UserDisabled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1805,7 +1818,7 @@ class _$UserDisabled implements UserDisabled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1827,7 +1840,7 @@ class _$UserDisabled implements UserDisabled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1995,7 +2008,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2017,7 +2030,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2039,7 +2052,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2207,7 +2220,7 @@ class _$PermissionDenied implements PermissionDenied {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2229,7 +2242,7 @@ class _$PermissionDenied implements PermissionDenied {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2251,7 +2264,7 @@ class _$PermissionDenied implements PermissionDenied {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2416,7 +2429,7 @@ class _$Functions implements Functions {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2438,7 +2451,7 @@ class _$Functions implements Functions {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2460,7 +2473,7 @@ class _$Functions implements Functions {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2627,7 +2640,7 @@ class _$PaymentFailed implements PaymentFailed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2649,7 +2662,7 @@ class _$PaymentFailed implements PaymentFailed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2671,7 +2684,7 @@ class _$PaymentFailed implements PaymentFailed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2839,7 +2852,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2861,7 +2874,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2883,7 +2896,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3027,7 +3040,7 @@ class _$MissingAddress implements MissingAddress {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -3049,7 +3062,7 @@ class _$MissingAddress implements MissingAddress {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3071,7 +3084,7 @@ class _$MissingAddress implements MissingAddress {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3210,7 +3223,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String message) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -3232,7 +3245,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3254,7 +3267,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,

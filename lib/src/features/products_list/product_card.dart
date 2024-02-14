@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/custom_image.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_average_rating.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
@@ -28,7 +28,7 @@ class ProductCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CachedNetworkImage(imageUrl: product.imageUrl),
+              CustomImage(imageUrl: product.imageUrl),
               gapH8,
               const Divider(),
               gapH8,
