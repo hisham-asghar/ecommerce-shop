@@ -1,11 +1,8 @@
-import 'package:flutter/services.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
 
 class EmailAndPasswordValidators {
-  final TextInputFormatter emailInputFormatter =
-      ValidatorInputFormatter(editingValidator: EmailEditingRegexValidator());
   final StringValidator emailSubmitValidator = EmailSubmitRegexValidator();
   final StringValidator passwordRegisterSubmitValidator =
       MinLengthStringValidator(8);
@@ -18,32 +15,26 @@ class EmailPasswordSignInState with EmailAndPasswordValidators {
     required this.localizations,
     this.formType = EmailPasswordSignInFormType.signIn,
     this.isLoading = false,
-    this.submitted = false,
   });
   final AppLocalizations localizations;
 
   final EmailPasswordSignInFormType formType;
   final bool isLoading;
-  final bool submitted;
 
   EmailPasswordSignInState copyWith({
-    String? email,
-    String? password,
     EmailPasswordSignInFormType? formType,
     bool? isLoading,
-    bool? submitted,
   }) {
     return EmailPasswordSignInState(
       localizations: localizations,
       formType: formType ?? this.formType,
       isLoading: isLoading ?? this.isLoading,
-      submitted: submitted ?? this.submitted,
     );
   }
 
   @override
   String toString() {
-    return 'EmailPasswordSignInState(formType: $formType, isLoading: $isLoading, submitted: $submitted)';
+    return 'EmailPasswordSignInState(formType: $formType, isLoading: $isLoading)';
   }
 
   @override
@@ -52,13 +43,12 @@ class EmailPasswordSignInState with EmailAndPasswordValidators {
 
     return other is EmailPasswordSignInState &&
         other.formType == formType &&
-        other.isLoading == isLoading &&
-        other.submitted == submitted;
+        other.isLoading == isLoading;
   }
 
   @override
   int get hashCode {
-    return formType.hashCode ^ isLoading.hashCode ^ submitted.hashCode;
+    return formType.hashCode ^ isLoading.hashCode;
   }
 }
 
@@ -124,16 +114,8 @@ extension EmailPasswordSignInStateX on EmailPasswordSignInState {
     return passwordSignInSubmitValidator.isValid(password);
   }
 
-  bool canSubmit(String email, String password) {
-    final bool canSubmitFields =
-        formType == EmailPasswordSignInFormType.forgotPassword
-            ? canSubmitEmail(email)
-            : canSubmitEmail(email) && canSubmitPassword(password);
-    return canSubmitFields && !isLoading;
-  }
-
   String? emailErrorText(String email) {
-    final bool showErrorText = submitted && !canSubmitEmail(email);
+    final bool showErrorText = !canSubmitEmail(email);
     final String errorText = email.isEmpty
         ? localizations.invalidEmailEmpty
         : localizations.invalidEmail;
@@ -141,7 +123,7 @@ extension EmailPasswordSignInStateX on EmailPasswordSignInState {
   }
 
   String? passwordErrorText(String password) {
-    final bool showErrorText = submitted && !canSubmitPassword(password);
+    final bool showErrorText = !canSubmitPassword(password);
     final String errorText = password.isEmpty
         ? localizations.invalidPasswordEmpty
         : localizations.invalidPasswordTooShort;

@@ -20,10 +20,6 @@ class EmailPasswordSignInController
   final AppLocalizations localizations;
 
   Future<Result<String, bool>> submit(String email, String password) async {
-    state = state.copyWith(submitted: true);
-    if (!state.canSubmit(email, password)) {
-      return const Success(false);
-    }
     state = state.copyWith(isLoading: true);
     final result = await _submit(email, password);
     state = state.copyWith(isLoading: false);
@@ -44,15 +40,10 @@ class EmailPasswordSignInController
     }
   }
 
-  void update({required String email, required String password}) =>
-      state = state.copyWith(email: email, password: password);
-
   void updateFormType(EmailPasswordSignInFormType formType) {
     state = state.copyWith(
-      password: '', // reset the password only, not the email
       formType: formType,
       isLoading: false,
-      submitted: false,
     );
   }
 }

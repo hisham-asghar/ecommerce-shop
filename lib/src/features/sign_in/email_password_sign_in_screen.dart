@@ -9,8 +9,12 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_scrollab
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 
+/// Email & password sign in screen.
+/// Wraps the [EmailPasswordSignInContents] widget below with a [Scaffold] and
+/// [AppBar] with a title.
 class EmailPasswordSignInScreen extends ConsumerWidget {
   const EmailPasswordSignInScreen({Key? key, required this.formType})
       : super(key: key);
@@ -31,6 +35,10 @@ class EmailPasswordSignInScreen extends ConsumerWidget {
   }
 }
 
+/// A widget for email & password authentication, supporting the following:
+/// - sign in
+/// - register (create an account)
+/// - forgot password
 class EmailPasswordSignInContents extends ConsumerStatefulWidget {
   const EmailPasswordSignInContents({
     Key? key,
@@ -38,6 +46,8 @@ class EmailPasswordSignInContents extends ConsumerStatefulWidget {
     required this.formType,
   }) : super(key: key);
   final VoidCallback? onSignedIn;
+
+  /// The default form type to use.
   final EmailPasswordSignInFormType formType;
   @override
   _EmailPasswordSignInContentsState createState() =>
@@ -46,12 +56,19 @@ class EmailPasswordSignInContents extends ConsumerStatefulWidget {
 
 class _EmailPasswordSignInContentsState
     extends ConsumerState<EmailPasswordSignInContents> {
+  final _formKey = GlobalKey<FormState>();
   final _node = FocusScopeNode();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   String get email => _emailController.text;
   String get password => _passwordController.text;
+
+  // local variable used to apply AutovalidateMode.onUserInteraction and show
+  // error hints only when the form has been submitted
+  // For more details on how this is implemented, see:
+  // https://codewithandrea.com/articles/flutter-text-field-form-validation/
+  var _submitted = false;
 
   @override
   void dispose() {
@@ -62,28 +79,33 @@ class _EmailPasswordSignInContentsState
   }
 
   Future<void> _submit(EmailPasswordSignInState state) async {
-    final controller = ref
-        .read(emailPasswordSignInControllerProvider(widget.formType).notifier);
-    final result = await controller.submit(email, password);
-    result.when(
-      (error) => showExceptionAlertDialog(
-        context: context,
-        title: state.errorAlertTitle,
-        exception: error,
-      ),
-      (success) async {
-        if (state.formType == EmailPasswordSignInFormType.forgotPassword) {
-          await showAlertDialog(
-            context: context,
-            title: context.loc.resetLinkSentTitle,
-            content: context.loc.resetLinkSentMessage,
-            defaultActionText: context.loc.ok,
-          );
-        } else {
-          widget.onSignedIn?.call();
-        }
-      },
-    );
+    setState(() => _submitted = true);
+    // only submit the form if validation passes
+    if (_formKey.currentState!.validate()) {
+      final controller = ref.read(
+          emailPasswordSignInControllerProvider(widget.formType).notifier);
+      // submit the form
+      final result = await controller.submit(email, password);
+      result.when(
+        (error) => showExceptionAlertDialog(
+          context: context,
+          title: state.errorAlertTitle,
+          exception: error,
+        ),
+        (success) async {
+          if (state.formType == EmailPasswordSignInFormType.forgotPassword) {
+            await showAlertDialog(
+              context: context,
+              title: context.loc.resetLinkSentTitle,
+              content: context.loc.resetLinkSentMessage,
+              defaultActionText: context.loc.ok,
+            );
+          } else {
+            widget.onSignedIn?.call();
+          }
+        },
+      );
+    }
   }
 
   void _emailEditingComplete(EmailPasswordSignInState state) {
@@ -115,13 +137,7 @@ class _EmailPasswordSignInContentsState
       child: FocusScope(
         node: _node,
         child: Form(
-          onChanged: () => ref
-              .read(emailPasswordSignInControllerProvider(widget.formType)
-                  .notifier)
-              .update(
-                email: _emailController.text,
-                password: _passwordController.text,
-              ),
+          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -133,16 +149,19 @@ class _EmailPasswordSignInContentsState
                 decoration: InputDecoration(
                   labelText: context.loc.emailLabel,
                   hintText: context.loc.emailHint,
-                  errorText: state.emailErrorText(email),
                   enabled: !state.isLoading,
                 ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (email) =>
+                    !_submitted ? null : state.emailErrorText(email ?? ''),
                 autocorrect: false,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
                 keyboardAppearance: Brightness.light,
                 onEditingComplete: () => _emailEditingComplete(state),
                 inputFormatters: <TextInputFormatter>[
-                  state.emailInputFormatter,
+                  ValidatorInputFormatter(
+                      editingValidator: EmailEditingRegexValidator()),
                 ],
               ),
               if (state.formType !=
@@ -154,9 +173,12 @@ class _EmailPasswordSignInContentsState
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: state.passwordLabelText,
-                    errorText: state.passwordErrorText(password),
                     enabled: !state.isLoading,
                   ),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (password) => !_submitted
+                      ? null
+                      : state.passwordErrorText(password ?? ''),
                   obscureText: true,
                   autocorrect: false,
                   textInputAction: TextInputAction.done,
