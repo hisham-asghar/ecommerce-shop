@@ -12,6 +12,11 @@ exports.promoteToAdminIfWhitelisted = functions.region(region).auth.user().onCre
   return promoteToAdminIfWhitelisted(user, context)
 })
 
+// Migrations
+// * Commented out as it should not be enabled in production
+// import { manageShoppingCart } from './migrations';
+// exports.manageShoppingCart = functions.region(region).https.onRequest(manageShoppingCart);
+
 // Cart
 import { createOrderPaymentIntent } from './cart'
 
@@ -22,8 +27,8 @@ exports.createOrderPaymentIntent = functions.region(region).https.onCall(createO
 import { updateRating } from './reviews'
 
 exports.updateProductRating = functions.region(region).firestore
-    .document(`products/{id}/reviews/{uid}`)
-    .onWrite((change, _) => updateRating(change))
+  .document(`products/{id}/reviews/{uid}`)
+  .onWrite((change, _) => updateRating(change))
 
 
 // Stripe 
