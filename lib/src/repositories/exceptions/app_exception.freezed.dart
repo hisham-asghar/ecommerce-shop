@@ -78,6 +78,12 @@ class _$AppExceptionTearOff {
     );
   }
 
+  ParseError parseError(String message) {
+    return ParseError(
+      message,
+    );
+  }
+
   Functions functions(String message) {
     return Functions(
       message,
@@ -122,6 +128,7 @@ mixin _$AppException {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -141,6 +148,7 @@ mixin _$AppException {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -160,6 +168,7 @@ mixin _$AppException {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -180,6 +189,7 @@ mixin _$AppException {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -199,6 +209,7 @@ mixin _$AppException {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -218,6 +229,7 @@ mixin _$AppException {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -327,6 +339,7 @@ class _$Unknown implements Unknown {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -349,6 +362,7 @@ class _$Unknown implements Unknown {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -371,6 +385,7 @@ class _$Unknown implements Unknown {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -397,6 +412,7 @@ class _$Unknown implements Unknown {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -419,6 +435,7 @@ class _$Unknown implements Unknown {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -441,6 +458,7 @@ class _$Unknown implements Unknown {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -538,6 +556,7 @@ class _$InvalidEmail implements InvalidEmail {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -560,6 +579,7 @@ class _$InvalidEmail implements InvalidEmail {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -582,6 +602,7 @@ class _$InvalidEmail implements InvalidEmail {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -608,6 +629,7 @@ class _$InvalidEmail implements InvalidEmail {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -630,6 +652,7 @@ class _$InvalidEmail implements InvalidEmail {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -652,6 +675,7 @@ class _$InvalidEmail implements InvalidEmail {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -750,6 +774,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -772,6 +797,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -794,6 +820,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -820,6 +847,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -842,6 +870,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -864,6 +893,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -961,6 +991,7 @@ class _$WeakPassword implements WeakPassword {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -983,6 +1014,7 @@ class _$WeakPassword implements WeakPassword {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1005,6 +1037,7 @@ class _$WeakPassword implements WeakPassword {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1031,6 +1064,7 @@ class _$WeakPassword implements WeakPassword {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -1053,6 +1087,7 @@ class _$WeakPassword implements WeakPassword {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1075,6 +1110,7 @@ class _$WeakPassword implements WeakPassword {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1173,6 +1209,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -1195,6 +1232,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1217,6 +1255,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1243,6 +1282,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -1265,6 +1305,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1287,6 +1328,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1384,6 +1426,7 @@ class _$WrongPassword implements WrongPassword {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -1406,6 +1449,7 @@ class _$WrongPassword implements WrongPassword {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1428,6 +1472,7 @@ class _$WrongPassword implements WrongPassword {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1454,6 +1499,7 @@ class _$WrongPassword implements WrongPassword {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -1476,6 +1522,7 @@ class _$WrongPassword implements WrongPassword {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1498,6 +1545,7 @@ class _$WrongPassword implements WrongPassword {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1595,6 +1643,7 @@ class _$UserNotFound implements UserNotFound {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -1617,6 +1666,7 @@ class _$UserNotFound implements UserNotFound {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1639,6 +1689,7 @@ class _$UserNotFound implements UserNotFound {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1665,6 +1716,7 @@ class _$UserNotFound implements UserNotFound {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -1687,6 +1739,7 @@ class _$UserNotFound implements UserNotFound {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1709,6 +1762,7 @@ class _$UserNotFound implements UserNotFound {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1806,6 +1860,7 @@ class _$UserDisabled implements UserDisabled {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -1828,6 +1883,7 @@ class _$UserDisabled implements UserDisabled {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1850,6 +1906,7 @@ class _$UserDisabled implements UserDisabled {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -1876,6 +1933,7 @@ class _$UserDisabled implements UserDisabled {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -1898,6 +1956,7 @@ class _$UserDisabled implements UserDisabled {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -1920,6 +1979,7 @@ class _$UserDisabled implements UserDisabled {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2018,6 +2078,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -2040,6 +2101,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2062,6 +2124,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2088,6 +2151,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -2110,6 +2174,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2132,6 +2197,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2230,6 +2296,7 @@ class _$PermissionDenied implements PermissionDenied {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -2252,6 +2319,7 @@ class _$PermissionDenied implements PermissionDenied {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2274,6 +2342,7 @@ class _$PermissionDenied implements PermissionDenied {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2300,6 +2369,7 @@ class _$PermissionDenied implements PermissionDenied {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -2322,6 +2392,7 @@ class _$PermissionDenied implements PermissionDenied {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2344,6 +2415,7 @@ class _$PermissionDenied implements PermissionDenied {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2364,6 +2436,222 @@ abstract class PermissionDenied implements AppException {
   String get message;
   @JsonKey(ignore: true)
   $PermissionDeniedCopyWith<PermissionDenied> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ParseErrorCopyWith<$Res> {
+  factory $ParseErrorCopyWith(
+          ParseError value, $Res Function(ParseError) then) =
+      _$ParseErrorCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+/// @nodoc
+class _$ParseErrorCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
+    implements $ParseErrorCopyWith<$Res> {
+  _$ParseErrorCopyWithImpl(ParseError _value, $Res Function(ParseError) _then)
+      : super(_value, (v) => _then(v as ParseError));
+
+  @override
+  ParseError get _value => super._value as ParseError;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(ParseError(
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ParseError implements ParseError {
+  const _$ParseError(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'AppException.parseError(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ParseError &&
+            const DeepCollectionEquality().equals(other.message, message));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+
+  @JsonKey(ignore: true)
+  @override
+  $ParseErrorCopyWith<ParseError> get copyWith =>
+      _$ParseErrorCopyWithImpl<ParseError>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(String? message) invalidEmail,
+    required TResult Function(String? message) emailAlreadyInUse,
+    required TResult Function(String? message) weakPassword,
+    required TResult Function(String? message) operationNotAllowed,
+    required TResult Function(String? message) wrongPassword,
+    required TResult Function(String? message) userNotFound,
+    required TResult Function(String? message) userDisabled,
+    required TResult Function(String? message) tooManyAuthRequests,
+    required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
+    required TResult Function(String message) functions,
+    required TResult Function(String? message) paymentFailed,
+    required TResult Function(String? message) paymentCanceled,
+    required TResult Function() missingAddress,
+    required TResult Function() userNotSignedIn,
+  }) {
+    return parseError(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(String? message)? invalidEmail,
+    TResult Function(String? message)? emailAlreadyInUse,
+    TResult Function(String? message)? weakPassword,
+    TResult Function(String? message)? operationNotAllowed,
+    TResult Function(String? message)? wrongPassword,
+    TResult Function(String? message)? userNotFound,
+    TResult Function(String? message)? userDisabled,
+    TResult Function(String? message)? tooManyAuthRequests,
+    TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
+    TResult Function(String message)? functions,
+    TResult Function(String? message)? paymentFailed,
+    TResult Function(String? message)? paymentCanceled,
+    TResult Function()? missingAddress,
+    TResult Function()? userNotSignedIn,
+  }) {
+    return parseError?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(String? message)? invalidEmail,
+    TResult Function(String? message)? emailAlreadyInUse,
+    TResult Function(String? message)? weakPassword,
+    TResult Function(String? message)? operationNotAllowed,
+    TResult Function(String? message)? wrongPassword,
+    TResult Function(String? message)? userNotFound,
+    TResult Function(String? message)? userDisabled,
+    TResult Function(String? message)? tooManyAuthRequests,
+    TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
+    TResult Function(String message)? functions,
+    TResult Function(String? message)? paymentFailed,
+    TResult Function(String? message)? paymentCanceled,
+    TResult Function()? missingAddress,
+    TResult Function()? userNotSignedIn,
+    required TResult orElse(),
+  }) {
+    if (parseError != null) {
+      return parseError(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Unknown value) unknown,
+    required TResult Function(InvalidEmail value) invalidEmail,
+    required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
+    required TResult Function(WeakPassword value) weakPassword,
+    required TResult Function(OperationNotAllowed value) operationNotAllowed,
+    required TResult Function(WrongPassword value) wrongPassword,
+    required TResult Function(UserNotFound value) userNotFound,
+    required TResult Function(UserDisabled value) userDisabled,
+    required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
+    required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
+    required TResult Function(Functions value) functions,
+    required TResult Function(PaymentFailed value) paymentFailed,
+    required TResult Function(PaymentCanceled value) paymentCanceled,
+    required TResult Function(MissingAddress value) missingAddress,
+    required TResult Function(UserNotSignedIn value) userNotSignedIn,
+  }) {
+    return parseError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Unknown value)? unknown,
+    TResult Function(InvalidEmail value)? invalidEmail,
+    TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(WeakPassword value)? weakPassword,
+    TResult Function(OperationNotAllowed value)? operationNotAllowed,
+    TResult Function(WrongPassword value)? wrongPassword,
+    TResult Function(UserNotFound value)? userNotFound,
+    TResult Function(UserDisabled value)? userDisabled,
+    TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
+    TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
+    TResult Function(Functions value)? functions,
+    TResult Function(PaymentFailed value)? paymentFailed,
+    TResult Function(PaymentCanceled value)? paymentCanceled,
+    TResult Function(MissingAddress value)? missingAddress,
+    TResult Function(UserNotSignedIn value)? userNotSignedIn,
+  }) {
+    return parseError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Unknown value)? unknown,
+    TResult Function(InvalidEmail value)? invalidEmail,
+    TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(WeakPassword value)? weakPassword,
+    TResult Function(OperationNotAllowed value)? operationNotAllowed,
+    TResult Function(WrongPassword value)? wrongPassword,
+    TResult Function(UserNotFound value)? userNotFound,
+    TResult Function(UserDisabled value)? userDisabled,
+    TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
+    TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
+    TResult Function(Functions value)? functions,
+    TResult Function(PaymentFailed value)? paymentFailed,
+    TResult Function(PaymentCanceled value)? paymentCanceled,
+    TResult Function(MissingAddress value)? missingAddress,
+    TResult Function(UserNotSignedIn value)? userNotSignedIn,
+    required TResult orElse(),
+  }) {
+    if (parseError != null) {
+      return parseError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ParseError implements AppException {
+  const factory ParseError(String message) = _$ParseError;
+
+  String get message;
+  @JsonKey(ignore: true)
+  $ParseErrorCopyWith<ParseError> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2439,6 +2727,7 @@ class _$Functions implements Functions {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -2461,6 +2750,7 @@ class _$Functions implements Functions {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2483,6 +2773,7 @@ class _$Functions implements Functions {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2509,6 +2800,7 @@ class _$Functions implements Functions {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -2531,6 +2823,7 @@ class _$Functions implements Functions {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2553,6 +2846,7 @@ class _$Functions implements Functions {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2650,6 +2944,7 @@ class _$PaymentFailed implements PaymentFailed {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -2672,6 +2967,7 @@ class _$PaymentFailed implements PaymentFailed {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2694,6 +2990,7 @@ class _$PaymentFailed implements PaymentFailed {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2720,6 +3017,7 @@ class _$PaymentFailed implements PaymentFailed {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -2742,6 +3040,7 @@ class _$PaymentFailed implements PaymentFailed {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2764,6 +3063,7 @@ class _$PaymentFailed implements PaymentFailed {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2862,6 +3162,7 @@ class _$PaymentCanceled implements PaymentCanceled {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -2884,6 +3185,7 @@ class _$PaymentCanceled implements PaymentCanceled {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2906,6 +3208,7 @@ class _$PaymentCanceled implements PaymentCanceled {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -2932,6 +3235,7 @@ class _$PaymentCanceled implements PaymentCanceled {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -2954,6 +3258,7 @@ class _$PaymentCanceled implements PaymentCanceled {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -2976,6 +3281,7 @@ class _$PaymentCanceled implements PaymentCanceled {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -3050,6 +3356,7 @@ class _$MissingAddress implements MissingAddress {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -3072,6 +3379,7 @@ class _$MissingAddress implements MissingAddress {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -3094,6 +3402,7 @@ class _$MissingAddress implements MissingAddress {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -3120,6 +3429,7 @@ class _$MissingAddress implements MissingAddress {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -3142,6 +3452,7 @@ class _$MissingAddress implements MissingAddress {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -3164,6 +3475,7 @@ class _$MissingAddress implements MissingAddress {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -3233,6 +3545,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
     required TResult Function(String? message) userDisabled,
     required TResult Function(String? message) tooManyAuthRequests,
     required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
     required TResult Function(String message) functions,
     required TResult Function(String? message) paymentFailed,
     required TResult Function(String? message) paymentCanceled,
@@ -3255,6 +3568,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -3277,6 +3591,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
     TResult Function(String? message)? userDisabled,
     TResult Function(String? message)? tooManyAuthRequests,
     TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
     TResult Function(String message)? functions,
     TResult Function(String? message)? paymentFailed,
     TResult Function(String? message)? paymentCanceled,
@@ -3303,6 +3618,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
     required TResult Function(UserDisabled value) userDisabled,
     required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
     required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
     required TResult Function(Functions value) functions,
     required TResult Function(PaymentFailed value) paymentFailed,
     required TResult Function(PaymentCanceled value) paymentCanceled,
@@ -3325,6 +3641,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,
@@ -3347,6 +3664,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
     TResult Function(UserDisabled value)? userDisabled,
     TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
     TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
     TResult Function(Functions value)? functions,
     TResult Function(PaymentFailed value)? paymentFailed,
     TResult Function(PaymentCanceled value)? paymentCanceled,

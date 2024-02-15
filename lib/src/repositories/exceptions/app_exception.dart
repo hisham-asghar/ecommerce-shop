@@ -24,6 +24,7 @@ class AppException with _$AppException {
   // Database
   const factory AppException.permissionDenied(String message) =
       PermissionDenied;
+  const factory AppException.parseError(String message) = ParseError;
 
   // Functions
   const factory AppException.functions(String message) = Functions;
@@ -53,6 +54,7 @@ extension AppExceptionMessage on AppException {
       tooManyAuthRequests: (message) => message ?? loc.tooManyAuthRequests,
       // database
       permissionDenied: (message) => message,
+      parseError: (message) => message,
       // functions
       functions: (message) => message,
       // payments

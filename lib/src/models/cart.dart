@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/product.dart';
-
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 
 class Cart {
   const Cart([this.items = const {}]);
+
   /// All the items in the shopping cart, where:
   /// - key: product ID
   /// - value: quantity
@@ -32,7 +33,7 @@ class Cart {
     } else if (value is Map<String, dynamic>) {
       return Map<String, int>.from(value);
     } else {
-      throw ArgumentError('Invalid items: $value');
+      throw AppException.parseError('Invalid items: $value');
     }
   }
 

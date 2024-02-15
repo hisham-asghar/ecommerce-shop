@@ -1,40 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/item.dart';
-
-enum PaymentStatus { notPaid, paid }
-
-extension PaymentStatusString on PaymentStatus {
-  String status() {
-    switch (this) {
-      case PaymentStatus.notPaid:
-        return 'Not Paid';
-      case PaymentStatus.paid:
-        return 'Completed';
-    }
-  }
-}
+import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 
 enum OrderStatus { confirmed, shipped, delivered }
 
 extension OrderStatusString on OrderStatus {
-  String get rawString => describeEnum(this);
-
   static OrderStatus fromString(String string) {
     if (string == 'confirmed') return OrderStatus.confirmed;
     if (string == 'shipped') return OrderStatus.shipped;
     if (string == 'delivered') return OrderStatus.delivered;
-    throw UnsupportedError('Could not parse order status: $string');
-  }
-
-  String status() {
-    switch (this) {
-      case OrderStatus.confirmed:
-        return 'Confirmed';
-      case OrderStatus.shipped:
-        return 'Shipped';
-      case OrderStatus.delivered:
-        return 'Delivered';
-    }
+    throw AppException.parseError('Could not parse order status: $string');
   }
 }
 
@@ -68,7 +43,6 @@ class Order {
     Map<String, int>? items,
     OrderStatus? orderStatus,
     DateTime? orderDate,
-    //DateTime? deliveryDate,
     double? total,
   }) {
     return Order(
@@ -77,7 +51,6 @@ class Order {
       items: items ?? this.items,
       orderStatus: orderStatus ?? this.orderStatus,
       orderDate: orderDate ?? this.orderDate,
-      //deliveryDate: deliveryDate ?? this.deliveryDate,
       total: total ?? this.total,
     );
   }
@@ -114,7 +87,7 @@ class Order {
     return {
       'userId': userId,
       'items': items,
-      'orderStatus': orderStatus.rawString,
+      'orderStatus': orderStatus.name,
       'orderDate': orderDate.toIso8601String(),
       'total': total,
     };
@@ -141,7 +114,7 @@ class Order {
     } else if (value is Map<String, dynamic>) {
       return Map<String, int>.from(value);
     } else {
-      throw ArgumentError('Invalid items: $value');
+      throw AppException.parseError('Invalid items: $value');
     }
   }
 }
