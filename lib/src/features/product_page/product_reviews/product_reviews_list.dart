@@ -20,7 +20,7 @@ class ProductReviewsList extends ConsumerWidget {
       data: (reviews) => SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) => ResponsiveCenter(
-            maxContentWidth: FormFactor.tablet,
+            maxContentWidth: Breakpoint.tablet,
             padding: const EdgeInsets.symmetric(
                 horizontal: Sizes.p16, vertical: Sizes.p8),
             child: ProductReviewCard(reviews[index]),

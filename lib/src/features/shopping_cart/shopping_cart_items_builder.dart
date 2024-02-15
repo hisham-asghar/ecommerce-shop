@@ -34,7 +34,7 @@ class ShoppingCartItemsBuilder extends ConsumerWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     // * on wide layouts, show a list of items on the left and the checkout
     // * button on the right
-    if (screenWidth >= FormFactor.tablet) {
+    if (screenWidth >= Breakpoint.tablet) {
       return ResponsiveCenter(
         padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
         child: Row(

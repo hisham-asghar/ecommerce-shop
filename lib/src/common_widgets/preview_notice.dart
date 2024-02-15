@@ -30,7 +30,7 @@ class PreviewNotice extends StatelessWidget {
                 borderRadius: BorderRadius.circular(Sizes.p16),
               ),
               child: SizedBox(
-                width: (screenWidth - FormFactor.desktop - Sizes.p48) / 2,
+                width: (screenWidth - Breakpoint.desktop - Sizes.p48) / 2,
                 child: Padding(
                   padding: const EdgeInsets.all(Sizes.p16),
                   child: Text(

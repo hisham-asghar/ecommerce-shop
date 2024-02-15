@@ -12,7 +12,7 @@ class ResponsiveScrollableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ResponsiveCenter(
-        maxContentWidth: FormFactor.tablet,
+        maxContentWidth: Breakpoint.tablet,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.p16),
           child: Card(

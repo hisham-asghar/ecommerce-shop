@@ -29,7 +29,7 @@ class LeaveReviewScreen extends ConsumerWidget {
         title: Text(context.loc.leaveReview),
       ),
       body: ResponsiveCenter(
-        maxContentWidth: FormFactor.tablet,
+        maxContentWidth: Breakpoint.tablet,
         padding: const EdgeInsets.all(Sizes.p16),
         child: AsyncValueWidget<Review?>(
           value: reviewValue,

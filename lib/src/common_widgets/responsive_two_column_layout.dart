@@ -10,7 +10,7 @@ class ResponsiveTwoColumnLayout extends StatelessWidget {
     required this.endContent,
     this.startFlex = 1,
     this.endFlex = 1,
-    this.breakpoint = FormFactor.tablet,
+    this.breakpoint = Breakpoint.tablet,
     required this.spacing,
     this.rowMainAxisAlignment = MainAxisAlignment.start,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,

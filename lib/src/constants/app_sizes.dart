@@ -12,7 +12,7 @@ class Sizes {
   static const p64 = 64.0;
 }
 
-class FormFactor {
+class Breakpoint {
   static const double desktop = 900;
   static const double tablet = 600;
 }

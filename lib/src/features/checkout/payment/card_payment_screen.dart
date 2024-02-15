@@ -42,7 +42,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
       appBar: AppBar(title: Text(context.loc.cardPayment)),
       body: Center(
         child: SizedBox(
-          width: FormFactor.tablet,
+          width: Breakpoint.tablet,
           child: Padding(
             padding: const EdgeInsets.all(Sizes.p16),
             child: Column(

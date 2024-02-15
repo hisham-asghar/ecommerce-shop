@@ -18,7 +18,7 @@ class AdminScreen extends StatelessWidget {
         padding: const EdgeInsets.all(Sizes.p16),
         child: Center(
           child: SizedBox(
-            width: FormFactor.tablet,
+            width: Breakpoint.tablet,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -9,7 +9,7 @@ import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
 class ResponsiveCenter extends StatelessWidget {
   const ResponsiveCenter({
     Key? key,
-    this.maxContentWidth = FormFactor.desktop,
+    this.maxContentWidth = Breakpoint.desktop,
     this.padding = EdgeInsets.zero,
     required this.child,
   }) : super(key: key);
@@ -39,7 +39,7 @@ class ResponsiveCenter extends StatelessWidget {
 class ResponsiveSliverCenter extends StatelessWidget {
   const ResponsiveSliverCenter({
     Key? key,
-    this.maxContentWidth = FormFactor.desktop,
+    this.maxContentWidth = Breakpoint.desktop,
     this.padding = EdgeInsets.zero,
     required this.child,
   }) : super(key: key);
