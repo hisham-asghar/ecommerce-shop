@@ -1,6 +1,7 @@
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/string_validators.dart';
+
+enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
 
 class EmailAndPasswordValidators {
   final StringValidator emailSubmitValidator = EmailSubmitRegexValidator();

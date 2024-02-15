@@ -6,8 +6,6 @@ import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/services/auth_service.dart';
 
-enum EmailPasswordSignInFormType { signIn, register, forgotPassword }
-
 class EmailPasswordSignInController
     extends StateNotifier<EmailPasswordSignInState> {
   EmailPasswordSignInController({

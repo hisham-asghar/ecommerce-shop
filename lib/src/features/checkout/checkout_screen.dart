@@ -4,8 +4,8 @@ import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/address/address_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/checkout_screen_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_page.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
 
 /// This is the root widget of the checkout flow, which is composed of 3 pages:
