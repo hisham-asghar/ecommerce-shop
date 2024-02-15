@@ -19,13 +19,13 @@ class EmailPasswordSignInController
   final AuthService authService;
   final AppLocalizations localizations;
 
-  Future<Result<String, bool>> submit(String email, String password) async {
+  Future<Result<String, void>> submit(String email, String password) async {
     state = state.copyWith(isLoading: true);
     final result = await _submit(email, password);
     state = state.copyWith(isLoading: false);
     return result.when(
       (error) => Error(error.message(localizations)),
-      (_) => const Success(true),
+      (_) => const Success(null),
     );
   }
 
