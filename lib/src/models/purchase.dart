@@ -1,3 +1,5 @@
+import 'package:my_shop_ecommerce_flutter/src/models/order.dart';
+
 /// Model class containing order details that need to be shown in the product
 /// page if the product was purchased by the current user.
 class Purchase {
@@ -5,7 +7,7 @@ class Purchase {
     required this.orderId,
     required this.orderDate,
   });
-  final String orderId;
+  final OrderID orderId;
   final DateTime orderDate;
 
   Purchase copyWith({

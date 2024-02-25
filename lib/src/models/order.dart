@@ -13,6 +13,10 @@ extension OrderStatusString on OrderStatus {
   }
 }
 
+/// * The order identifier is an important concept and can have its own type.
+typedef OrderID = String;
+
+/// Model class representing an order placed by the user.
 class Order {
   Order({
     required this.id,
@@ -25,7 +29,7 @@ class Order {
   });
 
   /// Order ID generated on payment
-  final String id;
+  final OrderID id;
 
   /// ID of the user who made the order
   final String userId;
