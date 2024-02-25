@@ -35,6 +35,16 @@ class _AddressPageState extends ConsumerState<AddressScreen> {
 
   var _isLoading = false;
 
+  @override
+  void dispose() {
+    _addressController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _postalCodeController.dispose();
+    _countryController.dispose();
+    super.dispose();
+  }
+
   Future<void> _submit() async {
     // TODO: Move all this logic into a controller
     if (_formKey.currentState!.validate()) {
