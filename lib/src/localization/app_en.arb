@@ -6,6 +6,8 @@
     "description": "The title to be shown in the menu bar"
   },
   "ok": "OK",
+  "cancel": "Cancel",
+  "submit": "Submit",
   "anErrorOccurred": "An error occurred",
   "orders": "Orders",
   "account": "Account",
@@ -35,7 +37,7 @@
   "invalidPasswordTooShort": "Password is too short",
   "invalidPasswordEmpty": "Password can't be empty",
   "logout": "Logout",
-  "submit": "Submit",
+  "logoutAreYouSure": "Are you sure?",
   "unknownAuthError": "Unknown authentication error",
   "invalidEmail": "Invalid email",
   "emailAlreadyInUse": "Email already in use",
@@ -57,7 +59,7 @@
   },
   "leaveReview": "Leave a review",
   "yourReviewHint": "Your review (optional)",
-  "previouslyReviewedHint": "You reviewed this product before. You can edit your review.",
+  "previouslyReviewedHint": "You reviewed this product before. Submit again to edit.",
   "numRatings": "({count, plural, =1{1 rating} other{{count} ratings}})",
   "@numRatings": {
     "description": "The number of ratings",

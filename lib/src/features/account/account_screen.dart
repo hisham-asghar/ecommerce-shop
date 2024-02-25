@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/action_text_button.dart';
+import 'package:my_shop_ecommerce_flutter/src/common_widgets/alert_dialogs.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/async_value_widget.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/responsive_center.dart';
 import 'package:my_shop_ecommerce_flutter/src/constants/app_sizes.dart';
@@ -22,9 +23,17 @@ class AccountScreen extends ConsumerWidget {
           ActionTextButton(
             text: context.loc.logout,
             onPressed: () async {
-              final authRepository = ref.read(authRepositoryProvider);
-              await authRepository.signOut();
-              context.pop();
+              final logout = await showAlertDialog(
+                context: context,
+                title: context.loc.logoutAreYouSure,
+                cancelActionText: context.loc.cancel,
+                defaultActionText: context.loc.logout,
+              );
+              if (logout == true) {
+                final authRepository = ref.read(authRepositoryProvider);
+                await authRepository.signOut();
+                context.pop();
+              }
             },
           ),
         ],
