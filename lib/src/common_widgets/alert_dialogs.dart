@@ -9,7 +9,7 @@ import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_con
 Future<bool?> showAlertDialog({
   required BuildContext context,
   required String title,
-  required String content,
+  String? content,
   String? cancelActionText,
   required String defaultActionText,
 }) async {
@@ -18,7 +18,7 @@ Future<bool?> showAlertDialog({
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),
-        content: Text(content),
+        content: content != null ? Text(content) : null,
         actions: <Widget>[
           if (cancelActionText != null)
             TextButton(
@@ -37,7 +37,7 @@ Future<bool?> showAlertDialog({
     context: context,
     builder: (context) => CupertinoAlertDialog(
       title: Text(title),
-      content: Text(content),
+      content: content != null ? Text(content) : null,
       actions: <Widget>[
         if (cancelActionText != null)
           CupertinoDialogAction(
