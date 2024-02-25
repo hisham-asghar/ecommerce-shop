@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:my_shop_ecommerce_flutter/src/models/cart.dart';
-import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -13,7 +13,7 @@ class SembastCartRepository implements LocalCartRepository {
 
   // Create data store on predefined location
   static Future<SembastCartRepository> makeDefault() async {
-    if (!PlatformIs.web) {
+    if (!kIsWeb) {
       final appDocDir = await getApplicationDocumentsDirectory();
       // We use the database factory to open the database
       final database =

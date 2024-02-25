@@ -1,10 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/common_widgets/primary_button.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/payment/payment_button_controller.dart';
 import 'package:my_shop_ecommerce_flutter/src/localization/app_localizations_context.dart';
-import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router.dart';
 import 'package:my_shop_ecommerce_flutter/src/utils/async_value_ui.dart';
 
@@ -14,7 +14,7 @@ class PaymentButton extends ConsumerWidget {
 
   Future<void> _pay(BuildContext context, WidgetRef ref) async {
     // TODO: How to test this?
-    if (PlatformIs.web) {
+    if (kIsWeb) {
       context.goNamed(AppRoute.cardPayment.name);
     } else {
       final controller = ref.read(paymentButtonControllerProvider.notifier);

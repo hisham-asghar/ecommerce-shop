@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:my_shop_ecommerce_flutter/firebase_options_dev.dart';
-import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/run_app_with_firebase.dart';
 
 void main() async {
@@ -13,7 +15,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //setupEmulators();
   // Stripe setup
-  if (PlatformIs.iOS || PlatformIs.android || PlatformIs.web) {
+  if (kIsWeb || Platform.isIOS || Platform.isAndroid) {
     const publicKey = String.fromEnvironment('STRIPE_PUBLISHABLE_KEY');
     if (publicKey.isEmpty) {
       throw AssertionError('STRIPE_PUBLISHABLE_KEY is not set');

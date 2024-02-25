@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +17,6 @@ import 'package:my_shop_ecommerce_flutter/src/features/product_page/product_scre
 import 'package:my_shop_ecommerce_flutter/src/features/shopping_cart/shopping_cart_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/sign_in/email_password_sign_in_state.dart';
-import 'package:my_shop_ecommerce_flutter/src/platform/platform_is.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/app_router_listenable.dart';
 
@@ -63,7 +63,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         }
       }
       // disallow card payment screen if not on web
-      if (!PlatformIs.web) {
+      if (!kIsWeb) {
         if (state.location == '/cart/checkout/card') {
           return '/cart/checkout';
         }
