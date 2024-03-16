@@ -46,7 +46,7 @@ class _AdminProductScreenContentsState
     // error handling
     ref.listen<VoidAsyncValue>(
       adminProductScreenControllerProvider(widget.product),
-      (_, state) => state.showSnackBarOnError(context),
+      (_, state) => state.showAlertDialogOnError(context),
     );
     final model = ref
         .watch(adminProductScreenControllerProvider(widget.product).notifier);

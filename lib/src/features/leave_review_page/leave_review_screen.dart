@@ -21,7 +21,7 @@ class LeaveReviewScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<VoidAsyncValue>(
       leaveReviewControllerProvider,
-      (_, state) => state.showSnackBarOnError(context),
+      (_, state) => state.showAlertDialogOnError(context),
     );
     final reviewValue = ref.watch(userReviewProvider(productId));
     return Scaffold(

@@ -35,7 +35,7 @@ class _CardPaymentScreenState extends ConsumerState<CardPaymentScreen> {
     ref.listen<VoidAsyncValue>(
       cardPaymentScreenControllerProvider,
       // TODO: Custom error handling
-      (_, state) => state.showSnackBarOnError(context),
+      (_, state) => state.showAlertDialogOnError(context),
     );
     final paymentState = ref.watch(cardPaymentScreenControllerProvider);
     return Scaffold(

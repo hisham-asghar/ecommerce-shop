@@ -23,7 +23,7 @@ class AddToCartWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen<AddToCartState>(
       addToCartControllerProvider(product),
-      (_, state) => state.widgetState.showSnackBarOnError(context),
+      (_, state) => state.widgetState.showAlertDialogOnError(context),
     );
     final state = ref.watch(addToCartControllerProvider(product));
     final itemAvailableQuantity =

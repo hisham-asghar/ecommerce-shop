@@ -18,7 +18,7 @@ class OrderStatusDropDown extends ConsumerWidget {
     // error handling
     ref.listen<VoidAsyncValue>(
       orderStatusDropDownControllerProvider(order),
-      (_, state) => state.showSnackBarOnError(context),
+      (_, state) => state.showAlertDialogOnError(context),
     );
     final state = ref.watch(orderStatusDropDownControllerProvider(order));
     return Row(
