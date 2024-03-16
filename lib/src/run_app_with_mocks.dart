@@ -21,8 +21,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/fake_payments_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/fake_payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/payments_repository.dart';
 
 Future<void> runAppWithMocks() async {
   // https://docs.flutter.dev/testing/errors

@@ -5,7 +5,7 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/app_exception.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/exceptions/run_catching_exceptions.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/payments_repository.dart';
 
 class CheckoutService {
   CheckoutService({

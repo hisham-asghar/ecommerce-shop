@@ -25,8 +25,8 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/firebase_reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/stripe_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 

@@ -42,9 +42,9 @@ import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/pro
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/fake_reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/repositories/search/search_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/fake_payments_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/payments_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/stripe/stripe_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/fake_payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/payments_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/repositories/payments/stripe_repository.dart';
 
 class Robot {
   Robot(this.tester);
