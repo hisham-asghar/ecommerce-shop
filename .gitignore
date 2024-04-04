@@ -110,3 +110,6 @@ firebase-exports
 # Environment variables
 .env.dev
 .env.stg
+
+# Test Coverage
+coverage/

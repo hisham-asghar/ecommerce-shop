@@ -1,15 +1,15 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/cloud_functions/cloud_functions_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/address/address_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/remote/cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/cart/local/local_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/orders/orders_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/products/products_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/database/reviews/reviews_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/cart_sync_service.dart';
-import 'package:my_shop_ecommerce_flutter/src/services/checkout_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/address/data/address_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/authentication/data/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/cart/application/cart_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/cart/application/cart_sync_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/cart/data/local_cart/local_cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/cart/data/remote_cart/cart_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/application/checkout_service.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/checkout/data/cloud_functions/cloud_functions_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/orders/data/orders_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/products/data/products_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/reviews/data/reviews_repository.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 

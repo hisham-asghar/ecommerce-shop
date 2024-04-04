@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_shop_ecommerce_flutter/src/models/app_user.dart';
-import 'package:my_shop_ecommerce_flutter/src/repositories/auth/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/authentication/data/auth_repository.dart';
+import 'package:my_shop_ecommerce_flutter/src/features/authentication/domain/app_user.dart';
 
 class AppRouterListenable extends ChangeNotifier {
   AppRouterListenable({required this.authRepository}) {
