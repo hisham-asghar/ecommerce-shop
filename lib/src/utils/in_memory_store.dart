@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:rxdart/rxdart.dart';
 
 /// An in-memory store backed by BehaviorSubject that can be used to
@@ -15,4 +17,6 @@ class InMemoryStore<T> {
   set value(T value) {
     _subject.add(value);
   }
+
+  void close() => _subject.close();
 }
