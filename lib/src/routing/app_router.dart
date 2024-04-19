@@ -17,7 +17,6 @@ import 'package:my_shop_ecommerce_flutter/src/features/products/presentation/adm
 import 'package:my_shop_ecommerce_flutter/src/features/products/presentation/product_screen/product_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/products/presentation/products_list/products_list_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/reviews/presentation/leave_review_page/leave_review_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/routing/app_router_listenable.dart';
 import 'package:my_shop_ecommerce_flutter/src/routing/not_found/not_found_screen.dart';
 
 enum AppRoute {
@@ -40,13 +39,12 @@ enum AppRoute {
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  final appRouterListenable =
-      AppRouterListenable(authRepository: authRepository);
   return GoRouter(
-    debugLogDiagnostics: false,
+    debugLogDiagnostics: true,
     initialLocation: '/',
     redirect: (state) {
-      if (appRouterListenable.isLoggedIn) {
+      final isLoggedIn = authRepository.currentUser != null;
+      if (isLoggedIn) {
         // on login complete, redirect to home
         if (state.location == '/signIn') {
           return '/';
@@ -70,6 +68,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
       return null;
     },
+    refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
     routes: [
       GoRoute(
         path: '/',
