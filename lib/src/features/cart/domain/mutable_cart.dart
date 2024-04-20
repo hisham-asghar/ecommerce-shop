@@ -6,22 +6,22 @@ import 'package:my_shop_ecommerce_flutter/src/features/products/domain/product.d
 extension MutableCart on Cart {
   Cart addItem(Item item) {
     final copy = Map<ProductID, int>.from(items);
-    if (copy.containsKey(item.productId)) {
-      copy[item.productId] = item.quantity + copy[item.productId]!;
-    } else {
-      copy[item.productId] = item.quantity;
-    }
+    copy.update(
+      item.productId,
+      (value) => item.quantity + value,
+      ifAbsent: () => item.quantity,
+    );
     return Cart(copy);
   }
 
   Cart addItems(List<Item> itemsToAdd) {
     final copy = Map<ProductID, int>.from(items);
     for (var item in itemsToAdd) {
-      if (copy.containsKey(item.productId)) {
-        copy[item.productId] = item.quantity + copy[item.productId]!;
-      } else {
-        copy[item.productId] = item.quantity;
-      }
+      copy.update(
+        item.productId,
+        (value) => item.quantity + value,
+        ifAbsent: () => item.quantity,
+      );
     }
     return Cart(copy);
   }
