@@ -11,22 +11,22 @@ void main() {
     testWidgets('Given no products Then product list is empty', (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks(initTestProducts: false);
-      r.expectFindNProductCards(0);
+      r.products.expectFindNProductCards(0);
     });
 
     testWidgets('Given default products Then product list has 14 items',
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks(initTestProducts: true);
-      r.expectFindNProductCards(14);
+      r.products.expectFindNProductCards(14);
     });
 
     testWidgets('Given no items added When open cart Then cart is empty',
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.openCart();
-      r.expectShoppingCartIsEmpty();
+      await r.cart.openCart();
+      r.cart.expectShoppingCartIsEmpty();
     });
 
     testWidgets(
@@ -34,10 +34,10 @@ void main() {
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.addToCart();
-      await r.openCart();
-      r.expectItemQuantity(quantity: 1, atIndex: 0);
+      await r.products.selectProduct();
+      await r.cart.addToCart();
+      await r.cart.openCart();
+      r.cart.expectItemQuantity(quantity: 1, atIndex: 0);
     });
 
     testWidgets(
@@ -45,11 +45,11 @@ void main() {
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.setProductQuantity(5);
-      await r.addToCart();
-      await r.openCart();
-      r.expectItemQuantity(quantity: 5, atIndex: 0);
+      await r.products.selectProduct();
+      await r.products.setProductQuantity(5);
+      await r.cart.addToCart();
+      await r.cart.openCart();
+      r.cart.expectItemQuantity(quantity: 5, atIndex: 0);
     });
 
     testWidgets(
@@ -57,11 +57,11 @@ void main() {
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.setProductQuantity(6);
-      await r.addToCart();
-      await r.openCart();
-      r.expectItemQuantity(quantity: 5, atIndex: 0);
+      await r.products.selectProduct();
+      await r.products.setProductQuantity(6);
+      await r.cart.addToCart();
+      await r.cart.openCart();
+      r.cart.expectItemQuantity(quantity: 5, atIndex: 0);
     });
 
     testWidgets(
@@ -69,12 +69,12 @@ void main() {
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.setProductQuantity(2);
-      await r.addToCart();
-      await r.openCart();
-      await r.incrementCartItemQuantity(quantity: 2, atIndex: 0);
-      r.expectItemQuantity(quantity: 4, atIndex: 0);
+      await r.products.selectProduct();
+      await r.products.setProductQuantity(2);
+      await r.cart.addToCart();
+      await r.cart.openCart();
+      await r.cart.incrementCartItemQuantity(quantity: 2, atIndex: 0);
+      r.cart.expectItemQuantity(quantity: 4, atIndex: 0);
     });
 
     testWidgets(
@@ -82,12 +82,12 @@ void main() {
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.setProductQuantity(5);
-      await r.addToCart();
-      await r.openCart();
-      await r.decrementCartItemQuantity(quantity: 2, atIndex: 0);
-      r.expectItemQuantity(quantity: 3, atIndex: 0);
+      await r.products.selectProduct();
+      await r.products.setProductQuantity(5);
+      await r.cart.addToCart();
+      await r.cart.openCart();
+      await r.cart.decrementCartItemQuantity(quantity: 2, atIndex: 0);
+      r.cart.expectItemQuantity(quantity: 3, atIndex: 0);
     });
 
     testWidgets('Given add two items Then cart contains two items',
@@ -95,14 +95,14 @@ void main() {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
       // add first product
-      await r.selectProduct(atIndex: 0);
-      await r.addToCart();
+      await r.products.selectProduct(atIndex: 0);
+      await r.cart.addToCart();
       await r.goBack();
       // add second product
-      await r.selectProduct(atIndex: 1);
-      await r.addToCart();
-      await r.openCart();
-      r.expectFindNCartItems(2);
+      await r.products.selectProduct(atIndex: 1);
+      await r.cart.addToCart();
+      await r.cart.openCart();
+      r.cart.expectFindNCartItems(2);
     });
 
     testWidgets(
@@ -110,21 +110,21 @@ void main() {
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.addToCart();
-      await r.openCart();
-      await r.deleteCartItem(atIndex: 0);
-      r.expectShoppingCartIsEmpty();
+      await r.products.selectProduct();
+      await r.cart.addToCart();
+      await r.cart.openCart();
+      await r.cart.deleteCartItem(atIndex: 0);
+      r.cart.expectShoppingCartIsEmpty();
     });
 
     testWidgets('Given add item with quantity = 5 Then item is out of stock',
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.setProductQuantity(5);
-      await r.addToCart();
-      r.expectProductIsOutOfStock();
+      await r.products.selectProduct();
+      await r.products.setProductQuantity(5);
+      await r.cart.addToCart();
+      r.cart.expectProductIsOutOfStock();
     });
 
     testWidgets(
@@ -132,12 +132,12 @@ void main() {
         (tester) async {
       final r = Robot(tester);
       await r.pumpWidgetAppWithMocks();
-      await r.selectProduct();
-      await r.setProductQuantity(5);
-      await r.addToCart();
+      await r.products.selectProduct();
+      await r.products.setProductQuantity(5);
+      await r.cart.addToCart();
       await r.goBack();
-      await r.selectProduct();
-      r.expectProductIsOutOfStock();
+      await r.products.selectProduct();
+      r.cart.expectProductIsOutOfStock();
     });
   });
 }

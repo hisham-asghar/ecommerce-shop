@@ -9,22 +9,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_shop_ecommerce_flutter/src/app.dart';
-import 'package:my_shop_ecommerce_flutter/src/common_widgets/item_quantity_selector.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/address/data/address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/address/data/fake_address_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/address/data/firebase_address_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/address/presentation/address_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/authentication/data/auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/authentication/data/fake_auth_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/authentication/data/firebase_auth_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/authentication/presentation/sign_in/email_password_sign_in_screen.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/cart/data/local_cart/fake_local_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/cart/data/local_cart/local_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/cart/data/local_cart/sembast_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/cart/data/remote_cart/cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/cart/data/remote_cart/fake_cart_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/cart/data/remote_cart/firebase_cart_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/cart/presentation/shopping_cart/shopping_cart_item.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/data/cloud_functions/cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/data/cloud_functions/fake_cloud_functions_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/checkout/data/cloud_functions/firebase_cloud_functions_repository.dart';
@@ -38,22 +34,40 @@ import 'package:my_shop_ecommerce_flutter/src/features/products/data/fake_produc
 import 'package:my_shop_ecommerce_flutter/src/features/products/data/firebase_products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/products/data/products_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/products/data/search_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/products/presentation/home_app_bar/more_menu_button.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/products/presentation/home_app_bar/shopping_cart_icon.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/products/presentation/products_list/product_card.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/reviews/data/fake_reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/reviews/data/reviews_repository.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/reviews/presentation/leave_review_page/leave_review_screen.dart';
-import 'package:my_shop_ecommerce_flutter/src/features/reviews/presentation/product_reviews/product_review_card.dart';
+import 'package:uuid/uuid.dart';
+
+import 'src/features/address/address_robot.dart';
+import 'src/features/authentication/auth_robot.dart';
+import 'src/features/cart/cart_robot.dart';
+import 'src/features/checkout/checkout_robot.dart';
+import 'src/features/products/products_robot.dart';
+import 'src/features/reviews/reviews_robot.dart';
 
 class Robot {
-  Robot(this.tester);
+  Robot(this.tester)
+      : products = ProductsRobot(tester),
+        cart = CartRobot(tester),
+        reviews = ReviewsRobot(tester),
+        auth = AuthRobot(tester),
+        checkout = CheckoutRobot(tester),
+        address = AddressRobot(tester);
   final WidgetTester tester;
+
+  final ProductsRobot products;
+  final CartRobot cart;
+  final ReviewsRobot reviews;
+  final AuthRobot auth;
+  final CheckoutRobot checkout;
+  final AddressRobot address;
 
   Future<void> pumpWidgetAppWithMocks(
       {bool initTestProducts = true, bool settle = true}) async {
     const addDelay = false;
-    final authRepository = FakeAuthRepository(addDelay: addDelay);
+    final uuid = const Uuid().v1();
+    final authRepository =
+        FakeAuthRepository(addDelay: addDelay, uidBuilder: () => uuid);
     final addressRepository = FakeAddressRepository(addDelay: addDelay);
     final productsRepository = FakeProductsRepository(addDelay: addDelay);
     if (initTestProducts) {
@@ -144,223 +158,6 @@ class Robot {
     }
   }
 
-  // products list
-  Future<void> selectProduct({int atIndex = 0}) async {
-    final finder = find.byKey(ProductCard.productCardKey);
-    await tester.tap(finder.at(atIndex));
-    await tester.pumpAndSettle();
-  }
-
-  void expectFindNProductCards(int count) {
-    final finder = find.byType(ProductCard);
-    expect(finder, findsNWidgets(count));
-  }
-
-  // product page
-  Future<void> setProductQuantity(int quantity) async {
-    final finder = find.byIcon(Icons.add);
-    expect(finder, findsOneWidget);
-    for (var i = 1; i < quantity; i++) {
-      await tester.tap(finder);
-      await tester.pumpAndSettle();
-    }
-  }
-
-  Future<void> addToCart() async {
-    final finder = find.text('Add to Cart');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  void expectFindLeaveReview() {
-    final finder = find.text('Leave a review');
-    expect(finder, findsOneWidget);
-  }
-
-  Future<void> leaveReview() async {
-    final finder = find.text('Leave a review');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  void expectFindOneReview() {
-    final finder = find.byType(ProductReviewCard);
-    expect(finder, findsOneWidget);
-  }
-
-  // leave a review
-  Future<void> selectReviewScore() async {
-    final finder = find.byKey(const Key('stars-4'));
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-  }
-
-  Future<void> enterReviewComment() async {
-    final finder = find.byKey(LeaveReviewForm.reviewCommentKey);
-    expect(finder, findsOneWidget);
-    await tester.enterText(finder, 'Love it!');
-  }
-
-  Future<void> submitReview() async {
-    final finder = find.text('Submit');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  Future<void> createAndSubmitReview() async {
-    await selectReviewScore();
-    await enterReviewComment();
-    await submitReview();
-  }
-
-  // shopping cart
-  Future<void> openCart() async {
-    final finder = find.byKey(ShoppingCartIcon.shoppingCartIconKey);
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  void expectProductIsOutOfStock() async {
-    final finder = find.text('Out of Stock');
-    expect(finder, findsOneWidget);
-  }
-
-  Future<void> incrementCartItemQuantity(
-      {required int quantity, required int atIndex}) async {
-    final finder = find.byKey(ItemQuantitySelector.incrementKey(atIndex));
-    expect(finder, findsOneWidget);
-    for (var i = 0; i < quantity; i++) {
-      await tester.tap(finder);
-      await tester.pumpAndSettle();
-    }
-  }
-
-  Future<void> decrementCartItemQuantity(
-      {required int quantity, required int atIndex}) async {
-    final finder = find.byKey(ItemQuantitySelector.decrementKey(atIndex));
-    expect(finder, findsOneWidget);
-    for (var i = 0; i < quantity; i++) {
-      await tester.tap(finder);
-      await tester.pumpAndSettle();
-    }
-  }
-
-  Future<void> deleteCartItem({required int atIndex}) async {
-    final finder = find.byKey(ShoppingCartItemContents.deleteKey(atIndex));
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  void expectShoppingCartIsLoading() {
-    final finder = find.byType(CircularProgressIndicator);
-    expect(finder, findsOneWidget);
-  }
-
-  void expectShoppingCartIsEmpty() {
-    final finder = find.text('Your shopping cart is empty');
-    expect(finder, findsOneWidget);
-  }
-
-  void expectFindZeroCartItems() {
-    final finder = find.byType(ShoppingCartItem);
-    expect(finder, findsNothing);
-  }
-
-  void expectFindNCartItems(int count) {
-    final finder = find.byType(ShoppingCartItem);
-    expect(finder, findsNWidgets(count));
-  }
-
-  Text getItemQuantityWidget({int? atIndex}) {
-    final finder = find.byKey(ItemQuantitySelector.quantityKey(atIndex));
-    expect(finder, findsOneWidget);
-    return finder.evaluate().single.widget as Text;
-  }
-
-  void expectItemQuantity({required int quantity, int? atIndex}) {
-    final text = getItemQuantityWidget(atIndex: atIndex);
-    expect(text.data, '$quantity');
-  }
-
-  Future<void> startCheckout() async {
-    final finder = find.text('Checkout');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  // sign in
-  Future<void> enterEmailAndPassword() async {
-    final emailFinder = find.byKey(EmailPasswordSignInScreen.emailKey);
-    expect(emailFinder, findsOneWidget);
-    await tester.enterText(emailFinder, 'test@test.com');
-
-    final passwordFinder = find.byKey(EmailPasswordSignInScreen.passwordKey);
-    expect(passwordFinder, findsOneWidget);
-    await tester.enterText(passwordFinder, 'test@test.com');
-  }
-
-  Future<void> signIn() async {
-    await enterEmailAndPassword();
-
-    final ctaFinder = find.text('Sign in');
-    expect(ctaFinder, findsOneWidget);
-    await tester.tap(ctaFinder);
-    await tester.pumpAndSettle();
-  }
-
-  Future<void> createAccount() async {
-    await enterEmailAndPassword();
-
-    final ctaFinder = find.text('Create an account');
-    expect(ctaFinder, findsOneWidget);
-    await tester.tap(ctaFinder);
-    await tester.pumpAndSettle();
-  }
-
-  // address
-  Future<void> enterAddress() async {
-    for (final key in [
-      AddressScreen.addressKey,
-      AddressScreen.townCityKey,
-      AddressScreen.stateKey,
-      AddressScreen.postalCodeKey,
-      AddressScreen.countryKey,
-    ]) {
-      final finder = find.byKey(key);
-      expect(finder, findsOneWidget);
-      await tester.enterText(finder, 'a');
-    }
-
-    // https://stackoverflow.com/questions/67128148/flutter-widget-test-finder-fails-because-the-widget-is-outside-the-bounds-of-the
-    // https://stackoverflow.com/questions/68366138/flutter-widget-test-tap-would-not-hit-test-on-the-specified-widget
-    // https://stackoverflow.com/questions/56291806/flutter-how-to-test-the-scroll/67990754#67990754
-    // scroll down so that the submit button is visible
-    final scrollableFinder = find.byKey(AddressScreen.scrollableKey);
-    expect(scrollableFinder, findsOneWidget);
-    final ctaFinder = find.text('Submit', skipOffstage: false);
-    await tester.dragUntilVisible(
-      ctaFinder, // what you want to find
-      scrollableFinder, // widget you want to scroll
-      const Offset(0, -100), // delta to move
-    );
-    await tester.tap(ctaFinder);
-    await tester.pumpAndSettle();
-  }
-
-  // payment
-  Future<void> startPayment() async {
-    final finder = find.text('Pay');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
   // navigation
   Future<void> closePage() async {
     final finder = find.bySemanticsLabel('Close');
@@ -377,54 +174,29 @@ class Robot {
     await tester.pumpAndSettle();
   }
 
-  Future<void> showMenu() async {
-    final finder = find.bySemanticsLabel('Show menu');
-    final matches = finder.evaluate();
-    // if an item is found, it means that we're running on mobile and can tap
-    // to reveal the menu
-    if (matches.isNotEmpty) {
-      await tester.tap(finder);
-      await tester.pumpAndSettle();
-    }
-    // else no-op, as the items are already visible
-  }
-
-  Future<void> openAccountPage() async {
-    final finder = find.byKey(MoreMenuButton.accountKey);
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
-  Future<void> logout() async {
-    final finder = find.text('Logout');
-    expect(finder, findsOneWidget);
-    await tester.tap(finder);
-    await tester.pumpAndSettle();
-  }
-
   // Full purchase flow
   Future<void> fullPurchaseFlow() async {
-    await selectProduct();
-    await setProductQuantity(3);
-    await addToCart();
-    await openCart();
-    expectFindNCartItems(1);
-    await startCheckout();
-    await createAccount();
-    await enterAddress();
-    expectFindNCartItems(1);
-    await startPayment();
-    expectFindZeroCartItems();
+    await products.selectProduct();
+    await products.setProductQuantity(3);
+    await cart.addToCart();
+    await cart.openCart();
+    cart.expectFindNCartItems(1);
+    await checkout.startCheckout();
+    await auth.createAccount();
+    await address.enterAddress();
+    cart.expectFindNCartItems(1);
+    await checkout.startPayment();
+    cart.expectFindZeroCartItems();
     // when a payment is complete, user is taken to the orders page
     await closePage(); // close orders page
-    await selectProduct(); // back to the product page
-    expectFindLeaveReview(); // the review button is now visible
-    await leaveReview(); // tap on it
-    await createAndSubmitReview(); // submit review and get back to product page
-    expectFindOneReview();
-    await showMenu();
-    await openAccountPage();
-    await logout();
+    await products.selectProduct(); // back to the product page
+    reviews.expectFindLeaveReview(); // the review button is now visible
+    await reviews.leaveReview(); // tap on it
+    await reviews
+        .createAndSubmitReview(); // submit review and get back to product page
+    reviews.expectFindOneReview();
+    await products.showMenu();
+    await auth.openAccountPage();
+    await auth.logout();
   }
 }

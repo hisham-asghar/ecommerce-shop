@@ -23,11 +23,13 @@ import 'package:my_shop_ecommerce_flutter/src/features/products/data/products_re
 import 'package:my_shop_ecommerce_flutter/src/features/reviews/data/fake_reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/reviews/data/reviews_repository.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/products/data/search_repository.dart';
+import 'package:uuid/uuid.dart';
 
 Future<void> runAppWithMocks() async {
   // https://docs.flutter.dev/testing/errors
   await runZonedGuarded(() async {
-    final authRepository = FakeAuthRepository();
+    final uuid = const Uuid().v1();
+    final authRepository = FakeAuthRepository(uidBuilder: () => uuid);
     final addressRepository = FakeAddressRepository();
     final productsRepository = FakeProductsRepository()..initWithTestProducts();
     final reviewsRepository = FakeReviewsRepository();

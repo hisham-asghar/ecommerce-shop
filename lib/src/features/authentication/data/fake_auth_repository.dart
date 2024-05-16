@@ -2,23 +2,23 @@ import 'package:my_shop_ecommerce_flutter/src/features/authentication/data/auth_
 import 'package:my_shop_ecommerce_flutter/src/features/authentication/domain/app_user.dart';
 import 'package:my_shop_ecommerce_flutter/src/features/authentication/domain/fake_app_user.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:uuid/uuid.dart';
 
 import 'package:my_shop_ecommerce_flutter/src/utils/delay.dart';
 
 class FakeAuthRepository implements AuthRepository {
-  FakeAuthRepository({this.addDelay = true});
+  FakeAuthRepository({this.addDelay = true, required this.uidBuilder});
   final bool addDelay;
+  final String Function() uidBuilder;
 
   @override
   AppUser? currentUser;
 
   // Problem: this won't replay the previous value when a new listener is registered
   // Use ValueNotifier instead?
-  final _authStateChangesController = BehaviorSubject<AppUser?>.seeded(null);
+  final _authState = BehaviorSubject<AppUser?>.seeded(null);
 
   @override
-  Stream<AppUser?> authStateChanges() => _authStateChangesController.stream;
+  Stream<AppUser?> authStateChanges() => _authState.stream;
 
   // Make all users admin
   @override
@@ -51,11 +51,13 @@ class FakeAuthRepository implements AuthRepository {
   Future<void> signOut() async {
     await delay(addDelay);
     currentUser = null;
-    _authStateChangesController.add(currentUser);
+    _authState.add(currentUser);
   }
 
+  void dispose() => _authState.close();
+
   void _createNewUser() {
-    currentUser = FakeAppUser(uid: const Uuid().v1(), email: 'test@test.com');
-    _authStateChangesController.add(currentUser);
+    currentUser = FakeAppUser(uid: uidBuilder(), email: 'test@test.com');
+    _authState.add(currentUser);
   }
 }
