@@ -66,9 +66,11 @@ class StripeRepository implements PaymentsRepository {
     await _stripe.confirmPayment(
       orderPaymentIntent.paymentIntent,
       PaymentMethodParams.card(
-        billingDetails: billingDetails,
-        setupFutureUsage:
-            saveCard == true ? PaymentIntentsFutureUsage.OffSession : null,
+        paymentMethodData: PaymentMethodData(
+          billingDetails: billingDetails,
+          //setupFutureUsage:
+          //    saveCard == true ? PaymentIntentsFutureUsage.OffSession : null,
+        ),
       ),
     );
   }
