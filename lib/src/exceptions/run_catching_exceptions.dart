@@ -52,6 +52,6 @@ Future<Result<AppException, T>> runCatchingExceptions<T>(
     // * if an [AppException] is thrown, just return it as an error
     return Error(e);
   } catch (e, st) {
-    return Error(AppException.unknown(e, st));
+    return Error(AppException.fatalError(e, st));
   }
 }

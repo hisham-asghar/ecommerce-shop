@@ -15,7 +15,7 @@ dependencies:
   flutter_lints: ^2.0.1
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod: ^2.0.0-dev.7
+  flutter_riverpod: ^2.0.0-dev.9
   flutter_stripe: ^3.0.0
   flutter_stripe_web: ^1.0.0
   pay: ^1.0.6

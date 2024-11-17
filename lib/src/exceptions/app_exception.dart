@@ -8,6 +8,8 @@ class AppException with _$AppException {
   // unknown
   const factory AppException.unknown(Object error, StackTrace stackTrace) =
       Unknown;
+  const factory AppException.fatalError(Object error, StackTrace stackTrace) =
+      FatalError;
   // Auth
   const factory AppException.invalidEmail(String? message) = InvalidEmail;
   const factory AppException.emailAlreadyInUse(String? message) =
@@ -43,6 +45,7 @@ extension AppExceptionMessage on AppException {
     return when(
       // unknown
       unknown: (e, st) => loc.anErrorOccurred,
+      fatalError: (e, st) => loc.anErrorOccurred,
       // auth
       invalidEmail: (message) => message ?? loc.invalidEmail,
       emailAlreadyInUse: (message) => message ?? loc.emailAlreadyInUse,

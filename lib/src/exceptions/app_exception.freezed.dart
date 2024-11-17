@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'app_exception.dart';
@@ -11,114 +12,14 @@ part of 'app_exception.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$AppExceptionTearOff {
-  const _$AppExceptionTearOff();
-
-  Unknown unknown(Object error, StackTrace stackTrace) {
-    return Unknown(
-      error,
-      stackTrace,
-    );
-  }
-
-  InvalidEmail invalidEmail(String? message) {
-    return InvalidEmail(
-      message,
-    );
-  }
-
-  EmailAlreadyInUse emailAlreadyInUse(String? message) {
-    return EmailAlreadyInUse(
-      message,
-    );
-  }
-
-  WeakPassword weakPassword(String? message) {
-    return WeakPassword(
-      message,
-    );
-  }
-
-  OperationNotAllowed operationNotAllowed(String? message) {
-    return OperationNotAllowed(
-      message,
-    );
-  }
-
-  WrongPassword wrongPassword(String? message) {
-    return WrongPassword(
-      message,
-    );
-  }
-
-  UserNotFound userNotFound(String? message) {
-    return UserNotFound(
-      message,
-    );
-  }
-
-  UserDisabled userDisabled(String? message) {
-    return UserDisabled(
-      message,
-    );
-  }
-
-  TooManyAuthRequests tooManyAuthRequests(String? message) {
-    return TooManyAuthRequests(
-      message,
-    );
-  }
-
-  PermissionDenied permissionDenied(String message) {
-    return PermissionDenied(
-      message,
-    );
-  }
-
-  ParseError parseError(String message) {
-    return ParseError(
-      message,
-    );
-  }
-
-  Functions functions(String message) {
-    return Functions(
-      message,
-    );
-  }
-
-  PaymentFailed paymentFailed(String? message) {
-    return PaymentFailed(
-      message,
-    );
-  }
-
-  PaymentCanceled paymentCanceled(String? message) {
-    return PaymentCanceled(
-      message,
-    );
-  }
-
-  MissingAddress missingAddress() {
-    return const MissingAddress();
-  }
-
-  UserNotSignedIn userNotSignedIn() {
-    return const UserNotSignedIn();
-  }
-}
-
-/// @nodoc
-const $AppException = _$AppExceptionTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$AppException {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -139,6 +40,7 @@ mixin _$AppException {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -159,6 +61,7 @@ mixin _$AppException {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -180,6 +83,7 @@ mixin _$AppException {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -200,6 +104,7 @@ mixin _$AppException {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -220,6 +125,7 @@ mixin _$AppException {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -257,27 +163,27 @@ class _$AppExceptionCopyWithImpl<$Res> implements $AppExceptionCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $UnknownCopyWith<$Res> {
-  factory $UnknownCopyWith(Unknown value, $Res Function(Unknown) then) =
-      _$UnknownCopyWithImpl<$Res>;
+abstract class _$$UnknownCopyWith<$Res> {
+  factory _$$UnknownCopyWith(_$Unknown value, $Res Function(_$Unknown) then) =
+      __$$UnknownCopyWithImpl<$Res>;
   $Res call({Object error, StackTrace stackTrace});
 }
 
 /// @nodoc
-class _$UnknownCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $UnknownCopyWith<$Res> {
-  _$UnknownCopyWithImpl(Unknown _value, $Res Function(Unknown) _then)
-      : super(_value, (v) => _then(v as Unknown));
+class __$$UnknownCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$UnknownCopyWith<$Res> {
+  __$$UnknownCopyWithImpl(_$Unknown _value, $Res Function(_$Unknown) _then)
+      : super(_value, (v) => _then(v as _$Unknown));
 
   @override
-  Unknown get _value => super._value as Unknown;
+  _$Unknown get _value => super._value as _$Unknown;
 
   @override
   $Res call({
     Object? error = freezed,
     Object? stackTrace = freezed,
   }) {
-    return _then(Unknown(
+    return _then(_$Unknown(
       error == freezed
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -309,7 +215,7 @@ class _$Unknown implements Unknown {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Unknown &&
+            other is _$Unknown &&
             const DeepCollectionEquality().equals(other.error, error) &&
             const DeepCollectionEquality()
                 .equals(other.stackTrace, stackTrace));
@@ -323,13 +229,14 @@ class _$Unknown implements Unknown {
 
   @JsonKey(ignore: true)
   @override
-  $UnknownCopyWith<Unknown> get copyWith =>
-      _$UnknownCopyWithImpl<Unknown>(this, _$identity);
+  _$$UnknownCopyWith<_$Unknown> get copyWith =>
+      __$$UnknownCopyWithImpl<_$Unknown>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -353,6 +260,7 @@ class _$Unknown implements Unknown {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -376,6 +284,7 @@ class _$Unknown implements Unknown {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -403,6 +312,7 @@ class _$Unknown implements Unknown {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -426,6 +336,7 @@ class _$Unknown implements Unknown {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -449,6 +360,7 @@ class _$Unknown implements Unknown {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -474,37 +386,276 @@ class _$Unknown implements Unknown {
 }
 
 abstract class Unknown implements AppException {
-  const factory Unknown(Object error, StackTrace stackTrace) = _$Unknown;
+  const factory Unknown(final Object error, final StackTrace stackTrace) =
+      _$Unknown;
 
-  Object get error;
-  StackTrace get stackTrace;
+  Object get error => throw _privateConstructorUsedError;
+  StackTrace get stackTrace => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UnknownCopyWith<Unknown> get copyWith => throw _privateConstructorUsedError;
+  _$$UnknownCopyWith<_$Unknown> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $InvalidEmailCopyWith<$Res> {
-  factory $InvalidEmailCopyWith(
-          InvalidEmail value, $Res Function(InvalidEmail) then) =
-      _$InvalidEmailCopyWithImpl<$Res>;
+abstract class _$$FatalErrorCopyWith<$Res> {
+  factory _$$FatalErrorCopyWith(
+          _$FatalError value, $Res Function(_$FatalError) then) =
+      __$$FatalErrorCopyWithImpl<$Res>;
+  $Res call({Object error, StackTrace stackTrace});
+}
+
+/// @nodoc
+class __$$FatalErrorCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$FatalErrorCopyWith<$Res> {
+  __$$FatalErrorCopyWithImpl(
+      _$FatalError _value, $Res Function(_$FatalError) _then)
+      : super(_value, (v) => _then(v as _$FatalError));
+
+  @override
+  _$FatalError get _value => super._value as _$FatalError;
+
+  @override
+  $Res call({
+    Object? error = freezed,
+    Object? stackTrace = freezed,
+  }) {
+    return _then(_$FatalError(
+      error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as Object,
+      stackTrace == freezed
+          ? _value.stackTrace
+          : stackTrace // ignore: cast_nullable_to_non_nullable
+              as StackTrace,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FatalError implements FatalError {
+  const _$FatalError(this.error, this.stackTrace);
+
+  @override
+  final Object error;
+  @override
+  final StackTrace stackTrace;
+
+  @override
+  String toString() {
+    return 'AppException.fatalError(error: $error, stackTrace: $stackTrace)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FatalError &&
+            const DeepCollectionEquality().equals(other.error, error) &&
+            const DeepCollectionEquality()
+                .equals(other.stackTrace, stackTrace));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(error),
+      const DeepCollectionEquality().hash(stackTrace));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$FatalErrorCopyWith<_$FatalError> get copyWith =>
+      __$$FatalErrorCopyWithImpl<_$FatalError>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
+    required TResult Function(String? message) invalidEmail,
+    required TResult Function(String? message) emailAlreadyInUse,
+    required TResult Function(String? message) weakPassword,
+    required TResult Function(String? message) operationNotAllowed,
+    required TResult Function(String? message) wrongPassword,
+    required TResult Function(String? message) userNotFound,
+    required TResult Function(String? message) userDisabled,
+    required TResult Function(String? message) tooManyAuthRequests,
+    required TResult Function(String message) permissionDenied,
+    required TResult Function(String message) parseError,
+    required TResult Function(String message) functions,
+    required TResult Function(String? message) paymentFailed,
+    required TResult Function(String? message) paymentCanceled,
+    required TResult Function() missingAddress,
+    required TResult Function() userNotSignedIn,
+  }) {
+    return fatalError(error, stackTrace);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
+    TResult Function(String? message)? invalidEmail,
+    TResult Function(String? message)? emailAlreadyInUse,
+    TResult Function(String? message)? weakPassword,
+    TResult Function(String? message)? operationNotAllowed,
+    TResult Function(String? message)? wrongPassword,
+    TResult Function(String? message)? userNotFound,
+    TResult Function(String? message)? userDisabled,
+    TResult Function(String? message)? tooManyAuthRequests,
+    TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
+    TResult Function(String message)? functions,
+    TResult Function(String? message)? paymentFailed,
+    TResult Function(String? message)? paymentCanceled,
+    TResult Function()? missingAddress,
+    TResult Function()? userNotSignedIn,
+  }) {
+    return fatalError?.call(error, stackTrace);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
+    TResult Function(String? message)? invalidEmail,
+    TResult Function(String? message)? emailAlreadyInUse,
+    TResult Function(String? message)? weakPassword,
+    TResult Function(String? message)? operationNotAllowed,
+    TResult Function(String? message)? wrongPassword,
+    TResult Function(String? message)? userNotFound,
+    TResult Function(String? message)? userDisabled,
+    TResult Function(String? message)? tooManyAuthRequests,
+    TResult Function(String message)? permissionDenied,
+    TResult Function(String message)? parseError,
+    TResult Function(String message)? functions,
+    TResult Function(String? message)? paymentFailed,
+    TResult Function(String? message)? paymentCanceled,
+    TResult Function()? missingAddress,
+    TResult Function()? userNotSignedIn,
+    required TResult orElse(),
+  }) {
+    if (fatalError != null) {
+      return fatalError(error, stackTrace);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
+    required TResult Function(InvalidEmail value) invalidEmail,
+    required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
+    required TResult Function(WeakPassword value) weakPassword,
+    required TResult Function(OperationNotAllowed value) operationNotAllowed,
+    required TResult Function(WrongPassword value) wrongPassword,
+    required TResult Function(UserNotFound value) userNotFound,
+    required TResult Function(UserDisabled value) userDisabled,
+    required TResult Function(TooManyAuthRequests value) tooManyAuthRequests,
+    required TResult Function(PermissionDenied value) permissionDenied,
+    required TResult Function(ParseError value) parseError,
+    required TResult Function(Functions value) functions,
+    required TResult Function(PaymentFailed value) paymentFailed,
+    required TResult Function(PaymentCanceled value) paymentCanceled,
+    required TResult Function(MissingAddress value) missingAddress,
+    required TResult Function(UserNotSignedIn value) userNotSignedIn,
+  }) {
+    return fatalError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
+    TResult Function(InvalidEmail value)? invalidEmail,
+    TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(WeakPassword value)? weakPassword,
+    TResult Function(OperationNotAllowed value)? operationNotAllowed,
+    TResult Function(WrongPassword value)? wrongPassword,
+    TResult Function(UserNotFound value)? userNotFound,
+    TResult Function(UserDisabled value)? userDisabled,
+    TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
+    TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
+    TResult Function(Functions value)? functions,
+    TResult Function(PaymentFailed value)? paymentFailed,
+    TResult Function(PaymentCanceled value)? paymentCanceled,
+    TResult Function(MissingAddress value)? missingAddress,
+    TResult Function(UserNotSignedIn value)? userNotSignedIn,
+  }) {
+    return fatalError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
+    TResult Function(InvalidEmail value)? invalidEmail,
+    TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
+    TResult Function(WeakPassword value)? weakPassword,
+    TResult Function(OperationNotAllowed value)? operationNotAllowed,
+    TResult Function(WrongPassword value)? wrongPassword,
+    TResult Function(UserNotFound value)? userNotFound,
+    TResult Function(UserDisabled value)? userDisabled,
+    TResult Function(TooManyAuthRequests value)? tooManyAuthRequests,
+    TResult Function(PermissionDenied value)? permissionDenied,
+    TResult Function(ParseError value)? parseError,
+    TResult Function(Functions value)? functions,
+    TResult Function(PaymentFailed value)? paymentFailed,
+    TResult Function(PaymentCanceled value)? paymentCanceled,
+    TResult Function(MissingAddress value)? missingAddress,
+    TResult Function(UserNotSignedIn value)? userNotSignedIn,
+    required TResult orElse(),
+  }) {
+    if (fatalError != null) {
+      return fatalError(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FatalError implements AppException {
+  const factory FatalError(final Object error, final StackTrace stackTrace) =
+      _$FatalError;
+
+  Object get error => throw _privateConstructorUsedError;
+  StackTrace get stackTrace => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$$FatalErrorCopyWith<_$FatalError> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$InvalidEmailCopyWith<$Res> {
+  factory _$$InvalidEmailCopyWith(
+          _$InvalidEmail value, $Res Function(_$InvalidEmail) then) =
+      __$$InvalidEmailCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$InvalidEmailCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $InvalidEmailCopyWith<$Res> {
-  _$InvalidEmailCopyWithImpl(
-      InvalidEmail _value, $Res Function(InvalidEmail) _then)
-      : super(_value, (v) => _then(v as InvalidEmail));
+class __$$InvalidEmailCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$InvalidEmailCopyWith<$Res> {
+  __$$InvalidEmailCopyWithImpl(
+      _$InvalidEmail _value, $Res Function(_$InvalidEmail) _then)
+      : super(_value, (v) => _then(v as _$InvalidEmail));
 
   @override
-  InvalidEmail get _value => super._value as InvalidEmail;
+  _$InvalidEmail get _value => super._value as _$InvalidEmail;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(InvalidEmail(
+    return _then(_$InvalidEmail(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -530,7 +681,7 @@ class _$InvalidEmail implements InvalidEmail {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is InvalidEmail &&
+            other is _$InvalidEmail &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -540,13 +691,14 @@ class _$InvalidEmail implements InvalidEmail {
 
   @JsonKey(ignore: true)
   @override
-  $InvalidEmailCopyWith<InvalidEmail> get copyWith =>
-      _$InvalidEmailCopyWithImpl<InvalidEmail>(this, _$identity);
+  _$$InvalidEmailCopyWith<_$InvalidEmail> get copyWith =>
+      __$$InvalidEmailCopyWithImpl<_$InvalidEmail>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -570,6 +722,7 @@ class _$InvalidEmail implements InvalidEmail {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -593,6 +746,7 @@ class _$InvalidEmail implements InvalidEmail {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -620,6 +774,7 @@ class _$InvalidEmail implements InvalidEmail {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -643,6 +798,7 @@ class _$InvalidEmail implements InvalidEmail {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -666,6 +822,7 @@ class _$InvalidEmail implements InvalidEmail {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -691,38 +848,38 @@ class _$InvalidEmail implements InvalidEmail {
 }
 
 abstract class InvalidEmail implements AppException {
-  const factory InvalidEmail(String? message) = _$InvalidEmail;
+  const factory InvalidEmail(final String? message) = _$InvalidEmail;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $InvalidEmailCopyWith<InvalidEmail> get copyWith =>
+  _$$InvalidEmailCopyWith<_$InvalidEmail> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $EmailAlreadyInUseCopyWith<$Res> {
-  factory $EmailAlreadyInUseCopyWith(
-          EmailAlreadyInUse value, $Res Function(EmailAlreadyInUse) then) =
-      _$EmailAlreadyInUseCopyWithImpl<$Res>;
+abstract class _$$EmailAlreadyInUseCopyWith<$Res> {
+  factory _$$EmailAlreadyInUseCopyWith(
+          _$EmailAlreadyInUse value, $Res Function(_$EmailAlreadyInUse) then) =
+      __$$EmailAlreadyInUseCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$EmailAlreadyInUseCopyWithImpl<$Res>
+class __$$EmailAlreadyInUseCopyWithImpl<$Res>
     extends _$AppExceptionCopyWithImpl<$Res>
-    implements $EmailAlreadyInUseCopyWith<$Res> {
-  _$EmailAlreadyInUseCopyWithImpl(
-      EmailAlreadyInUse _value, $Res Function(EmailAlreadyInUse) _then)
-      : super(_value, (v) => _then(v as EmailAlreadyInUse));
+    implements _$$EmailAlreadyInUseCopyWith<$Res> {
+  __$$EmailAlreadyInUseCopyWithImpl(
+      _$EmailAlreadyInUse _value, $Res Function(_$EmailAlreadyInUse) _then)
+      : super(_value, (v) => _then(v as _$EmailAlreadyInUse));
 
   @override
-  EmailAlreadyInUse get _value => super._value as EmailAlreadyInUse;
+  _$EmailAlreadyInUse get _value => super._value as _$EmailAlreadyInUse;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(EmailAlreadyInUse(
+    return _then(_$EmailAlreadyInUse(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -748,7 +905,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is EmailAlreadyInUse &&
+            other is _$EmailAlreadyInUse &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -758,13 +915,14 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
 
   @JsonKey(ignore: true)
   @override
-  $EmailAlreadyInUseCopyWith<EmailAlreadyInUse> get copyWith =>
-      _$EmailAlreadyInUseCopyWithImpl<EmailAlreadyInUse>(this, _$identity);
+  _$$EmailAlreadyInUseCopyWith<_$EmailAlreadyInUse> get copyWith =>
+      __$$EmailAlreadyInUseCopyWithImpl<_$EmailAlreadyInUse>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -788,6 +946,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -811,6 +970,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -838,6 +998,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -861,6 +1022,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -884,6 +1046,7 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -909,37 +1072,38 @@ class _$EmailAlreadyInUse implements EmailAlreadyInUse {
 }
 
 abstract class EmailAlreadyInUse implements AppException {
-  const factory EmailAlreadyInUse(String? message) = _$EmailAlreadyInUse;
+  const factory EmailAlreadyInUse(final String? message) = _$EmailAlreadyInUse;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $EmailAlreadyInUseCopyWith<EmailAlreadyInUse> get copyWith =>
+  _$$EmailAlreadyInUseCopyWith<_$EmailAlreadyInUse> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $WeakPasswordCopyWith<$Res> {
-  factory $WeakPasswordCopyWith(
-          WeakPassword value, $Res Function(WeakPassword) then) =
-      _$WeakPasswordCopyWithImpl<$Res>;
+abstract class _$$WeakPasswordCopyWith<$Res> {
+  factory _$$WeakPasswordCopyWith(
+          _$WeakPassword value, $Res Function(_$WeakPassword) then) =
+      __$$WeakPasswordCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$WeakPasswordCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $WeakPasswordCopyWith<$Res> {
-  _$WeakPasswordCopyWithImpl(
-      WeakPassword _value, $Res Function(WeakPassword) _then)
-      : super(_value, (v) => _then(v as WeakPassword));
+class __$$WeakPasswordCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$WeakPasswordCopyWith<$Res> {
+  __$$WeakPasswordCopyWithImpl(
+      _$WeakPassword _value, $Res Function(_$WeakPassword) _then)
+      : super(_value, (v) => _then(v as _$WeakPassword));
 
   @override
-  WeakPassword get _value => super._value as WeakPassword;
+  _$WeakPassword get _value => super._value as _$WeakPassword;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(WeakPassword(
+    return _then(_$WeakPassword(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -965,7 +1129,7 @@ class _$WeakPassword implements WeakPassword {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is WeakPassword &&
+            other is _$WeakPassword &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -975,13 +1139,14 @@ class _$WeakPassword implements WeakPassword {
 
   @JsonKey(ignore: true)
   @override
-  $WeakPasswordCopyWith<WeakPassword> get copyWith =>
-      _$WeakPasswordCopyWithImpl<WeakPassword>(this, _$identity);
+  _$$WeakPasswordCopyWith<_$WeakPassword> get copyWith =>
+      __$$WeakPasswordCopyWithImpl<_$WeakPassword>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1005,6 +1170,7 @@ class _$WeakPassword implements WeakPassword {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1028,6 +1194,7 @@ class _$WeakPassword implements WeakPassword {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1055,6 +1222,7 @@ class _$WeakPassword implements WeakPassword {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -1078,6 +1246,7 @@ class _$WeakPassword implements WeakPassword {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1101,6 +1270,7 @@ class _$WeakPassword implements WeakPassword {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1126,38 +1296,38 @@ class _$WeakPassword implements WeakPassword {
 }
 
 abstract class WeakPassword implements AppException {
-  const factory WeakPassword(String? message) = _$WeakPassword;
+  const factory WeakPassword(final String? message) = _$WeakPassword;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $WeakPasswordCopyWith<WeakPassword> get copyWith =>
+  _$$WeakPasswordCopyWith<_$WeakPassword> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $OperationNotAllowedCopyWith<$Res> {
-  factory $OperationNotAllowedCopyWith(
-          OperationNotAllowed value, $Res Function(OperationNotAllowed) then) =
-      _$OperationNotAllowedCopyWithImpl<$Res>;
+abstract class _$$OperationNotAllowedCopyWith<$Res> {
+  factory _$$OperationNotAllowedCopyWith(_$OperationNotAllowed value,
+          $Res Function(_$OperationNotAllowed) then) =
+      __$$OperationNotAllowedCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$OperationNotAllowedCopyWithImpl<$Res>
+class __$$OperationNotAllowedCopyWithImpl<$Res>
     extends _$AppExceptionCopyWithImpl<$Res>
-    implements $OperationNotAllowedCopyWith<$Res> {
-  _$OperationNotAllowedCopyWithImpl(
-      OperationNotAllowed _value, $Res Function(OperationNotAllowed) _then)
-      : super(_value, (v) => _then(v as OperationNotAllowed));
+    implements _$$OperationNotAllowedCopyWith<$Res> {
+  __$$OperationNotAllowedCopyWithImpl(
+      _$OperationNotAllowed _value, $Res Function(_$OperationNotAllowed) _then)
+      : super(_value, (v) => _then(v as _$OperationNotAllowed));
 
   @override
-  OperationNotAllowed get _value => super._value as OperationNotAllowed;
+  _$OperationNotAllowed get _value => super._value as _$OperationNotAllowed;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(OperationNotAllowed(
+    return _then(_$OperationNotAllowed(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -1183,7 +1353,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is OperationNotAllowed &&
+            other is _$OperationNotAllowed &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -1193,13 +1363,15 @@ class _$OperationNotAllowed implements OperationNotAllowed {
 
   @JsonKey(ignore: true)
   @override
-  $OperationNotAllowedCopyWith<OperationNotAllowed> get copyWith =>
-      _$OperationNotAllowedCopyWithImpl<OperationNotAllowed>(this, _$identity);
+  _$$OperationNotAllowedCopyWith<_$OperationNotAllowed> get copyWith =>
+      __$$OperationNotAllowedCopyWithImpl<_$OperationNotAllowed>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1223,6 +1395,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1246,6 +1419,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1273,6 +1447,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -1296,6 +1471,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1319,6 +1495,7 @@ class _$OperationNotAllowed implements OperationNotAllowed {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1344,37 +1521,39 @@ class _$OperationNotAllowed implements OperationNotAllowed {
 }
 
 abstract class OperationNotAllowed implements AppException {
-  const factory OperationNotAllowed(String? message) = _$OperationNotAllowed;
+  const factory OperationNotAllowed(final String? message) =
+      _$OperationNotAllowed;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $OperationNotAllowedCopyWith<OperationNotAllowed> get copyWith =>
+  _$$OperationNotAllowedCopyWith<_$OperationNotAllowed> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $WrongPasswordCopyWith<$Res> {
-  factory $WrongPasswordCopyWith(
-          WrongPassword value, $Res Function(WrongPassword) then) =
-      _$WrongPasswordCopyWithImpl<$Res>;
+abstract class _$$WrongPasswordCopyWith<$Res> {
+  factory _$$WrongPasswordCopyWith(
+          _$WrongPassword value, $Res Function(_$WrongPassword) then) =
+      __$$WrongPasswordCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$WrongPasswordCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $WrongPasswordCopyWith<$Res> {
-  _$WrongPasswordCopyWithImpl(
-      WrongPassword _value, $Res Function(WrongPassword) _then)
-      : super(_value, (v) => _then(v as WrongPassword));
+class __$$WrongPasswordCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$WrongPasswordCopyWith<$Res> {
+  __$$WrongPasswordCopyWithImpl(
+      _$WrongPassword _value, $Res Function(_$WrongPassword) _then)
+      : super(_value, (v) => _then(v as _$WrongPassword));
 
   @override
-  WrongPassword get _value => super._value as WrongPassword;
+  _$WrongPassword get _value => super._value as _$WrongPassword;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(WrongPassword(
+    return _then(_$WrongPassword(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -1400,7 +1579,7 @@ class _$WrongPassword implements WrongPassword {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is WrongPassword &&
+            other is _$WrongPassword &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -1410,13 +1589,14 @@ class _$WrongPassword implements WrongPassword {
 
   @JsonKey(ignore: true)
   @override
-  $WrongPasswordCopyWith<WrongPassword> get copyWith =>
-      _$WrongPasswordCopyWithImpl<WrongPassword>(this, _$identity);
+  _$$WrongPasswordCopyWith<_$WrongPassword> get copyWith =>
+      __$$WrongPasswordCopyWithImpl<_$WrongPassword>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1440,6 +1620,7 @@ class _$WrongPassword implements WrongPassword {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1463,6 +1644,7 @@ class _$WrongPassword implements WrongPassword {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1490,6 +1672,7 @@ class _$WrongPassword implements WrongPassword {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -1513,6 +1696,7 @@ class _$WrongPassword implements WrongPassword {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1536,6 +1720,7 @@ class _$WrongPassword implements WrongPassword {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1561,37 +1746,38 @@ class _$WrongPassword implements WrongPassword {
 }
 
 abstract class WrongPassword implements AppException {
-  const factory WrongPassword(String? message) = _$WrongPassword;
+  const factory WrongPassword(final String? message) = _$WrongPassword;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $WrongPasswordCopyWith<WrongPassword> get copyWith =>
+  _$$WrongPasswordCopyWith<_$WrongPassword> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserNotFoundCopyWith<$Res> {
-  factory $UserNotFoundCopyWith(
-          UserNotFound value, $Res Function(UserNotFound) then) =
-      _$UserNotFoundCopyWithImpl<$Res>;
+abstract class _$$UserNotFoundCopyWith<$Res> {
+  factory _$$UserNotFoundCopyWith(
+          _$UserNotFound value, $Res Function(_$UserNotFound) then) =
+      __$$UserNotFoundCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$UserNotFoundCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $UserNotFoundCopyWith<$Res> {
-  _$UserNotFoundCopyWithImpl(
-      UserNotFound _value, $Res Function(UserNotFound) _then)
-      : super(_value, (v) => _then(v as UserNotFound));
+class __$$UserNotFoundCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$UserNotFoundCopyWith<$Res> {
+  __$$UserNotFoundCopyWithImpl(
+      _$UserNotFound _value, $Res Function(_$UserNotFound) _then)
+      : super(_value, (v) => _then(v as _$UserNotFound));
 
   @override
-  UserNotFound get _value => super._value as UserNotFound;
+  _$UserNotFound get _value => super._value as _$UserNotFound;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(UserNotFound(
+    return _then(_$UserNotFound(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -1617,7 +1803,7 @@ class _$UserNotFound implements UserNotFound {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is UserNotFound &&
+            other is _$UserNotFound &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -1627,13 +1813,14 @@ class _$UserNotFound implements UserNotFound {
 
   @JsonKey(ignore: true)
   @override
-  $UserNotFoundCopyWith<UserNotFound> get copyWith =>
-      _$UserNotFoundCopyWithImpl<UserNotFound>(this, _$identity);
+  _$$UserNotFoundCopyWith<_$UserNotFound> get copyWith =>
+      __$$UserNotFoundCopyWithImpl<_$UserNotFound>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1657,6 +1844,7 @@ class _$UserNotFound implements UserNotFound {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1680,6 +1868,7 @@ class _$UserNotFound implements UserNotFound {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1707,6 +1896,7 @@ class _$UserNotFound implements UserNotFound {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -1730,6 +1920,7 @@ class _$UserNotFound implements UserNotFound {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1753,6 +1944,7 @@ class _$UserNotFound implements UserNotFound {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1778,37 +1970,38 @@ class _$UserNotFound implements UserNotFound {
 }
 
 abstract class UserNotFound implements AppException {
-  const factory UserNotFound(String? message) = _$UserNotFound;
+  const factory UserNotFound(final String? message) = _$UserNotFound;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserNotFoundCopyWith<UserNotFound> get copyWith =>
+  _$$UserNotFoundCopyWith<_$UserNotFound> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserDisabledCopyWith<$Res> {
-  factory $UserDisabledCopyWith(
-          UserDisabled value, $Res Function(UserDisabled) then) =
-      _$UserDisabledCopyWithImpl<$Res>;
+abstract class _$$UserDisabledCopyWith<$Res> {
+  factory _$$UserDisabledCopyWith(
+          _$UserDisabled value, $Res Function(_$UserDisabled) then) =
+      __$$UserDisabledCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$UserDisabledCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $UserDisabledCopyWith<$Res> {
-  _$UserDisabledCopyWithImpl(
-      UserDisabled _value, $Res Function(UserDisabled) _then)
-      : super(_value, (v) => _then(v as UserDisabled));
+class __$$UserDisabledCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$UserDisabledCopyWith<$Res> {
+  __$$UserDisabledCopyWithImpl(
+      _$UserDisabled _value, $Res Function(_$UserDisabled) _then)
+      : super(_value, (v) => _then(v as _$UserDisabled));
 
   @override
-  UserDisabled get _value => super._value as UserDisabled;
+  _$UserDisabled get _value => super._value as _$UserDisabled;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(UserDisabled(
+    return _then(_$UserDisabled(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -1834,7 +2027,7 @@ class _$UserDisabled implements UserDisabled {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is UserDisabled &&
+            other is _$UserDisabled &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -1844,13 +2037,14 @@ class _$UserDisabled implements UserDisabled {
 
   @JsonKey(ignore: true)
   @override
-  $UserDisabledCopyWith<UserDisabled> get copyWith =>
-      _$UserDisabledCopyWithImpl<UserDisabled>(this, _$identity);
+  _$$UserDisabledCopyWith<_$UserDisabled> get copyWith =>
+      __$$UserDisabledCopyWithImpl<_$UserDisabled>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -1874,6 +2068,7 @@ class _$UserDisabled implements UserDisabled {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1897,6 +2092,7 @@ class _$UserDisabled implements UserDisabled {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -1924,6 +2120,7 @@ class _$UserDisabled implements UserDisabled {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -1947,6 +2144,7 @@ class _$UserDisabled implements UserDisabled {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1970,6 +2168,7 @@ class _$UserDisabled implements UserDisabled {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -1995,38 +2194,38 @@ class _$UserDisabled implements UserDisabled {
 }
 
 abstract class UserDisabled implements AppException {
-  const factory UserDisabled(String? message) = _$UserDisabled;
+  const factory UserDisabled(final String? message) = _$UserDisabled;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserDisabledCopyWith<UserDisabled> get copyWith =>
+  _$$UserDisabledCopyWith<_$UserDisabled> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TooManyAuthRequestsCopyWith<$Res> {
-  factory $TooManyAuthRequestsCopyWith(
-          TooManyAuthRequests value, $Res Function(TooManyAuthRequests) then) =
-      _$TooManyAuthRequestsCopyWithImpl<$Res>;
+abstract class _$$TooManyAuthRequestsCopyWith<$Res> {
+  factory _$$TooManyAuthRequestsCopyWith(_$TooManyAuthRequests value,
+          $Res Function(_$TooManyAuthRequests) then) =
+      __$$TooManyAuthRequestsCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$TooManyAuthRequestsCopyWithImpl<$Res>
+class __$$TooManyAuthRequestsCopyWithImpl<$Res>
     extends _$AppExceptionCopyWithImpl<$Res>
-    implements $TooManyAuthRequestsCopyWith<$Res> {
-  _$TooManyAuthRequestsCopyWithImpl(
-      TooManyAuthRequests _value, $Res Function(TooManyAuthRequests) _then)
-      : super(_value, (v) => _then(v as TooManyAuthRequests));
+    implements _$$TooManyAuthRequestsCopyWith<$Res> {
+  __$$TooManyAuthRequestsCopyWithImpl(
+      _$TooManyAuthRequests _value, $Res Function(_$TooManyAuthRequests) _then)
+      : super(_value, (v) => _then(v as _$TooManyAuthRequests));
 
   @override
-  TooManyAuthRequests get _value => super._value as TooManyAuthRequests;
+  _$TooManyAuthRequests get _value => super._value as _$TooManyAuthRequests;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(TooManyAuthRequests(
+    return _then(_$TooManyAuthRequests(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -2052,7 +2251,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is TooManyAuthRequests &&
+            other is _$TooManyAuthRequests &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -2062,13 +2261,15 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
 
   @JsonKey(ignore: true)
   @override
-  $TooManyAuthRequestsCopyWith<TooManyAuthRequests> get copyWith =>
-      _$TooManyAuthRequestsCopyWithImpl<TooManyAuthRequests>(this, _$identity);
+  _$$TooManyAuthRequestsCopyWith<_$TooManyAuthRequests> get copyWith =>
+      __$$TooManyAuthRequestsCopyWithImpl<_$TooManyAuthRequests>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2092,6 +2293,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2115,6 +2317,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2142,6 +2345,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -2165,6 +2369,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2188,6 +2393,7 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2213,38 +2419,39 @@ class _$TooManyAuthRequests implements TooManyAuthRequests {
 }
 
 abstract class TooManyAuthRequests implements AppException {
-  const factory TooManyAuthRequests(String? message) = _$TooManyAuthRequests;
+  const factory TooManyAuthRequests(final String? message) =
+      _$TooManyAuthRequests;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TooManyAuthRequestsCopyWith<TooManyAuthRequests> get copyWith =>
+  _$$TooManyAuthRequestsCopyWith<_$TooManyAuthRequests> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PermissionDeniedCopyWith<$Res> {
-  factory $PermissionDeniedCopyWith(
-          PermissionDenied value, $Res Function(PermissionDenied) then) =
-      _$PermissionDeniedCopyWithImpl<$Res>;
+abstract class _$$PermissionDeniedCopyWith<$Res> {
+  factory _$$PermissionDeniedCopyWith(
+          _$PermissionDenied value, $Res Function(_$PermissionDenied) then) =
+      __$$PermissionDeniedCopyWithImpl<$Res>;
   $Res call({String message});
 }
 
 /// @nodoc
-class _$PermissionDeniedCopyWithImpl<$Res>
+class __$$PermissionDeniedCopyWithImpl<$Res>
     extends _$AppExceptionCopyWithImpl<$Res>
-    implements $PermissionDeniedCopyWith<$Res> {
-  _$PermissionDeniedCopyWithImpl(
-      PermissionDenied _value, $Res Function(PermissionDenied) _then)
-      : super(_value, (v) => _then(v as PermissionDenied));
+    implements _$$PermissionDeniedCopyWith<$Res> {
+  __$$PermissionDeniedCopyWithImpl(
+      _$PermissionDenied _value, $Res Function(_$PermissionDenied) _then)
+      : super(_value, (v) => _then(v as _$PermissionDenied));
 
   @override
-  PermissionDenied get _value => super._value as PermissionDenied;
+  _$PermissionDenied get _value => super._value as _$PermissionDenied;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(PermissionDenied(
+    return _then(_$PermissionDenied(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -2270,7 +2477,7 @@ class _$PermissionDenied implements PermissionDenied {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is PermissionDenied &&
+            other is _$PermissionDenied &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -2280,13 +2487,14 @@ class _$PermissionDenied implements PermissionDenied {
 
   @JsonKey(ignore: true)
   @override
-  $PermissionDeniedCopyWith<PermissionDenied> get copyWith =>
-      _$PermissionDeniedCopyWithImpl<PermissionDenied>(this, _$identity);
+  _$$PermissionDeniedCopyWith<_$PermissionDenied> get copyWith =>
+      __$$PermissionDeniedCopyWithImpl<_$PermissionDenied>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2310,6 +2518,7 @@ class _$PermissionDenied implements PermissionDenied {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2333,6 +2542,7 @@ class _$PermissionDenied implements PermissionDenied {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2360,6 +2570,7 @@ class _$PermissionDenied implements PermissionDenied {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -2383,6 +2594,7 @@ class _$PermissionDenied implements PermissionDenied {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2406,6 +2618,7 @@ class _$PermissionDenied implements PermissionDenied {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2431,36 +2644,37 @@ class _$PermissionDenied implements PermissionDenied {
 }
 
 abstract class PermissionDenied implements AppException {
-  const factory PermissionDenied(String message) = _$PermissionDenied;
+  const factory PermissionDenied(final String message) = _$PermissionDenied;
 
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PermissionDeniedCopyWith<PermissionDenied> get copyWith =>
+  _$$PermissionDeniedCopyWith<_$PermissionDenied> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ParseErrorCopyWith<$Res> {
-  factory $ParseErrorCopyWith(
-          ParseError value, $Res Function(ParseError) then) =
-      _$ParseErrorCopyWithImpl<$Res>;
+abstract class _$$ParseErrorCopyWith<$Res> {
+  factory _$$ParseErrorCopyWith(
+          _$ParseError value, $Res Function(_$ParseError) then) =
+      __$$ParseErrorCopyWithImpl<$Res>;
   $Res call({String message});
 }
 
 /// @nodoc
-class _$ParseErrorCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $ParseErrorCopyWith<$Res> {
-  _$ParseErrorCopyWithImpl(ParseError _value, $Res Function(ParseError) _then)
-      : super(_value, (v) => _then(v as ParseError));
+class __$$ParseErrorCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$ParseErrorCopyWith<$Res> {
+  __$$ParseErrorCopyWithImpl(
+      _$ParseError _value, $Res Function(_$ParseError) _then)
+      : super(_value, (v) => _then(v as _$ParseError));
 
   @override
-  ParseError get _value => super._value as ParseError;
+  _$ParseError get _value => super._value as _$ParseError;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(ParseError(
+    return _then(_$ParseError(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -2486,7 +2700,7 @@ class _$ParseError implements ParseError {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ParseError &&
+            other is _$ParseError &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -2496,13 +2710,14 @@ class _$ParseError implements ParseError {
 
   @JsonKey(ignore: true)
   @override
-  $ParseErrorCopyWith<ParseError> get copyWith =>
-      _$ParseErrorCopyWithImpl<ParseError>(this, _$identity);
+  _$$ParseErrorCopyWith<_$ParseError> get copyWith =>
+      __$$ParseErrorCopyWithImpl<_$ParseError>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2526,6 +2741,7 @@ class _$ParseError implements ParseError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2549,6 +2765,7 @@ class _$ParseError implements ParseError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2576,6 +2793,7 @@ class _$ParseError implements ParseError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -2599,6 +2817,7 @@ class _$ParseError implements ParseError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2622,6 +2841,7 @@ class _$ParseError implements ParseError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2647,35 +2867,37 @@ class _$ParseError implements ParseError {
 }
 
 abstract class ParseError implements AppException {
-  const factory ParseError(String message) = _$ParseError;
+  const factory ParseError(final String message) = _$ParseError;
 
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ParseErrorCopyWith<ParseError> get copyWith =>
+  _$$ParseErrorCopyWith<_$ParseError> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FunctionsCopyWith<$Res> {
-  factory $FunctionsCopyWith(Functions value, $Res Function(Functions) then) =
-      _$FunctionsCopyWithImpl<$Res>;
+abstract class _$$FunctionsCopyWith<$Res> {
+  factory _$$FunctionsCopyWith(
+          _$Functions value, $Res Function(_$Functions) then) =
+      __$$FunctionsCopyWithImpl<$Res>;
   $Res call({String message});
 }
 
 /// @nodoc
-class _$FunctionsCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $FunctionsCopyWith<$Res> {
-  _$FunctionsCopyWithImpl(Functions _value, $Res Function(Functions) _then)
-      : super(_value, (v) => _then(v as Functions));
+class __$$FunctionsCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$FunctionsCopyWith<$Res> {
+  __$$FunctionsCopyWithImpl(
+      _$Functions _value, $Res Function(_$Functions) _then)
+      : super(_value, (v) => _then(v as _$Functions));
 
   @override
-  Functions get _value => super._value as Functions;
+  _$Functions get _value => super._value as _$Functions;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(Functions(
+    return _then(_$Functions(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -2701,7 +2923,7 @@ class _$Functions implements Functions {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Functions &&
+            other is _$Functions &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -2711,13 +2933,14 @@ class _$Functions implements Functions {
 
   @JsonKey(ignore: true)
   @override
-  $FunctionsCopyWith<Functions> get copyWith =>
-      _$FunctionsCopyWithImpl<Functions>(this, _$identity);
+  _$$FunctionsCopyWith<_$Functions> get copyWith =>
+      __$$FunctionsCopyWithImpl<_$Functions>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2741,6 +2964,7 @@ class _$Functions implements Functions {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2764,6 +2988,7 @@ class _$Functions implements Functions {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2791,6 +3016,7 @@ class _$Functions implements Functions {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -2814,6 +3040,7 @@ class _$Functions implements Functions {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2837,6 +3064,7 @@ class _$Functions implements Functions {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -2862,37 +3090,38 @@ class _$Functions implements Functions {
 }
 
 abstract class Functions implements AppException {
-  const factory Functions(String message) = _$Functions;
+  const factory Functions(final String message) = _$Functions;
 
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FunctionsCopyWith<Functions> get copyWith =>
+  _$$FunctionsCopyWith<_$Functions> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PaymentFailedCopyWith<$Res> {
-  factory $PaymentFailedCopyWith(
-          PaymentFailed value, $Res Function(PaymentFailed) then) =
-      _$PaymentFailedCopyWithImpl<$Res>;
+abstract class _$$PaymentFailedCopyWith<$Res> {
+  factory _$$PaymentFailedCopyWith(
+          _$PaymentFailed value, $Res Function(_$PaymentFailed) then) =
+      __$$PaymentFailedCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$PaymentFailedCopyWithImpl<$Res> extends _$AppExceptionCopyWithImpl<$Res>
-    implements $PaymentFailedCopyWith<$Res> {
-  _$PaymentFailedCopyWithImpl(
-      PaymentFailed _value, $Res Function(PaymentFailed) _then)
-      : super(_value, (v) => _then(v as PaymentFailed));
+class __$$PaymentFailedCopyWithImpl<$Res>
+    extends _$AppExceptionCopyWithImpl<$Res>
+    implements _$$PaymentFailedCopyWith<$Res> {
+  __$$PaymentFailedCopyWithImpl(
+      _$PaymentFailed _value, $Res Function(_$PaymentFailed) _then)
+      : super(_value, (v) => _then(v as _$PaymentFailed));
 
   @override
-  PaymentFailed get _value => super._value as PaymentFailed;
+  _$PaymentFailed get _value => super._value as _$PaymentFailed;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(PaymentFailed(
+    return _then(_$PaymentFailed(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -2918,7 +3147,7 @@ class _$PaymentFailed implements PaymentFailed {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is PaymentFailed &&
+            other is _$PaymentFailed &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -2928,13 +3157,14 @@ class _$PaymentFailed implements PaymentFailed {
 
   @JsonKey(ignore: true)
   @override
-  $PaymentFailedCopyWith<PaymentFailed> get copyWith =>
-      _$PaymentFailedCopyWithImpl<PaymentFailed>(this, _$identity);
+  _$$PaymentFailedCopyWith<_$PaymentFailed> get copyWith =>
+      __$$PaymentFailedCopyWithImpl<_$PaymentFailed>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -2958,6 +3188,7 @@ class _$PaymentFailed implements PaymentFailed {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -2981,6 +3212,7 @@ class _$PaymentFailed implements PaymentFailed {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3008,6 +3240,7 @@ class _$PaymentFailed implements PaymentFailed {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -3031,6 +3264,7 @@ class _$PaymentFailed implements PaymentFailed {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -3054,6 +3288,7 @@ class _$PaymentFailed implements PaymentFailed {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -3079,38 +3314,38 @@ class _$PaymentFailed implements PaymentFailed {
 }
 
 abstract class PaymentFailed implements AppException {
-  const factory PaymentFailed(String? message) = _$PaymentFailed;
+  const factory PaymentFailed(final String? message) = _$PaymentFailed;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PaymentFailedCopyWith<PaymentFailed> get copyWith =>
+  _$$PaymentFailedCopyWith<_$PaymentFailed> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PaymentCanceledCopyWith<$Res> {
-  factory $PaymentCanceledCopyWith(
-          PaymentCanceled value, $Res Function(PaymentCanceled) then) =
-      _$PaymentCanceledCopyWithImpl<$Res>;
+abstract class _$$PaymentCanceledCopyWith<$Res> {
+  factory _$$PaymentCanceledCopyWith(
+          _$PaymentCanceled value, $Res Function(_$PaymentCanceled) then) =
+      __$$PaymentCanceledCopyWithImpl<$Res>;
   $Res call({String? message});
 }
 
 /// @nodoc
-class _$PaymentCanceledCopyWithImpl<$Res>
+class __$$PaymentCanceledCopyWithImpl<$Res>
     extends _$AppExceptionCopyWithImpl<$Res>
-    implements $PaymentCanceledCopyWith<$Res> {
-  _$PaymentCanceledCopyWithImpl(
-      PaymentCanceled _value, $Res Function(PaymentCanceled) _then)
-      : super(_value, (v) => _then(v as PaymentCanceled));
+    implements _$$PaymentCanceledCopyWith<$Res> {
+  __$$PaymentCanceledCopyWithImpl(
+      _$PaymentCanceled _value, $Res Function(_$PaymentCanceled) _then)
+      : super(_value, (v) => _then(v as _$PaymentCanceled));
 
   @override
-  PaymentCanceled get _value => super._value as PaymentCanceled;
+  _$PaymentCanceled get _value => super._value as _$PaymentCanceled;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(PaymentCanceled(
+    return _then(_$PaymentCanceled(
       message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -3136,7 +3371,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is PaymentCanceled &&
+            other is _$PaymentCanceled &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -3146,13 +3381,14 @@ class _$PaymentCanceled implements PaymentCanceled {
 
   @JsonKey(ignore: true)
   @override
-  $PaymentCanceledCopyWith<PaymentCanceled> get copyWith =>
-      _$PaymentCanceledCopyWithImpl<PaymentCanceled>(this, _$identity);
+  _$$PaymentCanceledCopyWith<_$PaymentCanceled> get copyWith =>
+      __$$PaymentCanceledCopyWithImpl<_$PaymentCanceled>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -3176,6 +3412,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3199,6 +3436,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3226,6 +3464,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -3249,6 +3488,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -3272,6 +3512,7 @@ class _$PaymentCanceled implements PaymentCanceled {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -3297,31 +3538,31 @@ class _$PaymentCanceled implements PaymentCanceled {
 }
 
 abstract class PaymentCanceled implements AppException {
-  const factory PaymentCanceled(String? message) = _$PaymentCanceled;
+  const factory PaymentCanceled(final String? message) = _$PaymentCanceled;
 
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PaymentCanceledCopyWith<PaymentCanceled> get copyWith =>
+  _$$PaymentCanceledCopyWith<_$PaymentCanceled> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MissingAddressCopyWith<$Res> {
-  factory $MissingAddressCopyWith(
-          MissingAddress value, $Res Function(MissingAddress) then) =
-      _$MissingAddressCopyWithImpl<$Res>;
+abstract class _$$MissingAddressCopyWith<$Res> {
+  factory _$$MissingAddressCopyWith(
+          _$MissingAddress value, $Res Function(_$MissingAddress) then) =
+      __$$MissingAddressCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$MissingAddressCopyWithImpl<$Res>
+class __$$MissingAddressCopyWithImpl<$Res>
     extends _$AppExceptionCopyWithImpl<$Res>
-    implements $MissingAddressCopyWith<$Res> {
-  _$MissingAddressCopyWithImpl(
-      MissingAddress _value, $Res Function(MissingAddress) _then)
-      : super(_value, (v) => _then(v as MissingAddress));
+    implements _$$MissingAddressCopyWith<$Res> {
+  __$$MissingAddressCopyWithImpl(
+      _$MissingAddress _value, $Res Function(_$MissingAddress) _then)
+      : super(_value, (v) => _then(v as _$MissingAddress));
 
   @override
-  MissingAddress get _value => super._value as MissingAddress;
+  _$MissingAddress get _value => super._value as _$MissingAddress;
 }
 
 /// @nodoc
@@ -3337,7 +3578,7 @@ class _$MissingAddress implements MissingAddress {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is MissingAddress);
+        (other.runtimeType == runtimeType && other is _$MissingAddress);
   }
 
   @override
@@ -3347,6 +3588,7 @@ class _$MissingAddress implements MissingAddress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -3370,6 +3612,7 @@ class _$MissingAddress implements MissingAddress {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3393,6 +3636,7 @@ class _$MissingAddress implements MissingAddress {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3420,6 +3664,7 @@ class _$MissingAddress implements MissingAddress {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -3443,6 +3688,7 @@ class _$MissingAddress implements MissingAddress {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -3466,6 +3712,7 @@ class _$MissingAddress implements MissingAddress {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -3495,22 +3742,22 @@ abstract class MissingAddress implements AppException {
 }
 
 /// @nodoc
-abstract class $UserNotSignedInCopyWith<$Res> {
-  factory $UserNotSignedInCopyWith(
-          UserNotSignedIn value, $Res Function(UserNotSignedIn) then) =
-      _$UserNotSignedInCopyWithImpl<$Res>;
+abstract class _$$UserNotSignedInCopyWith<$Res> {
+  factory _$$UserNotSignedInCopyWith(
+          _$UserNotSignedIn value, $Res Function(_$UserNotSignedIn) then) =
+      __$$UserNotSignedInCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$UserNotSignedInCopyWithImpl<$Res>
+class __$$UserNotSignedInCopyWithImpl<$Res>
     extends _$AppExceptionCopyWithImpl<$Res>
-    implements $UserNotSignedInCopyWith<$Res> {
-  _$UserNotSignedInCopyWithImpl(
-      UserNotSignedIn _value, $Res Function(UserNotSignedIn) _then)
-      : super(_value, (v) => _then(v as UserNotSignedIn));
+    implements _$$UserNotSignedInCopyWith<$Res> {
+  __$$UserNotSignedInCopyWithImpl(
+      _$UserNotSignedIn _value, $Res Function(_$UserNotSignedIn) _then)
+      : super(_value, (v) => _then(v as _$UserNotSignedIn));
 
   @override
-  UserNotSignedIn get _value => super._value as UserNotSignedIn;
+  _$UserNotSignedIn get _value => super._value as _$UserNotSignedIn;
 }
 
 /// @nodoc
@@ -3526,7 +3773,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is UserNotSignedIn);
+        (other.runtimeType == runtimeType && other is _$UserNotSignedIn);
   }
 
   @override
@@ -3536,6 +3783,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Object error, StackTrace stackTrace) unknown,
+    required TResult Function(Object error, StackTrace stackTrace) fatalError,
     required TResult Function(String? message) invalidEmail,
     required TResult Function(String? message) emailAlreadyInUse,
     required TResult Function(String? message) weakPassword,
@@ -3559,6 +3807,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3582,6 +3831,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Object error, StackTrace stackTrace)? unknown,
+    TResult Function(Object error, StackTrace stackTrace)? fatalError,
     TResult Function(String? message)? invalidEmail,
     TResult Function(String? message)? emailAlreadyInUse,
     TResult Function(String? message)? weakPassword,
@@ -3609,6 +3859,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Unknown value) unknown,
+    required TResult Function(FatalError value) fatalError,
     required TResult Function(InvalidEmail value) invalidEmail,
     required TResult Function(EmailAlreadyInUse value) emailAlreadyInUse,
     required TResult Function(WeakPassword value) weakPassword,
@@ -3632,6 +3883,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,
@@ -3655,6 +3907,7 @@ class _$UserNotSignedIn implements UserNotSignedIn {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Unknown value)? unknown,
+    TResult Function(FatalError value)? fatalError,
     TResult Function(InvalidEmail value)? invalidEmail,
     TResult Function(EmailAlreadyInUse value)? emailAlreadyInUse,
     TResult Function(WeakPassword value)? weakPassword,

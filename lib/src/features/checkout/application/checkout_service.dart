@@ -29,6 +29,7 @@ class CheckoutService {
         // 2. initialize the payment sheet
         final address = await addressRepository.fetchAddress(user.uid);
         if (address == null) {
+          // TODO: This is a programmer error
           // * will be returned as-is by [runCatchingExceptions]
           throw const AppException.missingAddress();
         }
