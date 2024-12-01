@@ -39,13 +39,12 @@ class StripeRepository implements PaymentsRepository {
         customerId: orderPaymentIntent.customer,
         customerEphemeralKeySecret: orderPaymentIntent.ephemeralKey,
         // Extra params
-        applePay: true,
-        googlePay: true,
+        applePay: const PaymentSheetApplePay(merchantCountryCode: 'GB'),
+        googlePay: const PaymentSheetGooglePay(
+            merchantCountryCode: 'GB', testEnv: true),
         style: ThemeMode.dark,
         //primaryButtonColor: Colors.redAccent,
         billingDetails: billingDetails,
-        testEnv: true,
-        merchantCountryCode: 'GB',
       ),
     );
   }
@@ -64,8 +63,8 @@ class StripeRepository implements PaymentsRepository {
   }) async {
     final billingDetails = _getBillingDetails(email, address);
     await _stripe.confirmPayment(
-      orderPaymentIntent.paymentIntent,
-      PaymentMethodParams.card(
+      paymentIntentClientSecret: orderPaymentIntent.paymentIntent,
+      data: PaymentMethodParams.card(
         paymentMethodData: PaymentMethodData(
           billingDetails: billingDetails,
           //setupFutureUsage:
